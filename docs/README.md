@@ -8,14 +8,6 @@
 - prompt
 - memo
 
-それぞれの役割は以下の通り
-
-- spec
-
-- prompt
-
-- memo
-
 ## spec ディレクトリの使い方
 
 ### 目的
