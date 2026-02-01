@@ -5,7 +5,7 @@
 | 項目           | 内容                                |
 | -------------- | ----------------------------------- |
 | ドキュメント名 | 技術設計書                          |
-| 版番号         | 1.1                                 |
+| 版番号         | 1.2                                 |
 | 最終更新日     | 2026年2月1日                        |
 | 対象プロダクト | ゴール達成型タスク管理アプリ        |
 | 作成者         | プロダクトオーナー / 技術設計チーム |
@@ -102,7 +102,7 @@ DDD（ドメイン駆動設計）は以下の範囲に限定して適用する�
 - **ValueObject**
   - TaskStatus（Todo / Doing / Done）
 
-※ Aggregate / Domain Service / Factory は MVP では導入しない
+※ Aggregate / Domain Service / Factory は MVP では **必須としない**（将来必要に応じて検討）
 
 ---
 
@@ -223,11 +223,31 @@ lib/
 
 - Domain / Application 層は Unit Test を必須とする
 - UI は Widget Test を中心に行う
+- **テストカバレッジ目標：85%**（Domain / Application層）
 
 ### 10.2 TDD適用範囲
 
 - MVPでは **Domain / Application 層のみ** TDD を推奨
 - Presentation 層は必須としない
+
+### 10.3 進捗計算ロジックの実装層
+
+- **進捗計算（マイルストーン進捗 = 配下タスク平均）は Domain Layer で実装**
+  - Entity の ValueObject として進捗を管理
+  - 計算ロジックに対してはUnit Testで検証
+
+### 10.4 Infrastructure層（Repository）のテスト
+
+- **実装方針：モック化を使用**
+- Repository Test では Hive を実際に操作せず、モッククライアント・スタブを使用
+- 理由：ローカルファイルへの依存を排除し、テスト速度とポータビリティを向上させる
+
+### 10.5 Hive スキーマ変更への対応
+
+- **MVP段階**：スキーマ変更を想定しない
+- **Phase2移行時に検討**：
+  - 新フィールド追加時の migration ロジック
+  - 既存データ との互換性維持方針
 
 ---
 
