@@ -1,14 +1,8 @@
 /// TaskDescription - タスクの説明を表現する ValueObject
 ///
 /// バリデーション：1～500文字、空白のみ不可
-import 'package:hive/hive.dart';
-
-part 'task_description.g.dart';
-
-@HiveType(typeId: 32)
 class TaskDescription {
   static const int maxLength = 500;
-  @HiveField(0)
   late String value;
 
   TaskDescription([String? val]) {

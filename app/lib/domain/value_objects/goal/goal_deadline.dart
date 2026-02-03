@@ -1,13 +1,7 @@
 /// GoalDeadline - ゴールの期限を表現する ValueObject
 ///
 /// バリデーション：本日より後の日付のみ、時刻は00:00:00に正規化される
-import 'package:hive/hive.dart';
-
-part 'goal_deadline.g.dart';
-
-@HiveType(typeId: 14)
 class GoalDeadline {
-  @HiveField(0)
   late DateTime value;
 
   /// コンストラクタ（Hive用デフォルト値対応）

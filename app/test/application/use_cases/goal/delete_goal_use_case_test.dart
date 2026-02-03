@@ -7,9 +7,6 @@ import 'package:app/domain/value_objects/goal/goal_title.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
 import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/value_objects/goal/goal_deadline.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 import 'package:app/infrastructure/repositories/goal_repository.dart';
 import 'package:app/infrastructure/repositories/milestone_repository.dart';
 

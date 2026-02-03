@@ -47,6 +47,7 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
       description: taskDescription,
       deadline: taskDeadline,
       status: existingTask.status,
+      milestoneId: existingTask.milestoneId,
     );
 
     await _taskRepository.saveTask(updatedTask);

@@ -1,13 +1,7 @@
 /// Progress - 進捗率を表現する ValueObject
 ///
 /// 値の範囲：0～100
-import 'package:hive/hive.dart';
-
-part 'progress.g.dart';
-
-@HiveType(typeId: 40)
 class Progress {
-  @HiveField(0)
   late int value;
 
   Progress([int? val]) {

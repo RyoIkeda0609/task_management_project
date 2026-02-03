@@ -1,13 +1,7 @@
 /// MilestoneDeadline - マイルストーンの期限を表現する ValueObject
 ///
 /// バリデーション：本日より後の日付のみ、時刻は00:00:00に正規化される
-import 'package:hive/hive.dart';
-
-part 'milestone_deadline.g.dart';
-
-@HiveType(typeId: 22)
 class MilestoneDeadline {
-  @HiveField(0)
   late DateTime value;
 
   /// コンストラクタ（Hive用デフォルト値対応）

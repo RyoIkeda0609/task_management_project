@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import '../value_objects/task/task_id.dart';
 import '../value_objects/task/task_title.dart';
 import '../value_objects/task/task_description.dart';
@@ -6,25 +5,16 @@ import '../value_objects/task/task_deadline.dart';
 import '../value_objects/task/task_status.dart';
 import '../value_objects/shared/progress.dart';
 
-part 'task.g.dart';
-
 /// Task Entity - タスク（具体的な作業）を表現する
 ///
 /// 3 段階の階層構造の最下位：Goal > Milestone > Task
 /// ステータス（Todo/Doing/Done）により Progress が決定される
-@HiveType(typeId: 2)
 class Task {
-  @HiveField(0)
   final TaskId id;
-  @HiveField(1)
   final TaskTitle title;
-  @HiveField(2)
   final TaskDescription description;
-  @HiveField(3)
   final TaskDeadline deadline;
-  @HiveField(4)
   final TaskStatus status;
-  @HiveField(5)
   final String milestoneId;
 
   Task({

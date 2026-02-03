@@ -1,49 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'domain/entities/goal.dart';
-import 'domain/entities/milestone.dart';
-import 'domain/entities/task.dart';
-import 'domain/value_objects/goal/goal_id.dart';
-import 'domain/value_objects/goal/goal_title.dart';
-import 'domain/value_objects/goal/goal_category.dart';
-import 'domain/value_objects/goal/goal_reason.dart';
-import 'domain/value_objects/goal/goal_deadline.dart';
-import 'domain/value_objects/milestone/milestone_id.dart';
-import 'domain/value_objects/milestone/milestone_title.dart';
-import 'domain/value_objects/milestone/milestone_deadline.dart';
-import 'domain/value_objects/task/task_id.dart';
-import 'domain/value_objects/task/task_title.dart';
-import 'domain/value_objects/task/task_description.dart';
-import 'domain/value_objects/task/task_deadline.dart';
-import 'domain/value_objects/task/task_status.dart';
-import 'domain/value_objects/shared/progress.dart';
 
 void main() async {
   await Hive.initFlutter();
-
-  // Register all adapters
-  Hive.registerAdapter(GoalAdapter());
-  Hive.registerAdapter(MilestoneAdapter());
-  Hive.registerAdapter(TaskAdapter());
-
-  // Register ValueObject adapters
-  Hive.registerAdapter(GoalIdAdapter());
-  Hive.registerAdapter(GoalTitleAdapter());
-  Hive.registerAdapter(GoalCategoryAdapter());
-  Hive.registerAdapter(GoalReasonAdapter());
-  Hive.registerAdapter(GoalDeadlineAdapter());
-
-  Hive.registerAdapter(MilestoneIdAdapter());
-  Hive.registerAdapter(MilestoneTitleAdapter());
-  Hive.registerAdapter(MilestoneDeadlineAdapter());
-
-  Hive.registerAdapter(TaskIdAdapter());
-  Hive.registerAdapter(TaskTitleAdapter());
-  Hive.registerAdapter(TaskDescriptionAdapter());
-  Hive.registerAdapter(TaskDeadlineAdapter());
-  Hive.registerAdapter(TaskStatusAdapter());
-
-  Hive.registerAdapter(ProgressAdapter());
 
   runApp(const MyApp());
 }

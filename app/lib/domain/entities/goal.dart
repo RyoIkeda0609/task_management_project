@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import '../value_objects/goal/goal_id.dart';
 import '../value_objects/goal/goal_title.dart';
 import '../value_objects/goal/goal_category.dart';
@@ -6,22 +5,14 @@ import '../value_objects/goal/goal_reason.dart';
 import '../value_objects/goal/goal_deadline.dart';
 import '../value_objects/shared/progress.dart';
 
-part 'goal.g.dart';
-
 /// Goal Entity - ゴール（目標）を表現する
 ///
 /// 3 段階の階層構造の最上位：Goal > Milestone > Task
-@HiveType(typeId: 0)
 class Goal {
-  @HiveField(0)
   final GoalId id;
-  @HiveField(1)
   final GoalTitle title;
-  @HiveField(2)
   final GoalCategory category;
-  @HiveField(3)
   final GoalReason reason;
-  @HiveField(4)
   final GoalDeadline deadline;
   // progressはマイルストーンから自動計算される
   // milestones: List<Milestone> は別途リポジトリで管理

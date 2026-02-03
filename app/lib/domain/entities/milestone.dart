@@ -1,24 +1,16 @@
-import 'package:hive/hive.dart';
 import '../value_objects/milestone/milestone_id.dart';
 import '../value_objects/milestone/milestone_title.dart';
 import '../value_objects/milestone/milestone_deadline.dart';
 import '../value_objects/shared/progress.dart';
 
-part 'milestone.g.dart';
-
 /// Milestone Entity - マイルストーン（中間目標）を表現する
 ///
 /// 3 段階の階層構造の中間：Goal > Milestone > Task
 /// Task の進捗を集約して Progress を自動計算する
-@HiveType(typeId: 1)
 class Milestone {
-  @HiveField(0)
   final MilestoneId id;
-  @HiveField(1)
   final MilestoneTitle title;
-  @HiveField(2)
   final MilestoneDeadline deadline;
-  @HiveField(3)
   final String goalId;
   // tasks: List<Task> は別途リポジトリで管理
 

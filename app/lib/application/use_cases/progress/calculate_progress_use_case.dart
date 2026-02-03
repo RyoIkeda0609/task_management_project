@@ -1,5 +1,3 @@
-import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:app/infrastructure/repositories/goal_repository.dart';
 import 'package:app/infrastructure/repositories/milestone_repository.dart';

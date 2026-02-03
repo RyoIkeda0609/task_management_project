@@ -1,14 +1,9 @@
-import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
-
-part 'task_id.g.dart';
 
 /// TaskId - タスクの ID を表現する ValueObject
 ///
 /// UUID v4 による一意の識別子
-@HiveType(typeId: 30)
 class TaskId {
-  @HiveField(0)
   late String value;
 
   TaskId([String? val]) {

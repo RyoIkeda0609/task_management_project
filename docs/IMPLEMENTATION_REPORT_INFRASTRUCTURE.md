@@ -1,9 +1,11 @@
 # Infrastructure層実装完了レポート
 
 ## 実装期間
+
 2026年2月4日（本日）
 
 ## 概要
+
 **クリーンアーキテクチャに基づいた Infrastructure層（永続化層）の完全実装を完了しました。**
 
 ---
@@ -13,6 +15,7 @@
 ### 1. Hive ベースのRepository実装
 
 #### 作成ファイル
+
 - `lib/infrastructure/repositories/hive_goal_repository.dart`
   - GoalRepository インターフェース実装
   - 機能: CRUD、全件取得、カウント
@@ -26,6 +29,7 @@
   - 機能: CRUD、MilestoneId によるフィルタリング、カスケード削除
 
 #### 技術仕様
+
 - **永続化方式**: Hive (高速キー値ストア)
 - **型安全性**: Hive TypeAdapter自動生成対応
 - **エラーハンドリング**: 例外ラッピング
@@ -38,20 +42,25 @@
 #### Entity に親ID フィールドを追加
 
 **Task Entity**
+
 ```dart
 @HiveField(5)
 final String milestoneId;  // 新規追加
 ```
+
 - マイルストーンとの関連付けを永続化可能に
 
 **Milestone Entity**
+
 ```dart
 @HiveField(3)
 final String goalId;  // 新規追加
 ```
+
 - ゴールとの関連付けを永続化可能に
 
 #### 生成物
+
 - Hive アダプタ再生成完了
 - TypeId: Goal=0, Milestone=1, Task=2
 
@@ -62,6 +71,7 @@ final String goalId;  // 新規追加
 #### UseCase署名の更新
 
 **CreateMilestoneUseCase**
+
 ```dart
 Future<Milestone> call({
   required String title,
@@ -71,6 +81,7 @@ Future<Milestone> call({
 ```
 
 **CreateTaskUseCase**
+
 ```dart
 Future<Task> call({
   required String title,
@@ -83,6 +94,7 @@ Future<Task> call({
 #### 要件実装: "完了ゴール編集不可"
 
 **UpdateGoalUseCase に実装**
+
 ```dart
 // ゴール進捗計算ロジック
 // マイルストーン配下の全タスクが Done なら完了と判定
@@ -90,6 +102,7 @@ Future<Task> call({
 ```
 
 **テスト追加**: `完了（進捗100%）のゴールは編集できないこと`
+
 - 完了ゴール編集時の例外検証
 - マイルストーン・タスク完了状態の確認
 
@@ -98,6 +111,7 @@ Future<Task> call({
 ### 4. Provider層の実装
 
 **Repository Provider（DI）**
+
 ```dart
 final goalRepositoryProvider = Provider<GoalRepository>((ref) {
   return HiveGoalRepository();
@@ -113,6 +127,7 @@ final taskRepositoryProvider = Provider<TaskRepository>((ref) {
 ```
 
 **UseCase Provider の更新**
+
 - UpdateGoalUseCase に MilestoneRepository, TaskRepository の依存注入
 
 ---
@@ -120,26 +135,28 @@ final taskRepositoryProvider = Provider<TaskRepository>((ref) {
 ## テスト結果
 
 ### テスト統計
+
 - **合計テスト数**: 54個
 - **成功**: 54個 ✅
 - **失敗**: 0個
 
 ### テスト分布
 
-| UseCase | テスト数 |
-|---------|---------|
-| CreateGoal | 18 |
-| GetAllGoals | 2 |
-| GetGoalById | 2 |
-| UpdateGoal | 3（完了ゴール編集不可を含む）|
-| DeleteGoal | 2 |
-| SearchGoals | 2 |
-| CreateMilestone | 8 |
-| CreateTask | 13 |
-| ChangeTaskStatus | 3 |
-| その他 | 1 |
+| UseCase          | テスト数                      |
+| ---------------- | ----------------------------- |
+| CreateGoal       | 18                            |
+| GetAllGoals      | 2                             |
+| GetGoalById      | 2                             |
+| UpdateGoal       | 3（完了ゴール編集不可を含む） |
+| DeleteGoal       | 2                             |
+| SearchGoals      | 2                             |
+| CreateMilestone  | 8                             |
+| CreateTask       | 13                            |
+| ChangeTaskStatus | 3                             |
+| その他           | 1                             |
 
 ### 主要なテストケース
+
 - ✅ ゴール・マイルストーン・タスクの CRUD
 - ✅ 親子関係（goalId, milestoneId）の検証
 - ✅ 期限の妥当性チェック
@@ -153,6 +170,7 @@ final taskRepositoryProvider = Provider<TaskRepository>((ref) {
 ## 品質指標
 
 ### コンパイル分析
+
 ```
 エラー: 0個
 警告: 21個（mostly dangling_library_doc_comments）
@@ -160,7 +178,9 @@ Dart分析スコア: クリア
 ```
 
 ### アーキテクチャ準拠性
+
 ✅ **SOLID原則**
+
 - Single Responsibility: Repository は1種類のEntity管理のみ
 - Open/Closed: new Repository実装は既存コードに影響なし
 - Liskov Substitution: Mock Repositoryが正確に実装
@@ -168,11 +188,13 @@ Dart分析スコア: クリア
 - Dependency Inversion: すべてAbstractクラスに依存
 
 ✅ **クリーンアーキテクチャ**
+
 - Domain層: ビジネスロジックに集中（純粋なDart）
 - Application層: UseCaseとして実装、Infrastructure非依存
 - Infrastructure層: Hiveに完全に隔離
 
 ✅ **DDD（Domain-Driven Design）**
+
 - ValueObject: タイトル、期限などの不変値
 - Entity: Goal、Milestone、Task
 - Repository: 集約単位でのデータ永続化
@@ -182,6 +204,7 @@ Dart分析スコア: クリア
 ## 次のステップ
 
 ### Presentation層の開発に向けた準備
+
 1. **UI/Widget層の実装予定**
    - ホーム画面（ゴール一覧）
    - マイルストーン詳細
@@ -204,6 +227,7 @@ Dart分析スコア: クリア
 ## 重要な実装ポイント
 
 ### 🎯 完了要件の実装方法
+
 "完了ゴール（進捗100%）は編集不可" の実装戦略：
 
 1. **進捗計算ロジック**
@@ -225,14 +249,16 @@ Dart分析スコア: クリア
 ## コードメトリクス
 
 ### ファイル統計
-| レイヤー | ファイル数 | テストファイル数 |
-|---------|-----------|-----------------|
-| Domain | 9（Entity + ValueObject） | 12 |
-| Application | 16（UseCase） + 1（Provider） | 6 |
-| Infrastructure | 3（Repository） | 1（スケルトン） |
-| **合計** | **29** | **19** |
+
+| レイヤー       | ファイル数                    | テストファイル数 |
+| -------------- | ----------------------------- | ---------------- |
+| Domain         | 9（Entity + ValueObject）     | 12               |
+| Application    | 16（UseCase） + 1（Provider） | 6                |
+| Infrastructure | 3（Repository）               | 1（スケルトン）  |
+| **合計**       | **29**                        | **19**           |
 
 ### 実装コード行数
+
 - UseCase実装: 約 1,200行
 - Domain層: 約 800行
 - Test: 約 2,000行
@@ -242,18 +268,22 @@ Dart分析スコア: クリア
 ## パフォーマンス特性
 
 ### Hive リポジトリの計算量
+
 - `saveGoal()`：O(1)（キー値ストア）
 - `getAllGoals()`：O(n)（全件スキャン）
 - `getMilestonesByGoalId()`：O(n)（フィルタリング）
-- `deleteGoal()` with cascade：O(n*m)（ネストされたリソース削除）
+- `deleteGoal()` with cascade：O(n\*m)（ネストされたリソース削除）
 
 ### スケーラビリティ
+
 ✅ **MVP推奨規模**
+
 - ゴール: 5～20個
 - マイルストーン/ゴール: 3～5個
 - タスク/マイルストーン: 10～50個
 
 ⚠️ **将来の最適化検討**
+
 - ゴール数 > 100 の場合: インデックス追加検討
 - タスク数 > 10,000 の場合: データベース移行検討（Firebase等）
 
@@ -262,12 +292,14 @@ Dart分析スコア: クリア
 ## 知見・学習ポイント
 
 ### Hive特性
+
 1. **型安全性**: TypeAdapter で自動生成、型チェック完全
 2. **シンプルさ**: SQLiteより学習コスト低い
 3. **制限**: JOIN無し → 複数Entity関連付けは手動管理
 4. **パフォーマンス**: 小～中規模アプリに最適
 
 ### DDD + CleanArchitecture の利点
+
 - Domain層の変更に強い（UI/DBが変わってもUseCaseは変わらない）
 - テスタビリティ向上（MockRepository で完全にシミュレート可能）
 - 要件の変更が容易（例："完了ゴール編集不可" → UpdateGoalUseCase に数行追加）
@@ -290,12 +322,12 @@ Dart分析スコア: クリア
 
 ## 開発実績
 
-| フェーズ | 成果物 | 工数 | 状態 |
-|---------|--------|------|------|
-| **Domain層** | 9ファイル + 12テスト | ✅ 完了 | ✅ |
-| **Application層** | 16UseCase + 1Provider | ✅ 完了 | ✅ |
-| **Infrastructure層** | 3Repository実装 | ✅ **本日完了** | ✅ |
-| **Presentation層** | - | ⏳ 次フェーズ | 未開始 |
+| フェーズ             | 成果物                | 工数            | 状態   |
+| -------------------- | --------------------- | --------------- | ------ |
+| **Domain層**         | 9ファイル + 12テスト  | ✅ 完了         | ✅     |
+| **Application層**    | 16UseCase + 1Provider | ✅ 完了         | ✅     |
+| **Infrastructure層** | 3Repository実装       | ✅ **本日完了** | ✅     |
+| **Presentation層**   | -                     | ⏳ 次フェーズ   | 未開始 |
 
 ---
 
@@ -314,5 +346,5 @@ Hive を通じてローカルに永続化される仕組みが完成しました
 
 ---
 
-*最終レポート: 2026年2月4日*
-*開発環境: Flutter 3.38.9, Dart 3.10.8, Hive 2.2.3*
+_最終レポート: 2026年2月4日_
+_開発環境: Flutter 3.38.9, Dart 3.10.8, Hive 2.2.3_

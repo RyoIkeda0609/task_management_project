@@ -2,13 +2,7 @@
 ///
 /// 状態遷移：Todo → Doing → Done → Todo（循環）
 /// progress: Todo=0, Doing=50, Done=100
-import 'package:hive/hive.dart';
-
-part 'task_status.g.dart';
-
-@HiveType(typeId: 34)
 class TaskStatus {
-  @HiveField(0)
   late String value;
 
   /// Hive用のオプションパラメータ付きコンストラクタ

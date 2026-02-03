@@ -1,14 +1,9 @@
+import 'package:uuid/uuid.dart';
+
 /// GoalId - ゴール ID を表現する ValueObject
 ///
 /// UUID 形式の一意識別子
-import 'package:hive/hive.dart';
-import 'package:uuid/uuid.dart';
-
-part 'goal_id.g.dart';
-
-@HiveType(typeId: 10)
 class GoalId {
-  @HiveField(0)
   late String value;
 
   GoalId([String? val]) {

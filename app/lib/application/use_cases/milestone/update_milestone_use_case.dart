@@ -44,6 +44,7 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
       id: existingMilestone.id,
       title: milestoneTitle,
       deadline: milestoneDeadline,
+      goalId: existingMilestone.goalId,
     );
 
     await _milestoneRepository.saveMilestone(updatedMilestone);
