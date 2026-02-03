@@ -15,8 +15,10 @@ class MockGoalRepository implements GoalRepository {
   Future<List<Goal>> getAllGoals() async => _goals;
 
   @override
-  Future<Goal?> getGoalById(String id) async =>
-      _goals.firstWhere((g) => g.id.value == id, orElse: () => throw Exception());
+  Future<Goal?> getGoalById(String id) async => _goals.firstWhere(
+    (g) => g.id.value == id,
+    orElse: () => throw Exception(),
+  );
 
   @override
   Future<void> saveGoal(Goal goal) async => _goals.add(goal);
@@ -43,10 +45,7 @@ void main() {
     });
 
     test('空のキーワードでエラーが発生すること', () async {
-      expect(
-        () => useCase.call(''),
-        throwsArgumentError,
-      );
+      expect(() => useCase.call(''), throwsArgumentError);
     });
 
     test('キーワードでゴールが検索できること', () async {

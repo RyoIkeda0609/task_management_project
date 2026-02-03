@@ -15,8 +15,10 @@ class MockTaskRepository implements TaskRepository {
   Future<List<Task>> getAllTasks() async => _tasks;
 
   @override
-  Future<Task?> getTaskById(String id) async =>
-      _tasks.firstWhere((t) => t.id.value == id, orElse: () => throw Exception());
+  Future<Task?> getTaskById(String id) async => _tasks.firstWhere(
+    (t) => t.id.value == id,
+    orElse: () => throw Exception(),
+  );
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>

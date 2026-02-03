@@ -28,7 +28,9 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
     required DateTime deadline,
   }) async {
     // 既存マイルストーンを取得
-    final existingMilestone = await _milestoneRepository.getMilestoneById(milestoneId);
+    final existingMilestone = await _milestoneRepository.getMilestoneById(
+      milestoneId,
+    );
     if (existingMilestone == null) {
       throw ArgumentError('Milestone with id $milestoneId not found');
     }

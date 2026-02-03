@@ -49,15 +49,16 @@ class MockMilestoneRepository implements MilestoneRepository {
   Future<List<Milestone>> getAllMilestones() async => _milestones;
 
   @override
-  Future<Milestone?> getMilestoneById(String id) async =>
-      _milestones.firstWhere((m) => m.id.value == id, orElse: () => throw Exception());
+  Future<Milestone?> getMilestoneById(String id) async => _milestones
+      .firstWhere((m) => m.id.value == id, orElse: () => throw Exception());
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
       _milestones.where((m) => m.id.value.startsWith(goalId)).toList();
 
   @override
-  Future<void> saveMilestone(Milestone milestone) async => _milestones.add(milestone);
+  Future<void> saveMilestone(Milestone milestone) async =>
+      _milestones.add(milestone);
 
   @override
   Future<void> deleteMilestone(String id) async =>
@@ -84,17 +85,11 @@ void main() {
     });
 
     test('空のゴール ID でエラーが発生すること', () async {
-      expect(
-        () => useCase.call(''),
-        throwsArgumentError,
-      );
+      expect(() => useCase.call(''), throwsArgumentError);
     });
 
     test('存在しないゴール ID でエラーが発生すること', () async {
-      expect(
-        () => useCase.call('non-existent'),
-        throwsArgumentError,
-      );
+      expect(() => useCase.call('non-existent'), throwsArgumentError);
     });
 
     test('ゴールが削除されること', () async {

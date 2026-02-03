@@ -62,8 +62,10 @@ final createMilestoneUseCaseProvider = Provider<CreateMilestoneUseCase>((ref) {
 /// GetMilestonesByGoalIdUseCase Provider
 final getMilestonesByGoalIdUseCaseProvider =
     Provider<GetMilestonesByGoalIdUseCase>((ref) {
-  return GetMilestonesByGoalIdUseCaseImpl(ref.watch(milestoneRepositoryProvider));
-});
+      return GetMilestonesByGoalIdUseCaseImpl(
+        ref.watch(milestoneRepositoryProvider),
+      );
+    });
 
 /// UpdateMilestoneUseCase Provider
 final updateMilestoneUseCaseProvider = Provider<UpdateMilestoneUseCase>((ref) {
@@ -88,8 +90,10 @@ final createTaskUseCaseProvider = Provider<CreateTaskUseCase>((ref) {
 /// GetTasksByMilestoneIdUseCase Provider
 final getTasksByMilestoneIdUseCaseProvider =
     Provider<GetTasksByMilestoneIdUseCase>((ref) {
-  return GetTasksByMilestoneIdUseCaseImpl(ref.watch(taskRepositoryProvider));
-});
+      return GetTasksByMilestoneIdUseCaseImpl(
+        ref.watch(taskRepositoryProvider),
+      );
+    });
 
 /// UpdateTaskUseCase Provider
 final updateTaskUseCaseProvider = Provider<UpdateTaskUseCase>((ref) {
@@ -102,20 +106,25 @@ final deleteTaskUseCaseProvider = Provider<DeleteTaskUseCase>((ref) {
 });
 
 /// ChangeTaskStatusUseCase Provider
-final changeTaskStatusUseCaseProvider = Provider<ChangeTaskStatusUseCase>((ref) {
+final changeTaskStatusUseCaseProvider = Provider<ChangeTaskStatusUseCase>((
+  ref,
+) {
   return ChangeTaskStatusUseCaseImpl(ref.watch(taskRepositoryProvider));
 });
 
 /// GetAllTasksTodayUseCase Provider
-final getAllTasksTodayUseCaseProvider = Provider<GetAllTasksTodayUseCase>((ref) {
+final getAllTasksTodayUseCaseProvider = Provider<GetAllTasksTodayUseCase>((
+  ref,
+) {
   return GetAllTasksTodayUseCaseImpl(ref.watch(taskRepositoryProvider));
 });
 
 // ==================== Progress UseCase Providers ====================
 
 /// CalculateProgressUseCase Provider
-final calculateProgressUseCaseProvider =
-    Provider<CalculateProgressUseCase>((ref) {
+final calculateProgressUseCaseProvider = Provider<CalculateProgressUseCase>((
+  ref,
+) {
   return CalculateProgressUseCaseImpl(
     ref.watch(goalRepositoryProvider),
     ref.watch(milestoneRepositoryProvider),
