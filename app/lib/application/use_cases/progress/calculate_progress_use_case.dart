@@ -1,7 +1,7 @@
 import 'package:app/domain/value_objects/shared/progress.dart';
-import 'package:app/infrastructure/repositories/goal_repository.dart';
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
-import 'package:app/infrastructure/repositories/task_repository.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 /// CalculateProgressUseCase - 進捗を計算する
 ///
