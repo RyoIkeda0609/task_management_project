@@ -1,12 +1,23 @@
 /// MilestoneTitle - マイルストーン名を表現する ValueObject
 ///
 /// バリデーション：1～100文字、空白のみ不可
+import 'package:hive/hive.dart';
+
+part 'milestone_title.g.dart';
+
+@HiveType(typeId: 21)
 class MilestoneTitle {
   static const int maxLength = 100;
-  final String value;
+  @HiveField(0)
+  late String value;
 
-  MilestoneTitle(this.value) {
-    _validate();
+  MilestoneTitle([String? val]) {
+    if (val == null) {
+      value = '';
+    } else {
+      value = val;
+      _validate();
+    }
   }
 
   void _validate() {

@@ -1,12 +1,23 @@
 /// GoalId - ゴール ID を表現する ValueObject
 ///
 /// UUID 形式の一意識別子
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
-class GoalId {
-  final String value;
+part 'goal_id.g.dart';
 
-  GoalId(this.value);
+@HiveType(typeId: 10)
+class GoalId {
+  @HiveField(0)
+  late String value;
+
+  GoalId([String? val]) {
+    if (val == null) {
+      value = '';
+    } else {
+      value = val;
+    }
+  }
 
   /// 新しい ID を自動生成
   factory GoalId.generate() => GoalId(const Uuid().v4());

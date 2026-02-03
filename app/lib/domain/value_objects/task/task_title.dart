@@ -1,12 +1,23 @@
 /// TaskTitle - タスク名を表現する ValueObject
 ///
 /// バリデーション：1～100文字、空白のみ不可
+import 'package:hive/hive.dart';
+
+part 'task_title.g.dart';
+
+@HiveType(typeId: 31)
 class TaskTitle {
   static const int maxLength = 100;
-  final String value;
+  @HiveField(0)
+  late String value;
 
-  TaskTitle(this.value) {
-    _validate();
+  TaskTitle([String? val]) {
+    if (val == null) {
+      value = '';
+    } else {
+      value = val;
+      _validate();
+    }
   }
 
   void _validate() {

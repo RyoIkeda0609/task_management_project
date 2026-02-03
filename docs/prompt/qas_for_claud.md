@@ -520,3 +520,14 @@ Q3: Progress 型の定義
 - マイルストーンのcalculateProgressの引数が整数型なのはなぜでしょうか？ゴールのcalculateProgressの引数はProgress型なので気になりました。ミスなのであれば修正お願い致します。
 - task_status_test.dartのディスクリプションが英語のままなのが気になります。ほかのテストコードに平仄を合わせて修正してください。
 - ValueObjectのマジックナンバーが気になりました。最大文字数が100文字の場合、100とそのまま条件比較するのではなく、maxLengthなどとしたほうが良いかと思いますがどうでしょうか？
+
+🎯 次のステップ
+Domain層の実装が完了しました。次のフェーズは：
+
+Application層 - UseCases（Riverpod の Providers）
+Infrastructure層 - Repository（Hive での永続化）
+Presentation層 - UI/UX（Flutter ウィジェット）
+すべてのコードはValueObjectsおよびEntitiesに組織化されており、テストはすべて通過しています。
+
+ありがとうございます。修正が確認できました！
+次のフェーズに進んでください！

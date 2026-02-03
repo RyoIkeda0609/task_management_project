@@ -1,12 +1,23 @@
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
+
+part 'milestone_id.g.dart';
 
 /// MilestoneId - マイルストーンの ID を表現する ValueObject
 ///
 /// UUID v4 による一意の識別子
+@HiveType(typeId: 20)
 class MilestoneId {
-  final String value;
+  @HiveField(0)
+  late String value;
 
-  MilestoneId(this.value);
+  MilestoneId([String? val]) {
+    if (val == null) {
+      value = '';
+    } else {
+      value = val;
+    }
+  }
 
   /// 新しい MilestoneId を自動生成する
   factory MilestoneId.generate() => MilestoneId(const Uuid().v4());

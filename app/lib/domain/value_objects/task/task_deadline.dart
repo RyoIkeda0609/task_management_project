@@ -1,11 +1,25 @@
 /// TaskDeadline - タスクの期限を表現する ValueObject
 ///
 /// バリデーション：本日より後の日付のみ、時刻は00:00:00に正規化される
-class TaskDeadline {
-  final DateTime value;
+import 'package:hive/hive.dart';
 
-  TaskDeadline(DateTime date) : value = _normalize(date) {
-    _validate();
+part 'task_deadline.g.dart';
+
+@HiveType(typeId: 33)
+class TaskDeadline {
+  @HiveField(0)
+  late DateTime value;
+
+  /// コンストラクタ（Hive用デフォルト値対応）
+  TaskDeadline([DateTime? date]) {
+    if (date == null) {
+      // Hive deserialize 時
+      value = DateTime.now();
+    } else {
+      // 通常の使用
+      value = _normalize(date);
+      _validate();
+    }
   }
 
   /// DateTime を年月日のみに正規化（時刻を00:00:00にする）

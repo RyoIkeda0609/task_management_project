@@ -2,19 +2,32 @@
 ///
 /// 状態遷移：Todo → Doing → Done → Todo（循環）
 /// progress: Todo=0, Doing=50, Done=100
-class TaskStatus {
-  final String value;
+import 'package:hive/hive.dart';
 
-  TaskStatus._(this.value);
+part 'task_status.g.dart';
+
+@HiveType(typeId: 34)
+class TaskStatus {
+  @HiveField(0)
+  late String value;
+
+  /// Hive用のオプションパラメータ付きコンストラクタ
+  TaskStatus([String? val]) {
+    if (val == null) {
+      value = 'todo';
+    } else {
+      value = val;
+    }
+  }
 
   /// ステータス：未着手
-  factory TaskStatus.todo() => TaskStatus._('todo');
+  factory TaskStatus.todo() => TaskStatus('todo');
 
   /// ステータス：進行中
-  factory TaskStatus.doing() => TaskStatus._('doing');
+  factory TaskStatus.doing() => TaskStatus('doing');
 
   /// ステータス：完了
-  factory TaskStatus.done() => TaskStatus._('done');
+  factory TaskStatus.done() => TaskStatus('done');
 
   /// 次のステータスに遷移（循環：Todo → Doing → Done → Todo）
   TaskStatus nextStatus() {

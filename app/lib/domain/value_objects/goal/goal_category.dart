@@ -1,12 +1,23 @@
 /// GoalCategory - ゴールのカテゴリを表現する ValueObject
 ///
 /// バリデーション：1～100文字、空白のみ不可
+import 'package:hive/hive.dart';
+
+part 'goal_category.g.dart';
+
+@HiveType(typeId: 12)
 class GoalCategory {
   static const int maxLength = 100;
-  final String value;
+  @HiveField(0)
+  late String value;
 
-  GoalCategory(this.value) {
-    _validate();
+  GoalCategory([String? val]) {
+    if (val == null) {
+      value = '';
+    } else {
+      value = val;
+      _validate();
+    }
   }
 
   void _validate() {
