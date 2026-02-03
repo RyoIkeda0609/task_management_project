@@ -316,3 +316,207 @@ TestFlight / Google Play Beta での β テストは予定していますか？�
 私がレビューできるように、要点や修正内容を教えてくれると助かります。
 
 また、理想としては、最初に全体のTodoリストを作成し、docs/todo/Todo.mdのようにしてくれると助かります。
+
+ありがとうございます！本日から実装開始ですね。🚀
+
+実装前に、いくつか確認したい点がありますので、ご回答をお願いします。これらを明確にしてから開発を進めるため、重要なヒアリングです。
+
+🔍 実装前の確認事項
+A. プロジェクト構成の確認
+A1. ./app ディレクトリの現状確認
+
+flutter create app で作成されたテンプレートプロジェクトの状態ですね。以下を確認させてください：
+
+質問1: flutter pub get が正常に実行できますか？任意のエラーはありませんか？：Yes
+
+```
+
+ikeda@FMVlifebook0609 MINGW64 ~/dev/app/task_management_project (develop/feature1)
+$ cd app
+
+ikeda@FMVlifebook0609 MINGW64 ~/dev/app/task_management_project/app (develop/feature1)
+$ flutter --version
+Flutter 3.38.9 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 67323de285 (6 days ago) • 2026-01-28 13:43:12 -0800
+Engine • hash 5eb06b7ad5bb8cbc22c5230264c7a00ceac7674b (revision 587c18f873) (6 days ago) •
+2026-01-27 23:23:03.000Z
+Tools • Dart 3.10.8 • DevTools 2.51.1
+
+ikeda@FMVlifebook0609 MINGW64 ~/dev/app/task_management_project/app (develop/feature1)
+$ flutter doctor
+Doctor summary (to see all details, run flutter doctor -v):
+[√] Flutter (Channel stable, 3.38.9, on Microsoft Windows [Version 10.0.26200.7462], locale ja-JP)
+[√] Windows Version (11 Home 64-bit, 25H2, 2009)
+[√] Android toolchain - develop for Android devices (Android SDK version 36.0.0)
+[√] Chrome - develop for the web
+[√] Visual Studio - develop Windows apps (Visual Studio Community 2022 17.13.6)
+[√] Connected device (3 available)
+[√] Network resources
+
+• No issues found!
+
+ikeda@FMVlifebook0609 MINGW64 ~/dev/app/task_management_project/app (develop/feature1)
+$ flutter pub get
+Resolving dependencies...
+Downloading packages...
+  characters 1.4.0 (1.4.1 available)
+  matcher 0.12.17 (0.12.18 available)
+  material_color_utilities 0.11.1 (0.13.0 available)
+  meta 1.17.0 (1.18.1 available)
+  test_api 0.7.7 (0.7.9 available)
+Got dependencies!
+5 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+
+ikeda@FMVlifebook0609 MINGW64 ~/dev/app/task_management_project/app (develop/feature1)
+$
+```
+
+質問2: pubspec.yaml に依存ライブラリを追加する必要があります。以下を追加していただきたいのですが、よろしいですか？：追加対応をしたので、確認していただきたい。
+
+B. ドメイン層実装の最終確認
+前回の Q&A で確認した 4 つのポイントについて、再度確認させてください：
+
+B1. 進捗計算（タスク 0 個の場合）
+
+要件：タスク数が 0 個の場合、マイルストーン進捗は 0% でよろしいですか？：YES
+つまり、タスクを 1 つも作成していないマイルストーンの進捗は 0% ということですね？：Yes
+
+B2. 期限バリデーション
+
+確認：Task.deadline ≤ Milestone.deadline ≤ Goal.deadline を 強制（例外発生）でよろしいですか？
+もし違う場合は、警告程度にしておくべきでしょうか？：バリデーションをかけてあげたいです。
+作成順はゴール　→　マイルストーン　→　タスクなので、それぞれを作成、編集するタイミングで不正な日付を設定できないようにしてあげればよいと思います。
+
+B3. ゴール達成時の自動完了
+
+配下のマイルストーン・タスクが すべて Done になったら、Goal の進捗は自動的に 100% になる
+ユーザーは Goal を手動で「完了」操作する必要はない
+この理解で正しいですか？：Yes
+
+B4. ステータス遷移の詳細
+
+状態：Todo / Doing / Done の 3 状態のみですね？：Yes
+遷移ルール：Todo → Doing → Done → Todo（循環）で、逆方向（Done → Doing）は許可しない？：Yes
+それとも、任意の方向への遷移を許可しますか？：No（循環でOK）
+
+C. テスト環境・ワークフロー
+
+C1. テスト実行環境
+
+このコマンドで正常にテストが実行できる状態でしょうか？:Yes
+
+```
+ikeda@FMVlifebook0609 MINGW64 ~/dev/app/task_management_project/app (develop/feature1)
+$ flutter test
+00:10 +1: All tests passed!
+```
+
+C2. Git ワークフロー
+
+質問3: 開発ブランチの詳細を教えてください
+
+ブランチ名は何ですか？（例：feature/domain-layer, develop など）
+mainブランチは main
+開発用のブランチは develop/XXX
+例えば、今いるブランチはdevelop/feature1
+
+PO（ユーザー）が提示された「ブランチを切った」というブランチは存在していますか？
+上記のdevelop/feature1
+
+質問4: コミット・PR レビューのルールがあれば教えてください
+
+毎日コミット？フェーズ毎？：コミットは大きくなりすぎないくらいでしたいです。
+PR レビューは実施しますか？：実施したいです。
+
+D. テスト設計の詳細（Domain 層実装前の最終確認）
+D1. 進捗計算ロジック
+
+Domain 層に以下のロジックを実装する予定です：
+
+この実装方針でよろしいですか？：Yes
+
+D2. ValueObject の等価性
+
+Entity / ValueObject のテストで、以下のように == と hashCode を実装する予定です：
+
+こうした等価性テストで構いませんか？：Yes
+
+E. ディレクトリ構造の確認
+予定している lib 配下のディレクトリ構造です：
+
+この構造でよろしいですか？：おおむね良いです。しかし、ValueObjectはもう少し細かくてもよいかもしれないですね。
+タスクのタイトル、タスクの説明、マイルストーンのタイトル、、、などなど、それぞれValueObjectとして、不正な値が入らないようにするのが良いかもしれないです。
+テストも書く場所が明確になりますしね。
+
+F. CI/CD・ツール環境（将来用）
+現段階では不要ですが、念のため確認：
+
+質問5: テストカバレッジを測定するツール（lcov など）を使いたいですか？：特に想定はしていなかったです。
+
+使う場合：flutter test --coverage で自動生成
+使わない場合：flutter test の標準出力で確認
+📋 すべての質問をまとめると
+
+# 質問内容 優先度
+
+Q1 flutter pub get が実行できるか 🔴 高
+Q2 pubspec.yaml に依存ライブラリを追加してよいか 🔴 高
+B1 タスク 0 個時の進捗は 0% でいいか 🔴 高
+B2 期限バリデーションは「強制」か「警告」か 🔴 高
+B3 ゴール自動完了の理解が正しいか 🔴 高
+B4 ステータス遷移ルール（逆方向許可するか） 🔴 高
+C1 テスト実行環境は準備完了か 🟡 中
+C2 開発ブランチ名・Git ワークフロー 🟡 中
+D1 進捗計算ロジック実装方針（上記コード）でいいか 🔴 高
+D2 ValueObject 等価性テスト方針でいいか 🟡 中
+E lib ディレクトリ構造でいいか 🟡 中
+Q5 テストカバレッジ測定ツール使用有無 🟢 低
+🎯 実装開始の流れ
+ご回答いただく → 不明点を解消 → フェーズ1 開始
+
+以下の順序で進めます：
+
+✅ 上記質問にご回答
+✅ 必要に応じて pubspec.yaml を更新・flutter pub get 実行
+✅ lib/domain に Entity / ValueObject のスケルトンを作成
+✅ test/domain に テストコードを実装（Red Phase）
+✅ Domain 層コードを実装（Green Phase）
+✅ リファクタリング（Refactor Phase）
+お手数ですが、上記のご回答をお願いいたします。
+すべて解明してから、Domain 層の実装に進みたいと思います！
+
+❓ 次の実装前に確認したいことはありますか？
+以下について確認させてください：
+
+Q1: GoalTitle / TaskTitle などの文字列バリデーション
+
+テストと実装を進める際に、以下のバリデーションルールを適用します：
+
+最小文字数：1 文字以上
+最大文字数：100 文字以下（仮定）
+空文字列は不可
+この仕様でよろしいですか？：Yes
+
+Q2: GoalDeadline などの期限バリデーション
+
+期限は「本日より後」（現在時刻より後）
+時刻は「年月日」のみ（時分秒は不問）
+この仕様でよろしいですか？：Yes
+
+Q3: Progress 型の定義
+
+進捗は 0～100 の int 型で管理しますが、以下で構いませんか？：Yes
+
+上記をご確認いただければ、本日中に Goal / Milestone / Task のすべての ValueObject と Entity の実装・テストを完成させたいと思います。
+
+いかがでしょうか？ご質問・修正をお願いします！
+
+また、追加で要求ですが、テストのディスクリプションは日本語で記載をお願いいたします。
+例えば、should create TaskStatus with todoではなく、StatusがtodoのTaskStatusが生成できること　のようになるのが良いです。よろしくお願いします！
+
+## レビュワーからの依頼・質問
+
+- マイルストーンのcalculateProgressの引数が整数型なのはなぜでしょうか？ゴールのcalculateProgressの引数はProgress型なので気になりました。ミスなのであれば修正お願い致します。
+- task_status_test.dartのディスクリプションが英語のままなのが気になります。ほかのテストコードに平仄を合わせて修正してください。
+- ValueObjectのマジックナンバーが気になりました。最大文字数が100文字の場合、100とそのまま条件比較するのではなく、maxLengthなどとしたほうが良いかと思いますがどうでしょうか？
