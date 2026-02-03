@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:app/domain/entities/task.dart';
-import 'task_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 /// HiveTaskRepository - Hive を使用した Task の永続化実装
 ///

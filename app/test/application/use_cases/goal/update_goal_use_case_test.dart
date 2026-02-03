@@ -16,9 +16,9 @@ import 'package:app/domain/value_objects/task/task_title.dart';
 import 'package:app/domain/value_objects/task/task_description.dart';
 import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
-import 'package:app/infrastructure/repositories/goal_repository.dart';
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
-import 'package:app/infrastructure/repositories/task_repository.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 class MockGoalRepository implements GoalRepository {
   final List<Goal> _goals = [];

@@ -16,12 +16,12 @@ import 'package:app/application/use_cases/task/delete_task_use_case.dart';
 import 'package:app/application/use_cases/task/change_task_status_use_case.dart';
 import 'package:app/application/use_cases/task/get_all_tasks_today_use_case.dart';
 import 'package:app/application/use_cases/progress/calculate_progress_use_case.dart';
-import 'package:app/infrastructure/repositories/goal_repository.dart';
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
-import 'package:app/infrastructure/repositories/task_repository.dart';
-import 'package:app/infrastructure/repositories/hive_goal_repository.dart';
-import 'package:app/infrastructure/repositories/hive_milestone_repository.dart';
-import 'package:app/infrastructure/repositories/hive_task_repository.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/infrastructure/persistence/hive/hive_goal_repository.dart';
+import 'package:app/infrastructure/persistence/hive/hive_milestone_repository.dart';
+import 'package:app/infrastructure/persistence/hive/hive_task_repository.dart';
 
 // ==================== Goal UseCase Providers ====================
 

@@ -2,7 +2,7 @@ import 'package:app/domain/entities/task.dart';
 
 /// TaskRepository - タスク のデータ永続化インターフェース
 ///
-/// Hive により実装される
+/// 実装は Infrastructure 層で提供される
 abstract class TaskRepository {
   /// すべてのタスクを取得する
   Future<List<Task>> getAllTasks();

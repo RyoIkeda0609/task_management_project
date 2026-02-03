@@ -1,5 +1,5 @@
-import 'package:app/infrastructure/repositories/goal_repository.dart';
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// DeleteGoalUseCase - ゴールを削除する
 ///

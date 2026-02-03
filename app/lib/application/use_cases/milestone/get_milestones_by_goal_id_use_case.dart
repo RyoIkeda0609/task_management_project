@@ -1,5 +1,5 @@
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// GetMilestonesByGoalIdUseCase - ゴール配下のマイルストーンをすべて取得する
 ///

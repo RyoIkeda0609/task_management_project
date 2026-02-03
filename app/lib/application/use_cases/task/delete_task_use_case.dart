@@ -1,4 +1,4 @@
-import 'package:app/infrastructure/repositories/task_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 /// DeleteTaskUseCase - タスクを削除する
 abstract class DeleteTaskUseCase {

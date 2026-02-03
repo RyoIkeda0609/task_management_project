@@ -1,5 +1,5 @@
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/infrastructure/repositories/goal_repository.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
 
 /// GetGoalByIdUseCase - ID からゴールを取得する
 ///

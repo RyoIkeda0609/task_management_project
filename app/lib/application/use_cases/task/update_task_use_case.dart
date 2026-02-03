@@ -2,7 +2,7 @@ import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/value_objects/task/task_title.dart';
 import 'package:app/domain/value_objects/task/task_description.dart';
 import 'package:app/domain/value_objects/task/task_deadline.dart';
-import 'package:app/infrastructure/repositories/task_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 /// UpdateTaskUseCase - タスクを編集する
 ///

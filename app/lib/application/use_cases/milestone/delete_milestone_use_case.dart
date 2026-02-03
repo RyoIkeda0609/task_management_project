@@ -1,5 +1,5 @@
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
-import 'package:app/infrastructure/repositories/task_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 /// DeleteMilestoneUseCase - マイルストーンを削除する
 ///

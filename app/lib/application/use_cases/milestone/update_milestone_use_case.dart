@@ -1,7 +1,7 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/infrastructure/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// UpdateMilestoneUseCase - マイルストーンを編集する
 ///

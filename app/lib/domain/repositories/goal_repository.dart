@@ -2,7 +2,7 @@ import 'package:app/domain/entities/goal.dart';
 
 /// GoalRepository - ゴール のデータ永続化インターフェース
 ///
-/// Hive により実装される
+/// 実装は Infrastructure 層で提供される
 abstract class GoalRepository {
   /// すべてのゴールを取得する
   Future<List<Goal>> getAllGoals();

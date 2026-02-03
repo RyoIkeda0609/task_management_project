@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'milestone_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// HiveMilestoneRepository - Hive を使用した Milestone の永続化実装
 ///

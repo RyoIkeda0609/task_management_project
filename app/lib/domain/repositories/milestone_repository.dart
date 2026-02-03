@@ -2,7 +2,7 @@ import 'package:app/domain/entities/milestone.dart';
 
 /// MilestoneRepository - マイルストーン のデータ永続化インターフェース
 ///
-/// Hive により実装される
+/// 実装は Infrastructure 層で提供される
 abstract class MilestoneRepository {
   /// すべてのマイルストーンを取得する
   Future<List<Milestone>> getAllMilestones();

@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'goal_repository.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
 
 /// HiveGoalRepository - Hive を使用した Goal の永続化実装
 ///
