@@ -20,19 +20,22 @@ class MilestoneAdapter extends TypeAdapter<Milestone> {
       id: fields[0] as MilestoneId,
       title: fields[1] as MilestoneTitle,
       deadline: fields[2] as MilestoneDeadline,
+      goalId: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Milestone obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.deadline);
+      ..write(obj.deadline)
+      ..writeByte(3)
+      ..write(obj.goalId);
   }
 
   @override

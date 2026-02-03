@@ -24,7 +24,8 @@ class Task {
   final TaskDeadline deadline;
   @HiveField(4)
   final TaskStatus status;
-  // milestoneId: Milestone との関連付けのため（リポジトリで管理）
+  @HiveField(5)
+  final String milestoneId;
 
   Task({
     required this.id,
@@ -32,6 +33,7 @@ class Task {
     required this.description,
     required this.deadline,
     required this.status,
+    required this.milestoneId,
   });
 
   /// タスクの Progress を取得する
@@ -52,6 +54,7 @@ class Task {
       description: description,
       deadline: deadline,
       status: status.nextStatus(),
+      milestoneId: milestoneId,
     );
   }
 
@@ -64,7 +67,8 @@ class Task {
           title == other.title &&
           description == other.description &&
           deadline == other.deadline &&
-          status == other.status;
+          status == other.status &&
+          milestoneId == other.milestoneId;
 
   @override
   int get hashCode =>
@@ -72,7 +76,8 @@ class Task {
       title.hashCode ^
       description.hashCode ^
       deadline.hashCode ^
-      status.hashCode;
+      status.hashCode ^
+      milestoneId.hashCode;
 
   @override
   String toString() => 'Task(id: $id, title: $title, status: ${status.value})';

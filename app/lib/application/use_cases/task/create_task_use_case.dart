@@ -12,11 +12,13 @@ import 'package:app/domain/value_objects/task/task_id.dart';
 /// - 期限は本日より後の日付のみ許可
 /// - ステータスは常に Todo で開始される
 /// - すべての入力値は ValueObject でバリデーションされる
+/// - 親マイルストーン ID が必須
 abstract class CreateTaskUseCase {
   Future<Task> call({
     required String title,
     required String description,
     required DateTime deadline,
+    required String milestoneId,
   });
 }
 
@@ -27,11 +29,17 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     required String title,
     required String description,
     required DateTime deadline,
+    required String milestoneId,
   }) async {
     // ValueObject による入力値検証
     final taskTitle = TaskTitle(title);
     final taskDescription = TaskDescription(description);
     final taskDeadline = TaskDeadline(deadline);
+
+    // milestoneId の検証（空文字列でないかチェック）
+    if (milestoneId.isEmpty) {
+      throw ArgumentError('milestoneId cannot be empty');
+    }
 
     // Task エンティティの作成（ステータスは Todo で開始）
     final task = Task(
@@ -40,6 +48,7 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
       description: taskDescription,
       deadline: taskDeadline,
       status: TaskStatus.todo(),
+      milestoneId: milestoneId,
     );
 
     return task;

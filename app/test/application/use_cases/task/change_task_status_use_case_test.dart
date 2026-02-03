@@ -60,6 +60,7 @@ void main() {
         description: TaskDescription('説明'),
         deadline: TaskDeadline(tomorrow),
         status: TaskStatus.todo(),
+        milestoneId: 'milestone-1',
       );
 
       await repository.saveTask(task);
@@ -77,6 +78,7 @@ void main() {
         description: TaskDescription('説明'),
         deadline: TaskDeadline(tomorrow),
         status: TaskStatus.doing(),
+        milestoneId: 'milestone-1',
       );
 
       await repository.saveTask(task);
@@ -94,6 +96,7 @@ void main() {
         description: TaskDescription('説明'),
         deadline: TaskDeadline(tomorrow),
         status: TaskStatus.done(),
+        milestoneId: 'milestone-1',
       );
 
       await repository.saveTask(task);

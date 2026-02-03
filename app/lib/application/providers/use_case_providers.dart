@@ -16,6 +16,12 @@ import 'package:app/application/use_cases/task/delete_task_use_case.dart';
 import 'package:app/application/use_cases/task/change_task_status_use_case.dart';
 import 'package:app/application/use_cases/task/get_all_tasks_today_use_case.dart';
 import 'package:app/application/use_cases/progress/calculate_progress_use_case.dart';
+import 'package:app/infrastructure/repositories/goal_repository.dart';
+import 'package:app/infrastructure/repositories/milestone_repository.dart';
+import 'package:app/infrastructure/repositories/task_repository.dart';
+import 'package:app/infrastructure/repositories/hive_goal_repository.dart';
+import 'package:app/infrastructure/repositories/hive_milestone_repository.dart';
+import 'package:app/infrastructure/repositories/hive_task_repository.dart';
 
 // ==================== Goal UseCase Providers ====================
 
@@ -36,7 +42,11 @@ final getGoalByIdUseCaseProvider = Provider<GetGoalByIdUseCase>((ref) {
 
 /// UpdateGoalUseCase Provider
 final updateGoalUseCaseProvider = Provider<UpdateGoalUseCase>((ref) {
-  return UpdateGoalUseCaseImpl(ref.watch(goalRepositoryProvider));
+  return UpdateGoalUseCaseImpl(
+    ref.watch(goalRepositoryProvider),
+    ref.watch(milestoneRepositoryProvider),
+    ref.watch(taskRepositoryProvider),
+  );
 });
 
 /// DeleteGoalUseCase Provider
@@ -133,16 +143,18 @@ final calculateProgressUseCaseProvider = Provider<CalculateProgressUseCase>((
 });
 
 // ==================== Repository Providers ====================
-// NOTE: これらは将来的に実装される（現在はダミー）
 
-final goalRepositoryProvider = Provider((ref) {
-  throw UnimplementedError('goalRepository must be overridden');
+/// GoalRepository Provider - Hive based implementation
+final goalRepositoryProvider = Provider<GoalRepository>((ref) {
+  return HiveGoalRepository();
 });
 
-final milestoneRepositoryProvider = Provider((ref) {
-  throw UnimplementedError('milestoneRepository must be overridden');
+/// MilestoneRepository Provider - Hive based implementation
+final milestoneRepositoryProvider = Provider<MilestoneRepository>((ref) {
+  return HiveMilestoneRepository();
 });
 
-final taskRepositoryProvider = Provider((ref) {
-  throw UnimplementedError('taskRepository must be overridden');
+/// TaskRepository Provider - Hive based implementation
+final taskRepositoryProvider = Provider<TaskRepository>((ref) {
+  return HiveTaskRepository();
 });

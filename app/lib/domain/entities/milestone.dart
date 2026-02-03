@@ -18,10 +18,16 @@ class Milestone {
   final MilestoneTitle title;
   @HiveField(2)
   final MilestoneDeadline deadline;
-  // goalId: Goal との関連付けのため（リポジトリで管理）
+  @HiveField(3)
+  final String goalId;
   // tasks: List<Task> は別途リポジトリで管理
 
-  Milestone({required this.id, required this.title, required this.deadline});
+  Milestone({
+    required this.id,
+    required this.title,
+    required this.deadline,
+    required this.goalId,
+  });
 
   /// Progress を計算する（タスクの進捗から自動算出）
   ///
@@ -43,10 +49,12 @@ class Milestone {
           runtimeType == other.runtimeType &&
           id == other.id &&
           title == other.title &&
-          deadline == other.deadline;
+          deadline == other.deadline &&
+          goalId == other.goalId;
 
   @override
-  int get hashCode => id.hashCode ^ title.hashCode ^ deadline.hashCode;
+  int get hashCode =>
+      id.hashCode ^ title.hashCode ^ deadline.hashCode ^ goalId.hashCode;
 
   @override
   String toString() => 'Milestone(id: $id, title: $title)';
