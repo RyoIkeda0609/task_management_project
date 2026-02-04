@@ -5,7 +5,7 @@
 class TaskStatus {
   late String value;
 
-  /// Hive用のオプションパラメータ付きコンストラクタ
+  /// コンストラクタ（デフォルト値'todo'対応）
   TaskStatus([String? val]) {
     if (val == null) {
       value = 'todo';

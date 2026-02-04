@@ -4,10 +4,10 @@
 class MilestoneDeadline {
   late DateTime value;
 
-  /// コンストラクタ（Hive用デフォルト値対応）
+  /// コンストラクタ
   MilestoneDeadline([DateTime? date]) {
     if (date == null) {
-      // Hive deserialize 時
+      // デフォルト値
       value = DateTime.now();
     } else {
       // 通常の使用
