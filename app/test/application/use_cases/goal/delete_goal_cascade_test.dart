@@ -341,7 +341,7 @@ void main() {
           for (int j = 1; j <= 3; j++) {
             final task = Task(
               id: TaskId.generate(),
-              title: TaskTitle('MS${i}T${j}'),
+              title: TaskTitle('MS$i-T$j'),
               description: TaskDescription('説明'),
               deadline: TaskDeadline(
                 DateTime.now().add(Duration(days: 50 * i)),
