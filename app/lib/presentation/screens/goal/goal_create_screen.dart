@@ -6,6 +6,14 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
+import '../../../domain/entities/goal.dart';
+import '../../../domain/value_objects/goal/goal_id.dart';
+import '../../../domain/value_objects/goal/goal_title.dart';
+import '../../../domain/value_objects/goal/goal_category.dart';
+import '../../../domain/value_objects/goal/goal_reason.dart';
+import '../../../domain/value_objects/goal/goal_deadline.dart';
+import '../../state_management/providers/app_providers.dart';
+import '../../navigation/app_router.dart';
 
 /// ゴール作成画面
 ///
@@ -89,7 +97,21 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // 成功メッセージを表示
+      // ゴール作成ユースケースを実行
+      final goalRepository = ref.read(goalRepositoryProvider);
+
+      // Goal エンティティを作成
+      final newGoal = Goal(
+        id: GoalId.generate(),
+        title: GoalTitle(_titleController.text),
+        category: GoalCategory(_selectedCategory),
+        reason: GoalReason(_reasonController.text),
+        deadline: GoalDeadline(_selectedDeadline),
+      );
+
+      // リポジトリに保存
+      await goalRepository.saveGoal(newGoal);
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -98,10 +120,10 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
           ),
         );
 
-        // ホーム画面へナビゲート（初回起動フロー完了）
+        // ホーム画面へナビゲート
         Navigator.of(
           context,
-        ).pushNamedAndRemoveUntil('/home', (route) => false);
+        ).pushNamedAndRemoveUntil(AppRouter.home, (route) => false);
       }
     } catch (e) {
       if (mounted) {
@@ -119,11 +141,7 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'ゴールを作成',
-        hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
-      ),
+      appBar: CustomAppBar(title: 'ゴールを作成', hasLeading: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),

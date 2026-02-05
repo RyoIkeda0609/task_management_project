@@ -59,4 +59,22 @@ class Goal {
 
   @override
   String toString() => 'Goal(id: $id, title: $title)';
+
+  /// JSON に変換
+  Map<String, dynamic> toJson() => {
+    'id': id.value,
+    'title': title.value,
+    'category': category.value,
+    'reason': reason.value,
+    'deadline': deadline.value.toIso8601String(),
+  };
+
+  /// JSON から復元
+  factory Goal.fromJson(Map<String, dynamic> json) => Goal(
+    id: GoalId(json['id'] as String),
+    title: GoalTitle(json['title'] as String),
+    category: GoalCategory(json['category'] as String),
+    reason: GoalReason(json['reason'] as String),
+    deadline: GoalDeadline(DateTime.parse(json['deadline'] as String)),
+  );
 }

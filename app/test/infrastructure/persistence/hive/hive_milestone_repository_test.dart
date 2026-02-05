@@ -17,10 +17,6 @@ void main() {
       test('HiveMilestoneRepositoryが初期化可能なこと', () {
         expect(repository, isNotNull);
       });
-
-      test('isInitializedメソッドが存在すること', () {
-        expect(repository.isInitialized, isFalse);
-      });
     });
 
     group('マイルストーン保存・取得操作 - インターフェース契約検証', () {

@@ -22,7 +22,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: '設定', hasLeading: false),
+      appBar: CustomAppBar(
+        title: '設定',
+        hasLeading: false,
+        backgroundColor: AppColors.neutral100,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

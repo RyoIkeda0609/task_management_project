@@ -17,17 +17,13 @@ class HomeNavigationShell extends StatefulWidget {
 class _HomeNavigationShellState extends State<HomeNavigationShell> {
   int _currentIndex = 0;
 
-  // 各タブの画面
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    const TodayTasksScreen(),
-    const SettingsScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: const [HomeScreen(), TodayTasksScreen(), SettingsScreen()],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {

@@ -50,4 +50,20 @@ class Milestone {
 
   @override
   String toString() => 'Milestone(id: $id, title: $title)';
+
+  /// JSON に変換
+  Map<String, dynamic> toJson() => {
+    'id': id.value,
+    'title': title.value,
+    'deadline': deadline.value.toIso8601String(),
+    'goalId': goalId,
+  };
+
+  /// JSON から復元
+  factory Milestone.fromJson(Map<String, dynamic> json) => Milestone(
+    id: MilestoneId(json['id'] as String),
+    title: MilestoneTitle(json['title'] as String),
+    deadline: MilestoneDeadline(DateTime.parse(json['deadline'] as String)),
+    goalId: json['goalId'] as String,
+  );
 }

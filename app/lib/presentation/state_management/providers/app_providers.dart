@@ -1,39 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/domain/repositories/goal_repository.dart';
-import 'package:app/domain/repositories/milestone_repository.dart';
-import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/infrastructure/persistence/hive/hive_goal_repository.dart';
-import 'package:app/infrastructure/persistence/hive/hive_milestone_repository.dart';
-import 'package:app/infrastructure/persistence/hive/hive_task_repository.dart';
+import 'repository_providers.dart';
 
-/// ======================== Repository Providers ========================
-
-/// GoalRepository インスタンスを提供
-///
-/// アプリケーション全体でGoalRepositoryを共有するため、
-/// シングルトンパターンで提供します。
-final goalRepositoryProvider = Provider<GoalRepository>((ref) {
-  return HiveGoalRepository();
-});
-
-/// MilestoneRepository インスタンスを提供
-///
-/// アプリケーション全体でMilestoneRepositoryを共有するため、
-/// シングルトンパターンで提供します。
-final milestoneRepositoryProvider = Provider<MilestoneRepository>((ref) {
-  return HiveMilestoneRepository();
-});
-
-/// TaskRepository インスタンスを提供
-///
-/// アプリケーション全体でTaskRepositoryを共有するため、
-/// シングルトンパターンで提供します。
-final taskRepositoryProvider = Provider<TaskRepository>((ref) {
-  return HiveTaskRepository();
-});
+// ======================== Repository Providers のエクスポート ========================
+// 他のスクリーンから簡単にアクセス可能にするため、再度エクスポート
+export 'repository_providers.dart'
+    show
+        goalRepositoryProvider,
+        milestoneRepositoryProvider,
+        taskRepositoryProvider;
 
 /// ======================== Goal Providers ========================
 

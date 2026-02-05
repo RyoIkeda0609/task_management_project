@@ -20,10 +20,6 @@ void main() {
         expect(repository, isNotNull);
       });
 
-      test('isInitializedメソッドが存在すること', () {
-        expect(repository.isInitialized, isFalse);
-      });
-
       test('getAllTasks メソッドが存在すること', () {
         expect(repository.getAllTasks, isNotNull);
       });

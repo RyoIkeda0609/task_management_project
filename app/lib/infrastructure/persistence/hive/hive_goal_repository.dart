@@ -1,29 +1,34 @@
+import 'dart:convert';
 import 'package:hive/hive.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 
 /// HiveGoalRepository - Hive を使用した Goal の永続化実装
 ///
-/// ローカル SQLite-like キー値ストア (Hive) にゴールデータを保存・取得する
+/// ローカル SQLite-like キー値ストア (Hive) にゴールデータを JSON 文字列として保存・取得する
+/// JSON ベースで保存するため、Hive のネイティブな TypeAdapter は不要です
 class HiveGoalRepository implements GoalRepository {
   static const String _boxName = 'goals';
-  late Box<Goal> _box;
-
-  /// Hive の初期化が完了しているか確認
-  bool get isInitialized => Hive.isAdapterRegistered(0);
+  late Box<String> _box;
 
   /// リポジトリを初期化する
   ///
   /// [initialize] を呼び出す前に、Hive が初期化されていることを確認してください
   /// 通常、アプリケーション起動時に main.dart で呼び出されます
   Future<void> initialize() async {
-    _box = await Hive.openBox<Goal>(_boxName);
+    // String ベースの Box を開く（JSON の文字列保存用）
+    _box = await Hive.openBox<String>(_boxName);
   }
 
   @override
   Future<List<Goal>> getAllGoals() async {
     try {
-      return _box.values.toList();
+      final goalList = <Goal>[];
+      for (final jsonString in _box.values) {
+        final json = jsonDecode(jsonString) as Map<String, dynamic>;
+        goalList.add(Goal.fromJson(json));
+      }
+      return goalList;
     } catch (e) {
       throw Exception('Failed to fetch all goals: $e');
     }
@@ -32,9 +37,10 @@ class HiveGoalRepository implements GoalRepository {
   @override
   Future<Goal?> getGoalById(String id) async {
     try {
-      // Hive では key:value で保存されているため、直接キーでアクセス
-      final goal = _box.get(id);
-      return goal;
+      final jsonString = _box.get(id);
+      if (jsonString == null) return null;
+      final json = jsonDecode(jsonString) as Map<String, dynamic>;
+      return Goal.fromJson(json);
     } catch (e) {
       throw Exception('Failed to fetch goal with id $id: $e');
     }
@@ -43,8 +49,8 @@ class HiveGoalRepository implements GoalRepository {
   @override
   Future<void> saveGoal(Goal goal) async {
     try {
-      // key に goal.id.value を使用
-      await _box.put(goal.id.value, goal);
+      final jsonString = jsonEncode(goal.toJson());
+      await _box.put(goal.id.value, jsonString);
     } catch (e) {
       throw Exception('Failed to save goal: $e');
     }

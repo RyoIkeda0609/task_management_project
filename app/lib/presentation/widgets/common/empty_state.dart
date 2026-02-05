@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
+import 'custom_button.dart';
 
 /// 空状態（EmptyState）Widget
 ///
@@ -66,9 +67,13 @@ class EmptyState extends StatelessWidget {
             // アクションボタン
             if (actionText != null && onActionPressed != null) ...[
               SizedBox(height: Spacing.large),
-              FilledButton(
-                onPressed: onActionPressed,
-                child: Text(actionText!),
+              SizedBox(
+                width: double.infinity,
+                child: CustomButton(
+                  text: actionText!,
+                  onPressed: onActionPressed,
+                  type: ButtonType.primary,
+                ),
               ),
             ],
           ],

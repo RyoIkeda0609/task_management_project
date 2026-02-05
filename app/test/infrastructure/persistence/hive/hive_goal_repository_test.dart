@@ -22,10 +22,6 @@ void main() {
         expect(repository, isNotNull);
       });
 
-      test('isInitialized プロパティが存在すること', () {
-        expect(repository.isInitialized, isFalse);
-      });
-
       test('getAllGoals メソッドが存在すること', () {
         expect(repository.getAllGoals, isNotNull);
       });

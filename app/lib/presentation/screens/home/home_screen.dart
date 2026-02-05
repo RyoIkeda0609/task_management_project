@@ -20,7 +20,11 @@ class HomeScreen extends ConsumerWidget {
     final goalsAsync = ref.watch(goalListProvider);
 
     return Scaffold(
-      appBar: CustomAppBar(title: '今日やることが分かるアプリ', hasLeading: false),
+      appBar: CustomAppBar(
+        title: 'ゴール一覧',
+        hasLeading: false,
+        backgroundColor: AppColors.neutral100,
+      ),
       body: goalsAsync.when(
         data: (goals) => _buildGoalList(context, goals),
         loading: () => const Center(child: CircularProgressIndicator()),

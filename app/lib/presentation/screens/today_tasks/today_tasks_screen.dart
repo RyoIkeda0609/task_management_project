@@ -22,7 +22,11 @@ class TodayTasksScreen extends ConsumerWidget {
     final tasksAsync = ref.watch(taskListProvider);
 
     return Scaffold(
-      appBar: CustomAppBar(title: '今日のタスク', hasLeading: false),
+      appBar: CustomAppBar(
+        title: '今日のタスク',
+        hasLeading: false,
+        backgroundColor: AppColors.neutral100,
+      ),
       body: tasksAsync.when(
         data: (allTasks) => _buildContent(context, allTasks),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -51,7 +55,12 @@ class TodayTasksScreen extends ConsumerWidget {
         title: '今日のタスクはありません',
         message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
         actionText: 'ホームに戻る',
-        onActionPressed: () => Navigator.of(context).pop(),
+        onActionPressed: () {
+          // named route で home に移動（スタック状態をリセット）
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil('/home', (route) => false);
+        },
       );
     }
 
@@ -295,6 +304,15 @@ class TodayTasksScreen extends ConsumerWidget {
           const Icon(Icons.error_outline, size: 64, color: Colors.red),
           SizedBox(height: Spacing.medium),
           Text('エラーが発生しました', style: AppTextStyles.titleMedium),
+          SizedBox(height: Spacing.small),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: Spacing.large),
+            child: Text(
+              error.toString(),
+              style: AppTextStyles.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     );

@@ -35,16 +35,17 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  /// 初回起動フロー制御：ゴール有無でオンボーディング/ホームを判定
+  /// 初回起動フロー制御：オンボーディング完了フラグを確認
   Future<void> _performInitialNavigation() async {
     try {
-      // ここではシンプルにオンボーディング画面へ遷移
-      // 本来は Riverpod でゴール数を確認してから判定
+      // SharedPreferences または 他の永続化機構でオンボーディング完了フラグを確認
+      // 現在は簡易実装：常にオンボーディング画面を表示する初回フローに戻す
+      // TODO: 実装時にフラグをチェックして分岐
       Navigator.of(
         context,
       ).pushNamedAndRemoveUntil(AppRouter.onboarding, (route) => false);
     } catch (e) {
-      // エラー時もオンボーディング画面へ
+      // エラー時はオンボーディング画面へ
       Navigator.of(
         context,
       ).pushNamedAndRemoveUntil(AppRouter.onboarding, (route) => false);

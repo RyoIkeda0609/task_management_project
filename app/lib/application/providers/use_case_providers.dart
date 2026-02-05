@@ -19,9 +19,7 @@ import 'package:app/application/use_cases/progress/calculate_progress_use_case.d
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/infrastructure/persistence/hive/hive_goal_repository.dart';
-import 'package:app/infrastructure/persistence/hive/hive_milestone_repository.dart';
-import 'package:app/infrastructure/persistence/hive/hive_task_repository.dart';
+import 'package:app/presentation/state_management/providers/repository_providers.dart';
 
 // ==================== Goal UseCase Providers ====================
 
@@ -129,8 +127,6 @@ final getAllTasksTodayUseCaseProvider = Provider<GetAllTasksTodayUseCase>((
   return GetAllTasksTodayUseCaseImpl(ref.watch(taskRepositoryProvider));
 });
 
-// ==================== Progress UseCase Providers ====================
-
 /// CalculateProgressUseCase Provider
 final calculateProgressUseCaseProvider = Provider<CalculateProgressUseCase>((
   ref,
@@ -140,21 +136,4 @@ final calculateProgressUseCaseProvider = Provider<CalculateProgressUseCase>((
     ref.watch(milestoneRepositoryProvider),
     ref.watch(taskRepositoryProvider),
   );
-});
-
-// ==================== Repository Providers ====================
-
-/// GoalRepository Provider - Hive based implementation
-final goalRepositoryProvider = Provider<GoalRepository>((ref) {
-  return HiveGoalRepository();
-});
-
-/// MilestoneRepository Provider - Hive based implementation
-final milestoneRepositoryProvider = Provider<MilestoneRepository>((ref) {
-  return HiveMilestoneRepository();
-});
-
-/// TaskRepository Provider - Hive based implementation
-final taskRepositoryProvider = Provider<TaskRepository>((ref) {
-  return HiveTaskRepository();
 });

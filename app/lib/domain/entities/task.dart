@@ -71,4 +71,24 @@ class Task {
 
   @override
   String toString() => 'Task(id: $id, title: $title, status: ${status.value})';
+
+  /// JSON に変換
+  Map<String, dynamic> toJson() => {
+    'id': id.value,
+    'title': title.value,
+    'description': description.value,
+    'deadline': deadline.value.toIso8601String(),
+    'status': status.value,
+    'milestoneId': milestoneId,
+  };
+
+  /// JSON から復元
+  factory Task.fromJson(Map<String, dynamic> json) => Task(
+    id: TaskId(json['id'] as String),
+    title: TaskTitle(json['title'] as String),
+    description: TaskDescription(json['description'] as String),
+    deadline: TaskDeadline(DateTime.parse(json['deadline'] as String)),
+    status: TaskStatus(json['status'] as String),
+    milestoneId: json['milestoneId'] as String,
+  );
 }
