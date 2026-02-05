@@ -4,8 +4,13 @@ import '../screens/onboarding/onboarding_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/goal/goal_create_screen.dart';
 import '../screens/goal/goal_detail_screen.dart';
+import '../screens/goal/goal_edit_screen.dart';
 import '../screens/milestone/milestone_create_screen.dart';
+import '../screens/milestone/milestone_detail_screen.dart';
+import '../screens/milestone/milestone_edit_screen.dart';
 import '../screens/task/task_detail_screen.dart';
+import '../screens/task/task_create_screen.dart';
+import '../screens/today_tasks/today_tasks_screen.dart';
 import '../screens/settings/settings_screen.dart';
 
 /// アプリケーションのルーティング管理
@@ -59,7 +64,8 @@ class AppRouter {
   /// 設定画面ルート
   static const String settings = '/settings';
 
-  /// ===================== Route Generation =====================
+  /// 今日のタスク画面ルート
+  static const String todayTasks = '/today_tasks';
 
   /// ルートから対応するWidgetを生成
   ///
@@ -80,31 +86,26 @@ class AppRouter {
       return _buildRoute(GoalDetailScreen(goalId: goalId ?? ''));
     } else if (routeName == goalEdit) {
       final goalId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Goal Edit Screen: $goalId'))),
-      );
+      return _buildRoute(GoalEditScreen(goalId: goalId ?? ''));
     } else if (routeName == milestoneCreate) {
       final goalId = settings.arguments as String?;
       return _buildRoute(MilestoneCreateScreen(goalId: goalId ?? ''));
     } else if (routeName == milestoneDetail) {
       final milestoneId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(
-          body: Center(child: Text('Milestone Detail Screen: $milestoneId')),
-        ),
-      );
+      return _buildRoute(MilestoneDetailScreen(milestoneId: milestoneId ?? ''));
     } else if (routeName == milestoneEdit) {
       final milestoneId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(
-          body: Center(child: Text('Milestone Edit Screen: $milestoneId')),
-        ),
-      );
+      return _buildRoute(MilestoneEditScreen(milestoneId: milestoneId ?? ''));
     } else if (routeName == taskCreate) {
-      final milestoneId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Task Create Screen: $milestoneId'))),
-      );
+      final arguments = settings.arguments;
+      if (arguments is Map<String, dynamic>) {
+        return _buildRoute(TaskCreateScreen(arguments: arguments));
+      } else if (arguments is String) {
+        return _buildRoute(
+          TaskCreateScreen(arguments: {'milestoneId': arguments}),
+        );
+      }
+      return _buildRoute(const TaskCreateScreen());
     } else if (routeName == taskDetail) {
       final taskId = settings.arguments as String?;
       return _buildRoute(TaskDetailScreen(taskId: taskId ?? ''));
@@ -118,6 +119,8 @@ class AppRouter {
       return _buildRoute(
         Scaffold(body: Center(child: Text('Task Complete Screen: $taskId'))),
       );
+    } else if (routeName == todayTasks) {
+      return _buildRoute(const TodayTasksScreen());
     } else if (routeName == AppRouter.settings) {
       return _buildRoute(const SettingsScreen());
     } else {
