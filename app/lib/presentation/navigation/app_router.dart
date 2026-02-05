@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import '../screens/splash/splash_screen.dart';
+import '../screens/onboarding/onboarding_screen.dart';
+import '../screens/home/home_screen.dart';
+import '../screens/goal/goal_create_screen.dart';
+import '../screens/goal/goal_detail_screen.dart';
+import '../screens/milestone/milestone_create_screen.dart';
+import '../screens/task/task_detail_screen.dart';
+import '../screens/settings/settings_screen.dart';
 
 /// アプリケーションのルーティング管理
 ///
@@ -60,45 +68,25 @@ class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final routeName = settings.name;
     if (routeName == splash) {
-      // TODO: SplashScreen をインポートして使用
-      return _buildRoute(
-        const Scaffold(body: Center(child: CircularProgressIndicator())),
-      );
+      return _buildRoute(const SplashScreen());
     } else if (routeName == onboarding) {
-      // TODO: OnboardingScreen をインポートして使用
-      return _buildRoute(
-        const Scaffold(body: Center(child: Text('Onboarding Screen'))),
-      );
+      return _buildRoute(const OnboardingScreen());
     } else if (routeName == home) {
-      // TODO: HomeScreen をインポートして使用
-      return _buildRoute(
-        const Scaffold(body: Center(child: Text('Home Screen'))),
-      );
+      return _buildRoute(const HomeScreen());
     } else if (routeName == goalCreate) {
-      // TODO: GoalCreateScreen をインポートして使用
-      return _buildRoute(
-        const Scaffold(body: Center(child: Text('Goal Create Screen'))),
-      );
+      return _buildRoute(const GoalCreateScreen());
     } else if (routeName == goalDetail) {
-      // TODO: GoalDetailScreen をインポートして使用
       final goalId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Goal Detail Screen: $goalId'))),
-      );
+      return _buildRoute(GoalDetailScreen(goalId: goalId ?? ''));
     } else if (routeName == goalEdit) {
-      // TODO: GoalEditScreen をインポートして使用
       final goalId = settings.arguments as String?;
       return _buildRoute(
         Scaffold(body: Center(child: Text('Goal Edit Screen: $goalId'))),
       );
     } else if (routeName == milestoneCreate) {
-      // TODO: MilestoneCreateScreen をインポートして使用
       final goalId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Milestone Create Screen: $goalId'))),
-      );
+      return _buildRoute(MilestoneCreateScreen(goalId: goalId ?? ''));
     } else if (routeName == milestoneDetail) {
-      // TODO: MilestoneDetailScreen をインポートして使用
       final milestoneId = settings.arguments as String?;
       return _buildRoute(
         Scaffold(
@@ -106,7 +94,6 @@ class AppRouter {
         ),
       );
     } else if (routeName == milestoneEdit) {
-      // TODO: MilestoneEditScreen をインポートして使用
       final milestoneId = settings.arguments as String?;
       return _buildRoute(
         Scaffold(
@@ -114,34 +101,25 @@ class AppRouter {
         ),
       );
     } else if (routeName == taskCreate) {
-      // TODO: TaskCreateScreen をインポートして使用
       final milestoneId = settings.arguments as String?;
       return _buildRoute(
         Scaffold(body: Center(child: Text('Task Create Screen: $milestoneId'))),
       );
     } else if (routeName == taskDetail) {
-      // TODO: TaskDetailScreen をインポートして使用
       final taskId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Task Detail Screen: $taskId'))),
-      );
+      return _buildRoute(TaskDetailScreen(taskId: taskId ?? ''));
     } else if (routeName == taskEdit) {
-      // TODO: TaskEditScreen をインポートして使用
       final taskId = settings.arguments as String?;
       return _buildRoute(
         Scaffold(body: Center(child: Text('Task Edit Screen: $taskId'))),
       );
     } else if (routeName == taskComplete) {
-      // TODO: TaskCompleteScreen をインポートして使用
       final taskId = settings.arguments as String?;
       return _buildRoute(
         Scaffold(body: Center(child: Text('Task Complete Screen: $taskId'))),
       );
     } else if (routeName == AppRouter.settings) {
-      // TODO: SettingsScreen をインポートして使用
-      return _buildRoute(
-        const Scaffold(body: Center(child: Text('Settings Screen'))),
-      );
+      return _buildRoute(const SettingsScreen());
     } else {
       return _buildRoute(
         Scaffold(body: Center(child: Text('ルート不存在: ${settings.name}'))),
@@ -149,7 +127,7 @@ class AppRouter {
     }
   }
 
-  /// マテリアルペーの遷移アニメーション付きRoute を生成
+  /// マテリアルページの遷移アニメーション付きRoute を生成
   static MaterialPageRoute<dynamic> _buildRoute(Widget widget) {
     return MaterialPageRoute(builder: (_) => widget);
   }
