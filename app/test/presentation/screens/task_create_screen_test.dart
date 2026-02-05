@@ -12,10 +12,7 @@ void main() {
                 TextField(
                   decoration: const InputDecoration(labelText: 'Task Name'),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Create'),
-                ),
+                ElevatedButton(onPressed: () {}, child: const Text('Create')),
               ],
             ),
           ),

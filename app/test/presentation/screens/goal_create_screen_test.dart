@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('GoalCreateScreen Structure', () {
-    testWidgets('form with text fields can be rendered', (WidgetTester tester) async {
+    testWidgets('form with text fields can be rendered', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -12,10 +14,7 @@ void main() {
                 TextField(
                   decoration: const InputDecoration(labelText: 'Goal Name'),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Create'),
-                ),
+                ElevatedButton(onPressed: () {}, child: const Text('Create')),
               ],
             ),
           ),

@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('MilestoneDetailScreen Structure', () {
-    testWidgets('milestone detail layout can be rendered', (WidgetTester tester) async {
+    testWidgets('milestone detail layout can be rendered', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

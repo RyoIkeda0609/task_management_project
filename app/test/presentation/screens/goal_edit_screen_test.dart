@@ -13,10 +13,7 @@ void main() {
                 TextField(
                   decoration: const InputDecoration(labelText: 'Goal Name'),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Update'),
-                ),
+                ElevatedButton(onPressed: () {}, child: const Text('Update')),
               ],
             ),
           ),

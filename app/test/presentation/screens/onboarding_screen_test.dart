@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('OnboardingScreen Structure', () {
-    testWidgets('onboarding layout can be rendered', (WidgetTester tester) async {
+    testWidgets('onboarding layout can be rendered', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -11,10 +13,7 @@ void main() {
               children: [
                 Expanded(
                   child: PageView(
-                    children: const [
-                      Text('Page 1'),
-                      Text('Page 2'),
-                    ],
+                    children: const [Text('Page 1'), Text('Page 2')],
                   ),
                 ),
                 const Text('Indicators'),

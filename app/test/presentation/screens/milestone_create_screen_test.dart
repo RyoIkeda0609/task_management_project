@@ -10,12 +10,11 @@ void main() {
             body: Column(
               children: [
                 TextField(
-                  decoration: const InputDecoration(labelText: 'Milestone Name'),
+                  decoration: const InputDecoration(
+                    labelText: 'Milestone Name',
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Create'),
-                ),
+                ElevatedButton(onPressed: () {}, child: const Text('Create')),
               ],
             ),
           ),

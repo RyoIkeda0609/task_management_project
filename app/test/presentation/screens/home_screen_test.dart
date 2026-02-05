@@ -6,11 +6,7 @@ void main() {
     testWidgets('home screen widget exists', (WidgetTester tester) async {
       // Test basic structure without Riverpod
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Text('Home Screen'),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: Text('Home Screen'))),
       );
 
       expect(find.text('Home Screen'), findsOneWidget);

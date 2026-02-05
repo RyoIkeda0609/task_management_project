@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('TaskDetailScreen Structure', () {
-    testWidgets('task detail layout can be rendered', (WidgetTester tester) async {
+    testWidgets('task detail layout can be rendered', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

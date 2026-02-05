@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('TodayTasksScreen Structure', () {
-    testWidgets('today tasks layout can be rendered', (WidgetTester tester) async {
+    testWidgets('today tasks layout can be rendered', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -11,9 +13,7 @@ void main() {
             body: const Column(
               children: [
                 Text('Progress: 50%'),
-                Expanded(
-                  child: Text('Tasks List'),
-                ),
+                Expanded(child: Text('Tasks List')),
               ],
             ),
           ),
