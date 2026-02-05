@@ -207,19 +207,23 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
 
   Color _getStatusBackgroundColor(dynamic status) {
     final statusStr = status?.toString() ?? 'unknown';
-    if (statusStr.contains('done'))
+    if (statusStr.contains('done')) {
       return AppColors.success.withValues(alpha: 0.1);
-    if (statusStr.contains('doing'))
+    }
+    if (statusStr.contains('doing')) {
       return AppColors.warning.withValues(alpha: 0.1);
+    }
     return AppColors.neutral100;
   }
 
   Color _getStatusBorderColor(dynamic status) {
     final statusStr = status?.toString() ?? 'unknown';
-    if (statusStr.contains('done'))
+    if (statusStr.contains('done')) {
       return AppColors.success.withValues(alpha: 0.3);
-    if (statusStr.contains('doing'))
+    }
+    if (statusStr.contains('doing')) {
       return AppColors.warning.withValues(alpha: 0.3);
+    }
     return AppColors.neutral300;
   }
 

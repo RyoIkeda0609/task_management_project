@@ -1,0 +1,113 @@
+00:00 +0: loading C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/app_bar_common_test.dart
+00:00 +0: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/app_bar_common_test.dart: CustomAppBar displays title correctly
+test/presentation/widgets/progress_indicator_test.dart:71:15: Error: No named parameter with the name 'showPercentage'.
+              showPercentage: true,
+              ^^^^^^^^^^^^^^
+lib/presentation/widgets/common/progress_indicator.dart:25:9: Context: Found this candidate, but the arguments don't match.
+  const ProgressIndicator({
+        ^^^^^^^^^^^^^^^^^
+test/presentation/widgets/progress_indicator_test.dart:87:15: Error: No named parameter with the name 'showPercentage'.
+              showPercentage: false,
+              ^^^^^^^^^^^^^^
+lib/presentation/widgets/common/progress_indicator.dart:25:9: Context: Found this candidate, but the arguments don't match.
+  const ProgressIndicator({
+        ^^^^^^^^^^^^^^^^^
+test/presentation/widgets/progress_indicator_test.dart:103:15: Error: No named parameter with the name 'showPercentage'.
+              showPercentage: true,
+              ^^^^^^^^^^^^^^
+lib/presentation/widgets/common/progress_indicator.dart:25:9: Context: Found this candidate, but the arguments don't match.
+  const ProgressIndicator({
+        ^^^^^^^^^^^^^^^^^
+00:00 +0 -1: loading C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart [E]
+  Failed to load "C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart":
+  Compilation failed for testPath=C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: test/presentation/widgets/progress_indicator_test.dart:71:15: Error: No named parameter with the name 'showPercentage'.
+                showPercentage: true,
+                ^^^^^^^^^^^^^^
+  lib/presentation/widgets/common/progress_indicator.dart:25:9: Context: Found this candidate, but the arguments don't match.
+    const ProgressIndicator({
+          ^^^^^^^^^^^^^^^^^
+  test/presentation/widgets/progress_indicator_test.dart:87:15: Error: No named parameter with the name 'showPercentage'.
+                showPercentage: false,
+                ^^^^^^^^^^^^^^
+  lib/presentation/widgets/common/progress_indicator.dart:25:9: Context: Found this candidate, but the arguments don't match.
+    const ProgressIndicator({
+          ^^^^^^^^^^^^^^^^^
+  test/presentation/widgets/progress_indicator_test.dart:103:15: Error: No named parameter with the name 'showPercentage'.
+                showPercentage: true,
+                ^^^^^^^^^^^^^^
+  lib/presentation/widgets/common/progress_indicator.dart:25:9: Context: Found this candidate, but the arguments don't match.
+    const ProgressIndicator({
+          ^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -2: loading C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/app_bar_common_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 911:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone.dart 1538:47                     _rootRunUnary
+  dart:async/zone.dart 1429:19                     _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone.dart 1525:13                     _rootRun
+  dart:async/zone.dart 1422:19                     _CustomZone.run
+  dart:async/zone.dart 1321:7                      _CustomZone.runGuarded
+  dart:async/zone.dart 1362:23                     _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:00 +1 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:00 +2 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:00 +3 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:00 +4 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:00 +5 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:00 +6 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:00 +7 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:00 +8 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:00 +9 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:01 +10 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:01 +11 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:01 +12 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:01 +13 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:01 +14 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/dialog_helper_test.dart: DialogHelper alert dialog can display title and message
+00:01 +15 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/dialog_helper_test.dart: DialogHelper alert dialog can display title and message
+00:01 +16 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/dialog_helper_test.dart: DialogHelper alert dialog can display title and message
+00:01 +17 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +18 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +19 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +20 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +21 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +22 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +23 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:01 +24 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField accepts text input
+00:01 +25 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField accepts text input
+00:01 +26 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField accepts text input
+00:01 +27 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField accepts text input
+00:01 +28 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/dialog_helper_test.dart: DialogHelper info dialog can be created
+00:01 +29 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays message correctly
+00:01 +30 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField calls onChanged callback
+00:01 +31 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField calls onChanged callback
+00:01 +32 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays initial value
+00:01 +33 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState action button callback is triggered
+00:01 +34 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState action button callback is triggered
+00:01 +35 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState action button callback is triggered
+00:01 +36 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField prefix icon is displayed
+00:01 +37 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState does not display button when actionText is null
+00:01 +38 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField suffix icon is displayed
+00:01 +39 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField suffix icon is displayed
+00:01 +40 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField reads initial value correctly
+00:01 +41 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField respects maxLength property
+00:01 +42 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays keyboard type correctly
+00:01 +43 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField read-only mode prevents editing
+00:01 +44 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField suffix icon callback is triggered on tap
+00:01 +45 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:02 +46 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Doing status correctly
+00:02 +47 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Done status correctly
+00:02 +48 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge small size renders correctly
+00:02 +49 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge medium size renders correctly
+00:02 +50 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge large size renders correctly
+00:02 +51 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays status text
+00:02 +52 -2: Some tests failed.
