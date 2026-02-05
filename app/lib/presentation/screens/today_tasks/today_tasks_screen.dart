@@ -22,11 +22,7 @@ class TodayTasksScreen extends ConsumerWidget {
     final tasksAsync = ref.watch(taskListProvider);
 
     return Scaffold(
-      appBar: CustomAppBar(
-        title: '今日のタスク',
-        hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
-      ),
+      appBar: CustomAppBar(title: '今日のタスク', hasLeading: false),
       body: tasksAsync.when(
         data: (allTasks) => _buildContent(context, allTasks),
         loading: () => const Center(child: CircularProgressIndicator()),

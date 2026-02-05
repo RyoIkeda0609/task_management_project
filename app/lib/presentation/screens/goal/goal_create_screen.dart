@@ -98,8 +98,10 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
           ),
         );
 
-        // ホーム画面に戻る
-        Navigator.of(context).pop();
+        // ホーム画面へナビゲート（初回起動フロー完了）
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil('/home', (route) => false);
       }
     } catch (e) {
       if (mounted) {

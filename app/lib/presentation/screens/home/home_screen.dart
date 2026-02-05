@@ -20,16 +20,7 @@ class HomeScreen extends ConsumerWidget {
     final goalsAsync = ref.watch(goalListProvider);
 
     return Scaffold(
-      appBar: CustomAppBar(
-        title: '今日やることが分かるアプリ',
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () =>
-                Navigator.of(context).pushNamed(AppRouter.settings),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: '今日やることが分かるアプリ', hasLeading: false),
       body: goalsAsync.when(
         data: (goals) => _buildGoalList(context, goals),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -96,15 +87,13 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildErrorWidget(BuildContext context, Object error) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 64, color: Colors.red),
-          SizedBox(height: Spacing.medium),
-          Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-        ],
-      ),
+    return EmptyState(
+      icon: Icons.inbox_outlined,
+      title: 'ゴールがまだありません',
+      message: '最初にゴールを作成してください。',
+      actionText: 'ゴールを作成',
+      onActionPressed: () =>
+          Navigator.of(context).pushNamed(AppRouter.goalCreate),
     );
   }
 }

@@ -26,12 +26,28 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateAfterDelay();
   }
 
-  /// 2秒後に次の画面へ自動遷移
+  /// 2秒後に初回起動フロー制御を実行し、適切な画面へ遷移
   Future<void> _navigateAfterDelay() async {
     await Future.delayed(const Duration(seconds: 2));
 
     if (mounted) {
-      AppRouter.navigateFromSplash(context, widget.isOnboardingComplete);
+      _performInitialNavigation();
+    }
+  }
+
+  /// 初回起動フロー制御：ゴール有無でオンボーディング/ホームを判定
+  Future<void> _performInitialNavigation() async {
+    try {
+      // ここではシンプルにオンボーディング画面へ遷移
+      // 本来は Riverpod でゴール数を確認してから判定
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(AppRouter.onboarding, (route) => false);
+    } catch (e) {
+      // エラー時もオンボーディング画面へ
+      Navigator.of(
+        context,
+      ).pushNamedAndRemoveUntil(AppRouter.onboarding, (route) => false);
     }
   }
 

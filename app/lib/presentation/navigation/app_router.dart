@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/onboarding/onboarding_screen.dart';
-import '../screens/home/home_screen.dart';
+import '../screens/home/home_navigation_shell.dart';
 import '../screens/goal/goal_create_screen.dart';
 import '../screens/goal/goal_detail_screen.dart';
 import '../screens/goal/goal_edit_screen.dart';
@@ -10,7 +10,6 @@ import '../screens/milestone/milestone_detail_screen.dart';
 import '../screens/milestone/milestone_edit_screen.dart';
 import '../screens/task/task_detail_screen.dart';
 import '../screens/task/task_create_screen.dart';
-import '../screens/today_tasks/today_tasks_screen.dart';
 import '../screens/settings/settings_screen.dart';
 
 /// アプリケーションのルーティング管理
@@ -78,7 +77,7 @@ class AppRouter {
     } else if (routeName == onboarding) {
       return _buildRoute(const OnboardingScreen());
     } else if (routeName == home) {
-      return _buildRoute(const HomeScreen());
+      return _buildRoute(const HomeNavigationShell());
     } else if (routeName == goalCreate) {
       return _buildRoute(const GoalCreateScreen());
     } else if (routeName == goalDetail) {
@@ -119,8 +118,6 @@ class AppRouter {
       return _buildRoute(
         Scaffold(body: Center(child: Text('Task Complete Screen: $taskId'))),
       );
-    } else if (routeName == todayTasks) {
-      return _buildRoute(const TodayTasksScreen());
     } else if (routeName == AppRouter.settings) {
       return _buildRoute(const SettingsScreen());
     } else {
