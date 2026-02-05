@@ -112,6 +112,9 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
       // リポジトリに保存
       await goalRepository.saveGoal(newGoal);
 
+      // goalListProvider のキャッシュを無効化して、ホーム画面で最新のゴール一覧を取得
+      ref.invalidate(goalListProvider);
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -7,6 +7,11 @@ import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../widgets/common/dialog_helper.dart';
+import '../../../domain/entities/milestone.dart';
+import '../../../domain/value_objects/milestone/milestone_id.dart';
+import '../../../domain/value_objects/milestone/milestone_title.dart';
+import '../../../domain/value_objects/milestone/milestone_deadline.dart';
+import '../../state_management/providers/app_providers.dart';
 
 /// マイルストーン作成画面
 ///
@@ -181,16 +186,45 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
       return;
     }
 
-    // 作成完了メッセージ
-    DialogHelper.showSuccessDialog(
-      context,
-      title: 'マイルストーン作成',
-      message: 'マイルストーン「$_title」を作成しました。',
-    ).then((_) {
+    _createMilestone();
+  }
+
+  Future<void> _createMilestone() async {
+    try {
+      // Milestone エンティティを作成
+      final newMilestone = Milestone(
+        id: MilestoneId.generate(),
+        title: MilestoneTitle(_title),
+        deadline: MilestoneDeadline(_selectedTargetDate!),
+        goalId: widget.goalId,
+      );
+
+      // リポジトリに保存（ref は ConsumerState で利用可能）
+      final milestoneRepository = ref.read(milestoneRepositoryProvider);
+      await milestoneRepository.saveMilestone(newMilestone);
+
+      // milestonesByGoalIdProvider のキャッシュを無効化
+      ref.invalidate(milestonesByGoalIdProvider(widget.goalId));
+
       if (mounted) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        DialogHelper.showSuccessDialog(
+          context,
+          title: 'マイルストーン作成',
+          message: 'マイルストーン「$_title」を作成しました。',
+        ).then((_) {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
       }
-    });
+    } catch (e) {
+      if (mounted) {
+        DialogHelper.showErrorDialog(
+          context,
+          title: 'エラー',
+          message: 'マイルストーンの作成に失敗しました: $e',
+        );
+      }
+    }
   }
 }

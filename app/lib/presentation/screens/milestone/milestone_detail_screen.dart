@@ -157,7 +157,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
               return const SizedBox.shrink();
             }
             final task = tasks[taskIndex];
-            return _buildTaskItem(context, task);
+            return _buildTaskItem(context, ref, task);
           }, childCount: tasks.length + 1),
         );
       },
@@ -172,7 +172,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTaskItem(BuildContext context, Task task) {
+  Widget _buildTaskItem(BuildContext context, WidgetRef ref, Task task) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: Spacing.medium,
@@ -220,6 +220,27 @@ class MilestoneDetailScreen extends ConsumerWidget {
                 StatusBadge(
                   status: _mapTaskStatus(task.status),
                   size: BadgeSize.small,
+                ),
+                SizedBox(width: Spacing.small),
+                // メニューボタン
+                PopupMenuButton(
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: const Text('ステータス変更'),
+                      onTap: () {
+                        // TODO: ステータス変更機能
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: const Text(
+                        '削除',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onTap: () {
+                        _showDeleteTaskDialog(context, ref, task);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -283,6 +304,47 @@ class MilestoneDetailScreen extends ConsumerWidget {
     Navigator.of(
       context,
     ).pushNamed(AppRouter.taskCreate, arguments: {'milestoneId': milestoneId});
+  }
+
+  void _showDeleteTaskDialog(BuildContext context, WidgetRef ref, Task task) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('タスク削除'),
+        content: Text('「${task.title.value}」を削除してもよろしいですか？'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              try {
+                final taskRepository = ref.read(taskRepositoryProvider);
+                await taskRepository.deleteTask(task.id.value);
+
+                // タスク一覧をリフレッシュ
+                ref.invalidate(tasksByMilestoneIdProvider(milestoneId));
+
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
+                }
+              }
+            },
+            child: const Text('削除', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   void _navigateToTaskDetail(BuildContext context, String taskId) {

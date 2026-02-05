@@ -7,6 +7,13 @@ import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../widgets/common/dialog_helper.dart';
+import '../../../domain/entities/task.dart';
+import '../../../domain/value_objects/task/task_id.dart';
+import '../../../domain/value_objects/task/task_title.dart';
+import '../../../domain/value_objects/task/task_description.dart';
+import '../../../domain/value_objects/task/task_deadline.dart';
+import '../../../domain/value_objects/task/task_status.dart';
+import '../../state_management/providers/app_providers.dart';
 
 /// タスク作成画面
 ///
@@ -199,16 +206,49 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
       return;
     }
 
-    // 作成完了メッセージ
-    DialogHelper.showSuccessDialog(
-      context,
-      title: 'タスク作成',
-      message: 'タスク「$_title」を作成しました。',
-    ).then((_) {
+    _createTask();
+  }
+
+  Future<void> _createTask() async {
+    try {
+      // Task エンティティを作成
+      final newTask = Task(
+        id: TaskId.generate(),
+        title: TaskTitle(_title),
+        description: TaskDescription(
+          _description.isNotEmpty ? _description : '',
+        ),
+        deadline: TaskDeadline(_selectedDeadline!),
+        status: TaskStatus.todo(),
+        milestoneId: _milestoneId,
+      );
+
+      // リポジトリに保存（ref は ConsumerState で利用可能）
+      final taskRepository = ref.read(taskRepositoryProvider);
+      await taskRepository.saveTask(newTask);
+
+      // tasksByMilestoneIdProvider のキャッシュを無効化
+      ref.invalidate(tasksByMilestoneIdProvider(_milestoneId));
+
       if (mounted) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        DialogHelper.showSuccessDialog(
+          context,
+          title: 'タスク作成',
+          message: 'タスク「$_title」を作成しました。',
+        ).then((_) {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
       }
-    });
+    } catch (e) {
+      if (mounted) {
+        DialogHelper.showErrorDialog(
+          context,
+          title: 'エラー',
+          message: 'タスクの作成に失敗しました: $e',
+        );
+      }
+    }
   }
 }
