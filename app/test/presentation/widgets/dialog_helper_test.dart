@@ -3,8 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DialogHelper', () {
-    testWidgets('alert dialog can display title and message',
-        (WidgetTester tester) async {
+    testWidgets('alert dialog can display title and message', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -20,8 +21,9 @@ void main() {
       expect(find.text('Test message'), findsOneWidget);
     });
 
-    testWidgets('alert dialog with buttons can be created',
-        (WidgetTester tester) async {
+    testWidgets('alert dialog with buttons can be created', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -29,14 +31,8 @@ void main() {
               title: const Text('Confirm'),
               content: const Text('Are you sure?'),
               actions: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('Cancel'),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text('OK'),
-                ),
+                TextButton(onPressed: () {}, child: const Text('Cancel')),
+                TextButton(onPressed: () {}, child: const Text('OK')),
               ],
             ),
           ),

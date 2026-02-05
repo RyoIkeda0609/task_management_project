@@ -17,8 +17,9 @@ void main() {
             body: Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(tester.element(find.byType(ElevatedButton)))
-                      .pushNamed('/home');
+                  Navigator.of(
+                    tester.element(find.byType(ElevatedButton)),
+                  ).pushNamed('/home');
                 },
                 child: const Text('Navigate'),
               ),
@@ -40,9 +41,7 @@ void main() {
                 child: const Text('Go to Detail'),
               ),
             ),
-            '/detail': (context) => Scaffold(
-              body: const Text('Detail Page'),
-            ),
+            '/detail': (context) => Scaffold(body: const Text('Detail Page')),
           },
         ),
       );
@@ -84,8 +83,9 @@ void main() {
       expect(find.text('Go Forward'), findsOneWidget);
     });
 
-    testWidgets('multiple routes can be configured',
-        (WidgetTester tester) async {
+    testWidgets('multiple routes can be configured', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           routes: {
@@ -99,8 +99,9 @@ void main() {
       expect(find.text('Home'), findsOneWidget);
     });
 
-    testWidgets('route state is maintained during navigation',
-        (WidgetTester tester) async {
+    testWidgets('route state is maintained during navigation', (
+      WidgetTester tester,
+    ) async {
       int counter = 0;
 
       await tester.pumpWidget(

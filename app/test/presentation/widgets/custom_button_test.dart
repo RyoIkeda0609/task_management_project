@@ -8,10 +8,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomButton(
-              text: 'Test Button',
-              onPressed: () {},
-            ),
+            body: CustomButton(text: 'Test Button', onPressed: () {}),
           ),
         ),
       );
@@ -19,8 +16,9 @@ void main() {
       expect(find.text('Test Button'), findsOneWidget);
     });
 
-    testWidgets('primary button has correct background color',
-        (WidgetTester tester) async {
+    testWidgets('primary button has correct background color', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -37,8 +35,9 @@ void main() {
       expect(filledButton, findsOneWidget);
     });
 
-    testWidgets('secondary button has correct style',
-        (WidgetTester tester) async {
+    testWidgets('secondary button has correct style', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -89,17 +88,15 @@ void main() {
       expect(textButton, findsOneWidget);
     });
 
-    testWidgets('onPressed callback is triggered on tap',
-        (WidgetTester tester) async {
+    testWidgets('onPressed callback is triggered on tap', (
+      WidgetTester tester,
+    ) async {
       bool pressed = false;
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomButton(
-              text: 'Tap Me',
-              onPressed: () => pressed = true,
-            ),
+            body: CustomButton(text: 'Tap Me', onPressed: () => pressed = true),
           ),
         ),
       );
@@ -110,16 +107,12 @@ void main() {
       expect(pressed, true);
     });
 
-    testWidgets('button is disabled when onPressed is null',
-        (WidgetTester tester) async {
+    testWidgets('button is disabled when onPressed is null', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CustomButton(
-              text: 'Disabled',
-              onPressed: null,
-            ),
-          ),
+          home: Scaffold(body: CustomButton(text: 'Disabled', onPressed: null)),
         ),
       );
 
@@ -127,8 +120,7 @@ void main() {
       expect(find.text('Disabled'), findsOneWidget);
     });
 
-    testWidgets('button respects isDisabled flag',
-        (WidgetTester tester) async {
+    testWidgets('button respects isDisabled flag', (WidgetTester tester) async {
       bool pressed = false;
 
       await tester.pumpWidget(
@@ -150,7 +142,9 @@ void main() {
       expect(pressed, false);
     });
 
-    testWidgets('button displays loading indicator', (WidgetTester tester) async {
+    testWidgets('button displays loading indicator', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -166,8 +160,9 @@ void main() {
       expect(find.byType(SizedBox), findsWidgets);
     });
 
-    testWidgets('button displays icon when provided',
-        (WidgetTester tester) async {
+    testWidgets('button displays icon when provided', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

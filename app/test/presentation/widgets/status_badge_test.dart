@@ -7,11 +7,7 @@ void main() {
     testWidgets('displays Todo status correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(
-              status: 'todo',
-            ),
-          ),
+          home: Scaffold(body: StatusBadge(status: 'todo')),
         ),
       );
 
@@ -21,11 +17,7 @@ void main() {
     testWidgets('displays Doing status correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(
-              status: 'doing',
-            ),
-          ),
+          home: Scaffold(body: StatusBadge(status: 'doing')),
         ),
       );
 
@@ -35,11 +27,7 @@ void main() {
     testWidgets('displays Done status correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: StatusBadge(
-              status: 'done',
-            ),
-          ),
+          home: Scaffold(body: StatusBadge(status: 'done')),
         ),
       );
 
@@ -50,10 +38,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: StatusBadge(
-              status: 'todo',
-              size: BadgeSize.small,
-            ),
+            body: StatusBadge(status: 'todo', size: BadgeSize.small),
           ),
         ),
       );
@@ -65,10 +50,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: StatusBadge(
-              status: 'todo',
-              size: BadgeSize.medium,
-            ),
+            body: StatusBadge(status: 'todo', size: BadgeSize.medium),
           ),
         ),
       );
@@ -80,10 +62,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: StatusBadge(
-              status: 'todo',
-              size: BadgeSize.large,
-            ),
+            body: StatusBadge(status: 'todo', size: BadgeSize.large),
           ),
         ),
       );
@@ -95,10 +74,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: StatusBadge(
-              status: 'done',
-              size: BadgeSize.large,
-            ),
+            body: StatusBadge(status: 'done', size: BadgeSize.large),
           ),
         ),
       );

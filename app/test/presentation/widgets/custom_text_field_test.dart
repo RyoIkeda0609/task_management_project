@@ -8,10 +8,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomTextField(
-              label: 'Test Label',
-              hintText: 'Enter text',
-            ),
+            body: CustomTextField(label: 'Test Label', hintText: 'Enter text'),
           ),
         ),
       );
@@ -22,11 +19,7 @@ void main() {
     testWidgets('displays hint text', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CustomTextField(
-              hintText: 'Enter your name',
-            ),
-          ),
+          home: Scaffold(body: CustomTextField(hintText: 'Enter your name')),
         ),
       );
 
@@ -35,14 +28,11 @@ void main() {
 
     testWidgets('accepts text input', (WidgetTester tester) async {
       final key = GlobalKey();
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomTextField(
-              key: key,
-              hintText: 'Enter text',
-            ),
+            body: CustomTextField(key: key, hintText: 'Enter text'),
           ),
         ),
       );
@@ -76,19 +66,16 @@ void main() {
     testWidgets('displays initial value', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CustomTextField(
-              initialValue: 'Initial Text',
-            ),
-          ),
+          home: Scaffold(body: CustomTextField(initialValue: 'Initial Text')),
         ),
       );
 
       expect(find.text('Initial Text'), findsOneWidget);
     });
 
-    testWidgets('multiline option creates multiline text field',
-        (WidgetTester tester) async {
+    testWidgets('multiline option creates multiline text field', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -104,15 +91,13 @@ void main() {
       expect(textField, findsOneWidget);
     });
 
-    testWidgets('obscureText hides password input',
-        (WidgetTester tester) async {
+    testWidgets('obscureText hides password input', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomTextField(
-              label: 'Password',
-              obscureText: true,
-            ),
+            body: CustomTextField(label: 'Password', obscureText: true),
           ),
         ),
       );
@@ -139,10 +124,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomTextField(
-              hintText: 'Email',
-              suffixIcon: Icons.email,
-            ),
+            body: CustomTextField(hintText: 'Email', suffixIcon: Icons.email),
           ),
         ),
       );
@@ -150,15 +132,10 @@ void main() {
       expect(find.byIcon(Icons.email), findsOneWidget);
     });
 
-    testWidgets('reads initial value correctly',
-        (WidgetTester tester) async {
+    testWidgets('reads initial value correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CustomTextField(
-              initialValue: 'Prefilledvalue',
-            ),
-          ),
+          home: Scaffold(body: CustomTextField(initialValue: 'Prefilledvalue')),
         ),
       );
 
@@ -169,10 +146,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: CustomTextField(
-              hintText: 'Max 10 chars',
-              maxLength: 10,
-            ),
+            body: CustomTextField(hintText: 'Max 10 chars', maxLength: 10),
           ),
         ),
       );
@@ -181,8 +155,9 @@ void main() {
       expect(textField, findsOneWidget);
     });
 
-    testWidgets('displays keyboard type correctly',
-        (WidgetTester tester) async {
+    testWidgets('displays keyboard type correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -197,8 +172,7 @@ void main() {
       expect(find.byType(TextField), findsOneWidget);
     });
 
-    testWidgets('read-only mode prevents editing',
-        (WidgetTester tester) async {
+    testWidgets('read-only mode prevents editing', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -213,8 +187,9 @@ void main() {
       expect(find.text('Read only text'), findsOneWidget);
     });
 
-    testWidgets('suffix icon callback is triggered on tap',
-        (WidgetTester tester) async {
+    testWidgets('suffix icon callback is triggered on tap', (
+      WidgetTester tester,
+    ) async {
       bool iconPressed = false;
 
       await tester.pumpWidget(

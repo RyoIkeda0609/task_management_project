@@ -15,10 +15,7 @@ import '../../widgets/common/dialog_helper.dart';
 class MilestoneCreateScreen extends ConsumerStatefulWidget {
   final String goalId;
 
-  const MilestoneCreateScreen({
-    super.key,
-    required this.goalId,
-  });
+  const MilestoneCreateScreen({super.key, required this.goalId});
 
   @override
   ConsumerState<MilestoneCreateScreen> createState() =>
@@ -50,10 +47,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // マイルストーン名入力
-              Text(
-                'マイルストーン名 *',
-                style: AppTextStyles.labelLarge,
-              ),
+              Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
               SizedBox(height: Spacing.small),
               CustomTextField(
                 label: 'マイルストーン名を入力してください',
@@ -63,10 +57,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
               SizedBox(height: Spacing.large),
 
               // 目標日時選択
-              Text(
-                '目標日時 *',
-                style: AppTextStyles.labelLarge,
-              ),
+              Text('目標日時 *', style: AppTextStyles.labelLarge),
               SizedBox(height: Spacing.small),
               InkWell(
                 onTap: _selectTargetDate,
@@ -78,10 +69,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.calendar_today,
-                        color: AppColors.primary,
-                      ),
+                      Icon(Icons.calendar_today, color: AppColors.primary),
                       SizedBox(width: Spacing.small),
                       Expanded(
                         child: Text(
@@ -107,24 +95,19 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.2),
+                  ),
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.flag,
-                      color: AppColors.primary,
-                      size: 20,
-                    ),
+                    Icon(Icons.flag, color: AppColors.primary, size: 20),
                     SizedBox(width: Spacing.small),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'このゴールに紐付けます',
-                            style: AppTextStyles.labelSmall,
-                          ),
+                          Text('このゴールに紐付けます', style: AppTextStyles.labelSmall),
                           SizedBox(height: Spacing.xSmall),
                           Text(
                             'ゴールID: ${widget.goalId}',

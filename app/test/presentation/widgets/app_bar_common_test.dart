@@ -8,9 +8,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            appBar: CustomAppBar(
-              title: 'Test Title',
-            ),
+            appBar: CustomAppBar(title: 'Test Title'),
             body: const SizedBox.shrink(),
           ),
         ),
@@ -19,15 +17,13 @@ void main() {
       expect(find.text('Test Title'), findsOneWidget);
     });
 
-    testWidgets('displays leading back button when hasLeading is true',
-        (WidgetTester tester) async {
+    testWidgets('displays leading back button when hasLeading is true', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            appBar: CustomAppBar(
-              title: 'Test',
-              hasLeading: true,
-            ),
+            appBar: CustomAppBar(title: 'Test', hasLeading: true),
             body: const SizedBox.shrink(),
           ),
         ),
@@ -36,15 +32,13 @@ void main() {
       expect(find.byIcon(Icons.arrow_back), findsOneWidget);
     });
 
-    testWidgets('does not display leading button when hasLeading is false',
-        (WidgetTester tester) async {
+    testWidgets('does not display leading button when hasLeading is false', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            appBar: CustomAppBar(
-              title: 'Test',
-              hasLeading: false,
-            ),
+            appBar: CustomAppBar(title: 'Test', hasLeading: false),
             body: const SizedBox.shrink(),
           ),
         ),
@@ -53,26 +47,21 @@ void main() {
       expect(find.byIcon(Icons.arrow_back), findsNothing);
     });
 
-    testWidgets('back button triggers Navigator.pop',
-        (WidgetTester tester) async {
+    testWidgets('back button triggers Navigator.pop', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           routes: {
             '/': (context) => Scaffold(
-              appBar: CustomAppBar(
-                title: 'First Page',
-                hasLeading: false,
-              ),
+              appBar: CustomAppBar(title: 'First Page', hasLeading: false),
               body: GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/second'),
                 child: const Text('Go to Second'),
               ),
             ),
             '/second': (context) => Scaffold(
-              appBar: CustomAppBar(
-                title: 'Second Page',
-                hasLeading: true,
-              ),
+              appBar: CustomAppBar(title: 'Second Page', hasLeading: true),
               body: const SizedBox.shrink(),
             ),
           },
@@ -102,10 +91,7 @@ void main() {
             appBar: CustomAppBar(
               title: 'Test',
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {},
-                ),
+                IconButton(icon: const Icon(Icons.search), onPressed: () {}),
               ],
             ),
             body: const SizedBox.shrink(),
@@ -116,8 +102,9 @@ void main() {
       expect(find.byIcon(Icons.search), findsOneWidget);
     });
 
-    testWidgets('action button callback is triggered on tap',
-        (WidgetTester tester) async {
+    testWidgets('action button callback is triggered on tap', (
+      WidgetTester tester,
+    ) async {
       bool actionPressed = false;
 
       await tester.pumpWidget(
@@ -143,22 +130,17 @@ void main() {
       expect(actionPressed, true);
     });
 
-    testWidgets('displays multiple action buttons',
-        (WidgetTester tester) async {
+    testWidgets('displays multiple action buttons', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             appBar: CustomAppBar(
               title: 'Test',
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.more_vert),
-                  onPressed: () {},
-                ),
+                IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+                IconButton(icon: const Icon(Icons.more_vert), onPressed: () {}),
               ],
             ),
             body: const SizedBox.shrink(),

@@ -53,10 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'ユーザー情報',
-            style: AppTextStyles.labelLarge,
-          ),
+          Text('ユーザー情報', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.medium),
           Row(
             children: [
@@ -67,21 +64,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(32),
                 ),
-                child: Icon(
-                  Icons.person,
-                  size: 32,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.person, size: 32, color: Colors.white),
               ),
               SizedBox(width: Spacing.medium),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'ユーザー名',
-                      style: AppTextStyles.bodyLarge,
-                    ),
+                    Text('ユーザー名', style: AppTextStyles.bodyLarge),
                     SizedBox(height: Spacing.xSmall),
                     Text(
                       'user@example.com',
@@ -105,10 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'アプリケーション設定',
-            style: AppTextStyles.labelLarge,
-          ),
+          Text('アプリケーション設定', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.medium),
 
           // 通知設定
@@ -117,8 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: '通知を受け取る',
             subtitle: 'タスク期限やリマインダーの通知',
             value: _notificationsEnabled,
-            onChanged: (value) =>
-                setState(() => _notificationsEnabled = value),
+            onChanged: (value) => setState(() => _notificationsEnabled = value),
           ),
           SizedBox(height: Spacing.medium),
 
@@ -187,10 +173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'その他',
-            style: AppTextStyles.labelLarge,
-          ),
+          Text('その他', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.medium),
 
           // ヘルプ
@@ -233,10 +216,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'アプリケーションバージョン',
-                      style: AppTextStyles.bodyMedium,
-                    ),
+                    Text('アプリケーションバージョン', style: AppTextStyles.bodyMedium),
                     SizedBox(height: Spacing.xSmall),
                     Text(
                       'ビルド情報取得中...',
@@ -292,9 +272,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               Icon(icon, color: AppColors.primary, size: 24),
               SizedBox(width: Spacing.medium),
-              Expanded(
-                child: Text(title, style: AppTextStyles.bodyMedium),
-              ),
+              Expanded(child: Text(title, style: AppTextStyles.bodyMedium)),
               Icon(
                 Icons.arrow_forward_ios,
                 color: AppColors.neutral400,
@@ -328,10 +306,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text('ログアウト', style: AppTextStyles.headlineMedium),
-        content: Text(
-          'ログアウトしてもよろしいですか？',
-          style: AppTextStyles.bodyMedium,
-        ),
+        content: Text('ログアウトしてもよろしいですか？', style: AppTextStyles.bodyMedium),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
@@ -342,10 +317,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
-            child: Text(
-              'ログアウト',
-              style: TextStyle(color: AppColors.error),
-            ),
+            child: Text('ログアウト', style: TextStyle(color: AppColors.error)),
           ),
         ],
       ),

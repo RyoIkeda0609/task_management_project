@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:app/presentation/widgets/common/progress_indicator.dart' as app_progress;
+import 'package:app/presentation/widgets/common/progress_indicator.dart'
+    as app_progress;
 
 void main() {
   group('ProgressIndicator', () {
     testWidgets('displays progress bar correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: app_progress.ProgressIndicator(
-              percentage: 50,
-            ),
-          ),
+          home: Scaffold(body: app_progress.ProgressIndicator(percentage: 50)),
         ),
       );
 
@@ -22,11 +19,7 @@ void main() {
     testWidgets('displays 0% progress', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: app_progress.ProgressIndicator(
-              percentage: 0.0,
-            ),
-          ),
+          home: Scaffold(body: app_progress.ProgressIndicator(percentage: 0.0)),
         ),
       );
 
@@ -36,11 +29,7 @@ void main() {
     testWidgets('displays 50% progress', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: app_progress.ProgressIndicator(
-              percentage: 50,
-            ),
-          ),
+          home: Scaffold(body: app_progress.ProgressIndicator(percentage: 50)),
         ),
       );
 
@@ -50,19 +39,16 @@ void main() {
     testWidgets('displays 100% progress', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: app_progress.ProgressIndicator(
-              percentage: 100,
-            ),
-          ),
+          home: Scaffold(body: app_progress.ProgressIndicator(percentage: 100)),
         ),
       );
 
       expect(find.byType(LinearProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('displays label when showLabel is true',
-        (WidgetTester tester) async {
+    testWidgets('displays label when showLabel is true', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -77,8 +63,9 @@ void main() {
       expect(find.text('75%'), findsOneWidget);
     });
 
-    testWidgets('does not display label when showLabel is false',
-        (WidgetTester tester) async {
+    testWidgets('does not display label when showLabel is false', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -93,8 +80,9 @@ void main() {
       expect(find.text('75%'), findsNothing);
     });
 
-    testWidgets('updates progress value correctly',
-        (WidgetTester tester) async {
+    testWidgets('updates progress value correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -109,15 +97,12 @@ void main() {
       expect(find.text('30%'), findsOneWidget);
     });
 
-    testWidgets('handles progress greater than 100',
-        (WidgetTester tester) async {
+    testWidgets('handles progress greater than 100', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: app_progress.ProgressIndicator(
-              percentage: 150,
-            ),
-          ),
+          home: Scaffold(body: app_progress.ProgressIndicator(percentage: 150)),
         ),
       );
 
@@ -127,11 +112,7 @@ void main() {
     testWidgets('handles negative progress value', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: app_progress.ProgressIndicator(
-              percentage: -50,
-            ),
-          ),
+          home: Scaffold(body: app_progress.ProgressIndicator(percentage: -50)),
         ),
       );
 

@@ -49,11 +49,15 @@ void main() {
         ),
       );
 
-      expect(find.text('Your list is empty. Add something new!'), findsOneWidget);
+      expect(
+        find.text('Your list is empty. Add something new!'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('displays action button when provided',
-        (WidgetTester tester) async {
+    testWidgets('displays action button when provided', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -71,8 +75,9 @@ void main() {
       expect(find.text('Create Goal'), findsOneWidget);
     });
 
-    testWidgets('action button callback is triggered',
-        (WidgetTester tester) async {
+    testWidgets('action button callback is triggered', (
+      WidgetTester tester,
+    ) async {
       bool actionPressed = false;
 
       await tester.pumpWidget(
@@ -95,8 +100,9 @@ void main() {
       expect(actionPressed, true);
     });
 
-    testWidgets('does not display button when actionText is null',
-        (WidgetTester tester) async {
+    testWidgets('does not display button when actionText is null', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -112,8 +118,9 @@ void main() {
       expect(find.byType(ElevatedButton), findsNothing);
     });
 
-    testWidgets('renders all elements in correct order',
-        (WidgetTester tester) async {
+    testWidgets('renders all elements in correct order', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
