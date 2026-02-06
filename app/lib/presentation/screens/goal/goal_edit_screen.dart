@@ -8,6 +8,11 @@ import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../widgets/common/dialog_helper.dart';
 import '../../../domain/entities/goal.dart';
+import '../../../domain/value_objects/goal/goal_id.dart';
+import '../../../domain/value_objects/goal/goal_title.dart';
+import '../../../domain/value_objects/goal/goal_category.dart';
+import '../../../domain/value_objects/goal/goal_reason.dart';
+import '../../../domain/value_objects/goal/goal_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
 
 /// ゴール編集画面
@@ -211,7 +216,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
     return '${date.year}年${date.month}月${date.day}日';
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_title.isEmpty) {
       DialogHelper.showErrorDialog(
         context,
@@ -221,15 +226,46 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
       return;
     }
 
-    DialogHelper.showSuccessDialog(
-      context,
-      title: 'ゴール更新',
-      message: 'ゴール「$_title」を更新しました。',
-    ).then((_) {
+    try {
+      final goalRepository = ref.read(goalRepositoryProvider);
+
+      // 更新されたゴールエンティティを作成
+      final updatedGoal = Goal(
+        id: GoalId(widget.goalId),
+        title: GoalTitle(_title),
+        reason: GoalReason(_reason),
+        category: GoalCategory(_category),
+        deadline: GoalDeadline(_deadline),
+      );
+
+      // ゴールを保存
+      await goalRepository.saveGoal(updatedGoal);
+
+      // プロバイダーキャッシュを無効化
       if (mounted) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        ref.invalidate(goalListProvider);
+        ref.invalidate(goalByIdProvider(widget.goalId));
       }
-    });
+
+      if (mounted) {
+        DialogHelper.showSuccessDialog(
+          context,
+          title: 'ゴール更新',
+          message: 'ゴール「$_title」を更新しました。',
+        ).then((_) {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        DialogHelper.showErrorDialog(
+          context,
+          title: 'エラー',
+          message: 'ゴールの保存に失敗しました。',
+        );
+      }
+    }
   }
 }

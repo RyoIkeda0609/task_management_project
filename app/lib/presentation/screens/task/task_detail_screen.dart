@@ -6,6 +6,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../../domain/entities/task.dart';
+import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
 
 /// タスク詳細画面
@@ -165,13 +166,53 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
     );
   }
 
-  void _updateStatus(BuildContext context, Task task, String newStatus) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('ステータスを「${_getStatusLabel(newStatus)}」に更新しました。'),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+  void _updateStatus(BuildContext context, Task task, String newStatus) async {
+    try {
+      final taskRepository = ref.read(taskRepositoryProvider);
+
+      // ステータスの値オブジェクトを作成
+      final newTaskStatus = newStatus == 'done'
+          ? TaskStatus.done()
+          : newStatus == 'doing'
+          ? TaskStatus.doing()
+          : TaskStatus.todo();
+
+      final updatedTask = Task(
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        deadline: task.deadline,
+        status: newTaskStatus,
+        milestoneId: task.milestoneId,
+      );
+
+      // タスクを保存
+      await taskRepository.saveTask(updatedTask);
+
+      // プロバイダーキャッシュを無効化
+      if (mounted) {
+        ref.invalidate(taskByIdProvider(widget.taskId));
+        ref.invalidate(tasksByMilestoneIdProvider(task.milestoneId));
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('ステータスを「${_getStatusLabel(newStatus)}」に更新しました。'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('ステータスの更新に失敗しました: $e'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    }
   }
 
   String _formatDate(dynamic deadline) {

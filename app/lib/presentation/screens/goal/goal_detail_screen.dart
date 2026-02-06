@@ -4,7 +4,6 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
-import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/entities/milestone.dart';
@@ -35,10 +34,9 @@ class GoalDetailScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              // TODO: ゴール編集画面へナビゲート
-              ScaffoldMessenger.of(
+              Navigator.of(
                 context,
-              ).showSnackBar(const SnackBar(content: Text('ゴール編集機能は準備中です')));
+              ).pushNamed(AppRouter.goalEdit, arguments: goalId);
             },
           ),
           // 削除ボタン
@@ -191,18 +189,18 @@ class GoalDetailScreen extends ConsumerWidget {
                     PopupMenuItem(
                       child: const Text('詳細'),
                       onTap: () {
-                        // TODO: マイルストーン詳細画面へナビゲート
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('マイルストーン詳細表示は準備中です')),
+                        Navigator.of(context).pushNamed(
+                          AppRouter.milestoneDetail,
+                          arguments: milestone.id.value,
                         );
                       },
                     ),
                     PopupMenuItem(
                       child: const Text('編集'),
                       onTap: () {
-                        // TODO: マイルストーン編集画面へナビゲート
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('マイルストーン編集機能は準備中です')),
+                        Navigator.of(context).pushNamed(
+                          AppRouter.milestoneEdit,
+                          arguments: milestone.id.value,
                         );
                       },
                     ),

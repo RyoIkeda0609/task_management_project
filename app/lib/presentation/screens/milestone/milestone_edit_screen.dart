@@ -8,6 +8,9 @@ import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../widgets/common/dialog_helper.dart';
 import '../../../domain/entities/milestone.dart';
+import '../../../domain/value_objects/milestone/milestone_id.dart';
+import '../../../domain/value_objects/milestone/milestone_title.dart';
+import '../../../domain/value_objects/milestone/milestone_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
 
 /// マイルストーン編集画面
@@ -16,10 +19,7 @@ import '../../state_management/providers/app_providers.dart';
 class MilestoneEditScreen extends ConsumerStatefulWidget {
   final String milestoneId;
 
-  const MilestoneEditScreen({
-    super.key,
-    required this.milestoneId,
-  });
+  const MilestoneEditScreen({super.key, required this.milestoneId});
 
   @override
   ConsumerState<MilestoneEditScreen> createState() =>
@@ -39,8 +39,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final milestoneAsync =
-        ref.watch(milestoneByIdProvider(widget.milestoneId));
+    final milestoneAsync = ref.watch(milestoneByIdProvider(widget.milestoneId));
 
     return milestoneAsync.when(
       data: (milestone) => _buildForm(context, milestone),
@@ -59,10 +58,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
           onLeadingPressed: () => Navigator.of(context).pop(),
         ),
         body: Center(
-          child: Text(
-            'エラーが発生しました',
-            style: AppTextStyles.titleMedium,
-          ),
+          child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
         ),
       ),
     );
@@ -77,10 +73,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
           onLeadingPressed: () => Navigator.of(context).pop(),
         ),
         body: Center(
-          child: Text(
-            'マイルストーンが見つかりません',
-            style: AppTextStyles.titleMedium,
-          ),
+          child: Text('マイルストーンが見つかりません', style: AppTextStyles.titleMedium),
         ),
       );
     }
@@ -104,10 +97,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // マイルストーン名
-              Text(
-                'マイルストーン名 *',
-                style: AppTextStyles.labelLarge,
-              ),
+              Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
               SizedBox(height: Spacing.small),
               CustomTextField(
                 label: 'マイルストーン名を入力してください',
@@ -117,10 +107,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
               SizedBox(height: Spacing.medium),
 
               // 目標日時
-              Text(
-                '目標日時 *',
-                style: AppTextStyles.labelLarge,
-              ),
+              Text('目標日時 *', style: AppTextStyles.labelLarge),
               SizedBox(height: Spacing.small),
               InkWell(
                 onTap: _selectTargetDate,
@@ -184,7 +171,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
     return '${date.year}年${date.month}月${date.day}日';
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_title.isEmpty) {
       DialogHelper.showErrorDialog(
         context,
@@ -194,15 +181,54 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
       return;
     }
 
-    DialogHelper.showSuccessDialog(
-      context,
-      title: 'マイルストーン更新',
-      message: 'マイルストーン「$_title」を更新しました。',
-    ).then((_) {
-      if (mounted) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
+    try {
+      final milestoneRepository = ref.read(milestoneRepositoryProvider);
+
+      // 現在のマイルストーンデータを取得して goalId を保持
+      final currentMilestone = await ref.read(
+        milestoneByIdProvider(widget.milestoneId).future,
+      );
+
+      if (currentMilestone == null) {
+        throw Exception('マイルストーンが見つかりません');
       }
-    });
+
+      // 更新されたマイルストーンエンティティを作成
+      final updatedMilestone = Milestone(
+        id: MilestoneId(widget.milestoneId),
+        title: MilestoneTitle(_title),
+        deadline: MilestoneDeadline(_targetDate),
+        goalId: currentMilestone.goalId,
+      );
+
+      // マイルストーンを保存
+      await milestoneRepository.saveMilestone(updatedMilestone);
+
+      // プロバイダーキャッシュを無効化
+      if (mounted) {
+        ref.invalidate(milestoneByIdProvider(widget.milestoneId));
+        ref.invalidate(milestonesByGoalIdProvider(currentMilestone.goalId));
+      }
+
+      if (mounted) {
+        DialogHelper.showSuccessDialog(
+          context,
+          title: 'マイルストーン更新',
+          message: 'マイルストーン「$_title」を更新しました。',
+        ).then((_) {
+          if (mounted) {
+            Navigator.of(context).pop();
+          }
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        DialogHelper.showErrorDialog(
+          context,
+          title: 'エラー',
+          message: 'マイルストーンの保存に失敗しました。',
+        );
+      }
+    }
   }
 }
