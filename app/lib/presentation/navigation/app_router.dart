@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/onboarding/onboarding_screen.dart';
-import '../screens/home/home_navigation_shell.dart';
+import '../screens/home/home_screen.dart';
+import '../screens/today_tasks/today_tasks_screen.dart';
+import '../screens/settings/settings_screen.dart';
 import '../screens/goal/goal_create_screen.dart';
 import '../screens/goal/goal_detail_screen.dart';
 import '../screens/goal/goal_edit_screen.dart';
@@ -10,131 +14,282 @@ import '../screens/milestone/milestone_detail_screen.dart';
 import '../screens/milestone/milestone_edit_screen.dart';
 import '../screens/task/task_detail_screen.dart';
 import '../screens/task/task_create_screen.dart';
-import '../screens/settings/settings_screen.dart';
 
-/// アプリケーションのルーティング管理
+/// go_router を使用したアプリケーションのルーティング管理
 ///
-/// アプリケーション内で使用するすべてのルートを定義します。
-class AppRouter {
-  AppRouter._(); // インスタンス化禁止
+/// 宣言的なルート定義と Deep Link サポートを提供します。
 
-  /// ===================== Route Names =====================
-  /// ルート名は、Navigator.of(context).pushNamed() で使用します。
+// ===================== Route Path Constants =====================
+/// ルートパスを定数として定義（Deep Link との互換性確保）
+class AppRoutePaths {
+  AppRoutePaths._(); // インスタンス化禁止
+
+  /// ホーム（底部タブ）ルート
+  static const String home = '/home';
+
+  /// 今日のタスク（底部タブ）ルート
+  static const String todayTasks = '/today_tasks';
+
+  /// 設定（底部タブ）ルート
+  static const String settings = '/settings';
+
+  /// ゴール詳細路
+  static const String goalDetail = '/home/goal/:goalId';
+
+  /// ゴール編集ルート
+  static const String goalEdit = 'edit';
+
+  /// ゴール作成ルート
+  static const String goalCreate = '/goal_create';
+
+  /// マイルストーン詳細ルート
+  static const String milestoneDetail = 'milestone/:milestoneId';
+
+  /// マイルストーン編集ルート
+  static const String milestoneEdit = 'edit';
+
+  /// マイルストーン作成ルート
+  static const String milestoneCreate = '/milestone_create';
+
+  /// タスク詳細ルート
+  static const String taskDetail = '/task_detail/:taskId';
+
+  /// タスク創作ルート
+  static const String taskCreate = '/task_create';
 
   /// スプラッシュ画面ルート
   static const String splash = '/';
 
   /// オンボーディング画面ルート
   static const String onboarding = '/onboarding';
+}
 
-  /// ホーム画面ルート
-  static const String home = '/home';
+// ===================== Riverpod Provider =====================
+/// go_router インスタンスを Riverpod Provider として expose
+final goRouterProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    initialLocation: AppRoutePaths.splash,
+    debugLogDiagnostics: true,
+    routes: [
+      /// スプラッシュ画面ルート
+      GoRoute(
+        path: AppRoutePaths.splash,
+        builder: (context, state) => const SplashScreen(),
+      ),
 
-  /// ゴール作成画面ルート
-  static const String goalCreate = '/goal_create';
+      /// オンボーディング画面ルート
+      GoRoute(
+        path: AppRoutePaths.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
 
-  /// ゴール詳細画面ルート
-  static const String goalDetail = '/goal_detail';
+      /// ゴール作成画面ルート
+      GoRoute(
+        path: AppRoutePaths.goalCreate,
+        builder: (context, state) => const GoalCreateScreen(),
+      ),
 
-  /// ゴール編集画面ルート
-  static const String goalEdit = '/goal_edit';
+      /// マイルストーン作成画面ルート
+      GoRoute(
+        path: AppRoutePaths.milestoneCreate,
+        builder: (context, state) {
+          // goalId を URL query parameter から取得
+          final goalId = state.uri.queryParameters['goalId'] ?? '';
+          return MilestoneCreateScreen(goalId: goalId);
+        },
+      ),
 
-  /// マイルストーン作成画面ルート
-  static const String milestoneCreate = '/milestone_create';
+      /// タスク作成画面ルート
+      GoRoute(
+        path: AppRoutePaths.taskCreate,
+        builder: (context, state) {
+          // milestoneId を URL query parameter から取得
+          final milestoneId = state.uri.queryParameters['milestoneId'] ?? '';
+          final goalId = state.uri.queryParameters['goalId'] ?? '';
+          return TaskCreateScreen(
+            arguments: {
+              'milestoneId': milestoneId,
+              'goalId': goalId,
+            },
+          );
+        },
+      ),
 
-  /// マイルストーン詳細画面ルート
-  static const String milestoneDetail = '/milestone_detail';
+      /// ボトムナビゲーション タブ化されたルート
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return _HomeNavigationShell(navigationShell: navigationShell);
+        },
+        branches: [
+          /// ホームタブ
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutePaths.home,
+                builder: (context, state) => const HomeScreen(),
+                routes: [
+                  /// ゴール詳細画面（ホーム配下）
+                  GoRoute(
+                    path: 'goal/:goalId',
+                    builder: (context, state) {
+                      final goalId = state.pathParameters['goalId'] ?? '';
+                      return GoalDetailScreen(goalId: goalId);
+                    },
+                    routes: [
+                      /// ゴール編集画面
+                      GoRoute(
+                        path: 'edit',
+                        builder: (context, state) {
+                          final goalId = state.pathParameters['goalId'] ?? '';
+                          return GoalEditScreen(goalId: goalId);
+                        },
+                      ),
 
-  /// マイルストーン編集画面ルート
-  static const String milestoneEdit = '/milestone_edit';
+                      /// マイルストーン詳細画面
+                      GoRoute(
+                        path: 'milestone/:milestoneId',
+                        builder: (context, state) {
+                          final milestoneId =
+                              state.pathParameters['milestoneId'] ?? '';
+                          return MilestoneDetailScreen(
+                            milestoneId: milestoneId,
+                          );
+                        },
+                        routes: [
+                          /// マイルストーン編集画面
+                          GoRoute(
+                            path: 'edit',
+                            builder: (context, state) {
+                              final milestoneId =
+                                  state.pathParameters['milestoneId'] ?? '';
+                              return MilestoneEditScreen(
+                                milestoneId: milestoneId,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
 
-  /// タスク作成画面ルート
-  static const String taskCreate = '/task_create';
+          /// 今日のタスクタブ
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutePaths.todayTasks,
+                builder: (context, state) => const TodayTasksScreen(),
+                routes: [
+                  /// タスク詳細画面（今日のタスク配下）
+                  GoRoute(
+                    path: 'task/:taskId',
+                    builder: (context, state) {
+                      final taskId = state.pathParameters['taskId'] ?? '';
+                      return TaskDetailScreen(taskId: taskId);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
 
-  /// タスク詳細画面ルート
-  static const String taskDetail = '/task_detail';
+          /// 設定タブ
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutePaths.settings,
+                builder: (context, state) => const SettingsScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
 
-  /// タスク編集画面ルート
-  static const String taskEdit = '/task_edit';
+    /// エラーページビルダー
+    errorBuilder: (context, state) => Scaffold(
+      body: Center(
+        child: Text('ていません: ${state.uri}'),
+      ),
+    ),
+  );
+});
 
-  /// タスク完了確認画面ルート
-  static const String taskComplete = '/task_complete';
+// ===================== ホームナビゲーションシェル =====================
+/// ボトムナビゲーションタブを管理するシェルウィジェット
+class _HomeNavigationShell extends StatefulWidget {
+  final StatefulNavigationShell navigationShell;
 
-  /// 設定画面ルート
-  static const String settings = '/settings';
+  const _HomeNavigationShell({
+    required this.navigationShell,
+  });
 
-  /// 今日のタスク画面ルート
-  static const String todayTasks = '/today_tasks';
+  @override
+  State<_HomeNavigationShell> createState() => _HomeNavigationShellState();
+}
 
-  /// ルートから対応するWidgetを生成
-  ///
-  /// [settings] - ルート設定（ルート名と引数）
-  /// 戻り値：遷移先のWidget
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    final routeName = settings.name;
-    if (routeName == splash) {
-      return _buildRoute(const SplashScreen());
-    } else if (routeName == onboarding) {
-      return _buildRoute(const OnboardingScreen());
-    } else if (routeName == home) {
-      return _buildRoute(const HomeNavigationShell());
-    } else if (routeName == goalCreate) {
-      return _buildRoute(const GoalCreateScreen());
-    } else if (routeName == goalDetail) {
-      final goalId = settings.arguments as String?;
-      return _buildRoute(GoalDetailScreen(goalId: goalId ?? ''));
-    } else if (routeName == goalEdit) {
-      final goalId = settings.arguments as String?;
-      return _buildRoute(GoalEditScreen(goalId: goalId ?? ''));
-    } else if (routeName == milestoneCreate) {
-      final goalId = settings.arguments as String?;
-      return _buildRoute(MilestoneCreateScreen(goalId: goalId ?? ''));
-    } else if (routeName == milestoneDetail) {
-      final milestoneId = settings.arguments as String?;
-      return _buildRoute(MilestoneDetailScreen(milestoneId: milestoneId ?? ''));
-    } else if (routeName == milestoneEdit) {
-      final milestoneId = settings.arguments as String?;
-      return _buildRoute(MilestoneEditScreen(milestoneId: milestoneId ?? ''));
-    } else if (routeName == taskCreate) {
-      final arguments = settings.arguments;
-      if (arguments is Map<String, dynamic>) {
-        return _buildRoute(TaskCreateScreen(arguments: arguments));
-      } else if (arguments is String) {
-        return _buildRoute(
-          TaskCreateScreen(arguments: {'milestoneId': arguments}),
-        );
-      }
-      return _buildRoute(const TaskCreateScreen());
-    } else if (routeName == taskDetail) {
-      final taskId = settings.arguments as String?;
-      return _buildRoute(TaskDetailScreen(taskId: taskId ?? ''));
-    } else if (routeName == taskEdit) {
-      final taskId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Task Edit Screen: $taskId'))),
-      );
-    } else if (routeName == taskComplete) {
-      final taskId = settings.arguments as String?;
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('Task Complete Screen: $taskId'))),
-      );
-    } else if (routeName == AppRouter.settings) {
-      return _buildRoute(const SettingsScreen());
-    } else {
-      return _buildRoute(
-        Scaffold(body: Center(child: Text('ルート不存在: ${settings.name}'))),
-      );
-    }
+class _HomeNavigationShellState extends State<_HomeNavigationShell> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: widget.navigationShell,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: widget.navigationShell.currentIndex,
+        onTap: _onTabChange,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'ホーム',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.today_outlined),
+            activeIcon: Icon(Icons.today),
+            label: '今日のタスク',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings_outlined),
+            activeIcon: Icon(Icons.settings),
+            label: '設定',
+          ),
+        ],
+      ),
+    );
   }
 
-  /// マテリアルページの遷移アニメーション付きRoute を生成
-  static MaterialPageRoute<dynamic> _buildRoute(Widget widget) {
-    return MaterialPageRoute(builder: (_) => widget);
+  void _onTabChange(int index) {
+    widget.navigationShell.goBranch(index);
   }
+}
+
+// ===================== AppRouter Legacy Helper =====================
+/// 既存の Navigator.pushNamed との互換性を保つためのヘルパー
+///
+/// 段階的に Navigator.pushNamed を context.go に置き換えるまでの過渡期に使用
+class AppRouter {
+  AppRouter._();
+
+  // 既存の route names（互換性維持）
+  static const String splash = AppRoutePaths.splash;
+  static const String onboarding = AppRoutePaths.onboarding;
+  static const String home = AppRoutePaths.home;
+  static const String goalCreate = AppRoutePaths.goalCreate;
+  static const String goalDetail = AppRoutePaths.goalDetail;
+  static const String goalEdit = AppRoutePaths.goalEdit;
+  static const String milestoneCreate = AppRoutePaths.milestoneCreate;
+  static const String milestoneDetail = AppRoutePaths.milestoneDetail;
+  static const String milestoneEdit = AppRoutePaths.milestoneEdit;
+  static const String taskCreate = AppRoutePaths.taskCreate;
+  static const String taskDetail = AppRoutePaths.taskDetail;
+  static const String settings = AppRoutePaths.settings;
+  static const String todayTasks = AppRoutePaths.todayTasks;
 
   /// オンボーディング完了後のホーム画面へナビゲート
   static void navigateToHome(BuildContext context) {
-    Navigator.of(context).pushNamedAndRemoveUntil(home, (route) => false);
+    context.go(AppRoutePaths.home);
   }
 
   /// スプラッシュ画面からのナビゲート
@@ -145,9 +300,7 @@ class AppRouter {
     if (isOnboardingComplete) {
       navigateToHome(context);
     } else {
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil(onboarding, (route) => false);
+      context.go(AppRoutePaths.onboarding);
     }
   }
 }

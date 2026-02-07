@@ -610,3 +610,22 @@ static const int maxLength = 100;
 
 ただし、あまり実装は把握していないです。
 DDDやクリーンアーキテクチャに反するものであれば修正しても構いません。
+
+Q: Presentation層の現在の状況について
+
+Navigator と NamedRoute 構成
+
+現在、AppRouter で Navigator を管理していますか？
+それとも go_router 等の更新版パッケージを使っていますか？
+
+go_router等の更新版パッケージは使用していないです。使用できるなら使用してもいいですが、実装が追い付いていないですね。
+
+状態管理の構成
+
+Riverpod の Provider で状態を管理していますか？
+StateNotifier / AsyncNotifier は使用していますか？：いいえ、こちらは使用していないですね。
+
+未実装予定の UI パーツ
+
+ピラミッドビュー / カレンダービュー は MVP では不要ですか？：いいえ、MVPですし、すごく大事な機能です。
+それとも Presentation層内での実装が必要ですか？：はい、必ず実装してほしいです。
