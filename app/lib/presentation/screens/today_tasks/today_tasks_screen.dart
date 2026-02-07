@@ -279,11 +279,7 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
       icon = Icons.radio_button_unchecked;
     }
 
-    return Icon(
-      icon,
-      color: color,
-      size: 24,
-    );
+    return Icon(icon, color: color, size: 24);
   }
 
   Future<void> _toggleTaskStatus(Task task) async {
