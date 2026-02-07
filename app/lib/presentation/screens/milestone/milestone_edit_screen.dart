@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
@@ -217,7 +218,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
           message: 'マイルストーン「$_title」を更新しました。',
         ).then((_) {
           if (mounted) {
-            Navigator.of(context).pop();
+            context.pop();
           }
         });
       }

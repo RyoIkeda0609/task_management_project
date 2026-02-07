@@ -55,12 +55,7 @@ class TodayTasksScreen extends ConsumerWidget {
         title: '今日のタスクはありません',
         message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
         actionText: 'ホームに戻る',
-        onActionPressed: () {
-          // named route で home に移動（スタック状態をリセット）
-          Navigator.of(
-            context,
-          ).pushNamedAndRemoveUntil('/home', (route) => false);
-        },
+        onActionPressed: () => AppRouter.navigateToHome(context),
       );
     }
 
@@ -293,7 +288,7 @@ class TodayTasksScreen extends ConsumerWidget {
   }
 
   void _navigateToTaskDetail(BuildContext context, String taskId) {
-    Navigator.of(context).pushNamed(AppRouter.taskDetail, arguments: taskId);
+    AppRouter.navigateToTaskDetail(context, taskId);
   }
 
   Widget _buildErrorWidget(Object error) {

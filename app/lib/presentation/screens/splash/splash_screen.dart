@@ -41,14 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
       // SharedPreferences または 他の永続化機構でオンボーディング完了フラグを確認
       // 現在は簡易実装：常にオンボーディング画面を表示する初回フローに戻す
       // TODO: 実装時にフラグをチェックして分岐
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil(AppRouter.onboarding, (route) => false);
+      if (mounted) {
+        AppRouter.navigateFromSplash(context, false);
+      }
     } catch (e) {
       // エラー時はオンボーディング画面へ
-      Navigator.of(
-        context,
-      ).pushNamedAndRemoveUntil(AppRouter.onboarding, (route) => false);
+      if (mounted) {
+        AppRouter.navigateFromSplash(context, false);
+      }
     }
   }
 

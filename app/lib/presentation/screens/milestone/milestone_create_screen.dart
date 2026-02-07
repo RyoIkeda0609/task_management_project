@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
@@ -12,6 +13,8 @@ import '../../../domain/value_objects/milestone/milestone_id.dart';
 import '../../../domain/value_objects/milestone/milestone_title.dart';
 import '../../../domain/value_objects/milestone/milestone_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../navigation/app_router.dart';
+import '../../navigation/app_router.dart';
 
 /// マイルストーン作成画面
 ///
@@ -43,7 +46,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
       appBar: CustomAppBar(
         title: 'マイルストーンを作成',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -138,7 +141,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
               SizedBox(height: Spacing.small),
               CustomButton(
                 text: 'キャンセル',
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
                 width: double.infinity,
                 type: ButtonType.secondary,
               ),
@@ -213,7 +216,8 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
           message: 'マイルストーン「$_title」を作成しました。',
         ).then((_) {
           if (mounted) {
-            Navigator.of(context).pop();
+            // マイルストーン作成後、ゴール詳細画面に戻る
+            context.go('/home/goal/${widget.goalId}');
           }
         });
       }

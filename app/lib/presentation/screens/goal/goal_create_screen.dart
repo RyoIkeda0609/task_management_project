@@ -124,9 +124,7 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
         );
 
         // ホーム画面へナビゲート
-        Navigator.of(
-          context,
-        ).pushNamedAndRemoveUntil(AppRouter.home, (route) => false);
+        AppRouter.navigateToHome(context);
       }
     } catch (e) {
       if (mounted) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
@@ -14,6 +15,7 @@ import '../../../domain/value_objects/task/task_description.dart';
 import '../../../domain/value_objects/task/task_deadline.dart';
 import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../navigation/app_router.dart';
 
 /// タスク作成画面
 ///
@@ -30,6 +32,7 @@ class TaskCreateScreen extends ConsumerStatefulWidget {
 
 class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
   late String _milestoneId;
+  late String _goalId;
   String _title = '';
   String _description = '';
   DateTime? _selectedDeadline;
@@ -39,6 +42,7 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
   void initState() {
     super.initState();
     _milestoneId = widget.arguments?['milestoneId'] ?? '';
+    _goalId = widget.arguments?['goalId'] ?? '';
     _selectedDeadline = DateTime.now().add(const Duration(days: 7));
   }
 
@@ -48,7 +52,7 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
       appBar: CustomAppBar(
         title: 'タスクを作成',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -158,7 +162,7 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
               SizedBox(height: Spacing.small),
               CustomButton(
                 text: 'キャンセル',
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.pop(context),
                 width: double.infinity,
                 type: ButtonType.secondary,
               ),
@@ -237,7 +241,8 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
           message: 'タスク「$_title」を作成しました。',
         ).then((_) {
           if (mounted) {
-            Navigator.of(context).pop();
+            // タスク作成後、マイルストーン詳細画面に戻る
+            context.go('/home/goal/$_goalId/milestone/$_milestoneId');
           }
         });
       }

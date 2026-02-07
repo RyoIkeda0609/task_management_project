@@ -33,11 +33,7 @@ class GoalDetailScreen extends ConsumerWidget {
           // 編集ボタン
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.of(
-                context,
-              ).pushNamed(AppRouter.goalEdit, arguments: goalId);
-            },
+            onPressed: () => AppRouter.navigateToGoalEdit(context, goalId),
           ),
           // 削除ボタン
           IconButton(
@@ -78,9 +74,7 @@ class GoalDetailScreen extends ConsumerWidget {
         error: (error, stackTrace) => _buildErrorWidget(error),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(
-          context,
-        ).pushNamed(AppRouter.milestoneCreate, arguments: goalId),
+        onPressed: () => AppRouter.navigateToMilestoneCreate(context, goalId),
         child: const Icon(Icons.add),
       ),
     );
@@ -138,11 +132,8 @@ class GoalDetailScreen extends ConsumerWidget {
                 title: 'マイルストーンがありません',
                 message: 'マイルストーンを追加してゴールを達成しましょう。',
                 actionText: 'マイルストーン追加',
-                onActionPressed: () {
-                  Navigator.of(
-                    context,
-                  ).pushNamed(AppRouter.milestoneCreate, arguments: goalId);
-                },
+                onActionPressed: () =>
+                    AppRouter.navigateToMilestoneCreate(context, goalId),
               );
             }
 
@@ -188,21 +179,19 @@ class GoalDetailScreen extends ConsumerWidget {
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       child: const Text('詳細'),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRouter.milestoneDetail,
-                          arguments: milestone.id.value,
-                        );
-                      },
+                      onTap: () => AppRouter.navigateToMilestoneDetail(
+                        context,
+                        goalId,
+                        milestone.id.value,
+                      ),
                     ),
                     PopupMenuItem(
                       child: const Text('編集'),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRouter.milestoneEdit,
-                          arguments: milestone.id.value,
-                        );
-                      },
+                      onTap: () => AppRouter.navigateToMilestoneEdit(
+                        context,
+                        goalId,
+                        milestone.id.value,
+                      ),
                     ),
                     PopupMenuItem(
                       child: const Text(
@@ -265,7 +254,7 @@ class GoalDetailScreen extends ConsumerWidget {
                     context,
                   ).showSnackBar(const SnackBar(content: Text('ゴールを削除しました')));
                   // ホーム画面に戻る
-                  Navigator.of(context).pop();
+                  AppRouter.navigateToHome(context);
                 }
               } catch (e) {
                 if (context.mounted) {

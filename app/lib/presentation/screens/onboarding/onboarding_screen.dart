@@ -63,9 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void _completeOnboarding() {
     // TODO: オンボーディング完了フラグを保存
     // SharedPreferences または Riverpod で管理
-    Navigator.of(
-      context,
-    ).pushNamedAndRemoveUntil(AppRouter.home, (route) => false);
+    AppRouter.navigateToHome(context);
   }
 
   @override

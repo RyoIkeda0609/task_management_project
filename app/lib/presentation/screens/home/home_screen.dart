@@ -31,7 +31,7 @@ class HomeScreen extends ConsumerWidget {
         error: (error, stackTrace) => _buildErrorWidget(context, error),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed(AppRouter.goalCreate),
+        onPressed: () => AppRouter.navigateToGoalCreate(context),
         child: const Icon(Icons.add),
       ),
     );
@@ -44,8 +44,7 @@ class HomeScreen extends ConsumerWidget {
         title: 'ゴールがまだありません',
         message: 'まずは今月のゴールを設定しましょう。',
         actionText: 'ゴールを作成',
-        onActionPressed: () =>
-            Navigator.of(context).pushNamed(AppRouter.goalCreate),
+        onActionPressed: () => AppRouter.navigateToGoalCreate(context),
       );
     }
 
@@ -59,9 +58,7 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildGoalCard(BuildContext context, Goal goal) {
     return Card(
       child: InkWell(
-        onTap: () => Navigator.of(
-          context,
-        ).pushNamed(AppRouter.goalDetail, arguments: goal.id.value),
+        onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -96,8 +93,7 @@ class HomeScreen extends ConsumerWidget {
       title: 'ゴールがまだありません',
       message: '最初にゴールを作成してください。',
       actionText: 'ゴールを作成',
-      onActionPressed: () =>
-          Navigator.of(context).pushNamed(AppRouter.goalCreate),
+      onActionPressed: () => AppRouter.navigateToGoalCreate(context),
     );
   }
 }

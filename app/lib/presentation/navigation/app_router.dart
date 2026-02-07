@@ -284,6 +284,60 @@ class AppRouter {
     context.go(AppRoutePaths.home);
   }
 
+  /// ゴール作成画面へナビゲート
+  static void navigateToGoalCreate(BuildContext context) {
+    context.go(AppRoutePaths.goalCreate);
+  }
+
+  /// ゴール詳細画面へナビゲート
+  static void navigateToGoalDetail(BuildContext context, String goalId) {
+    context.go('/home/goal/$goalId');
+  }
+
+  /// ゴール編集画面へナビゲート
+  static void navigateToGoalEdit(BuildContext context, String goalId) {
+    context.go('/home/goal/$goalId/edit');
+  }
+
+  /// マイルストーン詳細画面へナビゲート
+  static void navigateToMilestoneDetail(
+    BuildContext context,
+    String goalId,
+    String milestoneId,
+  ) {
+    context.go('/home/goal/$goalId/milestone/$milestoneId');
+  }
+
+  /// マイルストーン編集画面へナビゲート
+  static void navigateToMilestoneEdit(
+    BuildContext context,
+    String goalId,
+    String milestoneId,
+  ) {
+    context.go('/home/goal/$goalId/milestone/$milestoneId/edit');
+  }
+
+  /// マイルストーン作成画面へナビゲート
+  static void navigateToMilestoneCreate(BuildContext context, String goalId) {
+    context.go('${AppRoutePaths.milestoneCreate}?goalId=$goalId');
+  }
+
+  /// タスク作成画面へナビゲート
+  static void navigateToTaskCreate(
+    BuildContext context,
+    String milestoneId,
+    String goalId,
+  ) {
+    context.go(
+      '${AppRoutePaths.taskCreate}?milestoneId=$milestoneId&goalId=$goalId',
+    );
+  }
+
+  /// タスク詳細画面へナビゲート
+  static void navigateToTaskDetail(BuildContext context, String taskId) {
+    context.go('/task_detail/$taskId');
+  }
+
   /// スプラッシュ画面からのナビゲート
   static void navigateFromSplash(
     BuildContext context,
