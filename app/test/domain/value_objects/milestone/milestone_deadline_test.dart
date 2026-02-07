@@ -27,9 +27,12 @@ void main() {
         expect(() => MilestoneDeadline(yesterday), throwsArgumentError);
       });
 
-      test('本日の日付でコンストラクタを呼び出すと例外が発生すること', () {
+      test('本日の日付で MilestoneDeadline が生成できること', () {
         final today = DateTime.now();
-        expect(() => MilestoneDeadline(today), throwsArgumentError);
+        final deadline = MilestoneDeadline(today);
+        expect(deadline.value.year, today.year);
+        expect(deadline.value.month, today.month);
+        expect(deadline.value.day, today.day);
       });
 
       test('過去の日付でコンストラクタを呼び出すと例外が発生すること', () {

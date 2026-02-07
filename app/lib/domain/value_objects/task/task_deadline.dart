@@ -1,6 +1,6 @@
 /// TaskDeadline - タスクの期限を表現する ValueObject
 ///
-/// バリデーション：本日より後の日付のみ、時刻は00:00:00に正規化される
+/// バリデーション：本日以降の日付のみ、時刻は00:00:00に正規化される
 class TaskDeadline {
   late DateTime value;
 
@@ -25,8 +25,8 @@ class TaskDeadline {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    if (!value.isAfter(today)) {
-      throw ArgumentError('TaskDeadline must be in the future, got: $value');
+    if (value.isBefore(today)) {
+      throw ArgumentError('TaskDeadline must be from today onwards, got: $value');
     }
   }
 

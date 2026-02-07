@@ -43,7 +43,7 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
     super.initState();
     _milestoneId = widget.arguments?['milestoneId'] ?? '';
     _goalId = widget.arguments?['goalId'] ?? '';
-    _selectedDeadline = DateTime.now().add(const Duration(days: 7));
+    _selectedDeadline = DateTime.now();
   }
 
   @override

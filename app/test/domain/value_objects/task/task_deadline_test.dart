@@ -27,9 +27,12 @@ void main() {
         expect(() => TaskDeadline(yesterday), throwsArgumentError);
       });
 
-      test('本日の日付でコンストラクタを呼び出すと例外が発生すること', () {
+      test('本日の日付で TaskDeadline が生成できること', () {
         final today = DateTime.now();
-        expect(() => TaskDeadline(today), throwsArgumentError);
+        final deadline = TaskDeadline(today);
+        expect(deadline.value.year, today.year);
+        expect(deadline.value.month, today.month);
+        expect(deadline.value.day, today.day);
       });
 
       test('過去の日付でコンストラクタを呼び出すと例外が発生すること', () {

@@ -37,7 +37,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedTargetDate = DateTime.now().add(const Duration(days: 30));
+    _selectedTargetDate = DateTime.now();
   }
 
   @override

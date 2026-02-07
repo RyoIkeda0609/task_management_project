@@ -41,8 +41,8 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
     super.initState();
     _titleController = TextEditingController();
     _reasonController = TextEditingController();
-    // デフォルトは1ヶ月後
-    _selectedDeadline = DateTime.now().add(const Duration(days: 30));
+    // デフォルトは今日
+    _selectedDeadline = DateTime.now();
     _selectedCategory = _categories.first;
   }
 
