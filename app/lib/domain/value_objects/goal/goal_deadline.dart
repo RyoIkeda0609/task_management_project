@@ -26,7 +26,9 @@ class GoalDeadline {
     final today = DateTime(now.year, now.month, now.day);
 
     if (value.isBefore(today)) {
-      throw ArgumentError('GoalDeadline must be from today onwards, got: $value');
+      throw ArgumentError(
+        'GoalDeadline must be from today onwards, got: $value',
+      );
     }
   }
 

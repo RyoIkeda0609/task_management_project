@@ -26,7 +26,9 @@ class TaskDeadline {
     final today = DateTime(now.year, now.month, now.day);
 
     if (value.isBefore(today)) {
-      throw ArgumentError('TaskDeadline must be from today onwards, got: $value');
+      throw ArgumentError(
+        'TaskDeadline must be from today onwards, got: $value',
+      );
     }
   }
 
