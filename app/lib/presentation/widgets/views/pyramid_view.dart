@@ -16,11 +16,7 @@ class PyramidView extends ConsumerWidget {
   final Goal goal;
   final List<Milestone> milestones;
 
-  const PyramidView({
-    super.key,
-    required this.goal,
-    required this.milestones,
-  });
+  const PyramidView({super.key, required this.goal, required this.milestones});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,9 +57,7 @@ class PyramidView extends ConsumerWidget {
         children: [
           Text(
             'ゴール',
-            style: AppTextStyles.labelSmall.copyWith(
-              color: AppColors.primary,
-            ),
+            style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
           ),
           SizedBox(height: Spacing.xSmall),
           Text(
@@ -86,9 +80,7 @@ class PyramidView extends ConsumerWidget {
     return _MilestoneExpansionTile(
       milestone: milestone,
       goalId: goalId,
-      milestoneTasks: ref.watch(
-        tasksByMilestoneIdProvider(milestone.id.value),
-      ),
+      milestoneTasks: ref.watch(tasksByMilestoneIdProvider(milestone.id.value)),
       onNavigateToMilestoneDetail: () => AppRouter.navigateToMilestoneDetail(
         context,
         goalId,
@@ -121,10 +113,7 @@ class _MilestoneExpansionTile extends ConsumerWidget {
           decoration: BoxDecoration(
             color: AppColors.neutral50,
             border: Border(
-              left: BorderSide(
-                color: AppColors.primaryLight,
-                width: 4,
-              ),
+              left: BorderSide(color: AppColors.primaryLight, width: 4),
             ),
             borderRadius: BorderRadius.circular(4),
           ),
@@ -169,9 +158,7 @@ class _MilestoneExpansionTile extends ConsumerWidget {
                   data: (tasks) {
                     if (tasks.isEmpty) {
                       return Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: Spacing.small,
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: Spacing.small),
                         child: Text(
                           'タスクなし',
                           style: AppTextStyles.bodySmall.copyWith(
@@ -186,10 +173,8 @@ class _MilestoneExpansionTile extends ConsumerWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: tasks.length,
-                      itemBuilder: (context, index) => _buildTaskNode(
-                        context,
-                        tasks[index],
-                      ),
+                      itemBuilder: (context, index) =>
+                          _buildTaskNode(context, tasks[index]),
                     );
                   },
                   loading: () => Padding(
@@ -198,9 +183,7 @@ class _MilestoneExpansionTile extends ConsumerWidget {
                   ),
                   error: (error, stackTrace) => Text(
                     'タスク取得エラー',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: Colors.red,
-                    ),
+                    style: AppTextStyles.bodySmall.copyWith(color: Colors.red),
                   ),
                 ),
               ),
@@ -218,9 +201,7 @@ class _MilestoneExpansionTile extends ConsumerWidget {
       decoration: BoxDecoration(
         color: _getTaskStatusColor(task.status.value),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(
-          color: AppColors.neutral200,
-        ),
+        border: Border.all(color: AppColors.neutral200),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,11 +283,7 @@ class _MilestoneExpansionTile extends ConsumerWidget {
           ),
         );
       case 'done':
-        return Icon(
-          Icons.check_circle,
-          color: Colors.green,
-          size: 24,
-        );
+        return Icon(Icons.check_circle, color: Colors.green, size: 24);
       default:
         return const SizedBox(width: 24, height: 24);
     }
