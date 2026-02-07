@@ -335,7 +335,7 @@ class AppRouter {
 
   /// タスク詳細画面へナビゲート
   static void navigateToTaskDetail(BuildContext context, String taskId) {
-    context.go('/task_detail/$taskId');
+    context.go('/today_tasks/task/$taskId');
   }
 
   /// スプラッシュ画面からのナビゲート

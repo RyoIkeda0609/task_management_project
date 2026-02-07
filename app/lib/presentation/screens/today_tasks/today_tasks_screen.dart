@@ -6,7 +6,9 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/status_badge.dart';
 import '../../widgets/common/empty_state.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/task.dart';
+import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
 
@@ -14,11 +16,16 @@ import '../../navigation/app_router.dart';
 ///
 /// 本日中に完了すべきタスクを表示します。
 /// ステータス別にタスクをグループ化して表示します。
-class TodayTasksScreen extends ConsumerWidget {
+class TodayTasksScreen extends ConsumerStatefulWidget {
   const TodayTasksScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TodayTasksScreen> createState() => _TodayTasksScreenState();
+}
+
+class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
+  @override
+  Widget build(BuildContext context) {
     final tasksAsync = ref.watch(taskListProvider);
 
     return Scaffold(
@@ -210,7 +217,7 @@ class TodayTasksScreen extends ConsumerWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => _navigateToTaskDetail(context, task.id.value),
+          onTap: () => _toggleTaskStatus(task),
           borderRadius: BorderRadius.circular(8),
           child: Container(
             padding: EdgeInsets.all(Spacing.medium),
@@ -221,8 +228,8 @@ class TodayTasksScreen extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                // チェックボックス
-                _buildStatusCheckbox(task.status),
+                // ステータスインジケーター（左側）
+                _buildStatusIndicator(task.status),
                 SizedBox(width: Spacing.small),
                 // タスク情報
                 Expanded(
@@ -257,22 +264,79 @@ class TodayTasksScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatusCheckbox(dynamic status) {
-    final isDone = _isStatus(status, 'done');
+  Widget _buildStatusIndicator(dynamic status) {
+    Color color;
+    IconData icon;
 
-    return Container(
-      width: 24,
-      height: 24,
-      decoration: BoxDecoration(
-        color: isDone ? AppColors.success : Colors.transparent,
-        border: Border.all(
-          color: isDone ? AppColors.success : AppColors.neutral300,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: isDone ? Icon(Icons.check, size: 16, color: Colors.white) : null,
+    if (_isStatus(status, 'done')) {
+      color = AppColors.success;
+      icon = Icons.check_circle;
+    } else if (_isStatus(status, 'doing')) {
+      color = AppColors.warning;
+      icon = Icons.radio_button_checked;
+    } else {
+      color = AppColors.neutral400;
+      icon = Icons.radio_button_unchecked;
+    }
+
+    return Icon(
+      icon,
+      color: color,
+      size: 24,
     );
+  }
+
+  Future<void> _toggleTaskStatus(Task task) async {
+    try {
+      final taskRepository = ref.read(taskRepositoryProvider);
+
+      // ステータスをサイクル：todo → doing → done → todo
+      final newTaskStatus;
+      if (_isStatus(task.status, 'done')) {
+        newTaskStatus = TaskStatus.todo();
+      } else if (_isStatus(task.status, 'doing')) {
+        newTaskStatus = TaskStatus.done();
+      } else {
+        // todo の場合
+        newTaskStatus = TaskStatus.doing();
+      }
+
+      final updatedTask = Task(
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        deadline: task.deadline,
+        status: newTaskStatus,
+        milestoneId: task.milestoneId,
+      );
+
+      // タスクを保存
+      await taskRepository.saveTask(updatedTask);
+
+      // プロバイダーキャッシュを無効化
+      if (mounted) {
+        ref.invalidate(taskListProvider);
+        ref.invalidate(taskByIdProvider(task.id.value));
+        ref.invalidate(tasksByMilestoneIdProvider(task.milestoneId));
+      }
+
+      if (mounted) {
+        await ValidationHelper.showSuccess(
+          context,
+          title: 'ステータス更新完了',
+          message: 'タスク「${task.title.value}」のステータスを更新しました。',
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        await ValidationHelper.handleException(
+          context,
+          e,
+          customTitle: 'ステータス更新エラー',
+          customMessage: 'ステータスの更新に失敗しました。',
+        );
+      }
+    }
   }
 
   String _mapTaskStatus(dynamic status) {
@@ -285,10 +349,6 @@ class TodayTasksScreen extends ConsumerWidget {
   bool _isStatus(dynamic status, String target) {
     final statusStr = status?.toString() ?? 'unknown';
     return statusStr.contains(target);
-  }
-
-  void _navigateToTaskDetail(BuildContext context, String taskId) {
-    AppRouter.navigateToTaskDetail(context, taskId);
   }
 
   Widget _buildErrorWidget(Object error) {
