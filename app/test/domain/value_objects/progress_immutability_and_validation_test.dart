@@ -19,17 +19,11 @@ void main() {
     });
 
     test('Progress に -1 を指定するとエラー', () {
-      expect(
-        () => Progress(-1),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => Progress(-1), throwsA(isA<ArgumentError>()));
     });
 
     test('Progress に 101 を指定するとエラー', () {
-      expect(
-        () => Progress(101),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => Progress(101), throwsA(isA<ArgumentError>()));
     });
 
     test('Progress は不変オブジェクト', () {

@@ -99,7 +99,11 @@ void main() {
     });
 
     test('Task の進捗は完全に自動計算される', () {
-      final statuses = [TaskStatus.todo(), TaskStatus.doing(), TaskStatus.done()];
+      final statuses = [
+        TaskStatus.todo(),
+        TaskStatus.doing(),
+        TaskStatus.done(),
+      ];
       final expectedProgress = [0, 50, 100];
 
       for (int i = 0; i < statuses.length; i++) {
@@ -115,7 +119,8 @@ void main() {
         expect(
           task.getProgress().value,
           expectedProgress[i],
-          reason: 'Status ${statuses[i].value} should have progress ${expectedProgress[i]}%',
+          reason:
+              'Status ${statuses[i].value} should have progress ${expectedProgress[i]}%',
         );
       }
     });

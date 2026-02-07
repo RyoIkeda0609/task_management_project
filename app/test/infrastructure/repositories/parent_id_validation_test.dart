@@ -102,8 +102,9 @@ void main() {
     });
 
     test('存在しないマイルストーン ID でタスクを検索すると空リスト', () async {
-      final tasks =
-          await taskRepository.getTasksByMilestoneId('nonexistent-milestone-id');
+      final tasks = await taskRepository.getTasksByMilestoneId(
+        'nonexistent-milestone-id',
+      );
       expect(tasks, isEmpty);
     });
 
@@ -114,11 +115,11 @@ void main() {
       );
     });
 
-    test('存在しないマイルストーン ID で関連タスクを削除してもエラーが発生しない',
-        () async {
+    test('存在しないマイルストーン ID で関連タスクを削除してもエラーが発生しない', () async {
       expect(
-        () async =>
-            await taskRepository.deleteTasksByMilestoneId('nonexistent-milestone-id'),
+        () async => await taskRepository.deleteTasksByMilestoneId(
+          'nonexistent-milestone-id',
+        ),
         returnsNormally,
       );
     });
@@ -143,8 +144,9 @@ void main() {
     });
 
     test('存在しないマイルストーン ID の取得は null を返す', () async {
-      final milestone =
-          await milestoneRepository.getMilestoneById('nonexistent-milestone-id');
+      final milestone = await milestoneRepository.getMilestoneById(
+        'nonexistent-milestone-id',
+      );
       expect(milestone, isNull);
     });
 
@@ -165,8 +167,7 @@ void main() {
       expect(retrieved, isNull);
     });
 
-    test('複数のタスクを保存し、マイルストーン ID で フィルタリングできる',
-        () async {
+    test('複数のタスクを保存し、マイルストーン ID で フィルタリングできる', () async {
       final task1 = Task(
         id: TaskId('task-1'),
         title: TaskTitle('タスク1'),
@@ -188,10 +189,12 @@ void main() {
       await taskRepository.saveTask(task1);
       await taskRepository.saveTask(task2);
 
-      final tasksForMilestone1 =
-          await taskRepository.getTasksByMilestoneId('milestone-1');
-      final tasksForMilestone2 =
-          await taskRepository.getTasksByMilestoneId('milestone-2');
+      final tasksForMilestone1 = await taskRepository.getTasksByMilestoneId(
+        'milestone-1',
+      );
+      final tasksForMilestone2 = await taskRepository.getTasksByMilestoneId(
+        'milestone-2',
+      );
 
       expect(tasksForMilestone1, hasLength(1));
       expect(tasksForMilestone2, hasLength(1));
@@ -199,8 +202,7 @@ void main() {
       expect(tasksForMilestone2.first.id.value, 'task-2');
     });
 
-    test('複数のマイルストーンを保存し、ゴール ID で フィルタリングできる',
-        () async {
+    test('複数のマイルストーンを保存し、ゴール ID で フィルタリングできる', () async {
       final milestone1 = Milestone(
         id: MilestoneId('milestone-1'),
         title: MilestoneTitle('マイルストーン1'),
@@ -218,10 +220,10 @@ void main() {
       await milestoneRepository.saveMilestone(milestone1);
       await milestoneRepository.saveMilestone(milestone2);
 
-      final milestonesForGoal1 =
-          await milestoneRepository.getMilestonesByGoalId('goal-1');
-      final milestonesForGoal2 =
-          await milestoneRepository.getMilestonesByGoalId('goal-2');
+      final milestonesForGoal1 = await milestoneRepository
+          .getMilestonesByGoalId('goal-1');
+      final milestonesForGoal2 = await milestoneRepository
+          .getMilestonesByGoalId('goal-2');
 
       expect(milestonesForGoal1, hasLength(1));
       expect(milestonesForGoal2, hasLength(1));
