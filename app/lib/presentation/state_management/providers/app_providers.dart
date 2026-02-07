@@ -28,7 +28,7 @@ export 'state_notifier_providers.dart'
 /// 新しいコードでは最新のStateNotifierProviderを使用してください。
 
 /// すべてのゴール一覧を提供（FutureProvider）
-/// 
+///
 /// @deprecated goalsProvider を使用してください
 final goalListProvider = FutureProvider<List<Goal>>((ref) {
   return ref.watch(goalRepositoryProvider).getAllGoals();
@@ -36,7 +36,7 @@ final goalListProvider = FutureProvider<List<Goal>>((ref) {
 
 /// ID指定でゴール詳細を提供（FutureProvider）
 ///
-/// @deprecated goalDetailProvider を使用してください  
+/// @deprecated goalDetailProvider を使用してください
 final goalByIdProvider = FutureProvider.family<Goal?, String>((ref, goalId) {
   return ref.watch(goalRepositoryProvider).getGoalById(goalId);
 });
@@ -46,26 +46,30 @@ final goalByIdProvider = FutureProvider.family<Goal?, String>((ref, goalId) {
 /// @deprecated milestonsByGoalProvider を使用してください
 final milestonesByGoalIdProvider =
     FutureProvider.family<List<Milestone>, String>((ref, goalId) {
-      return ref.watch(milestoneRepositoryProvider).getMilestonesByGoalId(goalId);
+      return ref
+          .watch(milestoneRepositoryProvider)
+          .getMilestonesByGoalId(goalId);
     });
 
 /// ID指定でマイルストーン詳細を提供（FutureProvider）
 ///
 /// @deprecated milestoneDetailProvider を使用してください
-final milestoneByIdProvider = FutureProvider.family<Milestone?, String>(
-  (ref, milestoneId) {
-    return ref.watch(milestoneRepositoryProvider).getMilestoneById(milestoneId);
-  },
-);
+final milestoneByIdProvider = FutureProvider.family<Milestone?, String>((
+  ref,
+  milestoneId,
+) {
+  return ref.watch(milestoneRepositoryProvider).getMilestoneById(milestoneId);
+});
 
 /// マイルストーン ID に紐付いたタスク一覧を提供（FutureProvider）
 ///
 /// @deprecated tasksByMilestoneProvider を使用してください
-final tasksByMilestoneIdProvider = FutureProvider.family<List<Task>, String>(
-  (ref, milestoneId) {
-    return ref.watch(taskRepositoryProvider).getTasksByMilestoneId(milestoneId);
-  },
-);
+final tasksByMilestoneIdProvider = FutureProvider.family<List<Task>, String>((
+  ref,
+  milestoneId,
+) {
+  return ref.watch(taskRepositoryProvider).getTasksByMilestoneId(milestoneId);
+});
 
 /// ID指定でタスク詳細を提供（FutureProvider）
 ///

@@ -22,9 +22,9 @@ import 'repository_providers.dart';
 /// ```
 final goalsProvider =
     StateNotifierProvider<GoalsNotifier, AsyncValue<List<Goal>>>((ref) {
-  final repository = ref.watch(goalRepositoryProvider);
-  return GoalsNotifier(repository)..loadGoals();
-});
+      final repository = ref.watch(goalRepositoryProvider);
+      return GoalsNotifier(repository)..loadGoals();
+    });
 
 /// 特定IDのゴール詳細を取得するProvider
 ///
@@ -32,8 +32,10 @@ final goalsProvider =
 /// ```dart
 /// final goalAsync = ref.watch(goalDetailProvider(goalId));
 /// ```
-final goalDetailProvider =
-    FutureProvider.family<Goal?, String>((ref, goalId) async {
+final goalDetailProvider = FutureProvider.family<Goal?, String>((
+  ref,
+  goalId,
+) async {
   final repository = ref.watch(goalRepositoryProvider);
   return repository.getGoalById(goalId);
 });
@@ -47,13 +49,16 @@ final goalDetailProvider =
 /// final milestonesAsync = ref.watch(milestonsByGoalProvider(goalId));
 /// ```
 final milestonsByGoalProvider =
-    StateNotifierProvider.family<MilestonesNotifier, AsyncValue<List<Milestone>>,
-        String>((ref, goalId) {
-  final repository = ref.watch(milestoneRepositoryProvider);
-  final notifier = MilestonesNotifier(repository);
-  notifier.loadMilestonesByGoalId(goalId);
-  return notifier;
-});
+    StateNotifierProvider.family<
+      MilestonesNotifier,
+      AsyncValue<List<Milestone>>,
+      String
+    >((ref, goalId) {
+      final repository = ref.watch(milestoneRepositoryProvider);
+      final notifier = MilestonesNotifier(repository);
+      notifier.loadMilestonesByGoalId(goalId);
+      return notifier;
+    });
 
 /// 特定IDのマイルストーン詳細を取得するProvider
 ///
@@ -61,8 +66,10 @@ final milestonsByGoalProvider =
 /// ```dart
 /// final milestoneAsync = ref.watch(milestoneDetailProvider(milestoneId));
 /// ```
-final milestoneDetailProvider =
-    FutureProvider.family<Milestone?, String>((ref, milestoneId) async {
+final milestoneDetailProvider = FutureProvider.family<Milestone?, String>((
+  ref,
+  milestoneId,
+) async {
   final repository = ref.watch(milestoneRepositoryProvider);
   return repository.getMilestoneById(milestoneId);
 });
@@ -75,15 +82,15 @@ final milestoneDetailProvider =
 /// ```dart
 /// final tasksAsync = ref.watch(tasksByMilestoneProvider(milestoneId));
 /// ```
-final tasksByMilestoneProvider = StateNotifierProvider.family<
-    TasksNotifier,
-    AsyncValue<List<Task>>,
-    String>((ref, milestoneId) {
-  final repository = ref.watch(taskRepositoryProvider);
-  final notifier = TasksNotifier(repository);
-  notifier.loadTasksByMilestoneId(milestoneId);
-  return notifier;
-});
+final tasksByMilestoneProvider =
+    StateNotifierProvider.family<TasksNotifier, AsyncValue<List<Task>>, String>(
+      (ref, milestoneId) {
+        final repository = ref.watch(taskRepositoryProvider);
+        final notifier = TasksNotifier(repository);
+        notifier.loadTasksByMilestoneId(milestoneId);
+        return notifier;
+      },
+    );
 
 /// すべてのタスク一覧を管理するProvider
 ///
@@ -93,12 +100,12 @@ final tasksByMilestoneProvider = StateNotifierProvider.family<
 /// ```
 final todayTasksProvider =
     StateNotifierProvider<TasksNotifier, AsyncValue<List<Task>>>((ref) {
-  final repository = ref.watch(taskRepositoryProvider);
-  final notifier = TasksNotifier(repository);
-  // すべてのタスクを読み込む（UI側でフィルタリング可能）
-  notifier.loadAllTasks();
-  return notifier;
-});
+      final repository = ref.watch(taskRepositoryProvider);
+      final notifier = TasksNotifier(repository);
+      // すべてのタスクを読み込む（UI側でフィルタリング可能）
+      notifier.loadAllTasks();
+      return notifier;
+    });
 
 /// 特定IDのタスク詳細を取得するProvider
 ///
@@ -106,8 +113,10 @@ final todayTasksProvider =
 /// ```dart
 /// final taskAsync = ref.watch(taskDetailProvider(taskId));
 /// ```
-final taskDetailProvider =
-    FutureProvider.family<Task?, String>((ref, taskId) async {
+final taskDetailProvider = FutureProvider.family<Task?, String>((
+  ref,
+  taskId,
+) async {
   final repository = ref.watch(taskRepositoryProvider);
   return repository.getTaskById(taskId);
 });

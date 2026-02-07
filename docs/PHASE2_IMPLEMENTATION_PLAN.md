@@ -9,9 +9,11 @@
 ## 1. 全体ビジョン
 
 ### 目標
+
 Domain・Application・Infrastructure層が完成した状態から、**Presentation層を MVP完成まで持ち上げる**
 
 ### 実装範囲
+
 - ✅ go_router による宣言的ナビゲーション導入
 - ✅ StateNotifier/AsyncNotifier による状態管理導入
 - ✅ ピラミッドビュー実装（ExpansionTile ベース）
@@ -19,20 +21,22 @@ Domain・Application・Infrastructure層が完成した状態から、**Presenta
 - ✅ ウィジェット統合テスト（オプション）
 
 ### 推定工数
-| フェーズ | 項目 | 工数 | 優先度 |
-|---------|------|------|--------|
-| 2-1 | go_router 導入 | **2-3時間** | 🔴 高 |
-| 2-2 | StateNotifier 導入 | **3-4時間** | 🔴 高 |
-| 2-3 | ピラミッドビュー実装 | **4-6時間** | 🔴 高 |
-| 2-4 | カレンダービュー実装 | **3-4時間** | 🔴 高 |
-| 2-5 | 統合テスト（オプション） | **2-3時間** | 🟡 中 |
-| **合計** | | **~20時間** | |
+
+| フェーズ | 項目                     | 工数        | 優先度 |
+| -------- | ------------------------ | ----------- | ------ |
+| 2-1      | go_router 導入           | **2-3時間** | 🔴 高  |
+| 2-2      | StateNotifier 導入       | **3-4時間** | 🔴 高  |
+| 2-3      | ピラミッドビュー実装     | **4-6時間** | 🔴 高  |
+| 2-4      | カレンダービュー実装     | **3-4時間** | 🔴 高  |
+| 2-5      | 統合テスト（オプション） | **2-3時間** | 🟡 中  |
+| **合計** |                          | **~20時間** |        |
 
 ---
 
 ## 2. フェーズ2-1: go_router 導入（2-3時間）
 
 ### 目的
+
 - 命令型ナビゲーション → 宣言型ナビゲーションへ移行
 - Deep Link サポート（将来拡張対応）
 - ナビゲーション状態の一元管理
@@ -40,6 +44,7 @@ Domain・Application・Infrastructure層が完成した状態から、**Presenta
 ### 実装内容
 
 **Step 1: 依存関係追加**
+
 ```yaml
 # pubspec.yaml に追加
 dependencies:
@@ -47,6 +52,7 @@ dependencies:
 ```
 
 **Step 2: ルート定義の再構築**
+
 ```dart
 // lib/presentation/navigation/app_router.dart
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -62,7 +68,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnboardingScreen(),
       ),
       StatefulShellRoute(
-        builder: (context, state, navigationShell) => 
+        builder: (context, state, navigationShell) =>
           HomeNavigationShell(navigationShell: navigationShell),
         branches: [
           StatefulShellBranch(
@@ -104,6 +110,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 ```
 
 **Step 3: ナビゲーション使用法の変更**
+
 ```dart
 // 修正前（Named Route）
 Navigator.of(context).pushNamed('/goal/detail', arguments: goalId);
@@ -113,6 +120,7 @@ context.go('/home/goal/$goalId');
 ```
 
 ### 実装チェックリスト
+
 - [ ] pubspec.yaml に go_router を追加
 - [ ] lib/presentation/navigation/app_router.dart を新規作成
 - [ ] 全ルートを go_router で定義
@@ -121,6 +129,7 @@ context.go('/home/goal/$goalId');
 - [ ] テスト実行（459個すべて通過確認）
 
 ### 注意点
+
 - 既存コードの Navigator 呼び出しをすべて置き換える必要あり
 - Domain・Application層への影響なし
 
@@ -129,6 +138,7 @@ context.go('/home/goal/$goalId');
 ## 3. フェーズ2-2: StateNotifier/AsyncNotifier 導入（3-4時間）
 
 ### 目的
+
 - UseCase の結果を UI に反映
 - 非同期処理（Hive）の管理を統一
 - Riverpod との実装品質向上
@@ -136,6 +146,7 @@ context.go('/home/goal/$goalId');
 ### 実装内容
 
 **Step 1: Provider 定義の拡張**
+
 ```dart
 // lib/presentation/state_management/providers/goal_providers.dart
 final goalsProvider = StateNotifierProvider<GoalsNotifier, AsyncValue<List<Goal>>>((ref) {
@@ -174,6 +185,7 @@ class GoalsNotifier extends StateNotifier<AsyncValue<List<Goal>>> {
 ```
 
 **Step 2: UI での使用**
+
 ```dart
 // 修正前（Repository 直接利用）
 final goals = await goalRepository.getAllGoals();
@@ -182,7 +194,7 @@ final goals = await goalRepository.getAllGoals();
 @override
 Widget build(BuildContext context, WidgetRef ref) {
   final goalsAsync = ref.watch(goalsProvider);
-  
+
   return goalsAsync.when(
     data: (goals) => _buildGoalList(goals),
     loading: () => const LoadingWidget(),
@@ -192,6 +204,7 @@ Widget build(BuildContext context, WidgetRef ref) {
 ```
 
 ### 実装チェックリスト
+
 - [ ] Goal / Milestone / Task 各 Notifier を作成
 - [ ] StateNotifierProvider で各 Notifier をラップ
 - [ ] 各UseCase をNotifier 内に統合
@@ -199,6 +212,7 @@ Widget build(BuildContext context, WidgetRef ref) {
 - [ ] テスト実行（459個すべて通過確認）
 
 ### 注意点
+
 - 各UseCase は Notifier 内でインスタンス化される
 - Domain・Application層への影響なし
 
@@ -207,6 +221,7 @@ Widget build(BuildContext context, WidgetRef ref) {
 ## 4. フェーズ2-3: ピラミッドビュー実装（4-6時間）
 
 ### 目的
+
 Goal → Milestone → Task の階層構造を視覚的に表現
 
 ### 設計
@@ -224,6 +239,7 @@ Goal → Milestone → Task の階層構造を視覚的に表現
 ### 実装内容
 
 **Step 1: ピラミッドビューウィジェット作成**
+
 ```dart
 // lib/presentation/widgets/pyramid/pyramid_view.dart
 class PyramidView extends StatefulWidget {
@@ -251,7 +267,7 @@ class _PyramidViewState extends State<PyramidView> {
         children: [
           // Goal ヘッダー
           _buildGoalHeader(),
-          
+
           // Milestone リスト（展開可能）
           for (final milestone in widget.milestones)
             _buildMilestoneExpansionTile(milestone),
@@ -315,6 +331,7 @@ class _PyramidViewState extends State<PyramidView> {
 ```
 
 **Step 2: MilestoneDetailScreen に統合**
+
 ```dart
 // lib/presentation/screens/milestone/milestone_detail_screen.dart
 class MilestoneDetailScreen extends ConsumerWidget {
@@ -325,7 +342,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final milestoneAsync = ref.watch(milestoneProvider(milestoneId));
-    
+
     return milestoneAsync.when(
       data: (milestone) => _buildContent(context, ref, milestone),
       loading: () => const LoadingWidget(),
@@ -335,7 +352,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
 
   Widget _buildContent(BuildContext context, WidgetRef ref, Milestone milestone) {
     final tasksAsync = ref.watch(tasksByMilestoneProvider(milestone.id.value));
-    
+
     return tasksAsync.when(
       data: (tasks) => PyramidView(
         goal: milestone.goal, // 別途取得が必要
@@ -350,6 +367,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
 ```
 
 ### 実装チェックリスト
+
 - [ ] PyramidView ウィジェット作成
 - [ ] ExpansionTile で Milestone 折りたたみ
 - [ ] Task ListTile 実装
@@ -360,19 +378,20 @@ class MilestoneDetailScreen extends ConsumerWidget {
 
 ### UI/UX 仕様
 
-| 要素 | 仕様 |
-|------|------|
-| Goal ヘッダー | タイトル + Progress Bar |
-| Milestone | ExpansionTile（折りたたみ可能） |
-| Task | ListTile（Checkbox + タイトル + Status） |
-| インタラクション | Checkbox クリック → ステータス変更 |
-| スクロール | SingleChildScrollView（タスク数が多い場合対応） |
+| 要素             | 仕様                                            |
+| ---------------- | ----------------------------------------------- |
+| Goal ヘッダー    | タイトル + Progress Bar                         |
+| Milestone        | ExpansionTile（折りたたみ可能）                 |
+| Task             | ListTile（Checkbox + タイトル + Status）        |
+| インタラクション | Checkbox クリック → ステータス変更              |
+| スクロール       | SingleChildScrollView（タスク数が多い場合対応） |
 
 ---
 
 ## 5. フェーズ2-4: カレンダービュー実装（3-4時間）
 
 ### 目的
+
 マイルストーン・タスク期限をカレンダーで視覚的に表現
 
 ### 設計
@@ -390,6 +409,7 @@ Mo Tu We Th Fr Sa Su
 ### 実装内容
 
 **Step 1: カレンダービューウィジェット作成**
+
 ```dart
 // lib/presentation/widgets/calendar/calendar_view.dart
 class CalendarView extends StatefulWidget {
@@ -422,10 +442,10 @@ class _CalendarViewState extends State<CalendarView> {
       children: [
         // カレンダーヘッダー（月選択）
         _buildMonthNavigator(),
-        
+
         // カレンダーグリッド
         _buildCalendarGrid(),
-        
+
         // 選択日の詳細表示
         _buildSelectedDateDetails(),
       ],
@@ -468,10 +488,10 @@ class _CalendarViewState extends State<CalendarView> {
   Widget _buildCalendarGrid() {
     final firstDayOfMonth = DateTime(_selectedMonth.year, _selectedMonth.month, 1);
     final lastDayOfMonth = DateTime(_selectedMonth.year, _selectedMonth.month + 1, 0);
-    
+
     final daysInMonth = lastDayOfMonth.day;
     final firstWeekday = firstDayOfMonth.weekday;
-    
+
     final cells = <DateTime?>[];
     // 前月の日付
     for (int i = firstWeekday - 1; i > 0; i--) {
@@ -565,6 +585,7 @@ class _CalendarViewState extends State<CalendarView> {
 ```
 
 **Step 2: GoalDetailScreen に統合**
+
 ```dart
 // lib/presentation/screens/goal/goal_detail_screen.dart
 class GoalDetailScreen extends ConsumerWidget {
@@ -575,7 +596,7 @@ class GoalDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goalAsync = ref.watch(goalProvider(goalId));
-    
+
     return goalAsync.when(
       data: (goal) => _buildContent(context, ref, goal),
       loading: () => const LoadingWidget(),
@@ -585,7 +606,7 @@ class GoalDetailScreen extends ConsumerWidget {
 
   Widget _buildContent(BuildContext context, WidgetRef ref, Goal goal) {
     final milestonesAsync = ref.watch(milestonesByGoalIdProvider(goal.id.value));
-    
+
     return milestonesAsync.when(
       data: (milestones) => _buildDetailTabs(context, ref, goal, milestones),
       loading: () => const LoadingWidget(),
@@ -636,6 +657,7 @@ class GoalDetailScreen extends ConsumerWidget {
 ```
 
 ### 実装チェックリスト
+
 - [ ] CalendarView ウィジェット作成
 - [ ] 月選択ナビゲーション実装
 - [ ] カレンダーグリッド表示
@@ -645,11 +667,11 @@ class GoalDetailScreen extends ConsumerWidget {
 
 ### UI/UX 仕様
 
-| 要素 | 仕様 |
-|------|------|
-| ヘッダー | 月選択（← → ボタン） |
-| グリッド | 7列 × 活動日数行 |
-| 日付セル | タスクドット（青） |
+| 要素             | 仕様                        |
+| ---------------- | --------------------------- |
+| ヘッダー         | 月選択（← → ボタン）        |
+| グリッド         | 7列 × 活動日数行            |
+| 日付セル         | タスクドット（青）          |
 | インタラクション | 日付タップ → タスク詳細表示 |
 
 ---
@@ -657,9 +679,11 @@ class GoalDetailScreen extends ConsumerWidget {
 ## 6. フェーズ2-5: 統合テスト（2-3時間、オプション）
 
 ### 目的
+
 ウィジェット・ナビゲーション・状態管理の統合動作確認
 
 ### 実装内容
+
 - Widget Test（主要画面）
 - Integration Test（end-to-end フロー）
 - パフォーマンステスト（タスク数多い場合）
@@ -668,26 +692,26 @@ class GoalDetailScreen extends ConsumerWidget {
 
 ## 7. 全体スケジュール
 
-| 週 | フェーズ | 内容 | 工数 | ステータス |
-|----|---------|------|------|-----------|
-| Week 1 | 2-1 | go_router 導入 | 2-3h | 📋 計画中 |
-| | 2-2 | StateNotifier 導入 | 3-4h |  |
-| Week 2 | 2-3 | ピラミッドビュー | 4-6h |  |
-| | 2-4 | カレンダービュー | 3-4h |  |
-| Week 3 | 2-5 | 統合テスト | 2-3h |  |
-| | 最終 | MVP リリース準備 | - |  |
+| 週     | フェーズ | 内容               | 工数 | ステータス |
+| ------ | -------- | ------------------ | ---- | ---------- |
+| Week 1 | 2-1      | go_router 導入     | 2-3h | 📋 計画中  |
+|        | 2-2      | StateNotifier 導入 | 3-4h |            |
+| Week 2 | 2-3      | ピラミッドビュー   | 4-6h |            |
+|        | 2-4      | カレンダービュー   | 3-4h |            |
+| Week 3 | 2-5      | 統合テスト         | 2-3h |            |
+|        | 最終     | MVP リリース準備   | -    |            |
 
 ---
 
 ## 8. リスク管理
 
-| リスク | 対策 |
-|--------|------|
-| 既存コード修正量が予想以上 | 段階的にテストだれながら進める |
-| go_router の複雑性 | シンプル実装から開始、段階的に拡張 |
-| StateNotifier の学習コスト | 実装例を詳細に作成 |
-| UI/UX の問題 | MVP で基本実装、Phase3 で改善 |
-| テスト失敗 | 毎段階でテスト実行確認 |
+| リスク                     | 対策                               |
+| -------------------------- | ---------------------------------- |
+| 既存コード修正量が予想以上 | 段階的にテストだれながら進める     |
+| go_router の複雑性         | シンプル実装から開始、段階的に拡張 |
+| StateNotifier の学習コスト | 実装例を詳細に作成                 |
+| UI/UX の問題               | MVP で基本実装、Phase3 で改善      |
+| テスト失敗                 | 毎段階でテスト実行確認             |
 
 ---
 
@@ -705,10 +729,12 @@ class GoalDetailScreen extends ConsumerWidget {
 ## 次のステップ
 
 **本日の実装ステップ:**
+
 1. ✅ フェーズ2 計画書作成（このドキュメント）
 2. 📋 フェーズ2-1 開始（go_router 導入）
 
 **準備作業:**
+
 - pubspec.yaml に依存関係追加
 - AppRouter 設計確認
 

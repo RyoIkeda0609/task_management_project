@@ -107,10 +107,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final milestoneId = state.uri.queryParameters['milestoneId'] ?? '';
           final goalId = state.uri.queryParameters['goalId'] ?? '';
           return TaskCreateScreen(
-            arguments: {
-              'milestoneId': milestoneId,
-              'goalId': goalId,
-            },
+            arguments: {'milestoneId': milestoneId, 'goalId': goalId},
           );
         },
       ),
@@ -210,11 +207,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     ],
 
     /// エラーページビルダー
-    errorBuilder: (context, state) => Scaffold(
-      body: Center(
-        child: Text('ていません: ${state.uri}'),
-      ),
-    ),
+    errorBuilder: (context, state) =>
+        Scaffold(body: Center(child: Text('ていません: ${state.uri}'))),
   );
 });
 
@@ -223,9 +217,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 class _HomeNavigationShell extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
 
-  const _HomeNavigationShell({
-    required this.navigationShell,
-  });
+  const _HomeNavigationShell({required this.navigationShell});
 
   @override
   State<_HomeNavigationShell> createState() => _HomeNavigationShellState();

@@ -27,9 +27,7 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
   /// すべてのタスクを読み込む
   Future<void> loadAllTasks() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () => _repository.getAllTasks(),
-    );
+    state = await AsyncValue.guard(() => _repository.getAllTasks());
   }
 
   /// IDからタスクを取得
