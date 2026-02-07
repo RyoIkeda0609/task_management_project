@@ -13,8 +13,6 @@ import '../../../domain/value_objects/milestone/milestone_id.dart';
 import '../../../domain/value_objects/milestone/milestone_title.dart';
 import '../../../domain/value_objects/milestone/milestone_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
-import '../../navigation/app_router.dart';
-import '../../navigation/app_router.dart';
 
 /// マイルストーン作成画面
 ///
