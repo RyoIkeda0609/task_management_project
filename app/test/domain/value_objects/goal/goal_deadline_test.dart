@@ -28,9 +28,13 @@ void main() {
         expect(() => GoalDeadline(yesterday), throwsArgumentError);
       });
 
-      test('本日の日付でコンストラクタを呼び出すと例外が発生すること', () {
+      test('本日の日付で GoalDeadline が生成できること', () {
         final today = DateTime.now();
-        expect(() => GoalDeadline(today), throwsArgumentError);
+        final deadline = GoalDeadline(today);
+        // 時刻を除いて比較（年月日のみ）
+        expect(deadline.value.year, today.year);
+        expect(deadline.value.month, today.month);
+        expect(deadline.value.day, today.day);
       });
 
       test('過去の日付でコンストラクタを呼び出すと例外が発生すること', () {

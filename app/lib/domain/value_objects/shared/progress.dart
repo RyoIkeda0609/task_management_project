@@ -2,11 +2,14 @@
 ///
 /// 値の範囲：0～100
 class Progress {
+  static const int minValue = 0;
+  static const int maxValue = 100;
+
   late int value;
 
   Progress([int? val]) {
     if (val == null) {
-      value = 0;
+      value = minValue;
     } else {
       value = val;
       _validate();
@@ -14,16 +17,18 @@ class Progress {
   }
 
   void _validate() {
-    if (value < 0 || value > 100) {
-      throw ArgumentError('Progress must be between 0 and 100, got: $value');
+    if (value < minValue || value > maxValue) {
+      throw ArgumentError(
+        'Progress must be between $minValue and $maxValue, got: $value',
+      );
     }
   }
 
   /// 完了状態（progress == 100）か
-  bool get isCompleted => value == 100;
+  bool get isCompleted => value == maxValue;
 
   /// 未開始状態（progress == 0）か
-  bool get isNotStarted => value == 0;
+  bool get isNotStarted => value == minValue;
 
   @override
   bool operator ==(Object other) =>

@@ -20,12 +20,12 @@ void main() {
         expect(() => GoalDeadline(yesterday), throwsA(isA<ArgumentError>()));
       });
 
-      test('本日のデッドラインは無効', () {
+      test('本日のデッドラインは有効', () {
         // Arrange
         final today = DateTime.now();
 
         // Act & Assert
-        expect(() => GoalDeadline(today), throwsA(isA<ArgumentError>()));
+        expect(() => GoalDeadline(today), returnsNormally);
       });
 
       test('明日のデッドラインは有効', () {
@@ -105,6 +105,14 @@ void main() {
           throwsA(isA<ArgumentError>()),
         );
       });
+
+      test('本日のデッドラインは有効', () {
+        // Arrange
+        final today = DateTime.now();
+
+        // Act & Assert
+        expect(() => MilestoneDeadline(today), returnsNormally);
+      });
     });
 
     group('タスク作成の制約', () {
@@ -151,6 +159,14 @@ void main() {
 
         // Act & Assert
         expect(() => TaskDeadline(yesterday), throwsA(isA<ArgumentError>()));
+      });
+
+      test('本日のデッドラインは有効', () {
+        // Arrange
+        final today = DateTime.now();
+
+        // Act & Assert
+        expect(() => TaskDeadline(today), returnsNormally);
       });
     });
 

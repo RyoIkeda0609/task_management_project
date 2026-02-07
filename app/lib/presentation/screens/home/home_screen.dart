@@ -3,15 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/empty_state.dart';
+import '../../widgets/views/pyramid_view.dart';
+import '../../widgets/views/calendar_view.dart';
 import '../../../domain/entities/goal.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// ホーム画面
 ///
-/// ユーザーが作成したゴール一覧を表示します。
+/// 3つの異なるビュー（リスト / ピラミッド / カレンダー）でゴール・マイルストーン・タスクを表示します。
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -19,21 +20,129 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final goalsAsync = ref.watch(goalListProvider);
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'ゴール一覧',
-        hasLeading: false,
-        backgroundColor: AppColors.neutral100,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('ゴール管理'),
+          backgroundColor: AppColors.neutral100,
+          elevation: 0,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: TabBar(
+              labelStyle: AppTextStyles.labelMedium,
+              unselectedLabelStyle: AppTextStyles.labelSmall,
+              labelColor: AppColors.primary,
+              unselectedLabelColor: AppColors.neutral600,
+              dividerColor: AppColors.neutral200,
+              tabs: const [
+                Tab(icon: Icon(Icons.list), child: Text('リスト')),
+                Tab(icon: Icon(Icons.account_tree), child: Text('ピラミッド')),
+                Tab(icon: Icon(Icons.calendar_today), child: Text('カレンダー')),
+              ],
+            ),
+          ),
+        ),
+        body: goalsAsync.when(
+          data: (goals) => _buildViewPager(context, ref, goals),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) => _buildErrorWidget(context, error),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => AppRouter.navigateToGoalCreate(context),
+          child: const Icon(Icons.add),
+        ),
       ),
-      body: goalsAsync.when(
-        data: (goals) => _buildGoalList(context, goals),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => _buildErrorWidget(context, error),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed(AppRouter.goalCreate),
-        child: const Icon(Icons.add),
-      ),
+    );
+  }
+
+  Widget _buildViewPager(
+    BuildContext context,
+    WidgetRef ref,
+    List<Goal> goals,
+  ) {
+    if (goals.isEmpty) {
+      return TabBarView(
+        children: [
+          EmptyState(
+            icon: Icons.flag_outlined,
+            title: 'ゴールがまだありません',
+            message: 'まずは今月のゴールを設定しましょう。',
+            actionText: 'ゴールを作成',
+            onActionPressed: () => AppRouter.navigateToGoalCreate(context),
+          ),
+          EmptyState(
+            icon: Icons.flag_outlined,
+            title: 'ゴールがまだありません',
+            message: 'まずは今月のゴールを設定しましょう。',
+            actionText: 'ゴールを作成',
+            onActionPressed: () => AppRouter.navigateToGoalCreate(context),
+          ),
+          EmptyState(
+            icon: Icons.flag_outlined,
+            title: 'ゴールがまだありません',
+            message: 'まずは今月のゴールを設定しましょう。',
+            actionText: 'ゴールを作成',
+            onActionPressed: () => AppRouter.navigateToGoalCreate(context),
+          ),
+        ],
+      );
+    }
+
+    return TabBarView(
+      children: [
+        _buildListView(context, goals),
+        _buildPyramidViewTab(context, ref, goals),
+        CalendarView(goals: goals),
+      ],
+    );
+  }
+
+  Widget _buildListView(BuildContext context, List<Goal> goals) {
+    return ListView.builder(
+      padding: EdgeInsets.all(Spacing.medium),
+      itemCount: goals.length,
+      itemBuilder: (context, index) => _buildGoalCard(context, goals[index]),
+    );
+  }
+
+  Widget _buildPyramidViewTab(
+    BuildContext context,
+    WidgetRef ref,
+    List<Goal> goals,
+  ) {
+    return ListView.builder(
+      padding: EdgeInsets.all(Spacing.medium),
+      itemCount: goals.length,
+      itemBuilder: (context, index) {
+        final goal = goals[index];
+        final milestonesAsync = ref.watch(
+          milestonesByGoalIdProvider(goal.id.value),
+        );
+
+        return milestonesAsync.when(
+          data: (milestones) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: Spacing.medium),
+                child: Text(
+                  goal.title.value,
+                  style: AppTextStyles.titleMedium,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: Spacing.large),
+                child: PyramidView(goal: goal, milestones: milestones),
+              ),
+            ],
+          ),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) => _buildErrorWidget(context, error),
+        );
+      },
     );
   }
 
@@ -44,8 +153,7 @@ class HomeScreen extends ConsumerWidget {
         title: 'ゴールがまだありません',
         message: 'まずは今月のゴールを設定しましょう。',
         actionText: 'ゴールを作成',
-        onActionPressed: () =>
-            Navigator.of(context).pushNamed(AppRouter.goalCreate),
+        onActionPressed: () => AppRouter.navigateToGoalCreate(context),
       );
     }
 
@@ -57,12 +165,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildGoalCard(BuildContext context, Goal goal) {
-    return Card(
-      child: InkWell(
-        onTap: () => Navigator.of(
-          context,
-        ).pushNamed(AppRouter.goalDetail, arguments: goal.id.value),
-        borderRadius: BorderRadius.circular(8),
+    return InkWell(
+      onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),
+      borderRadius: BorderRadius.circular(8),
+      child: Card(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
           child: Column(
@@ -96,8 +202,7 @@ class HomeScreen extends ConsumerWidget {
       title: 'ゴールがまだありません',
       message: '最初にゴールを作成してください。',
       actionText: 'ゴールを作成',
-      onActionPressed: () =>
-          Navigator.of(context).pushNamed(AppRouter.goalCreate),
+      onActionPressed: () => AppRouter.navigateToGoalCreate(context),
     );
   }
 }

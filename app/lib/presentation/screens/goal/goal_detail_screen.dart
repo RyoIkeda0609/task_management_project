@@ -5,6 +5,7 @@ import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/empty_state.dart';
+import '../../widgets/views/pyramid_view.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/entities/milestone.dart';
 import '../../state_management/providers/app_providers.dart';
@@ -33,11 +34,7 @@ class GoalDetailScreen extends ConsumerWidget {
           // 編集ボタン
           IconButton(
             icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.of(
-                context,
-              ).pushNamed(AppRouter.goalEdit, arguments: goalId);
-            },
+            onPressed: () => AppRouter.navigateToGoalEdit(context, goalId),
           ),
           // 削除ボタン
           IconButton(
@@ -78,9 +75,7 @@ class GoalDetailScreen extends ConsumerWidget {
         error: (error, stackTrace) => _buildErrorWidget(error),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(
-          context,
-        ).pushNamed(AppRouter.milestoneCreate, arguments: goalId),
+        onPressed: () => AppRouter.navigateToMilestoneCreate(context, goalId),
         child: const Icon(Icons.add),
       ),
     );
@@ -125,107 +120,53 @@ class GoalDetailScreen extends ConsumerWidget {
     String goalId,
     AsyncValue<List<Milestone>> milestonesAsync,
   ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('マイルストーン', style: AppTextStyles.headlineSmall),
-        SizedBox(height: Spacing.medium),
-        milestonesAsync.when(
-          data: (milestones) {
-            if (milestones.isEmpty) {
-              return EmptyState(
-                icon: Icons.flag_outlined,
-                title: 'マイルストーンがありません',
-                message: 'マイルストーンを追加してゴールを達成しましょう。',
-                actionText: 'マイルストーン追加',
-                onActionPressed: () {
-                  Navigator.of(
-                    context,
-                  ).pushNamed(AppRouter.milestoneCreate, arguments: goalId);
-                },
-              );
+    return ref
+        .watch(goalByIdProvider(goalId))
+        .when(
+          data: (goal) {
+            if (goal == null) {
+              return Text('ゴールが見つかりません', style: AppTextStyles.titleMedium);
             }
 
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: milestones.length,
-              itemBuilder: (context, index) =>
-                  _buildMilestoneCard(context, ref, milestones[index]),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('ゴール詳細（ピラミッドビュー）', style: AppTextStyles.headlineSmall),
+                SizedBox(height: Spacing.medium),
+                milestonesAsync.when(
+                  data: (milestones) {
+                    if (milestones.isEmpty) {
+                      return Column(
+                        children: [
+                          PyramidView(goal: goal, milestones: []),
+                          SizedBox(height: Spacing.medium),
+                          EmptyState(
+                            icon: Icons.flag_outlined,
+                            title: 'マイルストーンがありません',
+                            message: 'マイルストーンを追加してゴールを達成しましょう。',
+                            actionText: 'マイルストーン追加',
+                            onActionPressed: () =>
+                                AppRouter.navigateToMilestoneCreate(
+                                  context,
+                                  goalId,
+                                ),
+                          ),
+                        ],
+                      );
+                    }
+
+                    return PyramidView(goal: goal, milestones: milestones);
+                  },
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
+                ),
+              ],
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMilestoneCard(
-    BuildContext context,
-    WidgetRef ref,
-    Milestone milestone,
-  ) {
-    return Card(
-      margin: EdgeInsets.only(bottom: Spacing.small),
-      child: Padding(
-        padding: EdgeInsets.all(Spacing.medium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    milestone.title.value,
-                    style: AppTextStyles.titleMedium,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child: const Text('詳細'),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRouter.milestoneDetail,
-                          arguments: milestone.id.value,
-                        );
-                      },
-                    ),
-                    PopupMenuItem(
-                      child: const Text('編集'),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          AppRouter.milestoneEdit,
-                          arguments: milestone.id.value,
-                        );
-                      },
-                    ),
-                    PopupMenuItem(
-                      child: const Text(
-                        '削除',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onTap: () {
-                        _showDeleteMilestoneDialog(context, ref, milestone);
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: Spacing.small),
-            Text(
-              '期限: ${_formatDate(milestone.deadline)}',
-              style: AppTextStyles.bodySmall,
-            ),
-          ],
-        ),
-      ),
-    );
+          error: (error, stackTrace) => Text('ゴール取得エラー: $error'),
+        );
   }
 
   String _formatDate(dynamic deadline) {
@@ -265,7 +206,7 @@ class GoalDetailScreen extends ConsumerWidget {
                     context,
                   ).showSnackBar(const SnackBar(content: Text('ゴールを削除しました')));
                   // ホーム画面に戻る
-                  Navigator.of(context).pop();
+                  AppRouter.navigateToHome(context);
                 }
               } catch (e) {
                 if (context.mounted) {

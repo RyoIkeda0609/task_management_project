@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
-import '../../widgets/common/dialog_helper.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/milestone.dart';
 import '../../../domain/value_objects/milestone/milestone_id.dart';
 import '../../../domain/value_objects/milestone/milestone_title.dart';
@@ -34,7 +35,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedTargetDate = DateTime.now().add(const Duration(days: 30));
+    _selectedTargetDate = DateTime.now();
   }
 
   @override
@@ -43,7 +44,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
       appBar: CustomAppBar(
         title: 'マイルストーンを作成',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -138,7 +139,7 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
               SizedBox(height: Spacing.small),
               CustomButton(
                 text: 'キャンセル',
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
                 width: double.infinity,
                 type: ButtonType.secondary,
               ),
@@ -168,21 +169,15 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
 
   void _submitForm() {
     // バリデーション
-    if (_title.isEmpty) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: 'マイルストーン名を入力してください。',
-      );
-      return;
-    }
+    final validationErrors = [
+      ValidationHelper.validateNotEmpty(_title, fieldName: 'マイルストーン名'),
+      ValidationHelper.validateDateNotInPast(
+        _selectedTargetDate,
+        fieldName: '目標日時',
+      ),
+    ];
 
-    if (_selectedTargetDate == null) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: '目標日時を選択してください。',
-      );
+    if (!ValidationHelper.validateAll(context, validationErrors)) {
       return;
     }
 
@@ -207,22 +202,24 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
       ref.invalidate(milestonesByGoalIdProvider(widget.goalId));
 
       if (mounted) {
-        DialogHelper.showSuccessDialog(
+        await ValidationHelper.showSuccess(
           context,
-          title: 'マイルストーン作成',
+          title: 'マイルストーン作成完了',
           message: 'マイルストーン「$_title」を作成しました。',
-        ).then((_) {
-          if (mounted) {
-            Navigator.of(context).pop();
-          }
-        });
+        );
+
+        if (mounted) {
+          // マイルストーン作成後、ゴール詳細画面に戻る
+          context.go('/home/goal/${widget.goalId}');
+        }
       }
     } catch (e) {
       if (mounted) {
-        DialogHelper.showErrorDialog(
+        await ValidationHelper.handleException(
           context,
-          title: 'エラー',
-          message: 'マイルストーンの作成に失敗しました: $e',
+          e,
+          customTitle: 'マイルストーン作成エラー',
+          customMessage: 'マイルストーンの作成に失敗しました。',
         );
       }
     }

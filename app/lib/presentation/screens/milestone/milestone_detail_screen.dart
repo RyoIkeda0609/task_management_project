@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
@@ -27,18 +28,24 @@ class MilestoneDetailScreen extends ConsumerWidget {
       appBar: CustomAppBar(
         title: 'マイルストーン詳細',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
       ),
       body: milestoneAsync.when(
         data: (milestone) => _buildContent(context, ref, milestone),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => _buildErrorWidget(error),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _navigateToTaskCreate(context),
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: milestoneAsync
+          .whenData(
+            (milestone) => FloatingActionButton(
+              onPressed: () => milestone != null
+                  ? _navigateToTaskCreate(context, milestone.goalId)
+                  : null,
+              backgroundColor: AppColors.primary,
+              child: const Icon(Icons.add),
+            ),
+          )
+          .value,
     );
   }
 
@@ -300,10 +307,8 @@ class MilestoneDetailScreen extends ConsumerWidget {
     return 'todo';
   }
 
-  void _navigateToTaskCreate(BuildContext context) {
-    Navigator.of(
-      context,
-    ).pushNamed(AppRouter.taskCreate, arguments: {'milestoneId': milestoneId});
+  void _navigateToTaskCreate(BuildContext context, String goalId) {
+    AppRouter.navigateToTaskCreate(context, milestoneId, goalId);
   }
 
   void _showDeleteTaskDialog(BuildContext context, WidgetRef ref, Task task) {
@@ -314,12 +319,12 @@ class MilestoneDetailScreen extends ConsumerWidget {
         content: Text('「${task.title.value}」を削除してもよろしいですか？'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
             child: const Text('キャンセル'),
           ),
           TextButton(
             onPressed: () async {
-              Navigator.of(context).pop();
+              context.pop();
               try {
                 final taskRepository = ref.read(taskRepositoryProvider);
                 await taskRepository.deleteTask(task.id.value);
@@ -348,7 +353,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
   }
 
   void _navigateToTaskDetail(BuildContext context, String taskId) {
-    Navigator.of(context).pushNamed(AppRouter.taskDetail, arguments: taskId);
+    AppRouter.navigateToTaskDetail(context, taskId);
   }
 
   Widget _buildErrorWidget(Object error) {

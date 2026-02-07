@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
-import '../../widgets/common/dialog_helper.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/value_objects/goal/goal_id.dart';
 import '../../../domain/value_objects/goal/goal_title.dart';
@@ -52,7 +53,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
         appBar: CustomAppBar(
           title: 'ゴールを編集',
           hasLeading: true,
-          onLeadingPressed: () => Navigator.of(context).pop(),
+          onLeadingPressed: () => context.pop(),
         ),
         body: const Center(child: CircularProgressIndicator()),
       ),
@@ -60,7 +61,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
         appBar: CustomAppBar(
           title: 'ゴールを編集',
           hasLeading: true,
-          onLeadingPressed: () => Navigator.of(context).pop(),
+          onLeadingPressed: () => context.pop(),
         ),
         body: Center(
           child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
@@ -75,7 +76,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
         appBar: CustomAppBar(
           title: 'ゴールを編集',
           hasLeading: true,
-          onLeadingPressed: () => Navigator.of(context).pop(),
+          onLeadingPressed: () => context.pop(),
         ),
         body: Center(
           child: Text('ゴールが見つかりません', style: AppTextStyles.titleMedium),
@@ -95,7 +96,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
       appBar: CustomAppBar(
         title: 'ゴールを編集',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -167,7 +168,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
               SizedBox(height: Spacing.small),
               CustomButton(
                 text: 'キャンセル',
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
                 width: double.infinity,
                 type: ButtonType.secondary,
               ),
@@ -217,12 +218,23 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
   }
 
   void _submitForm() async {
-    if (_title.isEmpty) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: 'ゴール名を入力してください。',
-      );
+    // バリデーション
+    final validationErrors = [
+      ValidationHelper.validateLength(
+        _title,
+        fieldName: 'ゴール名',
+        minLength: 1,
+        maxLength: 100,
+      ),
+      ValidationHelper.validateLength(
+        _reason,
+        fieldName: 'ゴールの理由',
+        minLength: 1,
+        maxLength: 500,
+      ),
+    ];
+
+    if (!ValidationHelper.validateAll(context, validationErrors)) {
       return;
     }
 
@@ -248,22 +260,23 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
       }
 
       if (mounted) {
-        DialogHelper.showSuccessDialog(
+        await ValidationHelper.showSuccess(
           context,
-          title: 'ゴール更新',
+          title: 'ゴール更新完了',
           message: 'ゴール「$_title」を更新しました。',
-        ).then((_) {
-          if (mounted) {
-            Navigator.of(context).pop();
-          }
-        });
+        );
+
+        if (mounted) {
+          context.pop();
+        }
       }
     } catch (e) {
       if (mounted) {
-        DialogHelper.showErrorDialog(
+        await ValidationHelper.handleException(
           context,
-          title: 'エラー',
-          message: 'ゴールの保存に失敗しました。',
+          e,
+          customTitle: 'ゴール更新エラー',
+          customMessage: 'ゴールの保存に失敗しました。',
         );
       }
     }

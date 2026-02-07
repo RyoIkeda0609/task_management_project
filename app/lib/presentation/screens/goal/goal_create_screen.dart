@@ -6,6 +6,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/value_objects/goal/goal_id.dart';
 import '../../../domain/value_objects/goal/goal_title.dart';
@@ -41,8 +42,8 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
     super.initState();
     _titleController = TextEditingController();
     _reasonController = TextEditingController();
-    // デフォルトは1ヶ月後
-    _selectedDeadline = DateTime.now().add(const Duration(days: 30));
+    // デフォルトは今日
+    _selectedDeadline = DateTime.now();
     _selectedCategory = _categories.first;
   }
 
@@ -67,30 +68,26 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
   }
 
   /// フォームを検証
-  String? _validateForm() {
-    if (_titleController.text.isEmpty) {
-      return 'ゴールのタイトルを入力してください';
-    }
-    if (_titleController.text.length > 100) {
-      return 'タイトルは100文字以内で入力してください';
-    }
-    if (_reasonController.text.isEmpty) {
-      return 'ゴールの理由を入力してください';
-    }
-    if (_reasonController.text.length > 500) {
-      return '理由は500文字以内で入力してください';
-    }
-    return null;
+  List<String?> _validateForm() {
+    return [
+      ValidationHelper.validateLength(
+        _titleController.text,
+        fieldName: 'ゴール名',
+        minLength: 1,
+        maxLength: 100,
+      ),
+      ValidationHelper.validateLength(
+        _reasonController.text,
+        fieldName: 'ゴールの理由',
+        minLength: 1,
+        maxLength: 500,
+      ),
+    ];
   }
 
   Future<void> _createGoal() async {
-    final validationError = _validateForm();
-    if (validationError != null) {
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(validationError)));
-      }
+    final validationErrors = _validateForm();
+    if (!ValidationHelper.validateAll(context, validationErrors)) {
       return;
     }
 
@@ -116,23 +113,23 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
       ref.invalidate(goalListProvider);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('「${_titleController.text}」を作成しました。'),
-            duration: const Duration(seconds: 2),
-          ),
+        await ValidationHelper.showSuccess(
+          context,
+          title: 'ゴール作成完了',
+          message: '「${_titleController.text}」を作成しました。',
         );
 
         // ホーム画面へナビゲート
-        Navigator.of(
-          context,
-        ).pushNamedAndRemoveUntil(AppRouter.home, (route) => false);
+        AppRouter.navigateToHome(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
+        await ValidationHelper.handleException(
           context,
-        ).showSnackBar(SnackBar(content: Text('エラー: $e')));
+          e,
+          customTitle: 'ゴール作成エラー',
+          customMessage: 'ゴールの保存に失敗しました。',
+        );
       }
     } finally {
       if (mounted) {

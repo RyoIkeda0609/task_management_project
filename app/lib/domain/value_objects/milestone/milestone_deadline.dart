@@ -1,6 +1,6 @@
 /// MilestoneDeadline - マイルストーンの期限を表現する ValueObject
 ///
-/// バリデーション：本日より後の日付のみ、時刻は00:00:00に正規化される
+/// バリデーション：本日以降の日付のみ、時刻は00:00:00に正規化される
 class MilestoneDeadline {
   late DateTime value;
 
@@ -25,9 +25,9 @@ class MilestoneDeadline {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    if (!value.isAfter(today)) {
+    if (value.isBefore(today)) {
       throw ArgumentError(
-        'MilestoneDeadline must be in the future, got: $value',
+        'MilestoneDeadline must be from today onwards, got: $value',
       );
     }
   }
