@@ -8,12 +8,12 @@
 
 ## 1. 総合評価
 
-| 項目 | 評価 | 実装率 | 備考 |
-|------|------|--------|------|
-| 必要機能の実装 | ⭐⭐⭐⭐⭐ | **約90%** | Domain層・Application層がほぼ完成。Presentation層が進行中 |
-| コード品質 | ⭐⭐⭐⭐⭐ | **優秀** | 構造化がよく、命名規約が統一されている |
-| アーキテクチャ設計 | ⭐⭐⭐⭐⭐ | **優秀** | クリーンアーキテクチャをきちんと実装 |
-| テストの質 | ⭐⭐⭐⭐⭐ | **優秀** | TDD的で、459個の重要なテストが全テスト実行 |
+| 項目               | 評価       | 実装率    | 備考                                                      |
+| ------------------ | ---------- | --------- | --------------------------------------------------------- |
+| 必要機能の実装     | ⭐⭐⭐⭐⭐ | **約90%** | Domain層・Application層がほぼ完成。Presentation層が進行中 |
+| コード品質         | ⭐⭐⭐⭐⭐ | **優秀**  | 構造化がよく、命名規約が統一されている                    |
+| アーキテクチャ設計 | ⭐⭐⭐⭐⭐ | **優秀**  | クリーンアーキテクチャをきちんと実装                      |
+| テストの質         | ⭐⭐⭐⭐⭐ | **優秀**  | TDD的で、459個の重要なテストが全テスト実行                |
 
 ---
 
@@ -22,6 +22,7 @@
 ### 2.1 Domain層（ほぼ完了：100%）
 
 **✅ 完了内容:**
+
 - Goal / Milestone / Task の3つのEntity を完全実装
 - 各Entity に対応する ValueObject を実装（30個以上）
   - `GoalTitle`, `GoalDeadline`, `GoalCategory`, `GoalReason`, `GoalId`
@@ -41,6 +42,7 @@
   - 逆方向遷移は許可しない
 
 **📊 テスト状況:**
+
 - Domain層テスト: 約250個すべて通過✅
 - 各ValueObject の等価性テスト完全カバー
 - Entity のメソッドテスト完全カバー
@@ -51,6 +53,7 @@
 **✅ 完了内容:**
 
 **Goal UseCase:**
+
 - `CreateGoalUseCase` ✅
 - `GetAllGoalsUseCase` ✅
 - `GetGoalByIdUseCase` ✅
@@ -59,12 +62,14 @@
 - `SearchGoalsUseCase` ✅
 
 **Milestone UseCase:**
+
 - `CreateMilestoneUseCase` ✅
 - `GetMilestonesByGoalIdUseCase` ✅
 - `UpdateMilestoneUseCase` ✅
 - `DeleteMilestoneUseCase` ✅ (カスケード削除対応)
 
 **Task UseCase:**
+
 - `CreateTaskUseCase` ✅
 - `GetTasksByMilestoneIdUseCase` ✅
 - `GetAllTasksTodayUseCase` ✅ (本日+過期限タスク表示対応)
@@ -73,9 +78,11 @@
 - `ChangeTaskStatusUseCase` ✅ (tap循環遷移)
 
 **Progress UseCase:**
+
 - `CalculateProgressUseCase` ✅
 
 **📊 テスト状況:**
+
 - Application層テスト: 約200個以上すべて通過✅
 - 各UseCaseの正常系・異常系テスト完全カバー
 - バリデーション・エラーハンドリングテスト完全カバー
@@ -86,6 +93,7 @@
 **✅ 完了内容:**
 
 **Hive Repository実装:**
+
 - `HiveGoalRepository` ✅
   - JSON ベースのシリアライズ対応
   - getAllGoals / getGoalById / saveGoal / deleteGoal / deleteAllGoals / getGoalCount
@@ -96,10 +104,12 @@
   - getTasksForToday 対応
 
 **Repository初期化:**
+
 - main.dart で Hive を初期化して、Riverpod Override で注入 ✅
 - AsyncValue で Future 対応 ✅
 
 **📊 テスト状況:**
+
 - Infrastructure層テスト: 約100個以上すべて通過✅
 - Hive操作テスト（CRUD）完全カバー
 - モック化されたテスト（実ファイル操作ではなく）✅
@@ -109,6 +119,7 @@
 **✅ 完了内容:**
 
 **スクリーン実装:**
+
 - `HomeScreen` ✅ (ゴール一覧表示)
 - `TodayTasksScreen` ✅ (本日のタスク表示、ステータス別グループ化)
 - `GoalDetailScreen` ✅
@@ -124,6 +135,7 @@
 - `SettingsScreen` ✅ (基本のみ)
 
 **共通ウィジェット実装:**
+
 - `CustomAppBar` ✅
 - `CustomButton` ✅
 - `CustomTextField` ✅
@@ -132,12 +144,15 @@
 - `EmptyState` ✅
 
 **ナビゲーション:**
+
 - `AppRouter` (go_router 等) 実装状況: 未確認
 
 **テーマ:**
+
 - `AppTheme`, `AppColors`, `AppTextStyles` ✅
 
 **⚠️ 未完了・検討必要な部分:**
+
 1. **Presentation層テスト**: ほぼなし（ウィジェットテストの導入後が適切）
 2. **ナビゲーション詳細**: Flutter の go_router 等の詳細設定確認が必要
 3. **ピラミッドビュー等**: 要件では記載されていたかもしれないが、実装状況未確認
@@ -177,14 +192,16 @@
 ### ⚠️ 改善できる点
 
 1. **ValueObject のマジックナンバー**
+
    ```dart
    // 現在: 100とそのまま条件比較
    if (value.length > 100) throw ArgumentError(...);
-   
+
    // 提案: 定数化
    static const int maxLength = 100;
    if (value.length > maxLength) throw ArgumentError(...);
    ```
+
    → コード品質向上、保守性向上
 
 2. **Entity の JSON シリアライズ**
@@ -206,6 +223,7 @@
 ### ✅ 優れている点
 
 1. **層の明確な分離**
+
    ```
    Domain層 (独立)
        ↓
@@ -215,31 +233,34 @@
        ↓
    Presentation層 (Application のみに依存)
    ```
+
    → きちんと守られている ✅
 
 2. **Repository パターン**
    - Domain層に `GoalRepository` インターフェース
    - Infrastructure層で Hive を使った実装
    - Presentation層は Repository インターフェースを通じてのみアクセス
-   → 依存性逆転の原則を守っている ✅
+     → 依存性逆転の原則を守っている ✅
 
 3. **Entity と ValueObject の分離**
    - Goal / Milestone / Task は Entity
    - Title, Deadline, Progress は ValueObject
    - 各々が責務を持っている
-   → DDD の設計思想が実装されている ✅
+     → DDD の設計思想が実装されている ✅
 
 4. **Riverpod による依存性注入**
    ```dart
    final goalRepositoryProvider = Provider<GoalRepository>(...);
    ```
+
    - main.dart で実装インスタンスを override
    - Presentation層は Provider を通じてのみアクセス
-   → テスト時に Mock を注入可能な設計 ✅
+     → テスト時に Mock を注入可能な設計 ✅
 
 ### ⚠️ 改善できる点
 
 1. **domain/value_objects の構成**
+
    ```
    現在:
    domain/value_objects/
@@ -247,7 +268,7 @@
      ├── milestone/
      ├── task/
      └── shared/
-   
+
    提案: さらに細分化（例）
    domain/value_objects/
      ├── goal/
@@ -268,6 +289,7 @@
      │   └── id/
      └── shared/
    ```
+
    → テストファイルも整理でき、さらに責務が明確化される
 
 2. **Application層の Riverpod Providers**
@@ -285,26 +307,28 @@
 
 ### 📊 テスト統計
 
-| レイヤー | テスト数 | 通過数 | カバレッジ | 質 |
-|---------|---------|--------|-----------|-----|
-| Domain Entity | 40+ | 40+ | 100% | ⭐⭐⭐⭐⭐ |
-| Domain ValueObject | 200+ | 200+ | 100% | ⭐⭐⭐⭐⭐ |
-| Application UseCase | 200+ | 200+ | ~90% | ⭐⭐⭐⭐⭐ |
-| Infrastructure Repository | 100+ | 100+ | ~90% | ⭐⭐⭐⭐ |
-| Presentation | ~1 | 1 | ~5% | ⭐ |
-| **合計** | **459+** | **459+** | **~85%** | **⭐⭐⭐⭐⭐** |
+| レイヤー                  | テスト数 | 通過数   | カバレッジ | 質             |
+| ------------------------- | -------- | -------- | ---------- | -------------- |
+| Domain Entity             | 40+      | 40+      | 100%       | ⭐⭐⭐⭐⭐     |
+| Domain ValueObject        | 200+     | 200+     | 100%       | ⭐⭐⭐⭐⭐     |
+| Application UseCase       | 200+     | 200+     | ~90%       | ⭐⭐⭐⭐⭐     |
+| Infrastructure Repository | 100+     | 100+     | ~90%       | ⭐⭐⭐⭐       |
+| Presentation              | ~1       | 1        | ~5%        | ⭐             |
+| **合計**                  | **459+** | **459+** | **~85%**   | **⭐⭐⭐⭐⭐** |
 
 ### ✅ TDD的なテスト設計
 
 **優れている点:**
 
 1. **テストが要件を定義している**
+
    ```dart
    test('タスクのステータスがTodoの場合、Progress(0)を返すこと', () {
      final progress = task.getProgress();
      expect(progress.value, 0);
    });
    ```
+
    → `getProgress()` の要件が明確に定義されている
 
 2. **エッジケースが充実している**
@@ -314,9 +338,11 @@
    - 相互作用テスト
 
 3. **日本語でのテスト説明**
+
    ```dart
    test('マイルストーンが存在しない場合、Progress(0)を返すこと', () { ... });
    ```
+
    → 要件が明確で、テストから実装の意図が読み取りやすい
 
 4. **値オブジェクトのテストの充実**
@@ -344,9 +370,11 @@
 ### 🔴 高優先度（実装開始前に解決すべき）
 
 #### 6.1 Entity の JSON シリアライズ実装確認
+
 **現状:** Hive Repository で `Goal.fromJson()` / `goal.toJson()` が呼ばれているが、Entity に実装されているか未確認
 
 **対応方針:**
+
 ```dart
 // goal.dart に以下を確認・追加
 static Goal fromJson(Map<String, dynamic> json) {
@@ -369,10 +397,12 @@ Map<String, dynamic> toJson() => {
 ---
 
 #### 6.2 Application層 の Riverpod Provider 設計確認
+
 **現状:** `use_case_providers.dart` が存在するか不明確
 
 **対応方針:**
 UseCase を Riverpod Provider でラップして、Presentation層から利用可能にすべき
+
 ```dart
 final createGoalUseCaseProvider = Provider((ref) {
   final repo = ref.watch(goalRepositoryProvider);
@@ -385,12 +415,15 @@ final createGoalUseCaseProvider = Provider((ref) {
 ---
 
 #### 6.3 ValueObject マジックナンバーの定数化
+
 **現状:**
+
 ```dart
 if (value.length > 100) throw ArgumentError(...);
 ```
 
 **対応方法:**
+
 ```dart
 static const int maxLength = 100;
 ```
@@ -402,9 +435,11 @@ static const int maxLength = 100;
 ### 🟡 中優先度（実装進行中に対応）
 
 #### 6.4 Presentation層テストの追加
+
 **現状:** ウィジェットテストが未実装
 
 **対応方針:**
+
 - `flutter_test` を使った widget test 実装
 - 各スクリーンの基本的なレンダリングテスト
 - ユーザーインタラクション（ボタンクリック等）のテスト
@@ -414,9 +449,11 @@ static const int maxLength = 100;
 ---
 
 #### 6.5 ナビゲーション詳細設定の確認
+
 **現状:** `AppRouter` の詳細が未確認（go_router 等の設定）
 
 **対応方針:**
+
 - ルート定義の確認・修正（必要に応じて）
 - DeepLink 対応の確認
 - 画面遷移のテスト
@@ -424,9 +461,11 @@ static const int maxLength = 100;
 ---
 
 #### 6.6 複雑な UI/UX ビュー実装
+
 **現状:** ピラミッドビュー、カレンダービューの実装状況が不明
 
 **対応方針:**
+
 - 要件定義書から要件を確認
 - デザインスペック確認
 - UI実装
@@ -559,6 +598,7 @@ static const int maxLength = 100;
 **非常によく実装されています。**
 
 特に以下の点が優秀です：
+
 - Domain層・Application層の設計と実装の質が高い
 - テストが充実していて、要件が明確に定義されている
 - アーキテクチャが整理されており、保守性が高い
@@ -580,4 +620,3 @@ static const int maxLength = 100;
 - [ ] `lib/presentation/navigation/app_router.dart` - ルート定義確認
 - [ ] `lib/domain/value_objects/*/` - マジックナンバー確認（約30ファイル）
 - [ ] `lib/presentation/screens/` - ピラミッド/カレンダービュー実装確認
-
