@@ -5,6 +5,7 @@ import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/task.dart';
 import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
@@ -196,20 +197,19 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
       }
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('ステータスを「${_getStatusLabel(newStatus)}」に更新しました。'),
-            duration: const Duration(seconds: 2),
-          ),
+        await ValidationHelper.showSuccess(
+          context,
+          title: 'ステータス更新完了',
+          message: 'ステータスを「${_getStatusLabel(newStatus)}」に更新しました。',
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('ステータスの更新に失敗しました: $e'),
-            duration: const Duration(seconds: 2),
-          ),
+        await ValidationHelper.handleException(
+          context,
+          e,
+          customTitle: 'ステータス更新エラー',
+          customMessage: 'ステータスの更新に失敗しました。',
         );
       }
     }

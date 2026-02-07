@@ -7,7 +7,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
-import '../../widgets/common/dialog_helper.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/task.dart';
 import '../../../domain/value_objects/task/task_id.dart';
 import '../../../domain/value_objects/task/task_title.dart';
@@ -191,21 +191,15 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
 
   void _submitForm() {
     // バリデーション
-    if (_title.isEmpty) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: 'タスク名を入力してください。',
-      );
-      return;
-    }
+    final validationErrors = [
+      ValidationHelper.validateNotEmpty(_title, fieldName: 'タスク名'),
+      ValidationHelper.validateDateNotInPast(
+        _selectedDeadline,
+        fieldName: '期限',
+      ),
+    ];
 
-    if (_selectedDeadline == null) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: '期限を選択してください。',
-      );
+    if (!ValidationHelper.validateAll(context, validationErrors)) {
       return;
     }
 
@@ -234,23 +228,24 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
       ref.invalidate(tasksByMilestoneIdProvider(_milestoneId));
 
       if (mounted) {
-        DialogHelper.showSuccessDialog(
+        await ValidationHelper.showSuccess(
           context,
-          title: 'タスク作成',
+          title: 'タスク作成完了',
           message: 'タスク「$_title」を作成しました。',
-        ).then((_) {
-          if (mounted) {
-            // タスク作成後、マイルストーン詳細画面に戻る
-            context.go('/home/goal/$_goalId/milestone/$_milestoneId');
-          }
-        });
+        );
+
+        if (mounted) {
+          // タスク作成後、マイルストーン詳細画面に戻る
+          context.go('/home/goal/$_goalId/milestone/$_milestoneId');
+        }
       }
     } catch (e) {
       if (mounted) {
-        DialogHelper.showErrorDialog(
+        await ValidationHelper.handleException(
           context,
-          title: 'エラー',
-          message: 'タスクの作成に失敗しました: $e',
+          e,
+          customTitle: 'タスク作成エラー',
+          customMessage: 'タスクの作成に失敗しました。',
         );
       }
     }

@@ -7,7 +7,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
-import '../../widgets/common/dialog_helper.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/value_objects/goal/goal_id.dart';
 import '../../../domain/value_objects/goal/goal_title.dart';
@@ -218,12 +218,23 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
   }
 
   void _submitForm() async {
-    if (_title.isEmpty) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: 'ゴール名を入力してください。',
-      );
+    // バリデーション
+    final validationErrors = [
+      ValidationHelper.validateLength(
+        _title,
+        fieldName: 'ゴール名',
+        minLength: 1,
+        maxLength: 100,
+      ),
+      ValidationHelper.validateLength(
+        _reason,
+        fieldName: 'ゴールの理由',
+        minLength: 1,
+        maxLength: 500,
+      ),
+    ];
+
+    if (!ValidationHelper.validateAll(context, validationErrors)) {
       return;
     }
 
@@ -249,22 +260,23 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
       }
 
       if (mounted) {
-        DialogHelper.showSuccessDialog(
+        await ValidationHelper.showSuccess(
           context,
-          title: 'ゴール更新',
+          title: 'ゴール更新完了',
           message: 'ゴール「$_title」を更新しました。',
-        ).then((_) {
-          if (mounted) {
-            context.pop();
-          }
-        });
+        );
+
+        if (mounted) {
+          context.pop();
+        }
       }
     } catch (e) {
       if (mounted) {
-        DialogHelper.showErrorDialog(
+        await ValidationHelper.handleException(
           context,
-          title: 'エラー',
-          message: 'ゴールの保存に失敗しました。',
+          e,
+          customTitle: 'ゴール更新エラー',
+          customMessage: 'ゴールの保存に失敗しました。',
         );
       }
     }

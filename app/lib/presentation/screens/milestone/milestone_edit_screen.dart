@@ -7,7 +7,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
-import '../../widgets/common/dialog_helper.dart';
+import '../../utils/validation_helper.dart';
 import '../../../domain/entities/milestone.dart';
 import '../../../domain/value_objects/milestone/milestone_id.dart';
 import '../../../domain/value_objects/milestone/milestone_title.dart';
@@ -173,12 +173,13 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
   }
 
   void _submitForm() async {
-    if (_title.isEmpty) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: 'エラー',
-        message: 'マイルストーン名を入力してください。',
-      );
+    // バリデーション
+    final validationErrors = [
+      ValidationHelper.validateNotEmpty(_title, fieldName: 'マイルストーン名'),
+      ValidationHelper.validateDateNotInPast(_targetDate, fieldName: '目標日時'),
+    ];
+
+    if (!ValidationHelper.validateAll(context, validationErrors)) {
       return;
     }
 
@@ -212,22 +213,23 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
       }
 
       if (mounted) {
-        DialogHelper.showSuccessDialog(
+        await ValidationHelper.showSuccess(
           context,
-          title: 'マイルストーン更新',
+          title: 'マイルストーン更新完了',
           message: 'マイルストーン「$_title」を更新しました。',
-        ).then((_) {
-          if (mounted) {
-            context.pop();
-          }
-        });
+        );
+
+        if (mounted) {
+          context.pop();
+        }
       }
     } catch (e) {
       if (mounted) {
-        DialogHelper.showErrorDialog(
+        await ValidationHelper.handleException(
           context,
-          title: 'エラー',
-          message: 'マイルストーンの保存に失敗しました。',
+          e,
+          customTitle: 'マイルストーン更新エラー',
+          customMessage: 'マイルストーンの保存に失敗しました。',
         );
       }
     }
