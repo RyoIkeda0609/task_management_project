@@ -22,8 +22,8 @@ class GoalDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalAsync = ref.watch(goalByIdProvider(goalId));
-    final milestonesAsync = ref.watch(milestonesByGoalIdProvider(goalId));
+    final goalAsync = ref.watch(goalDetailProvider(goalId));
+    final milestonesAsync = ref.watch(milestonsByGoalProvider(goalId));
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -121,7 +121,7 @@ class GoalDetailScreen extends ConsumerWidget {
     AsyncValue<List<Milestone>> milestonesAsync,
   ) {
     return ref
-        .watch(goalByIdProvider(goalId))
+        .watch(goalDetailProvider(goalId))
         .when(
           data: (goal) {
             if (goal == null) {
@@ -199,7 +199,7 @@ class GoalDetailScreen extends ConsumerWidget {
                 await goalRepository.deleteGoal(goal.id.value);
 
                 // ゴール一覧をリフレッシュ
-                ref.invalidate(goalListProvider);
+                ref.invalidate(goalsProvider);
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(
@@ -248,7 +248,7 @@ class GoalDetailScreen extends ConsumerWidget {
                 await milestoneRepository.deleteMilestone(milestone.id.value);
 
                 // マイルストーン一覧をリフレッシュ
-                ref.invalidate(milestonesByGoalIdProvider(goalId));
+                ref.invalidate(milestonsByGoalProvider(goalId));
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(

@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalsAsync = ref.watch(goalListProvider);
+    final goalsAsync = ref.watch(goalsProvider);
 
     return DefaultTabController(
       length: 3,
@@ -117,7 +117,7 @@ class HomeScreen extends ConsumerWidget {
       itemBuilder: (context, index) {
         final goal = goals[index];
         final milestonesAsync = ref.watch(
-          milestonesByGoalIdProvider(goal.id.value),
+          milestonsByGoalProvider(goal.id.value),
         );
 
         return milestonesAsync.when(

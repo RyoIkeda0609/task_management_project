@@ -26,7 +26,7 @@ class TodayTasksScreen extends ConsumerStatefulWidget {
 class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   @override
   Widget build(BuildContext context) {
-    final tasksAsync = ref.watch(taskListProvider);
+    final tasksAsync = ref.watch(todayTasksProvider);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -311,9 +311,9 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
 
       // プロバイダーキャッシュを無効化
       if (mounted) {
-        ref.invalidate(taskListProvider);
-        ref.invalidate(taskByIdProvider(task.id.value));
-        ref.invalidate(tasksByMilestoneIdProvider(task.milestoneId));
+        ref.invalidate(todayTasksProvider);
+        ref.invalidate(taskDetailProvider(task.id.value));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
       }
 
       if (mounted) {

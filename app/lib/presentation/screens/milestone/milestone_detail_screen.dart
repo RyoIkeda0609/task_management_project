@@ -22,7 +22,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final milestoneAsync = ref.watch(milestoneByIdProvider(milestoneId));
+    final milestoneAsync = ref.watch(milestoneDetailProvider(milestoneId));
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -113,7 +113,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
   }
 
   Widget _buildTasksList(WidgetRef ref, Milestone milestone) {
-    final tasksAsync = ref.watch(tasksByMilestoneIdProvider(milestoneId));
+    final tasksAsync = ref.watch(tasksByMilestoneProvider(milestoneId));
 
     return tasksAsync.when(
       data: (tasks) {
@@ -330,7 +330,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
                 await taskRepository.deleteTask(task.id.value);
 
                 // タスク一覧をリフレッシュ
-                ref.invalidate(tasksByMilestoneIdProvider(milestoneId));
+                ref.invalidate(tasksByMilestoneProvider(milestoneId));
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(

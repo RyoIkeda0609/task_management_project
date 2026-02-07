@@ -198,8 +198,8 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
       final milestoneRepository = ref.read(milestoneRepositoryProvider);
       await milestoneRepository.saveMilestone(newMilestone);
 
-      // milestonesByGoalIdProvider のキャッシュを無効化
-      ref.invalidate(milestonesByGoalIdProvider(widget.goalId));
+      // milestonsByGoalProvider のキャッシュを無効化
+      ref.invalidate(milestonsByGoalProvider(widget.goalId));
 
       if (mounted) {
         await ValidationHelper.showSuccess(
