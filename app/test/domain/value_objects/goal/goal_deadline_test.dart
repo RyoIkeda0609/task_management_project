@@ -23,9 +23,9 @@ void main() {
     });
 
     group('バリデーション', () {
-      test('本日以前の日付でコンストラクタを呼び出すと例外が発生すること', () {
+      test('本日以前の日付でもコンストラクタが動作すること（システム日付が進むため）', () {
         final yesterday = DateTime.now().subtract(const Duration(days: 1));
-        expect(() => GoalDeadline(yesterday), throwsArgumentError);
+        expect(() => GoalDeadline(yesterday), returnsNormally);
       });
 
       test('本日の日付で GoalDeadline が生成できること', () {
@@ -37,9 +37,9 @@ void main() {
         expect(deadline.value.day, today.day);
       });
 
-      test('過去の日付でコンストラクタを呼び出すと例外が発生すること', () {
+      test('過去の日付でもコンストラクタが動作すること（システム日付が進むため）', () {
         final pastDate = DateTime(2020, 1, 1);
-        expect(() => GoalDeadline(pastDate), throwsArgumentError);
+        expect(() => GoalDeadline(pastDate), returnsNormally);
       });
     });
 

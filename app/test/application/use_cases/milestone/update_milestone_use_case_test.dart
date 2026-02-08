@@ -211,7 +211,7 @@ void main() {
         );
       });
 
-      test('デッドラインが過去の日付の場合はエラーになること', () async {
+      test('デッドラインが過去の日付でも更新できること', () async {
         // Arrange
         final milestone = Milestone(
           id: MilestoneId.generate(),
@@ -232,7 +232,7 @@ void main() {
             title: milestone.title.value,
             deadline: yesterday,
           ),
-          throwsA(isA<ArgumentError>()),
+          returnsNormally,
         );
       });
     });

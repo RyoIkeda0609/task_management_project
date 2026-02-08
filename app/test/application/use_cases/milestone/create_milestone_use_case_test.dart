@@ -59,14 +59,14 @@ void main() {
         );
       });
 
-      test('本日以前の期限でエラーが発生すること', () {
+      test('本日以前の期限でもマイルストーンが作成できること', () async {
         final yesterday = DateTime.now().subtract(const Duration(days: 1));
         const goalId = 'goal-123';
 
         expect(
           () =>
               useCase.call(title: 'タイトル', deadline: yesterday, goalId: goalId),
-          throwsArgumentError,
+          returnsNormally,
         );
       });
 

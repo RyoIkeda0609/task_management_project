@@ -12,12 +12,14 @@ import 'package:app/domain/value_objects/task/task_deadline.dart';
 void main() {
   group('制約検証テスト', () {
     group('ゴール作成の制約', () {
-      test('ゴールのデッドラインは未来の日付である必要がある', () async {
+      test('ゴールのデッドラインは過去の日付も許容する（システム日付が進むため）', () async {
         // Arrange
         final yesterday = DateTime.now().subtract(const Duration(days: 1));
 
         // Act & Assert
-        expect(() => GoalDeadline(yesterday), throwsA(isA<ArgumentError>()));
+        // システム日付が進むと、設定済みのゴール・マイルストーン・タスクの
+        // デッドラインが過去になる可能性があり、これらをサポートする必要がある
+        expect(() => GoalDeadline(yesterday), returnsNormally);
       });
 
       test('本日のデッドラインは有効', () {
@@ -95,14 +97,16 @@ void main() {
         expect(() => MilestoneTitle(title100chars), returnsNormally);
       });
 
-      test('マイルストーンのデッドラインは未来の日付である必要がある', () {
+      test('マイルストーンのデッドラインは過去の日付も許容する（システム日付が進むため）', () {
         // Arrange
         final yesterday = DateTime.now().subtract(const Duration(days: 1));
 
         // Act & Assert
+        // システム日付が進むと、設定済みのマイルストーンの
+        // デッドラインが過去になる可能性があり、これらをサポートする必要がある
         expect(
           () => MilestoneDeadline(yesterday),
-          throwsA(isA<ArgumentError>()),
+          returnsNormally,
         );
       });
 
@@ -153,12 +157,14 @@ void main() {
         expect(() => TaskDescription(description500chars), returnsNormally);
       });
 
-      test('タスクのデッドラインは未来の日付である必要がある', () {
+      test('タスクのデッドラインは過去の日付も許容する（システム日付が進むため）', () {
         // Arrange
         final yesterday = DateTime.now().subtract(const Duration(days: 1));
 
         // Act & Assert
-        expect(() => TaskDeadline(yesterday), throwsA(isA<ArgumentError>()));
+        // システム日付が進むと、設定済みのタスクの
+        // デッドラインが過去になる可能性があり、これらをサポートする必要がある
+        expect(() => TaskDeadline(yesterday), returnsNormally);
       });
 
       test('本日のデッドラインは有効', () {

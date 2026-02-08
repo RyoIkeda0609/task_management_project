@@ -109,8 +109,9 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
       // リポジトリに保存
       await goalRepository.saveGoal(newGoal);
 
-      // goalsProvider のキャッシュを無効化して、ホーム画面で最新のゴール一覧を取得
-      ref.invalidate(goalsProvider);
+      // goalsNotifier に新しいゴールを読み込ませる
+      final goalsNotifier = ref.read(goalsProvider.notifier);
+      await goalsNotifier.loadGoals();
 
       if (mounted) {
         await ValidationHelper.showSuccess(

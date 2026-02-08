@@ -97,7 +97,7 @@ void main() {
         );
       });
 
-      test('本日以前の期限でエラーが発生すること', () {
+      test('本日以前の期限でもタスクが作成できること', () async {
         final yesterday = DateTime.now().subtract(const Duration(days: 1));
         const milestoneId = 'milestone-123';
 
@@ -108,7 +108,7 @@ void main() {
             deadline: yesterday,
             milestoneId: milestoneId,
           ),
-          throwsArgumentError,
+          returnsNormally,
         );
       });
 

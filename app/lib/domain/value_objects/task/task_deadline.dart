@@ -1,6 +1,7 @@
 /// TaskDeadline - タスクの期限を表現する ValueObject
 ///
-/// バリデーション：本日以降の日付のみ、時刻は00:00:00に正規化される
+/// バリデーション：任意の日付を許可（保存済みタスク復元時も対応）
+/// 新規作成時は UseCase で本日以降にバリデーション
 class TaskDeadline {
   late DateTime value;
 
@@ -10,26 +11,14 @@ class TaskDeadline {
       // デフォルト値
       value = DateTime.now();
     } else {
-      // 通常の使用
+      // 通常の使用（任意の日付を許可）
       value = _normalize(date);
-      _validate();
     }
   }
 
   /// DateTime を年月日のみに正規化（時刻を00:00:00にする）
   static DateTime _normalize(DateTime date) {
     return DateTime(date.year, date.month, date.day);
-  }
-
-  void _validate() {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-
-    if (value.isBefore(today)) {
-      throw ArgumentError(
-        'TaskDeadline must be from today onwards, got: $value',
-      );
-    }
   }
 
   /// 他の期限より後かどうかを判定

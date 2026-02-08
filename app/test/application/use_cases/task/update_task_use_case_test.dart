@@ -293,7 +293,7 @@ void main() {
         );
       });
 
-      test('デッドラインが過去の日付の場合はエラーになること', () async {
+      test('デッドラインが過去の日付でも更新できること', () async {
         // Arrange
         final task = Task(
           id: TaskId.generate(),
@@ -315,7 +315,7 @@ void main() {
             description: task.description.value,
             deadline: yesterday,
           ),
-          throwsA(isA<ArgumentError>()),
+          returnsNormally,
         );
       });
     });

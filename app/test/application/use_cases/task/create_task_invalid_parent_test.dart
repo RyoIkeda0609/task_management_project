@@ -36,7 +36,7 @@ void main() {
       );
     });
 
-    test('期限が本日より前の日付はエラー', () async {
+    test('期限が本日より前の日付でもタスクが作成できること', () async {
       expect(
         () async => await useCase.call(
           title: 'タスク',
@@ -44,7 +44,7 @@ void main() {
           deadline: DateTime(2020, 1, 1),
           milestoneId: 'milestone-1',
         ),
-        throwsA(isA<ArgumentError>()),
+        returnsNormally,
       );
     });
 

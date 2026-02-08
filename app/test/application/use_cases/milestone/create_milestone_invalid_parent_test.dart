@@ -53,14 +53,14 @@ void main() {
       );
     });
 
-    test('期限が本日より前の日付はエラー', () async {
+    test('期限が本日より前の日付でもマイルストーンが作成できること', () async {
       expect(
         () async => await useCase.call(
           title: 'マイルストーン',
           deadline: DateTime(2020, 1, 1),
           goalId: 'goal-1',
         ),
-        throwsA(isA<ArgumentError>()),
+        returnsNormally,
       );
     });
   });

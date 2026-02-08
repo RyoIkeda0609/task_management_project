@@ -1,0 +1,628 @@
+00:00 +0: loading C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart
+00:00 +0: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ驕主悉縺ｮ譌･莉倥ｂ險ｱ螳ｹ縺吶ｋ・医す繧ｹ繝・Β譌･莉倥′騾ｲ繧縺溘ａ・・00:00 +1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・譛ｬ譌･縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ譛牙柑
+00:00 +2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・譏取律縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ譛牙柑
+00:00 +3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ繧ｿ繧､繝医Ν縺檎ｩｺ縺ｧ縺ｪ縺・％縺ｨ
+00:00 +4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ繧ｿ繧､繝医Ν縺・00譁・ｭ嶺ｻ･荳九〒縺ゅｋ縺薙→
+00:00 +5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ繧ｿ繧､繝医Ν縺・譁・ｭ励↑繧画怏蜉ｹ
+00:00 +6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ繧ｿ繧､繝医Ν縺・00譁・ｭ励↑繧画怏蜉ｹ
+00:00 +7: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ繧ｫ繝・ざ繝ｪ縺檎ｩｺ縺ｧ縺ｪ縺・％縺ｨ
+00:00 +8: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｴ繝ｼ繝ｫ菴懈・縺ｮ蛻ｶ邏・繧ｴ繝ｼ繝ｫ縺ｮ逅・罰縺檎ｩｺ縺ｧ縺ｪ縺・％縺ｨ
+00:00 +9: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ菴懈・縺ｮ蛻ｶ邏・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ繧ｿ繧､繝医Ν縺檎ｩｺ縺ｧ縺ｪ縺・％縺ｨ
+00:00 +10: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ菴懈・縺ｮ蛻ｶ邏・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ繧ｿ繧､繝医Ν縺・00譁・ｭ嶺ｻ･荳九〒縺ゅｋ縺薙→
+00:00 +11: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ菴懈・縺ｮ蛻ｶ邏・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ繧ｿ繧､繝医Ν縺・00譁・ｭ励↑繧画怏蜉ｹ
+00:00 +12: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ菴懈・縺ｮ蛻ｶ邏・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ驕主悉縺ｮ譌･莉倥ｂ險ｱ螳ｹ縺吶ｋ・医す繧ｹ繝・Β譌･莉倥′騾ｲ繧縺溘ａ・・00:00 +13: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ菴懈・縺ｮ蛻ｶ邏・譛ｬ譌･縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ譛牙柑
+00:00 +14: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・繧ｿ繧ｹ繧ｯ縺ｮ繧ｿ繧､繝医Ν縺檎ｩｺ縺ｧ縺ｪ縺・％縺ｨ
+00:00 +15: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・繧ｿ繧ｹ繧ｯ縺ｮ繧ｿ繧､繝医Ν縺・00譁・ｭ嶺ｻ･荳九〒縺ゅｋ縺薙→
+00:00 +16: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・繧ｿ繧ｹ繧ｯ縺ｮ隱ｬ譏弱′遨ｺ縺ｧ縺ｪ縺・％縺ｨ
+00:00 +17: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・繧ｿ繧ｹ繧ｯ縺ｮ隱ｬ譏弱′500譁・ｭ嶺ｻ･荳九〒縺ゅｋ縺薙→
+00:00 +18: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・繧ｿ繧ｹ繧ｯ縺ｮ隱ｬ譏弱′500譁・ｭ励↑繧画怏蜉ｹ
+00:00 +19: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・繧ｿ繧ｹ繧ｯ縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ驕主悉縺ｮ譌･莉倥ｂ險ｱ螳ｹ縺吶ｋ・医す繧ｹ繝・Β譌･莉倥′騾ｲ繧縺溘ａ・・00:00 +20: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・縺ｮ蛻ｶ邏・譛ｬ譌･縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｯ譛牙柑
+00:00 +21: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・髫主ｱ､逧・ョ繝・ラ繝ｩ繧､繝ｳ讀懆ｨｼ MS 繝・ャ繝峨Λ繧､繝ｳ >= Goal 繝・ャ繝峨Λ繧､繝ｳ縺ｮ蝣ｴ蜷医・ Goal 蛛ｴ縺九ｉ隕九ｋ縺ｨ蛻ｶ邏・＆蜿・00:00 +22: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・隍・粋蛻ｶ邏・､懆ｨｼ 譛螟ｧ髟ｷ蛻ｶ邏・・蠅・阜蛟､繝・せ繝・ Goal 繧ｿ繧､繝医Ν
+00:00 +23: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・隍・粋蛻ｶ邏・､懆ｨｼ 譛螟ｧ髟ｷ蛻ｶ邏・・蠅・阜蛟､繝・せ繝・ Task 隱ｬ譏・00:00 +24: C:/Users/ikeda/dev/app/task_management_project/app/test/application/constraints_validation_test.dart: 蛻ｶ邏・､懆ｨｼ繝・せ繝・隍・粋蛻ｶ邏・､懆ｨｼ 隍・焚蛻ｶ邏・・蜷梧凾讀懆ｨｼ: Goal
+00:00 +25: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・譛牙柑縺ｪ蜈･蜉帙〒繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +26: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・ID 縺ｯ荳諢上↓逕滓・縺輔ｌ繧九％縺ｨ
+00:00 +27: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・辟｡蜉ｹ縺ｪ繧ｿ繧､繝医Ν・・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +28: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・辟｡蜉ｹ縺ｪ繧ｫ繝・ざ繝ｪ・・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +29: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・辟｡蜉ｹ縺ｪ逅・罰・・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +30: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +30 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Goal>>
+     Which: returned a Future that emitted Goal:<Goal(id: GoalId(60cdbc7b-37ef-48fb-87bb-4c36d14ff9f3), title: GoalTitle(繧ｿ繧､繝医Ν))>
+  
+  package:matcher                                                      expect
+  package:flutter_test/src/widget_tester.dart 473:18                   expect
+  test\application\use_cases\goal\create_goal_use_case_test.dart 97:9  main.<fn>.<fn>.<fn>
+  
+00:00 +30 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +31 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｫ繝・ざ繝ｪ縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +32 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ逅・罰縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +33 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +34 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +35 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・1譁・ｭ励・繧ｫ繝・ざ繝ｪ縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +36 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・100譁・ｭ励・繧ｫ繝・ざ繝ｪ縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +37 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・1譁・ｭ励・逅・罰縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +38 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・100譁・ｭ励・逅・罰縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +39 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・譏取律縺ｮ譛滄剞縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +40 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/create_goal_use_case_test.dart: CreateGoalUseCase 螳溯｡・1蟷ｴ蠕後・譛滄剞縺ｧ繧ｴ繝ｼ繝ｫ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +41 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・蝓ｺ譛ｬ蜑企勁讖溯・ 蜊倡峡繧ｴ繝ｼ繝ｫ縺悟炎髯､縺ｧ縺阪ｋ縺薙→
+00:00 +42 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・蝓ｺ譛ｬ蜑企勁讖溯・ 隍・焚繧ｴ繝ｼ繝ｫ縺後≠繧句ｴ蜷医∵欠螳壹ざ繝ｼ繝ｫ縺縺代′蜑企勁縺輔ｌ繧・00:00 +43 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､・哺ilestone 竊・Task 繧ｴ繝ｼ繝ｫ蜑企勁譎ゅ・・荳九・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺後☆縺ｹ縺ｦ蜑企勁縺輔ｌ繧・00:00 +44 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､・哺ilestone 竊・Task 繧ｴ繝ｼ繝ｫ蜑企勁譎ゅ・・荳九・繧ｿ繧ｹ繧ｯ縺後☆縺ｹ縺ｦ繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､縺輔ｌ繧・00:00 +45 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､・哺ilestone 竊・Task 隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ隍・尅縺ｪ繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､
+00:00 +46 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｴ繝ｼ繝ｫ髢薙・迢ｬ遶区ｧ 蛻･縺ｮ繧ｴ繝ｼ繝ｫ縺ｮ驟堺ｸ九ョ繝ｼ繧ｿ縺ｯ蠖ｱ髻ｿ繧貞女縺代↑縺・00:00 +47 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ ID 縺ｧ縺ｮ蜑企勁縺ｧ繧ｨ繝ｩ繝ｼ
+00:00 +48 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ ID 縺ｧ縺ｮ蜑企勁縺ｧ繧ｨ繝ｩ繝ｼ
+00:00 +49 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_cascade_test.dart: DeleteGoalUseCase - 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､繝・せ繝・繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ null ID 縺ｧ縺ｮ蜑企勁縺ｧ繧ｨ繝ｩ繝ｼ
+00:00 +50 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_use_case_test.dart: DeleteGoalUseCase 遨ｺ縺ｮ繧ｴ繝ｼ繝ｫ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +51 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_use_case_test.dart: DeleteGoalUseCase 蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +52 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/delete_goal_use_case_test.dart: DeleteGoalUseCase 繧ｴ繝ｼ繝ｫ縺悟炎髯､縺輔ｌ繧九％縺ｨ
+00:01 +53 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/get_all_goals_use_case_test.dart: GetAllGoalsUseCase 繧ｴ繝ｼ繝ｫ縺悟ｭ伜惠縺励↑縺・ｴ蜷医・遨ｺ縺ｮ繝ｪ繧ｹ繝医′霑斐＆繧後ｋ縺薙→
+00:01 +54 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/get_all_goals_use_case_test.dart: GetAllGoalsUseCase 隍・焚縺ｮ繧ｴ繝ｼ繝ｫ縺瑚ｿ斐＆繧後ｋ縺薙→
+00:01 +55 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/get_goal_by_id_use_case_test.dart: GetGoalByIdUseCase 遨ｺ縺ｮ繧ｴ繝ｼ繝ｫ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:01 +56 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/get_goal_by_id_use_case_test.dart: GetGoalByIdUseCase 蟄伜惠縺吶ｋ繧ｴ繝ｼ繝ｫ ID 縺ｧ繧ｴ繝ｼ繝ｫ縺瑚ｿ斐＆繧後ｋ縺薙→
+00:01 +57 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/search_goals_use_case_test.dart: SearchGoalsUseCase 遨ｺ縺ｮ繧ｭ繝ｼ繝ｯ繝ｼ繝峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:01 +58 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/search_goals_use_case_test.dart: SearchGoalsUseCase 繧ｭ繝ｼ繝ｯ繝ｼ繝峨〒繧ｴ繝ｼ繝ｫ縺梧､懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:01 +59 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/search_goals_use_case_test.dart: SearchGoalsUseCase 繧ｫ繝・ざ繝ｪ讀懃ｴ｢縺梧ｩ溯・縺吶ｋ縺薙→
+00:01 +60 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/update_goal_use_case_test.dart: UpdateGoalUseCase 蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:01 +61 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/update_goal_use_case_test.dart: UpdateGoalUseCase 繧ｴ繝ｼ繝ｫ ID 縺梧ｭ｣縺励￠繧後・繧ｴ繝ｼ繝ｫ縺梧峩譁ｰ縺輔ｌ繧九％縺ｨ
+00:01 +62 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/goal/update_goal_use_case_test.dart: UpdateGoalUseCase 螳御ｺ・ｼ磯ｲ謐・00%・峨・繧ｴ繝ｼ繝ｫ縺ｯ邱ｨ髮・〒縺阪↑縺・％縺ｨ
+00:01 +63 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｯ ValueObject 縺ｮ繝舌Μ繝・・繧ｷ繝ｧ繝ｳ縺ｧ菴懈・縺ｧ縺阪ｋ
+00:01 +64 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・遨ｺ縺ｮ繧ｴ繝ｼ繝ｫ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｽ懈・縺励ｈ縺・→縺吶ｋ縺ｨ繧ｨ繝ｩ繝ｼ
+00:01 +65 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・譛滄剞縺梧悽譌･繧医ｊ蜑阪・譌･莉倥・繧ｨ繝ｩ繝ｼ
+00:02 +65 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・譛滄剞縺梧悽譌･繧医ｊ蜑阪・譌･莉倥・繧ｨ繝ｩ繝ｼ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Milestone>>
+     Which: returned a Future that emitted Milestone:<Milestone(id: MilestoneId(347bb35b-2282-4c0a-8327-48188bd6553a), title: MilestoneTitle(繝槭う繝ｫ繧ｹ繝医・繝ｳ))>
+  
+  package:matcher                                                                      expect
+  package:flutter_test/src/widget_tester.dart 473:18                                   expect
+  test\application\use_cases\milestone\create_milestone_invalid_parent_test.dart 57:7  main.<fn>.<fn>
+  
+00:02 +65 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・譛牙柑縺ｪ蜈･蜉帙〒繝槭う繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:02 +66 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・ID 縺ｯ荳諢上↓逕滓・縺輔ｌ繧九％縺ｨ
+00:02 +67 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・辟｡蜉ｹ縺ｪ繧ｿ繧､繝医Ν・・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +68 -2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +68 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Milestone>>
+     Which: returned a Future that emitted Milestone:<Milestone(id: MilestoneId(a553dad2-c927-4217-b75a-388f97f3d5cc), title: MilestoneTitle(繧ｿ繧､繝医Ν))>
+  
+  package:matcher                                                                expect
+  package:flutter_test/src/widget_tester.dart 473:18                             expect
+  test\application\use_cases\milestone\create_milestone_use_case_test.dart 66:9  main.<fn>.<fn>.<fn>
+  
+00:02 +68 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +69 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・遨ｺ縺ｮ goalId 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +70 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:02 +71 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:02 +72 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁 繝槭う繝ｫ繧ｹ繝医・繝ｳ縺悟炎髯､縺ｧ縺阪ｋ縺薙→
+00:02 +73 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁 隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ荳ｭ縲∵欠螳壹＠縺溘・繧､繝ｫ繧ｹ繝医・繝ｳ縺縺代′蜑企勁縺輔ｌ繧九％縺ｨ
+00:02 +74 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､・夐・荳九ち繧ｹ繧ｯ蜑企勁 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁譎ゅ・・荳九・繧ｿ繧ｹ繧ｯ縺後☆縺ｹ縺ｦ蜑企勁縺輔ｌ繧九％縺ｨ
+00:02 +75 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､・夐・荳九ち繧ｹ繧ｯ蜑企勁 隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ縺・■縲・縺､蜑企勁譎ゅ↓莉匁婿縺ｮ繧ｿ繧ｹ繧ｯ縺ｯ菫晁ｭｷ縺輔ｌ繧九％縺ｨ
+00:02 +76 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繧ｫ繧ｹ繧ｱ繝ｼ繝牙炎髯､・夐・荳九ち繧ｹ繧ｯ蜑企勁 隍・焚繧ｿ繧ｹ繧ｯ・郁､・焚繧ｹ繝・・繧ｿ繧ｹ・峨ｒ荳諡ｬ蜑企勁縺ｧ縺阪ｋ縺薙→
+00:02 +77 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ縺ｮ蜑企勁縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +78 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: DeleteMilestoneUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +79 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart: GetMilestonesByGoalIdUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜿門ｾ・繧ｴ繝ｼ繝ｫ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧貞叙蠕励〒縺阪ｋ縺薙→
+00:02 +80 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart: GetMilestonesByGoalIdUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜿門ｾ・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｪ縺励・繧ｴ繝ｼ繝ｫ ID 縺ｧ遨ｺ繝ｪ繧ｹ繝医′霑斐＆繧後ｋ縺薙→
+00:02 +81 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart: GetMilestonesByGoalIdUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜿門ｾ・隍・焚繧ｴ繝ｼ繝ｫ髢薙・繝槭う繝ｫ繧ｹ繝医・繝ｳ迢ｬ遶区ｧ繧堤｢ｺ隱阪〒縺阪ｋ縺薙→
+00:02 +82 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart: GetMilestonesByGoalIdUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜿門ｾ・隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ繧呈戟縺､繧ｴ繝ｼ繝ｫ繧偵☆縺ｹ縺ｦ蜿門ｾ励〒縺阪ｋ縺薙→
+00:02 +83 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart: GetMilestonesByGoalIdUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ Goal ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +84 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ譖ｴ譁ｰ 繝槭う繝ｫ繧ｹ繝医・繝ｳ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:02 +85 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ譖ｴ譁ｰ 繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ繧ｿ繧､繝医Ν縺ｮ縺ｿ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:02 +86 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ譖ｴ譁ｰ 繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｮ縺ｿ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:02 +87 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 繝槭う繝ｫ繧ｹ繝医・繝ｳ譖ｴ譁ｰ 隍・焚縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ譖ｴ譁ｰ縺檎峡遶九＠縺ｦ縺・ｋ縺薙→
+00:02 +88 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 蜈･蜉帛､讀懆ｨｼ 辟｡蜉ｹ縺ｪ繧ｿ繧､繝医Ν・育ｩｺ譁・ｭ暦ｼ峨〒譖ｴ譁ｰ縺後お繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:02 +89 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 蜈･蜉帛､讀懆ｨｼ 繧ｿ繧､繝医Ν縺・00譁・ｭ励ｒ雜・∴繧句ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:02 +90 -3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 蜈･蜉帛､讀懆ｨｼ 繝・ャ繝峨Λ繧､繝ｳ縺碁℃蜴ｻ縺ｮ譌･莉倥・蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:02 +90 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 蜈･蜉帛､讀懆ｨｼ 繝・ャ繝峨Λ繧､繝ｳ縺碁℃蜴ｻ縺ｮ譌･莉倥・蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Milestone>>
+     Which: returned a Future that emitted Milestone:<Milestone(id: MilestoneId(48652cd3-cb71-4bd3-8445-87009ecb364c), title: MilestoneTitle(繧ｿ繧､繝医Ν))>
+  
+  package:matcher                                                                 expect
+  package:flutter_test/src/widget_tester.dart 473:18                              expect
+  test\application\use_cases\milestone\update_milestone_use_case_test.dart 229:9  main.<fn>.<fn>.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                                      _CustomZone.registerUnaryCallback
+  test\application\use_cases\milestone\update_milestone_use_case_test.dart 224:9  main.<fn>.<fn>.<fn>
+  
+00:02 +90 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ縺ｮ譖ｴ譁ｰ縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:02 +91 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: UpdateMilestoneUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +92 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase Goal騾ｲ謐苓ｨ育ｮ・繧ｿ繧ｹ繧ｯ縺ｪ縺励・繧ｴ繝ｼ繝ｫ縺ｯ 0% 縺ｮ騾ｲ謐・00:03 +93 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase Goal騾ｲ謐苓ｨ育ｮ・蜈ｨ繧ｿ繧ｹ繧ｯ螳御ｺ・・繧ｴ繝ｼ繝ｫ縺ｯ 100% 縺ｮ騾ｲ謐・00:03 +94 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase Goal騾ｲ謐苓ｨ育ｮ・隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｮ蟷ｳ蝮・ｲ謐励′險育ｮ励＆繧後ｋ
+00:03 +95 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase Milestone騾ｲ謐苓ｨ育ｮ・繧ｿ繧ｹ繧ｯ縺ｪ縺励・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｯ 0% 縺ｮ騾ｲ謐・00:03 +96 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase Milestone騾ｲ謐苓ｨ育ｮ・蜈ｨ繧ｿ繧ｹ繧ｯ螳御ｺ・・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｯ 100% 縺ｮ騾ｲ謐・00:03 +97 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase Milestone騾ｲ謐苓ｨ育ｮ・隍・焚繧ｿ繧ｹ繧ｯ縺ｮ蟷ｳ蝮・ｲ謐励′險育ｮ励＆繧後ｋ
+00:03 +98 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ縺ｮ騾ｲ謐苓ｨ育ｮ励〒繧ｨ繝ｩ繝ｼ
+00:03 +99 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ縺ｮ騾ｲ謐苓ｨ育ｮ励〒繧ｨ繝ｩ繝ｼ
+00:03 +100 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繧ｴ繝ｼ繝ｫ ID 縺ｧ繧ｨ繝ｩ繝ｼ
+00:03 +101 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/progress/calculate_progress_use_case_test.dart: CalculateProgressUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｨ繝ｩ繝ｼ
+00:03 +102 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/change_task_status_use_case_test.dart: ChangeTaskStatusUseCase 繧ｹ繝・・繧ｿ繧ｹ縺・Todo 竊・Doing 縺ｫ螟画峩縺輔ｌ繧九％縺ｨ
+00:03 +103 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/change_task_status_use_case_test.dart: ChangeTaskStatusUseCase 繧ｹ繝・・繧ｿ繧ｹ縺・Doing 竊・Done 縺ｫ螟画峩縺輔ｌ繧九％縺ｨ
+00:03 +104 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/change_task_status_use_case_test.dart: ChangeTaskStatusUseCase 繧ｹ繝・・繧ｿ繧ｹ縺・Done 竊・Todo 縺ｫ螟画峩縺輔ｌ繧九％縺ｨ・亥ｾｪ迺ｰ・・00:03 +105 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_invalid_parent_test.dart: CreateTaskUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・繧ｿ繧ｹ繧ｯ縺ｯ ValueObject 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ縺ｧ菴懈・縺ｧ縺阪ｋ
+00:03 +106 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_invalid_parent_test.dart: CreateTaskUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・遨ｺ縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳID縺ｧ繧ｿ繧ｹ繧ｯ繧剃ｽ懈・縺励ｈ縺・→縺吶ｋ縺ｨ繧ｨ繝ｩ繝ｼ
+00:03 +107 -4: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_invalid_parent_test.dart: CreateTaskUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・譛滄剞縺梧悽譌･繧医ｊ蜑阪・譌･莉倥・繧ｨ繝ｩ繝ｼ
+00:03 +107 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_invalid_parent_test.dart: CreateTaskUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・譛滄剞縺梧悽譌･繧医ｊ蜑阪・譌･莉倥・繧ｨ繝ｩ繝ｼ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Task>>
+     Which: returned a Future that emitted Task:<Task(id: TaskId(9da9e51d-f4b9-470c-89ef-d6b759ee805e), title: TaskTitle(繧ｿ繧ｹ繧ｯ), status: todo)>
+  
+  package:matcher                                                            expect
+  package:flutter_test/src/widget_tester.dart 473:18                         expect
+  test\application\use_cases\task\create_task_invalid_parent_test.dart 40:7  main.<fn>.<fn>
+  
+00:03 +107 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_invalid_parent_test.dart: CreateTaskUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・繧ｿ繧ｹ繧ｯ菴懈・譎ゅ√ョ繝輔か繝ｫ繝医・繧ｹ繝・・繧ｿ繧ｹ縺ｯ todo
+00:03 +108 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・譛牙柑縺ｪ蜈･蜉帙〒繧ｿ繧ｹ繧ｯ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:03 +109 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・ID 縺ｯ荳諢上↓逕滓・縺輔ｌ繧九％縺ｨ
+00:03 +110 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・菴懈・譎ゅ・繧ｹ繝・・繧ｿ繧ｹ縺ｯ蟶ｸ縺ｫ Todo 縺ｧ縺ゅｋ縺薙→
+00:03 +111 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・辟｡蜉ｹ縺ｪ繧ｿ繧､繝医Ν・・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +112 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・辟｡蜉ｹ縺ｪ隱ｬ譏趣ｼ・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +113 -5: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +113 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Task>>
+     Which: returned a Future that emitted Task:<Task(id: TaskId(b53487c9-c420-4979-b077-9e502458b9bd), title: TaskTitle(繧ｿ繧､繝医Ν), status: todo)>
+  
+  package:matcher                                                       expect
+  package:flutter_test/src/widget_tester.dart 473:18                    expect
+  test\application\use_cases\task\create_task_use_case_test.dart 104:9  main.<fn>.<fn>.<fn>
+  
+00:03 +113 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +114 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ隱ｬ譏弱〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +115 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・遨ｺ縺ｮ milestoneId 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +116 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繧ｿ繧ｹ繧ｯ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:03 +117 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繧ｿ繧ｹ繧ｯ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:03 +118 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・1譁・ｭ励・隱ｬ譏弱〒繧ｿ繧ｹ繧ｯ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:03 +119 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/create_task_use_case_test.dart: CreateTaskUseCase 螳溯｡・500譁・ｭ励・隱ｬ譏弱〒繧ｿ繧ｹ繧ｯ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:03 +120 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｿ繧ｹ繧ｯ蜑企勁 繧ｿ繧ｹ繧ｯ繧貞炎髯､縺ｧ縺阪ｋ縺薙→
+00:03 +121 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｿ繧ｹ繧ｯ蜑企勁 隍・焚繧ｿ繧ｹ繧ｯ縺ｮ蜑企勁縺檎峡遶九＠縺ｦ縺・ｋ縺薙→
+00:03 +122 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｿ繧ｹ繧ｯ蜑企勁 Todo 繧ｹ繝・・繧ｿ繧ｹ縺ｮ繧ｿ繧ｹ繧ｯ繧貞炎髯､縺ｧ縺阪ｋ縺薙→
+00:03 +123 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｿ繧ｹ繧ｯ蜑企勁 Doing 繧ｹ繝・・繧ｿ繧ｹ縺ｮ繧ｿ繧ｹ繧ｯ繧貞炎髯､縺ｧ縺阪ｋ縺薙→
+00:03 +124 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｿ繧ｹ繧ｯ蜑企勁 Done 繧ｹ繝・・繧ｿ繧ｹ縺ｮ繧ｿ繧ｹ繧ｯ繧貞炎髯､縺ｧ縺阪ｋ縺薙→
+00:03 +125 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｿ繧ｹ繧ｯ蜑企勁 逡ｰ縺ｪ繧九・繧､繝ｫ繧ｹ繝医・繝ｳ荳九・繧ｿ繧ｹ繧ｯ蜑企勁縺檎峡遶九＠縺ｦ縺・ｋ縺薙→
+00:03 +126 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・ち繧ｹ繧ｯ ID 縺ｧ縺ｮ蜑企勁縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:03 +127 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/delete_task_use_case_test.dart: DeleteTaskUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繧ｿ繧ｹ繧ｯ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:04 +128 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_overdue_test.dart: GetAllTasksTodayUseCase - 驕取悄髯舌ち繧ｹ繧ｯ蟇ｾ蠢・驕取悄髯舌ち繧ｹ繧ｯ・域乖譌･縺ｮ譛滄剞・峨′蜷ｫ縺ｾ繧後ｋ縺薙→
+00:04 +129 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_overdue_test.dart: GetAllTasksTodayUseCase - 驕取悄髯舌ち繧ｹ繧ｯ蟇ｾ蠢・隍・焚譌･縺ｮ驕取悄髯舌ち繧ｹ繧ｯ縺後☆縺ｹ縺ｦ蜷ｫ縺ｾ繧後ｋ縺薙→
+00:04 +130 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_use_case_test.dart: GetAllTasksTodayUseCase 譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ蜿門ｾ・譛ｬ譌･縺ｮ繝・ャ繝峨Λ繧､繝ｳ繧呈戟縺､繧ｿ繧ｹ繧ｯ繧貞叙蠕励〒縺阪ｋ縺薙→
+00:04 +131 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_use_case_test.dart: GetAllTasksTodayUseCase 譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ蜿門ｾ・隍・焚縺ｮ譛ｬ譌･繧ｿ繧ｹ繧ｯ繧偵☆縺ｹ縺ｦ蜿門ｾ励〒縺阪ｋ縺薙→
+00:04 +132 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_use_case_test.dart: GetAllTasksTodayUseCase 譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ蜿門ｾ・譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ縺後↑縺・ｴ蜷医・遨ｺ縺ｮ繝ｪ繧ｹ繝医ｒ霑斐☆縺薙→
+00:04 +133 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_use_case_test.dart: GetAllTasksTodayUseCase 譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ蜿門ｾ・譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ縺檎焚縺ｪ繧九・繧､繝ｫ繧ｹ繝医・繝ｳ縺ｫ螻槭＠縺ｦ縺・※繧ょ性縺ｾ繧後ｋ縺薙→
+00:04 +134 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_all_tasks_today_use_case_test.dart: GetAllTasksTodayUseCase 譛ｬ譌･縺ｮ繧ｿ繧ｹ繧ｯ蜿門ｾ・隍・焚繧ｹ繝・・繧ｿ繧ｹ縺ｮ繧ｿ繧ｹ繧ｯ縺後☆縺ｹ縺ｦ蜷ｫ縺ｾ繧後ｋ縺薙→
+00:04 +135 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_tasks_by_milestone_id_use_case_test.dart: GetTasksByMilestoneIdUseCase 繧ｿ繧ｹ繧ｯ蜿門ｾ・繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｿ繧ｹ繧ｯ繧貞叙蠕励〒縺阪ｋ縺薙→
+00:04 +136 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_tasks_by_milestone_id_use_case_test.dart: GetTasksByMilestoneIdUseCase 繧ｿ繧ｹ繧ｯ蜿門ｾ・繧ｿ繧ｹ繧ｯ縺ｪ縺励・繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ遨ｺ繝ｪ繧ｹ繝医′霑斐＆繧後ｋ縺薙→
+00:04 +137 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_tasks_by_milestone_id_use_case_test.dart: GetTasksByMilestoneIdUseCase 繧ｿ繧ｹ繧ｯ蜿門ｾ・隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ髢薙・繧ｿ繧ｹ繧ｯ迢ｬ遶区ｧ繧堤｢ｺ隱阪〒縺阪ｋ縺薙→
+00:04 +138 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_tasks_by_milestone_id_use_case_test.dart: GetTasksByMilestoneIdUseCase 繧ｿ繧ｹ繧ｯ蜿門ｾ・隍・焚繧ｿ繧ｹ繧ｯ繧呈戟縺､繝槭う繝ｫ繧ｹ繝医・繝ｳ繧偵☆縺ｹ縺ｦ蜿門ｾ励〒縺阪ｋ縺薙→
+00:04 +139 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_tasks_by_milestone_id_use_case_test.dart: GetTasksByMilestoneIdUseCase 繧ｿ繧ｹ繧ｯ蜿門ｾ・隍・焚繧ｹ繝・・繧ｿ繧ｹ縺ｮ繧ｿ繧ｹ繧ｯ繧偵☆縺ｹ縺ｦ蜿門ｾ励〒縺阪ｋ縺薙→
+00:04 +140 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/get_tasks_by_milestone_id_use_case_test.dart: GetTasksByMilestoneIdUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:04 +141 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｿ繧ｹ繧ｯ譖ｴ譁ｰ 繧ｿ繧ｹ繧ｯ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:04 +142 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｿ繧ｹ繧ｯ譖ｴ譁ｰ 繧ｿ繧ｹ繧ｯ縺ｮ繧ｿ繧､繝医Ν縺ｮ縺ｿ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:04 +143 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｿ繧ｹ繧ｯ譖ｴ譁ｰ 繧ｿ繧ｹ繧ｯ縺ｮ隱ｬ譏弱・縺ｿ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:04 +144 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｿ繧ｹ繧ｯ譖ｴ譁ｰ 繧ｿ繧ｹ繧ｯ縺ｮ繝・ャ繝峨Λ繧､繝ｳ縺ｮ縺ｿ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:04 +145 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｿ繧ｹ繧ｯ譖ｴ譁ｰ 繧ｿ繧ｹ繧ｯ縺ｮ繧ｹ繝・・繧ｿ繧ｹ縺ｯ菫晁ｭｷ縺輔ｌ縺ｦ譖ｴ譁ｰ縺輔ｌ縺ｪ縺・％縺ｨ
+00:04 +146 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｿ繧ｹ繧ｯ譖ｴ譁ｰ 隍・焚繧ｿ繧ｹ繧ｯ縺ｮ譖ｴ譁ｰ縺檎峡遶九＠縺ｦ縺・ｋ縺薙→
+00:04 +147 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 蜈･蜉帛､讀懆ｨｼ 辟｡蜉ｹ縺ｪ繧ｿ繧､繝医Ν・育ｩｺ譁・ｭ暦ｼ峨〒譖ｴ譁ｰ縺後お繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:04 +148 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 蜈･蜉帛､讀懆ｨｼ 繧ｿ繧､繝医Ν縺・00譁・ｭ励ｒ雜・∴繧句ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:04 +149 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 蜈･蜉帛､讀懆ｨｼ 隱ｬ譏弱′500譁・ｭ励ｒ雜・∴繧句ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:04 +150 -6: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 蜈･蜉帛､讀懆ｨｼ 繝・ャ繝峨Λ繧､繝ｳ縺碁℃蜴ｻ縺ｮ譌･莉倥・蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ
+00:04 +150 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 蜈･蜉帛､讀懆ｨｼ 繝・ャ繝峨Λ繧､繝ｳ縺碁℃蜴ｻ縺ｮ譌･莉倥・蝣ｴ蜷医・繧ｨ繝ｩ繝ｼ縺ｫ縺ｪ繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => Future<Task>>
+     Which: returned a Future that emitted Task:<Task(id: TaskId(c85889a7-b451-48aa-ab15-1f93a838f81e), title: TaskTitle(繧ｿ繧､繝医Ν), status: todo)>
+  
+  package:matcher                                                       expect
+  package:flutter_test/src/widget_tester.dart 473:18                    expect
+  test\application\use_cases\task\update_task_use_case_test.dart 311:9  main.<fn>.<fn>.<fn>
+  ===== asynchronous gap ===========================
+  dart:async                                                            _CustomZone.registerUnaryCallback
+  test\application\use_cases\task\update_task_use_case_test.dart 306:9  main.<fn>.<fn>.<fn>
+  
+00:04 +150 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 蟄伜惠縺励↑縺・ち繧ｹ繧ｯ ID 縺ｧ縺ｮ譖ｴ譁ｰ縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:04 +151 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/task/update_task_use_case_test.dart: UpdateTaskUseCase 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ 遨ｺ縺ｮ繧ｿ繧ｹ繧ｯ ID 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:04 +152 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｯ蠢・医ヵ繧｣繝ｼ繝ｫ繝峨〒菴懈・縺ｧ縺阪ｋ
+00:04 +153 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｮ id 縺ｯ null 縺ｧ縺ｯ縺ｪ縺・00:04 +154 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｮ calculateProgress 縺ｯ 0 縺九ｉ蟋九∪繧・00:04 +155 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｮ calculateProgress 縺ｯ 0-100 縺ｮ遽・峇縺ｧ縺ゅｋ
+00:04 +156 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・隍・焚縺ｮ Goal 繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ縺ｯ逡ｰ縺ｪ繧九が繝悶ず繧ｧ繧ｯ繝医〒縺ゅｋ
+00:04 +157 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｮ title, category, reason 縺ｯ荳榊､峨〒縺ゅｋ
+00:04 +158 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・隍・焚縺ｮ Goal 縺ｯ逡ｰ縺ｪ繧・id 繧呈戟縺､縺薙→縺後〒縺阪ｋ
+00:04 +159 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｮ category 縺ｯ譛牙柑縺ｪ蛟､縺ｧ縺ゅｋ
+00:04 +160 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_basic_validation_test.dart: Goal - 蝓ｺ譛ｬ逧・↑繝舌Μ繝・・繧ｷ繝ｧ繝ｳ繝・せ繝・Goal 縺ｮ deadline 縺ｯ譛牙柑縺ｪ譌･譎ゅ〒縺ゅｋ
+00:05 +161 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity 蛻晄悄蛹・繧ｴ繝ｼ繝ｫ縺梧ｭ｣縺励￥蛻晄悄蛹悶〒縺阪ｋ縺薙→
+00:05 +162 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity 蛻晄悄蛹・蠢・医ヵ繧｣繝ｼ繝ｫ繝峨↑縺励〒縺ｯ蛻晄悄蛹悶〒縺阪↑縺・％縺ｨ
+00:05 +163 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity calculateProgress 繝槭う繝ｫ繧ｹ繝医・繝ｳ縺悟ｭ伜惠縺励↑縺・ｴ蜷医￣rogress(0)繧定ｿ斐☆縺薙→
+00:05 +164 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity calculateProgress 1縺､縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ騾ｲ謐励°繧芽ｨ育ｮ励〒縺阪ｋ縺薙→
+00:05 +165 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity calculateProgress 隍・焚縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ騾ｲ謐励・蟷ｳ蝮・ｒ險育ｮ励〒縺阪ｋ縺薙→
+00:05 +166 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity calculateProgress 騾ｲ謐励・蟷ｳ蝮・′蟆乗焚縺ｮ蝣ｴ蜷医∝・繧頑昏縺ｦ繧峨ｌ繧九％縺ｨ
+00:05 +167 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity calculateProgress 縺吶∋縺ｦ縺ｮ騾ｲ謐励′0縺ｮ蝣ｴ蜷医￣rogress(0)繧定ｿ斐☆縺薙→
+00:05 +168 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity calculateProgress 縺吶∋縺ｦ縺ｮ騾ｲ謐励′100縺ｮ蝣ｴ蜷医￣rogress(100)繧定ｿ斐☆縺薙→
+00:05 +169 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 蜷後§繝輔ぅ繝ｼ繝ｫ繝峨ｒ謖√▽Goal縺ｯ遲我ｾ｡縺ｧ縺ゅｋ縺薙→
+00:05 +170 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧紀D繧呈戟縺､Goal縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +171 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧九ち繧､繝医Ν繧呈戟縺､Goal縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +172 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 蜷後§Goal縺ｯHashCode縺悟酔縺倥〒縺ゅｋ縺薙→
+00:05 +173 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/goal_test.dart: Goal Entity toString toString縺碁←蛻・↑譁・ｭ怜・繧定ｿ斐☆縺薙→
+00:05 +174 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・Milestone 縺ｯ譛牙柑縺ｪ goalId 縺ｧ菴懈・縺ｧ縺阪ｋ
+00:05 +175 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・Milestone 縺ｮ goalId 縺ｯ荳榊､峨〒縺ゅｋ
+00:05 +176 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・逡ｰ縺ｪ繧・goalId 繧呈戟縺､ Milestone 縺ｯ逡ｰ縺ｪ繧・Goal 縺ｫ螻槭☆繧・00:05 +177 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・Milestone 縺ｮ calculateProgress 蛟､縺ｯ 0-100 縺ｮ遽・峇縺ｧ縺ゅｋ
+00:05 +178 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・隍・焚縺ｮ Milestone 縺ｯ蜷後§ Goal 縺ｫ螻槭☆繧九％縺ｨ縺後〒縺阪ｋ
+00:05 +179 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・Milestone 縺ｮ id 縺ｯ null 縺ｧ縺ｯ縺ｪ縺・00:05 +180 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・隍・焚縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ縺ｯ逡ｰ縺ｪ繧九が繝悶ず繧ｧ繧ｯ繝医〒縺ゅｋ
+00:05 +181 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・Milestone 縺ｮ title 縺ｨ deadline 縺ｯ螟画峩縺ｧ縺阪↑縺・00:05 +182 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_goal_relationship_test.dart: Milestone - 隕ｪ Goal 縺ｨ縺ｮ髢｢菫よ､懆ｨｼ繝・せ繝・Milestone 縺ｮ goalId 縺ｯ豁｣縺励＞ Goal 縺ｮ ID 蜿ら・縺ｧ縺ゅｋ
+00:05 +183 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity 蛻晄悄蛹・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺梧ｭ｣縺励￥蛻晄悄蛹悶〒縺阪ｋ縺薙→
+00:05 +184 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity 蛻晄悄蛹・goalId縺梧ｭ｣縺励￥險ｭ螳壹＆繧後ｋ縺薙→
+00:05 +185 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity calculateProgress 繧ｿ繧ｹ繧ｯ縺悟ｭ伜惠縺励↑縺・ｴ蜷医￣rogress(0)繧定ｿ斐☆縺薙→
+00:05 +186 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity calculateProgress 1縺､縺ｮ繧ｿ繧ｹ繧ｯ騾ｲ謐励°繧芽ｨ育ｮ励〒縺阪ｋ縺薙→
+00:05 +187 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity calculateProgress 隍・焚縺ｮ繧ｿ繧ｹ繧ｯ騾ｲ謐励・蟷ｳ蝮・ｒ險育ｮ励〒縺阪ｋ縺薙→
+00:05 +188 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity calculateProgress 騾ｲ謐励・蟷ｳ蝮・′蟆乗焚縺ｮ蝣ｴ蜷医∝・繧頑昏縺ｦ繧峨ｌ繧九％縺ｨ
+00:05 +189 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity calculateProgress 縺吶∋縺ｦ縺ｮ繧ｿ繧ｹ繧ｯ騾ｲ謐励′100縺ｮ蝣ｴ蜷医￣rogress(100)繧定ｿ斐☆縺薙→
+00:05 +190 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 蜷後§繝輔ぅ繝ｼ繝ｫ繝峨ｒ謖√▽Milestone縺ｯ遲我ｾ｡縺ｧ縺ゅｋ縺薙→
+00:05 +191 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧紀D繧呈戟縺､Milestone縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +192 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧吉oalId繧呈戟縺､Milestone縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +193 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 蜷後§Milestone縺ｯHashCode縺悟酔縺倥〒縺ゅｋ縺薙→
+00:05 +194 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/milestone_test.dart: Milestone Entity toString toString縺碁←蛻・↑譁・ｭ怜・繧定ｿ斐☆縺薙→
+00:05 +195 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ蛻晄悄繧ｹ繝・・繧ｿ繧ｹ縺ｯ todo
+00:05 +196 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ繧ｹ繝・・繧ｿ繧ｹ縺・doing 縺ｮ蝣ｴ蜷医・ｲ謐励・ 50%
+00:05 +197 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ繧ｹ繝・・繧ｿ繧ｹ縺・done 縺ｮ蝣ｴ蜷医・ｲ謐励・ 100%
+00:05 +198 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ繧ｹ繝・・繧ｿ繧ｹ縺ｯ todo 縺九ｉ doing 縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ
+00:05 +199 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ繧ｹ繝・・繧ｿ繧ｹ縺ｯ doing 縺九ｉ done 縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ
+00:05 +200 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ繧ｹ繝・・繧ｿ繧ｹ縺ｯ done 縺九ｉ todo 縺ｫ蠕ｪ迺ｰ驕ｷ遘ｻ
+00:05 +201 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ騾ｲ謐励・螳悟・縺ｫ閾ｪ蜍戊ｨ育ｮ励＆繧後ｋ
+00:05 +202 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・隍・焚縺ｮ Task 繧､繝ｳ繧ｹ繧ｿ繝ｳ繧ｹ縺ｯ迢ｬ遶九＠縺ｦ縺・ｋ
+00:05 +203 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ隕ｪ milestoneId 縺ｯ荳榊､峨〒縺ゅｋ
+00:05 +204 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_status_transition_test.dart: Task - 繧ｹ繝・・繧ｿ繧ｹ驕ｷ遘ｻ縺ｨ騾ｲ謐苓ｨ育ｮ励ユ繧ｹ繝・Task 縺ｮ id 縺ｯ荳榊､峨〒縺ゅｋ
+00:05 +205 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 蛻晄悄蛹・繧ｿ繧ｹ繧ｯ縺梧ｭ｣縺励￥蛻晄悄蛹悶〒縺阪ｋ縺薙→
+00:05 +206 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 蛻晄悄蛹・milestoneId縺梧ｭ｣縺励￥險ｭ螳壹＆繧後ｋ縺薙→
+00:05 +207 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity getProgress 繧ｹ繝・・繧ｿ繧ｹ縺卦odo縺ｮ蝣ｴ蜷医￣rogress(0)繧定ｿ斐☆縺薙→
+00:05 +208 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity getProgress 繧ｹ繝・・繧ｿ繧ｹ縺轡oing縺ｮ蝣ｴ蜷医￣rogress(50)繧定ｿ斐☆縺薙→
+00:05 +209 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity getProgress 繧ｹ繝・・繧ｿ繧ｹ縺轡one縺ｮ蝣ｴ蜷医￣rogress(100)繧定ｿ斐☆縺薙→
+00:05 +210 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity cycleStatus Todo縺九ｉDoing縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ縺薙→
+00:05 +211 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity cycleStatus Doing縺九ｉDone縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ縺薙→
+00:05 +212 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity cycleStatus Done縺九ｉTodo縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ縺薙→・亥ｾｪ迺ｰ・・00:05 +213 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity cycleStatus cycleStatus縺ｧ莉悶・繝輔ぅ繝ｼ繝ｫ繝峨′螟峨ｏ繧峨↑縺・％縺ｨ
+00:05 +214 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity cycleStatus 隍・焚蝗枋ycleStatus繧貞他縺ｳ蜃ｺ縺吶→蠕ｪ迺ｰ縺吶ｋ縺薙→
+00:05 +215 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 蜷後§繝輔ぅ繝ｼ繝ｫ繝峨ｒ謖√▽Task縺ｯ遲我ｾ｡縺ｧ縺ゅｋ縺薙→
+00:05 +216 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧紀D繧呈戟縺､Task縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +217 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧九せ繝・・繧ｿ繧ｹ繧呈戟縺､Task縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +218 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 逡ｰ縺ｪ繧砧ilestoneId繧呈戟縺､Task縺ｯ遲我ｾ｡縺ｧ縺ｪ縺・％縺ｨ
+00:05 +219 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity 遲牙捷貍皮ｮ怜ｭ舌→hashCode 蜷後§Task縺ｯHashCode縺悟酔縺倥〒縺ゅｋ縺薙→
+00:05 +220 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/entities/task_test.dart: Task Entity toString toString縺碁←蛻・↑譁・ｭ怜・繧定ｿ斐☆縺薙→
+00:06 +221 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛牙柑縺ｪ繧ｫ繝・ざ繝ｪ縺ｧ GoalCategory 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +222 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 隍・焚縺ｮ逡ｰ縺ｪ繧九き繝・ざ繝ｪ縺ｧ GoalCategory 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +223 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ譁・ｭ怜・縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +224 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 100譁・ｭ励ｒ雜・∴繧九き繝・ざ繝ｪ縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +225 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｫ繝・ざ繝ｪ縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +226 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 遲我ｾ｡諤ｧ 蜷後§繧ｫ繝・ざ繝ｪ縺ｮ GoalCategory 縺ｯ遲峨＠縺・％縺ｨ
+00:06 +227 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧九き繝・ざ繝ｪ縺ｮ GoalCategory 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:06 +228 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_category_test.dart: GoalCategory 遲我ｾ｡諤ｧ 蜷後§繧ｫ繝・ざ繝ｪ縺ｮ GoalCategory 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:06 +229 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛ｬ譌･繧医ｊ蠕後・譌･莉倥〒 GoalDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +230 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 驕縺・ｰ・擂縺ｮ譌･莉倥〒 GoalDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +231 -7: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･莉･蜑阪・譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +231 -8: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･莉･蜑阪・譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => GoalDeadline>
+     Which: returned GoalDeadline:<GoalDeadline(2026-2-7)>
+  
+  package:matcher                                              expect
+  package:flutter_test/src/widget_tester.dart 473:18           expect
+  test\domain\value_objects\goal\goal_deadline_test.dart 28:9  main.<fn>.<fn>.<fn>
+  
+00:06 +231 -8: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･縺ｮ譌･莉倥〒 GoalDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +232 -8: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 驕主悉縺ｮ譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +232 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 驕主悉縺ｮ譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => GoalDeadline>
+     Which: returned GoalDeadline:<GoalDeadline(2020-1-1)>
+  
+  package:matcher                                              expect
+  package:flutter_test/src/widget_tester.dart 473:18           expect
+  test\domain\value_objects\goal\goal_deadline_test.dart 42:9  main.<fn>.<fn>.<fn>
+  
+00:06 +232 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 遲我ｾ｡諤ｧ 蜷後§譌･莉倥・ GoalDeadline 縺ｯ遲峨＠縺・％縺ｨ
+00:06 +233 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧区律莉倥・ GoalDeadline 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:06 +234 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 遲我ｾ｡諤ｧ 蜷後§譌･莉倥・ GoalDeadline 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:06 +235 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 譌･莉俶ｯ碑ｼ・謖・ｮ壽律莉倥ｈ繧雁ｾ後・譌･莉倥°蛻､螳壹〒縺阪ｋ縺薙→
+00:06 +236 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_deadline_test.dart: GoalDeadline 譌･莉俶ｯ碑ｼ・謖・ｮ壽律莉倥ｈ繧雁燕縺ｮ譌･莉倥°蛻､螳壹〒縺阪ｋ縺薙→
+00:06 +237 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_id_test.dart: GoalId 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ UUID蠖｢蠑上・譁・ｭ怜・縺ｧ GoalId 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +238 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_id_test.dart: GoalId 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譁ｰ縺励＞ GoalId 繧堤函謌舌〒縺阪ｋ縺薙→・・UID閾ｪ蜍慕函謌撰ｼ・00:06 +239 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_id_test.dart: GoalId 遲我ｾ｡諤ｧ 蜷後§ ID 縺ｮ GoalId 縺ｯ遲峨＠縺・％縺ｨ
+00:06 +240 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_id_test.dart: GoalId 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧・ID 縺ｮ GoalId 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:06 +241 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_id_test.dart: GoalId 遲我ｾ｡諤ｧ 蜷後§ ID 縺ｮ GoalId 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:06 +242 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛牙柑縺ｪ逅・罰縺ｧ GoalReason 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +243 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 1譁・ｭ励・逅・罰縺ｧ GoalReason 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +244 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 100譁・ｭ励・逅・罰縺ｧ GoalReason 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +245 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ譁・ｭ怜・縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +246 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 100譁・ｭ励ｒ雜・∴繧狗炊逕ｱ縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +247 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ逅・罰縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +248 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 遲我ｾ｡諤ｧ 蜷後§逅・罰縺ｮ GoalReason 縺ｯ遲峨＠縺・％縺ｨ
+00:06 +249 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧狗炊逕ｱ縺ｮ GoalReason 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:06 +250 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_reason_test.dart: GoalReason 遲我ｾ｡諤ｧ 蜷後§逅・罰縺ｮ GoalReason 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:06 +251 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛牙柑縺ｪ繧ｿ繧､繝医Ν・・・・00譁・ｭ暦ｼ峨〒 GoalTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +252 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ GoalTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +253 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ GoalTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:06 +254 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ譁・ｭ怜・縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +255 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 100譁・ｭ励ｒ雜・∴繧九ち繧､繝医Ν縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +256 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:06 +257 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 遲我ｾ｡諤ｧ 蜷後§繧ｿ繧､繝医Ν縺ｮ GoalTitle 縺ｯ遲峨＠縺・％縺ｨ
+00:06 +258 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧九ち繧､繝医Ν縺ｮ GoalTitle 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:06 +259 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/goal/goal_title_test.dart: GoalTitle 遲我ｾ｡諤ｧ 蜷後§繧ｿ繧､繝医Ν縺ｮ GoalTitle 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:07 +260 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛ｬ譌･繧医ｊ蠕後・譌･莉倥〒 MilestoneDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +261 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 驕縺・ｰ・擂縺ｮ譌･莉倥〒 MilestoneDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +262 -9: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･莉･蜑阪・譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +262 -10: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･莉･蜑阪・譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => MilestoneDeadline>
+     Which: returned MilestoneDeadline:<MilestoneDeadline(2026-2-7)>
+  
+  package:matcher                                                        expect
+  package:flutter_test/src/widget_tester.dart 473:18                     expect
+  test\domain\value_objects\milestone\milestone_deadline_test.dart 27:9  main.<fn>.<fn>.<fn>
+  
+00:07 +262 -10: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･縺ｮ譌･莉倥〒 MilestoneDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +263 -10: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 驕主悉縺ｮ譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +263 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 驕主悉縺ｮ譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => MilestoneDeadline>
+     Which: returned MilestoneDeadline:<MilestoneDeadline(2020-1-1)>
+  
+  package:matcher                                                        expect
+  package:flutter_test/src/widget_tester.dart 473:18                     expect
+  test\domain\value_objects\milestone\milestone_deadline_test.dart 40:9  main.<fn>.<fn>.<fn>
+  
+00:07 +263 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 遲我ｾ｡諤ｧ 蜷後§譌･莉倥・ MilestoneDeadline 縺ｯ遲峨＠縺・％縺ｨ
+00:07 +264 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧区律莉倥・ MilestoneDeadline 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:07 +265 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 遲我ｾ｡諤ｧ 蜷後§譌･莉倥・ MilestoneDeadline 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:07 +266 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 譌･莉俶ｯ碑ｼ・謖・ｮ壽律莉倥ｈ繧雁ｾ後・譌･莉倥°蛻､螳壹〒縺阪ｋ縺薙→
+00:07 +267 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_deadline_test.dart: MilestoneDeadline 譌･莉俶ｯ碑ｼ・謖・ｮ壽律莉倥ｈ繧雁燕縺ｮ譌･莉倥°蛻､螳壹〒縺阪ｋ縺薙→
+00:07 +268 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_id_test.dart: MilestoneId 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ UUID蠖｢蠑上・譁・ｭ怜・縺ｧ MilestoneId 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +269 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_id_test.dart: MilestoneId 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譁ｰ縺励＞ MilestoneId 繧堤函謌舌〒縺阪ｋ縺薙→・・UID閾ｪ蜍慕函謌撰ｼ・00:07 +270 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_id_test.dart: MilestoneId 遲我ｾ｡諤ｧ 蜷後§ ID 縺ｮ MilestoneId 縺ｯ遲峨＠縺・％縺ｨ
+00:07 +271 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_id_test.dart: MilestoneId 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧・ID 縺ｮ MilestoneId 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:07 +272 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_id_test.dart: MilestoneId 遲我ｾ｡諤ｧ 蜷後§ ID 縺ｮ MilestoneId 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:07 +273 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛牙柑縺ｪ繧ｿ繧､繝医Ν・・・・00譁・ｭ暦ｼ峨〒 MilestoneTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +274 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ MilestoneTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +275 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ MilestoneTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:07 +276 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ譁・ｭ怜・縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +277 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 100譁・ｭ励ｒ雜・∴繧九ち繧､繝医Ν縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +278 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +279 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 遲我ｾ｡諤ｧ 蜷後§繧ｿ繧､繝医Ν縺ｮ MilestoneTitle 縺ｯ遲峨＠縺・％縺ｨ
+00:07 +280 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧九ち繧､繝医Ν縺ｮ MilestoneTitle 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:07 +281 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/milestone/milestone_title_test.dart: MilestoneTitle 遲我ｾ｡諤ｧ 蜷後§繧ｿ繧､繝医Ν縺ｮ MilestoneTitle 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:07 +282 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｯ 0 縺ｧ蛻晄悄蛹悶〒縺阪ｋ
+00:07 +283 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｯ 50 縺ｧ蛻晄悄蛹悶〒縺阪ｋ
+00:07 +284 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｯ 100 縺ｧ蛻晄悄蛹悶〒縺阪ｋ
+00:07 +285 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｫ -1 繧呈欠螳壹☆繧九→繧ｨ繝ｩ繝ｼ
+00:07 +286 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｫ 101 繧呈欠螳壹☆繧九→繧ｨ繝ｩ繝ｼ
+00:07 +287 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｯ荳榊､峨が繝悶ず繧ｧ繧ｯ繝・00:07 +288 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｮ蛟､縺ｯ逶ｴ謗･螟画峩縺ｧ縺阪↑縺・00:07 +289 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｯ 0 縺九ｉ 100 縺ｮ遽・峇縺ｮ蛟､縺ｮ縺ｿ譛牙柑
+00:07 +290 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 隍・焚縺ｮ辟｡蜉ｹ縺ｪ蛟､縺後お繝ｩ繝ｼ繧堤匱逕溘＆縺帙ｋ
+00:07 +291 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress(0) 縺ｯ 繧ｿ繧ｹ繧ｯ譛ｪ髢句ｧ狗憾諷九ｒ遉ｺ縺・00:07 +292 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress(100) 縺ｯ 繧ｿ繧ｹ繧ｯ螳御ｺ・憾諷九ｒ遉ｺ縺・00:07 +293 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/progress_immutability_and_validation_test.dart: Progress - 蛟､縺ｮ荳榊､画ｧ縺ｨ 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ Progress 縺ｮ險育ｮ励・ Milestone/Goal 繝ｬ繝吶Ν縺ｧ邂｡逅・＆繧後ｋ
+00:07 +294 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 0 縺九ｉ 100 縺ｾ縺ｧ縺ｮ蛟､縺ｧ Progress 繧堤函謌舌〒縺阪ｋ縺薙→
+00:07 +295 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 0 縺ｧ Progress 繧堤函謌舌〒縺阪ｋ縺薙→
+00:07 +296 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 100 縺ｧ Progress 繧堤函謌舌〒縺阪ｋ縺薙→
+00:07 +297 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 雋縺ｮ蛟､縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +298 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 100 繧定ｶ・∴繧句､縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:07 +299 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 遲我ｾ｡諤ｧ 蜷後§蛟､縺ｮ Progress 縺ｯ遲峨＠縺・％縺ｨ
+00:07 +300 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧句､縺ｮ Progress 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:07 +301 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 遲我ｾ｡諤ｧ 蜷後§蛟､縺ｮ Progress 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:07 +302 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 蛻､螳壹Γ繧ｽ繝・ラ 螳御ｺ・憾諷具ｼ・rogress == 100・峨ｒ蛻､螳壹〒縺阪ｋ縺薙→
+00:07 +303 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 蛻､螳壹Γ繧ｽ繝・ラ 譛ｪ螳御ｺ・憾諷具ｼ・rogress < 100・峨ｒ蛻､螳壹〒縺阪ｋ縺薙→
+00:07 +304 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 蛻､螳壹Γ繧ｽ繝・ラ 譛ｪ髢句ｧ狗憾諷具ｼ・rogress == 0・峨ｒ蛻､螳壹〒縺阪ｋ縺薙→
+00:07 +305 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/shared/progress_test.dart: Progress 蛻､螳壹Γ繧ｽ繝・ラ 髢句ｧ狗憾諷具ｼ・rogress > 0・峨ｒ蛻､螳壹〒縺阪ｋ縺薙→
+00:08 +306 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛ｬ譌･繧医ｊ蠕後・譌･莉倥〒 TaskDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +307 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 驕縺・ｰ・擂縺ｮ譌･莉倥〒 TaskDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +308 -11: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･莉･蜑阪・譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +308 -12: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･莉･蜑阪・譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => TaskDeadline>
+     Which: returned TaskDeadline:<TaskDeadline(2026-2-7)>
+  
+  package:matcher                                              expect
+  package:flutter_test/src/widget_tester.dart 473:18           expect
+  test\domain\value_objects\task\task_deadline_test.dart 27:9  main.<fn>.<fn>.<fn>
+  
+00:08 +308 -12: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 譛ｬ譌･縺ｮ譌･莉倥〒 TaskDeadline 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +309 -12: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 驕主悉縺ｮ譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +309 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 驕主悉縺ｮ譌･莉倥〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ [E]
+  Expected: throws <Instance of 'ArgumentError'>
+    Actual: <Closure: () => TaskDeadline>
+     Which: returned TaskDeadline:<TaskDeadline(2020-1-1)>
+  
+  package:matcher                                              expect
+  package:flutter_test/src/widget_tester.dart 473:18           expect
+  test\domain\value_objects\task\task_deadline_test.dart 40:9  main.<fn>.<fn>.<fn>
+  
+00:08 +309 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 遲我ｾ｡諤ｧ 蜷後§譌･莉倥・ TaskDeadline 縺ｯ遲峨＠縺・％縺ｨ
+00:08 +310 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧区律莉倥・ TaskDeadline 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:08 +311 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 遲我ｾ｡諤ｧ 蜷後§譌･莉倥・ TaskDeadline 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:08 +312 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 譌･莉俶ｯ碑ｼ・謖・ｮ壽律莉倥ｈ繧雁ｾ後・譌･莉倥°蛻､螳壹〒縺阪ｋ縺薙→
+00:08 +313 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_deadline_test.dart: TaskDeadline 譌･莉俶ｯ碑ｼ・謖・ｮ壽律莉倥ｈ繧雁燕縺ｮ譌･莉倥°蛻､螳壹〒縺阪ｋ縺薙→
+00:08 +314 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛牙柑縺ｪ隱ｬ譏趣ｼ・・・00譁・ｭ暦ｼ峨〒 TaskDescription 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +315 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 1譁・ｭ励・隱ｬ譏弱〒 TaskDescription 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +316 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 500譁・ｭ励・隱ｬ譏弱〒 TaskDescription 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +317 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ譁・ｭ怜・縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +318 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 500譁・ｭ励ｒ雜・∴繧玖ｪｬ譏弱〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +319 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ隱ｬ譏弱〒繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +320 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 遲我ｾ｡諤ｧ 蜷後§隱ｬ譏弱・ TaskDescription 縺ｯ遲峨＠縺・％縺ｨ
+00:08 +321 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧玖ｪｬ譏弱・ TaskDescription 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:08 +322 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_description_test.dart: TaskDescription 遲我ｾ｡諤ｧ 蜷後§隱ｬ譏弱・ TaskDescription 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:08 +323 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_id_test.dart: TaskId 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ UUID蠖｢蠑上・譁・ｭ怜・縺ｧ TaskId 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +324 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_id_test.dart: TaskId 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譁ｰ縺励＞ TaskId 繧堤函謌舌〒縺阪ｋ縺薙→・・UID閾ｪ蜍慕函謌撰ｼ・00:08 +325 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_id_test.dart: TaskId 遲我ｾ｡諤ｧ 蜷後§ ID 縺ｮ TaskId 縺ｯ遲峨＠縺・％縺ｨ
+00:08 +326 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_id_test.dart: TaskId 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧・ID 縺ｮ TaskId 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:08 +327 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_id_test.dart: TaskId 遲我ｾ｡諤ｧ 蜷後§ ID 縺ｮ TaskId 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:08 +328 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ Status縺荊odo縺ｮTaskStatus縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +329 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ Status縺慧oing縺ｮTaskStatus縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +330 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ Status縺慧one縺ｮTaskStatus縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +331 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus 遲峨＠縺・％縺ｨ 蜷後§繧ｹ繝・・繧ｿ繧ｹ縺ｮTaskStatus縺ｯ遲峨＠縺・％縺ｨ
+00:08 +332 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus 遲峨＠縺・％縺ｨ 逡ｰ縺ｪ繧九せ繝・・繧ｿ繧ｹ縺ｮTaskStatus縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:08 +333 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus 遲峨＠縺・％縺ｨ 蜷後§繧ｹ繝・・繧ｿ繧ｹ縺ｮTaskStatus縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:08 +334 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus nextStatus Todo縺九ｉDoing縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ縺薙→
+00:08 +335 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus nextStatus Doing縺九ｉDone縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ縺薙→
+00:08 +336 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus nextStatus Done縺九ｉTodo縺ｫ驕ｷ遘ｻ縺ｧ縺阪ｋ縺薙→
+00:08 +337 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus isTodo 繧ｹ繝・・繧ｿ繧ｹ縺荊odo縺ｮ縺ｨ縺衡rue繧定ｿ斐☆縺薙→
+00:08 +338 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus isTodo 繧ｹ繝・・繧ｿ繧ｹ縺荊odo莉･螟悶・縺ｨ縺糠alse繧定ｿ斐☆縺薙→
+00:08 +339 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus isDoing 繧ｹ繝・・繧ｿ繧ｹ縺慧oing縺ｮ縺ｨ縺衡rue繧定ｿ斐☆縺薙→
+00:08 +340 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus isDoing 繧ｹ繝・・繧ｿ繧ｹ縺慧oing莉･螟悶・縺ｨ縺糠alse繧定ｿ斐☆縺薙→
+00:08 +341 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus isDone 繧ｹ繝・・繧ｿ繧ｹ縺慧one縺ｮ縺ｨ縺衡rue繧定ｿ斐☆縺薙→
+00:08 +342 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus isDone 繧ｹ繝・・繧ｿ繧ｹ縺慧one莉･螟悶・縺ｨ縺糠alse繧定ｿ斐☆縺薙→
+00:08 +343 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus progress 繧ｹ繝・・繧ｿ繧ｹ縺荊odo縺ｮ縺ｨ縺・繧定ｿ斐☆縺薙→
+00:08 +344 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus progress 繧ｹ繝・・繧ｿ繧ｹ縺慧oing縺ｮ縺ｨ縺・0繧定ｿ斐☆縺薙→
+00:08 +345 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_status_test.dart: TaskStatus progress 繧ｹ繝・・繧ｿ繧ｹ縺慧one縺ｮ縺ｨ縺・00繧定ｿ斐☆縺薙→
+00:08 +346 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 譛牙柑縺ｪ繧ｿ繧､繝医Ν・・・・00譁・ｭ暦ｼ峨〒 TaskTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +347 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ TaskTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +348 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ 100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ TaskTitle 縺檎函謌舌〒縺阪ｋ縺薙→
+00:08 +349 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ譁・ｭ怜・縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +350 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 100譁・ｭ励ｒ雜・∴繧九ち繧､繝医Ν縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +351 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 繝舌Μ繝・・繧ｷ繝ｧ繝ｳ 遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繧貞他縺ｳ蜃ｺ縺吶→萓句､悶′逋ｺ逕溘☆繧九％縺ｨ
+00:08 +352 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 遲我ｾ｡諤ｧ 蜷後§繧ｿ繧､繝医Ν縺ｮ TaskTitle 縺ｯ遲峨＠縺・％縺ｨ
+00:08 +353 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 遲我ｾ｡諤ｧ 逡ｰ縺ｪ繧九ち繧､繝医Ν縺ｮ TaskTitle 縺ｯ遲峨＠縺上↑縺・％縺ｨ
+00:08 +354 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/domain/value_objects/task/task_title_test.dart: TaskTitle 遲我ｾ｡諤ｧ 蜷後§繧ｿ繧､繝医Ν縺ｮ TaskTitle 縺ｯ蜷後§繝上ャ繧ｷ繝･繧ｳ繝ｼ繝峨ｒ謖√▽縺薙→
+00:09 +355 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・HiveGoalRepository 縺悟・譛溷喧蜿ｯ閭ｽ縺ｪ縺薙→
+00:09 +356 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・getAllGoals 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +357 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・getGoalById 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +358 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・saveGoal 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +359 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・deleteGoal 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +360 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・deleteAllGoals 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +361 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・getGoalCount 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +362 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ繧剃ｿ晏ｭ倥＠縺ｦ縺九ｉ蜿門ｾ励〒縺阪ｋ縺薙→
+00:09 +363 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 隍・焚縺ｮ繧ｴ繝ｼ繝ｫ繧剃ｿ晏ｭ倥＠縺ｦ蜈ｨ莉ｶ蜿門ｾ励〒縺阪ｋ縺薙→
+00:09 +364 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ繧・ID 縺ｧ讀懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:09 +365 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ ID 縺ｧ null 縺瑚ｿ斐＆繧後ｋ縺薙→
+00:09 +366 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ蜑企勁謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ ID 縺ｧ蜑企勁縺ｧ縺阪ｋ縺薙→
+00:09 +367 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ蜑企勁謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 蜈ｨ繧ｴ繝ｼ繝ｫ繧貞炎髯､縺ｧ縺阪ｋ縺薙→
+00:09 +368 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ蜑企勁謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ蜑企勁蠕後↓繧ｫ繧ｦ繝ｳ繝医′貂帛ｰ代☆繧九％縺ｨ
+00:09 +369 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ 繧ｫ繧ｦ繝ｳ繝域桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 菫晏ｭ倥＆繧後◆繧ｴ繝ｼ繝ｫ謨ｰ繧呈ｭ｣遒ｺ縺ｫ繧ｫ繧ｦ繝ｳ繝医〒縺阪ｋ縺薙→
+00:09 +370 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｴ繝ｼ繝ｫ 繧ｫ繧ｦ繝ｳ繝域桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ縺ｪ縺励・蝣ｴ蜷医き繧ｦ繝ｳ繝医′ 0 縺ｧ縺ゅｋ縺薙→
+00:09 +371 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ - 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 辟｡蜉ｹ縺ｪ繝・・繧ｿ縺ｮ菫晏ｭ倥〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:09 +372 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ - 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ Box 縺後け繝ｭ繝ｼ繧ｺ縺輔ｌ縺溷ｾ後・繧｢繧ｯ繧ｻ繧ｹ縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:09 +373 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_goal_repository_test.dart: HiveGoalRepository Repository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ讀懆ｨｼ Repository 縺梧ｭ｣縺励￥蛻晄悄蛹悶＆繧後※縺・ｋ縺薙→
+00:09 +374 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・HiveMilestoneRepository縺悟・譛溷喧蜿ｯ閭ｽ縺ｪ縺薙→
+00:09 +375 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｿ晏ｭ倥＠縺ｦ蜿門ｾ励〒縺阪ｋ縺薙→
+00:09 +376 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 隍・焚縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｿ晏ｭ倥＠縺ｦ蜈ｨ莉ｶ蜿門ｾ励〒縺阪ｋ縺薙→
+00:09 +377 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧呈､懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:09 +378 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ null 縺瑚ｿ斐＆繧後ｋ縺薙→
+00:09 +379 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧呈､懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:09 +380 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 隍・焚繧ｴ繝ｼ繝ｫ髢薙・繝槭う繝ｫ繧ｹ繝医・繝ｳ迢ｬ遶区ｧ繧堤｢ｺ隱阪〒縺阪ｋ縺薙→
+00:09 +381 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ ID 縺ｧ遨ｺ繝ｪ繧ｹ繝医′霑斐＆繧後ｋ縺薙→
+00:09 +382 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ蜑企勁縺ｧ縺阪ｋ縺薙→
+00:09 +383 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｸ諡ｬ蜑企勁縺ｧ縺阪ｋ縺薙→
+00:09 +384 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁謫堺ｽ・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｴ繝ｼ繝ｫ蜑企勁譎ゅ↓莉悶・繧ｴ繝ｼ繝ｫ MS 縺ｯ蠖ｱ髻ｿ繧貞女縺代↑縺・％縺ｨ
+00:09 +385 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繝槭う繝ｫ繧ｹ繝医・繝ｳ 繧ｫ繧ｦ繝ｳ繝域桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繝槭う繝ｫ繧ｹ繝医・繝ｳ謨ｰ繧呈ｭ｣遒ｺ縺ｫ繧ｫ繧ｦ繝ｳ繝医〒縺阪ｋ縺薙→
+00:09 +386 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ - 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 辟｡蜉ｹ縺ｪ繝・・繧ｿ縺ｮ菫晏ｭ倥〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:09 +387 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_milestone_repository_test.dart: HiveMilestoneRepository Repository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ讀懆ｨｼ Repository 縺梧ｭ｣縺励￥蛻晄悄蛹悶＆繧後※縺・ｋ縺薙→
+00:09 +388 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・HiveTaskRepository縺悟・譛溷喧蜿ｯ閭ｽ縺ｪ縺薙→
+00:09 +389 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・getAllTasks 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +390 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・getTaskById 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +391 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・saveTask 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +392 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・deleteTask 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +393 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ遒ｺ隱・getTaskCount 繝｡繧ｽ繝・ラ縺悟ｭ伜惠縺吶ｋ縺薙→
+00:09 +394 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 繧ｿ繧ｹ繧ｯ繧剃ｿ晏ｭ倥＠縺ｦ蜿門ｾ励〒縺阪ｋ縺薙→
+00:09 +395 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 隍・焚縺ｮ繧ｿ繧ｹ繧ｯ繧剃ｿ晏ｭ倥＠縺ｦ蜈ｨ莉ｶ蜿門ｾ励〒縺阪ｋ縺薙→
+00:09 +396 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ ID 縺ｧ繧ｿ繧ｹ繧ｯ繧呈､懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:09 +397 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ菫晏ｭ倥・蜿門ｾ玲桃菴・- 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 蟄伜惠縺励↑縺・ち繧ｹ繧ｯ ID 縺ｧ null 縺瑚ｿ斐＆繧後ｋ縺薙→
+00:09 +398 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ謫堺ｽ・繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｿ繧ｹ繧ｯ繧呈､懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:09 +399 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ謫堺ｽ・隍・焚繝槭う繝ｫ繧ｹ繝医・繝ｳ髢薙・繧ｿ繧ｹ繧ｯ迢ｬ遶区ｧ繧堤｢ｺ隱阪〒縺阪ｋ縺薙→
+00:09 +400 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ謫堺ｽ・蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ遨ｺ繝ｪ繧ｹ繝医′霑斐＆繧後ｋ縺薙→
+00:09 +401 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ 繧ｹ繝・・繧ｿ繧ｹ謫堺ｽ・繧ｿ繧ｹ繧ｯ縺ｮ繧ｹ繝・・繧ｿ繧ｹ繧呈峩譁ｰ縺ｧ縺阪ｋ縺薙→
+00:09 +402 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ 繧ｹ繝・・繧ｿ繧ｹ謫堺ｽ・隍・焚繧ｹ繝・・繧ｿ繧ｹ縺ｮ繧ｿ繧ｹ繧ｯ繧剃ｿ晏ｭ倥・讀懃ｴ｢縺ｧ縺阪ｋ縺薙→
+00:09 +403 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ蜑企勁謫堺ｽ・繧ｿ繧ｹ繧ｯ ID 縺ｧ蜑企勁縺ｧ縺阪ｋ縺薙→
+00:09 +404 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ蜑企勁謫堺ｽ・繝槭う繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｿ繧ｹ繧ｯ繧剃ｸ諡ｬ蜑企勁縺ｧ縺阪ｋ縺薙→
+00:09 +405 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ蜑企勁謫堺ｽ・繝槭う繝ｫ繧ｹ繝医・繝ｳ蜑企勁譎ゅ↓莉悶・MS 繧ｿ繧ｹ繧ｯ縺ｯ蠖ｱ髻ｿ繧貞女縺代↑縺・％縺ｨ
+00:09 +406 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｿ繧ｹ繧ｯ 繧ｫ繧ｦ繝ｳ繝域桃菴・繧ｿ繧ｹ繧ｯ謨ｰ繧呈ｭ｣遒ｺ縺ｫ繧ｫ繧ｦ繝ｳ繝医〒縺阪ｋ縺薙→
+00:09 +407 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository 繧ｨ繝ｩ繝ｼ繝上Φ繝峨Μ繝ｳ繧ｰ - 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ螂醍ｴ・､懆ｨｼ 辟｡蜉ｹ縺ｪ繝・・繧ｿ縺ｮ菫晏ｭ倥〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:09 +408 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/persistence/hive/hive_task_repository_test.dart: HiveTaskRepository Repository 繧､繝ｳ繧ｿ繝ｼ繝輔ぉ繝ｼ繧ｹ讀懆ｨｼ Repository 縺梧ｭ｣縺励￥蛻晄悄蛹悶＆繧後※縺・ｋ縺薙→
+00:09 +409 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ繧ｿ繧ｹ繧ｯ繧呈､懃ｴ｢縺吶ｋ縺ｨ遨ｺ繝ｪ繧ｹ繝・00:09 +410 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 蟄伜惠縺励↑縺・ち繧ｹ繧ｯ ID 繧貞炎髯､縺励※繧ゅお繝ｩ繝ｼ縺檎匱逕溘＠縺ｪ縺・00:09 +411 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ髢｢騾｣繧ｿ繧ｹ繧ｯ繧貞炎髯､縺励※繧ゅお繝ｩ繝ｼ縺檎匱逕溘＠縺ｪ縺・00:09 +412 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 繧ｿ繧ｹ繧ｯ繧剃ｿ晏ｭ倥＠縲√◎縺ｮ蠕後↓蜑企勁縺ｧ縺阪ｋ
+00:09 +413 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 蟄伜惠縺励↑縺・・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｮ蜿門ｾ励・ null 繧定ｿ斐☆
+00:09 +414 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｿ晏ｭ倥＠縲√◎縺ｮ蠕後↓蜑企勁縺ｧ縺阪ｋ
+00:09 +415 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 隍・焚縺ｮ繧ｿ繧ｹ繧ｯ繧剃ｿ晏ｭ倥＠縲√・繧､繝ｫ繧ｹ繝医・繝ｳ ID 縺ｧ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ縺ｧ縺阪ｋ
+00:09 +416 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/infrastructure/repositories/parent_id_validation_test.dart: 蟄伜惠縺励↑縺ИD 縺ｸ縺ｮ謫堺ｽ懊ユ繧ｹ繝・- 讒矩驕募渚讀懷・ 隍・焚縺ｮ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｿ晏ｭ倥＠縲√ざ繝ｼ繝ｫ ID 縺ｧ 繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ縺ｧ縺阪ｋ
+00:10 +417 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/navigation/app_router_test.dart: AppRouter Navigation app_router.dart can be imported
+00:10 +418 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +419 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +420 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +421 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +422 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +423 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +424 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_create_screen_test.dart: GoalCreateScreen Structure form with text fields can be rendered
+00:11 +425 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/goal_edit_screen_test.dart: GoalEditScreen Structure edit form can be rendered
+00:11 +426 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/home_screen_test.dart: HomeScreen home screen displays correctly
+00:12 +427 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/milestone_create_screen_test.dart: MilestoneCreateScreen Structure milestone form can be rendered
+00:12 +428 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/milestone_detail_screen_test.dart: MilestoneDetailScreen Structure milestone detail layout can be rendered
+00:12 +429 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/onboarding_screen_test.dart: OnboardingScreen Structure onboarding layout can be rendered
+00:12 +430 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/settings_screen_test.dart: SettingsScreen Structure settings layout can be rendered
+00:12 +431 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/settings_screen_test.dart: SettingsScreen Structure settings layout can be rendered
+00:12 +432 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/settings_screen_test.dart: SettingsScreen Structure settings layout can be rendered
+00:13 +433 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +434 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +435 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +436 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +437 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +438 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +439 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +440 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +441 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +442 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +443 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +444 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +445 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +446 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_create_screen_test.dart: TaskCreateScreen displays all required form fields
+00:13 +447 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_detail_screen_test.dart: TaskDetailScreen displays task details properly
+00:13 +448 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/task_detail_screen_test.dart: TaskDetailScreen displays task details properly
+00:14 +449 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/utils/validation_helper_test.dart: ValidationHelper validateAll 繧ｨ繝ｩ繝ｼ縺後≠繧九→false繧定ｿ斐☆
+00:14 +450 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/utils/validation_helper_test.dart: ValidationHelper validateAll 繧ｨ繝ｩ繝ｼ縺後≠繧九→false繧定ｿ斐☆
+00:14 +451 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/utils/validation_helper_test.dart: ValidationHelper validateAll 繧ｨ繝ｩ繝ｼ縺後≠繧九→false繧定ｿ斐☆
+00:14 +452 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/utils/validation_helper_test.dart: ValidationHelper validateAll 繧ｨ繝ｩ繝ｼ縺後≠繧九→false繧定ｿ斐☆
+00:14 +453 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/app_bar_common_test.dart: CustomAppBar displays title correctly
+00:14 +454 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/app_bar_common_test.dart: CustomAppBar displays title correctly
+00:14 +455 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/app_bar_common_test.dart: CustomAppBar displays title correctly
+00:14 +456 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:14 +457 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:14 +458 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:14 +459 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:14 +460 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_button_test.dart: CustomButton displays button text correctly
+00:14 +461 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:14 +462 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:14 +463 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:14 +464 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:14 +465 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:14 +466 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:14 +467 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:15 +468 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:15 +469 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:15 +470 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/custom_text_field_test.dart: CustomTextField displays label when provided
+00:15 +471 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +472 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +473 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +474 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +475 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +476 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +477 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +478 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +479 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +480 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +481 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +482 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +483 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +484 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +485 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +486 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +487 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +488 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/empty_state_test.dart: EmptyState displays icon correctly
+00:15 +489 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +490 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +491 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +492 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +493 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +494 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +495 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +496 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +497 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +498 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/progress_indicator_test.dart: ProgressIndicator displays progress bar correctly
+00:15 +499 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:15 +500 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:15 +501 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:15 +502 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:15 +503 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:15 +504 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:16 +505 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:16 +506 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:16 +507 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:16 +508 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays Todo status correctly
+00:16 +509 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +510 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +511 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +512 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +513 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +514 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +515 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +516 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +517 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +518 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/widget_test.dart: App smoke test - basic setup
+00:16 +519 -13: C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/widgets/status_badge_test.dart: StatusBadge displays status text
+00:16 +520 -13: Some tests failed.
