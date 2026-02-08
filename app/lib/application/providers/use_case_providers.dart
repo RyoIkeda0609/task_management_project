@@ -23,7 +23,7 @@ import 'package:app/presentation/state_management/providers/repository_providers
 
 /// CreateGoalUseCase Provider
 final createGoalUseCaseProvider = Provider<CreateGoalUseCase>((ref) {
-  return CreateGoalUseCaseImpl();
+  return CreateGoalUseCaseImpl(ref.watch(goalRepositoryProvider));
 });
 
 /// GetAllGoalsUseCase Provider
@@ -62,7 +62,7 @@ final searchGoalsUseCaseProvider = Provider<SearchGoalsUseCase>((ref) {
 
 /// CreateMilestoneUseCase Provider
 final createMilestoneUseCaseProvider = Provider<CreateMilestoneUseCase>((ref) {
-  return CreateMilestoneUseCaseImpl();
+  return CreateMilestoneUseCaseImpl(ref.watch(milestoneRepositoryProvider));
 });
 
 /// GetMilestonesByGoalIdUseCase Provider
@@ -90,7 +90,7 @@ final deleteMilestoneUseCaseProvider = Provider<DeleteMilestoneUseCase>((ref) {
 
 /// CreateTaskUseCase Provider
 final createTaskUseCaseProvider = Provider<CreateTaskUseCase>((ref) {
-  return CreateTaskUseCaseImpl();
+  return CreateTaskUseCaseImpl(ref.watch(taskRepositoryProvider));
 });
 
 /// GetTasksByMilestoneIdUseCase Provider

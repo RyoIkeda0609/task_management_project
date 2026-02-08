@@ -4,13 +4,14 @@ import 'package:app/domain/value_objects/goal/goal_category.dart';
 import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_id.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
 
 /// CreateGoalUseCase - 新しいゴールを作成する
 ///
 /// ビジネスロジック：
 /// - ゴール ID は自動生成される
-/// - 期限は本日より後の日付のみ許可
 /// - すべての入力値は ValueObject でバリデーションされる
+/// - Domain を作成してから Repository に保存する
 abstract class CreateGoalUseCase {
   Future<Goal> call({
     required String title,
@@ -22,6 +23,10 @@ abstract class CreateGoalUseCase {
 
 /// CreateGoalUseCaseImpl - CreateGoalUseCase の実装
 class CreateGoalUseCaseImpl implements CreateGoalUseCase {
+  final GoalRepository _goalRepository;
+
+  CreateGoalUseCaseImpl(this._goalRepository);
+
   @override
   Future<Goal> call({
     required String title,
@@ -43,6 +48,9 @@ class CreateGoalUseCaseImpl implements CreateGoalUseCase {
       reason: goalReason,
       deadline: goalDeadline,
     );
+
+    // Repository に保存
+    await _goalRepository.saveGoal(goal);
 
     return goal;
   }

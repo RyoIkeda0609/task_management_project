@@ -1,12 +1,45 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/goal/create_goal_use_case.dart';
+import 'package:app/domain/entities/goal.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
+
+class MockGoalRepository implements GoalRepository {
+  final List<Goal> _goals = [];
+
+  @override
+  Future<List<Goal>> getAllGoals() async => _goals;
+
+  @override
+  Future<Goal?> getGoalById(String id) async {
+    try {
+      return _goals.firstWhere((g) => g.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveGoal(Goal goal) async => _goals.add(goal);
+
+  @override
+  Future<void> deleteGoal(String id) async =>
+      _goals.removeWhere((g) => g.id.value == id);
+
+  @override
+  Future<void> deleteAllGoals() async => _goals.clear();
+
+  @override
+  Future<int> getGoalCount() async => _goals.length;
+}
 
 void main() {
   group('CreateGoalUseCase', () {
     late CreateGoalUseCase useCase;
+    late MockGoalRepository mockRepository;
 
     setUp(() {
-      useCase = CreateGoalUseCaseImpl();
+      mockRepository = MockGoalRepository();
+      useCase = CreateGoalUseCaseImpl(mockRepository);
     });
 
     group('実行', () {
@@ -24,6 +57,22 @@ void main() {
         expect(goal.category.value, 'スキル開発');
         expect(goal.reason.value, 'キャリアアップのため');
         expect(goal.deadline.value.day, tomorrow.day);
+      });
+
+      test('ゴールを作成したら Repository に保存されること', () async {
+        final tomorrow = DateTime.now().add(const Duration(days: 1));
+
+        final goal = await useCase.call(
+          title: 'テストゴール',
+          category: 'テスト',
+          reason: 'テスト理由',
+          deadline: tomorrow,
+        );
+
+        // Repository に保存されたかを確認
+        final savedGoal = await mockRepository.getGoalById(goal.id.value);
+        expect(savedGoal, isNotNull);
+        expect(savedGoal!.title.value, 'テストゴール');
       });
 
       test('ID は一意に生成されること', () async {

@@ -1,12 +1,51 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/create_milestone_use_case.dart';
+import 'package:app/domain/entities/milestone.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
+
+class MockMilestoneRepository implements MilestoneRepository {
+  final List<Milestone> _milestones = [];
+
+  @override
+  Future<List<Milestone>> getAllMilestones() async => _milestones;
+
+  @override
+  Future<Milestone?> getMilestoneById(String id) async {
+    try {
+      return _milestones.firstWhere((m) => m.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+      _milestones.where((m) => m.goalId == goalId).toList();
+
+  @override
+  Future<void> saveMilestone(Milestone milestone) async =>
+      _milestones.add(milestone);
+
+  @override
+  Future<void> deleteMilestone(String id) async =>
+      _milestones.removeWhere((m) => m.id.value == id);
+
+  @override
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+      _milestones.removeWhere((m) => m.goalId == goalId);
+
+  @override
+  Future<int> getMilestoneCount() async => _milestones.length;
+}
 
 void main() {
   group('CreateMilestoneUseCase', () {
     late CreateMilestoneUseCase useCase;
+    late MockMilestoneRepository mockRepository;
 
     setUp(() {
-      useCase = CreateMilestoneUseCaseImpl();
+      mockRepository = MockMilestoneRepository();
+      useCase = CreateMilestoneUseCaseImpl(mockRepository);
     });
 
     group('実行', () {

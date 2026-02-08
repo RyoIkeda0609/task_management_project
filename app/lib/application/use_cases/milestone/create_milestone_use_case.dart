@@ -2,14 +2,15 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 import 'package:app/domain/value_objects/milestone/milestone_id.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// CreateMilestoneUseCase - 新しいマイルストーンを作成する
 ///
 /// ビジネスロジック：
 /// - マイルストーン ID は自動生成される
-/// - 期限は本日より後の日付のみ許可
 /// - すべての入力値は ValueObject でバリデーションされる
 /// - 親ゴール ID が必須
+/// - Domain を作成してから Repository に保存する
 abstract class CreateMilestoneUseCase {
   Future<Milestone> call({
     required String title,
@@ -20,6 +21,10 @@ abstract class CreateMilestoneUseCase {
 
 /// CreateMilestoneUseCaseImpl - CreateMilestoneUseCase の実装
 class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
+  final MilestoneRepository _milestoneRepository;
+
+  CreateMilestoneUseCaseImpl(this._milestoneRepository);
+
   @override
   Future<Milestone> call({
     required String title,
@@ -42,6 +47,9 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
       deadline: milestoneDeadline,
       goalId: goalId,
     );
+
+    // Repository に保存
+    await _milestoneRepository.saveMilestone(milestone);
 
     return milestone;
   }

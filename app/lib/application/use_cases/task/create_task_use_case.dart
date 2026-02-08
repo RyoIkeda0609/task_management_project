@@ -4,15 +4,16 @@ import 'package:app/domain/value_objects/task/task_description.dart';
 import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 import 'package:app/domain/value_objects/task/task_id.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 /// CreateTaskUseCase - 新しいタスクを作成する
 ///
 /// ビジネスロジック：
 /// - タスク ID は自動生成される
-/// - 期限は本日より後の日付のみ許可
 /// - ステータスは常に Todo で開始される
 /// - すべての入力値は ValueObject でバリデーションされる
 /// - 親マイルストーン ID が必須
+/// - Domain を作成してから Repository に保存する
 abstract class CreateTaskUseCase {
   Future<Task> call({
     required String title,
@@ -24,6 +25,10 @@ abstract class CreateTaskUseCase {
 
 /// CreateTaskUseCaseImpl - CreateTaskUseCase の実装
 class CreateTaskUseCaseImpl implements CreateTaskUseCase {
+  final TaskRepository _taskRepository;
+
+  CreateTaskUseCaseImpl(this._taskRepository);
+
   @override
   Future<Task> call({
     required String title,
@@ -50,6 +55,9 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
       status: TaskStatus.todo(),
       milestoneId: milestoneId,
     );
+
+    // Repository に保存
+    await _taskRepository.saveTask(task);
 
     return task;
   }

@@ -104,10 +104,7 @@ void main() {
         // Act & Assert
         // システム日付が進むと、設定済みのマイルストーンの
         // デッドラインが過去になる可能性があり、これらをサポートする必要がある
-        expect(
-          () => MilestoneDeadline(yesterday),
-          returnsNormally,
-        );
+        expect(() => MilestoneDeadline(yesterday), returnsNormally);
       });
 
       test('本日のデッドラインは有効', () {

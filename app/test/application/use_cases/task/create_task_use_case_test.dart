@@ -1,12 +1,56 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/task/create_task_use_case.dart';
+import 'package:app/domain/entities/task.dart';
+import 'package:app/domain/repositories/task_repository.dart';
+
+class MockTaskRepository implements TaskRepository {
+  final List<Task> _tasks = [];
+
+  @override
+  Future<List<Task>> getAllTasks() async => _tasks;
+
+  @override
+  Future<Task?> getTaskById(String id) async {
+    try {
+      return _tasks.firstWhere((t) => t.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+
+  @override
+  Future<void> saveTask(Task task) async => _tasks.add(task);
+
+  @override
+  Future<void> deleteTask(String id) async =>
+      _tasks.removeWhere((t) => t.id.value == id);
+
+  @override
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+
+  @override
+  Future<int> getTaskCount() async => _tasks.length;
+
+  @override
+  Future<void> updateTask(Task task) async {
+    final index = _tasks.indexWhere((t) => t.id.value == task.id.value);
+    if (index != -1) _tasks[index] = task;
+  }
+}
 
 void main() {
   group('CreateTaskUseCase', () {
     late CreateTaskUseCase useCase;
+    late MockTaskRepository mockRepository;
 
     setUp(() {
-      useCase = CreateTaskUseCaseImpl();
+      mockRepository = MockTaskRepository();
+      useCase = CreateTaskUseCaseImpl(mockRepository);
     });
 
     group('実行', () {
@@ -212,6 +256,24 @@ void main() {
         );
 
         expect(task.description.value, maxDescription);
+      });
+
+      test('タスクを作成したら Repository に保存されること', () async {
+        final tomorrow = DateTime.now().add(const Duration(days: 1));
+        const milestoneId = 'milestone-123';
+
+        final task = await useCase.call(
+          title: 'API実装',
+          description: 'RESTful APIの実装とテスト',
+          deadline: tomorrow,
+          milestoneId: milestoneId,
+        );
+
+        final saved = await mockRepository.getTaskById(task.id.value);
+        expect(saved, isNotNull);
+        expect(saved!.id, task.id);
+        expect(saved.title.value, task.title.value);
+        expect(saved.description.value, task.description.value);
       });
     });
   });
