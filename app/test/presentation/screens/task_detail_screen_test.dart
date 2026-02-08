@@ -50,7 +50,7 @@ void main() {
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
-            taskByIdProvider(
+            taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],
@@ -72,7 +72,7 @@ void main() {
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
-            taskByIdProvider('invalid-id').overrideWith((ref) async => null),
+            taskDetailProvider('invalid-id').overrideWith((ref) async => null),
           ],
           child: MaterialApp(home: TaskDetailScreen(taskId: 'invalid-id')),
         ),
@@ -97,7 +97,7 @@ void main() {
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
-            taskByIdProvider(
+            taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],
@@ -126,7 +126,7 @@ void main() {
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
-            taskByIdProvider(
+            taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => todoTask),
           ],
@@ -154,7 +154,7 @@ void main() {
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
-            taskByIdProvider(
+            taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],

@@ -35,7 +35,7 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
   @override
   Widget build(BuildContext context) {
     // すべてのタスクを取得してキャッシュ
-    final allTasksAsync = ref.watch(taskListProvider);
+    final allTasksAsync = ref.watch(todayTasksProvider);
 
     return allTasksAsync.when(
       data: (allTasks) {

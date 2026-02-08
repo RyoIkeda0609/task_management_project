@@ -80,7 +80,7 @@ class PyramidView extends ConsumerWidget {
     return _MilestoneExpansionTile(
       milestone: milestone,
       goalId: goalId,
-      milestoneTasks: ref.watch(tasksByMilestoneIdProvider(milestone.id.value)),
+      milestoneTasks: ref.watch(tasksByMilestoneProvider(milestone.id.value)),
       onNavigateToMilestoneDetail: () => AppRouter.navigateToMilestoneDetail(
         context,
         goalId,

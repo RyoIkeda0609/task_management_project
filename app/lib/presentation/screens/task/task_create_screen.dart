@@ -224,8 +224,8 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
       final taskRepository = ref.read(taskRepositoryProvider);
       await taskRepository.saveTask(newTask);
 
-      // tasksByMilestoneIdProvider のキャッシュを無効化
-      ref.invalidate(tasksByMilestoneIdProvider(_milestoneId));
+      // tasksByMilestoneProvider のキャッシュを無効化
+      ref.invalidate(tasksByMilestoneProvider(_milestoneId));
 
       if (mounted) {
         await ValidationHelper.showSuccess(

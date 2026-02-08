@@ -26,7 +26,7 @@ class TaskDetailScreen extends ConsumerStatefulWidget {
 class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final taskAsync = ref.watch(taskByIdProvider(widget.taskId));
+    final taskAsync = ref.watch(taskDetailProvider(widget.taskId));
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -192,8 +192,8 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
 
       // プロバイダーキャッシュを無効化
       if (mounted) {
-        ref.invalidate(taskByIdProvider(widget.taskId));
-        ref.invalidate(tasksByMilestoneIdProvider(task.milestoneId));
+        ref.invalidate(taskDetailProvider(widget.taskId));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
       }
 
       if (mounted) {

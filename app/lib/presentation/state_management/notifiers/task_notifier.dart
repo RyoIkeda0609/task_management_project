@@ -9,8 +9,8 @@ import 'package:app/domain/repositories/task_repository.dart';
 
 /// タスク一覧の状態を管理する Notifier
 ///
-/// 非同期のTask操作（ロード、作成、削除等）を統一的に管理し、
-/// UI側に AsyncValue で状態を提供します。
+/// 責務: 状態管理と Repository の呼び出しのみ
+/// UI側で判断（キャッシュ無効化など）を行うことで責務を分離
 class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
   final TaskRepository _repository;
 
@@ -36,31 +36,29 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
   }
 
   /// 新しいタスクを作成
+  ///
+  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
   Future<void> createTask({
     required String milestoneId,
     required TaskTitle title,
     TaskDescription? description,
     required TaskDeadline deadline,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // 新しいTaskインスタンスを作成
-      final task = Task(
-        id: TaskId.generate(),
-        title: title,
-        description: description ?? TaskDescription(''),
-        deadline: deadline,
-        status: TaskStatus.todo(), // 小文字の'todo'を使用
-        milestoneId: milestoneId,
-      );
-      // リポジトリに保存
-      await _repository.saveTask(task);
-      // 作成後、一覧を更新
-      return _repository.getTasksByMilestoneId(milestoneId);
-    });
+    // Notifier は単に保存処理を実行するのみ
+    final task = Task(
+      id: TaskId.generate(),
+      title: title,
+      description: description ?? TaskDescription(''),
+      deadline: deadline,
+      status: TaskStatus.todo(), // 小文字の'todo'を使用
+      milestoneId: milestoneId,
+    );
+    await _repository.saveTask(task);
   }
 
   /// タスクを更新
+  ///
+  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
   Future<void> updateTask({
     required String taskId,
     required String milestoneId,
@@ -68,52 +66,41 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
     TaskDescription? newDescription,
     TaskDeadline? newDeadline,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final task = await _repository.getTaskById(taskId);
-      if (task != null) {
-        // 新しいTaskインスタンスを作成（変更部分のみ上書き）
-        final updatedTask = Task(
-          id: task.id,
-          title: newTitle ?? task.title,
-          description: newDescription ?? task.description,
-          deadline: newDeadline ?? task.deadline,
-          status: task.status,
-          milestoneId: milestoneId,
-        );
-        // リポジトリに保存
-        await _repository.saveTask(updatedTask);
-        // 更新後、一覧を更新
-        return _repository.getTasksByMilestoneId(milestoneId);
-      }
+    final task = await _repository.getTaskById(taskId);
+    if (task != null) {
+      // 新しいTaskインスタンスを作成（変更部分のみ上書き）
+      final updatedTask = Task(
+        id: task.id,
+        title: newTitle ?? task.title,
+        description: newDescription ?? task.description,
+        deadline: newDeadline ?? task.deadline,
+        status: task.status,
+        milestoneId: milestoneId,
+      );
+      await _repository.saveTask(updatedTask);
+    } else {
       throw Exception('Task not found');
-    });
+    }
   }
 
   /// タスクのステータスを次の状態に遷移（Todo→Doing→Done→Todo）
+  ///
+  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
   Future<void> changeTaskStatus(String taskId, String milestoneId) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final task = await _repository.getTaskById(taskId);
-      if (task != null) {
-        // cycleStatus() メソッドを使用してステータスを遷移
-        final updatedTask = task.cycleStatus();
-        // リポジトリに保存
-        await _repository.saveTask(updatedTask);
-        // 更新後、一覧を更新
-        return _repository.getTasksByMilestoneId(milestoneId);
-      }
+    final task = await _repository.getTaskById(taskId);
+    if (task != null) {
+      // cycleStatus() メソッドを使用してステータスを遷移
+      final updatedTask = task.cycleStatus();
+      await _repository.saveTask(updatedTask);
+    } else {
       throw Exception('Task not found');
-    });
+    }
   }
 
   /// タスクを削除
+  ///
+  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
   Future<void> deleteTask(String taskId, String milestoneId) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await _repository.deleteTask(taskId);
-      // 削除後、一覧を更新
-      return _repository.getTasksByMilestoneId(milestoneId);
-    });
+    await _repository.deleteTask(taskId);
   }
 }

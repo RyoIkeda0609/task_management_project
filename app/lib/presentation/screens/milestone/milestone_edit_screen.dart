@@ -40,7 +40,9 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final milestoneAsync = ref.watch(milestoneByIdProvider(widget.milestoneId));
+    final milestoneAsync = ref.watch(
+      milestoneDetailProvider(widget.milestoneId),
+    );
 
     return milestoneAsync.when(
       data: (milestone) => _buildForm(context, milestone),
@@ -188,7 +190,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
 
       // 現在のマイルストーンデータを取得して goalId を保持
       final currentMilestone = await ref.read(
-        milestoneByIdProvider(widget.milestoneId).future,
+        milestoneDetailProvider(widget.milestoneId).future,
       );
 
       if (currentMilestone == null) {
@@ -208,8 +210,8 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
 
       // プロバイダーキャッシュを無効化
       if (mounted) {
-        ref.invalidate(milestoneByIdProvider(widget.milestoneId));
-        ref.invalidate(milestonesByGoalIdProvider(currentMilestone.goalId));
+        ref.invalidate(milestoneDetailProvider(widget.milestoneId));
+        ref.invalidate(milestonsByGoalProvider(currentMilestone.goalId));
       }
 
       if (mounted) {

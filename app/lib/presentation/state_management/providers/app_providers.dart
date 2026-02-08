@@ -1,8 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/entities/task.dart';
-import 'repository_providers.dart';
 
 // ======================== Providers のエクスポート ========================
 // Repository Providers
@@ -22,68 +18,6 @@ export 'state_notifier_providers.dart'
         tasksByMilestoneProvider,
         todayTasksProvider,
         taskDetailProvider;
-
-/// ======================== 既存コード対応の Provider（後方互換性） ========================
-/// 注意：以下のProviderは古い設計を基に作成されており、
-/// 新しいコードでは最新のStateNotifierProviderを使用してください。
-
-/// すべてのゴール一覧を提供（FutureProvider）
-///
-/// @deprecated goalsProvider を使用してください
-final goalListProvider = FutureProvider<List<Goal>>((ref) {
-  return ref.watch(goalRepositoryProvider).getAllGoals();
-});
-
-/// ID指定でゴール詳細を提供（FutureProvider）
-///
-/// @deprecated goalDetailProvider を使用してください
-final goalByIdProvider = FutureProvider.family<Goal?, String>((ref, goalId) {
-  return ref.watch(goalRepositoryProvider).getGoalById(goalId);
-});
-
-/// ゴール ID に紐付いたマイルストーン一覧を提供（FutureProvider）
-///
-/// @deprecated milestonsByGoalProvider を使用してください
-final milestonesByGoalIdProvider =
-    FutureProvider.family<List<Milestone>, String>((ref, goalId) {
-      return ref
-          .watch(milestoneRepositoryProvider)
-          .getMilestonesByGoalId(goalId);
-    });
-
-/// ID指定でマイルストーン詳細を提供（FutureProvider）
-///
-/// @deprecated milestoneDetailProvider を使用してください
-final milestoneByIdProvider = FutureProvider.family<Milestone?, String>((
-  ref,
-  milestoneId,
-) {
-  return ref.watch(milestoneRepositoryProvider).getMilestoneById(milestoneId);
-});
-
-/// マイルストーン ID に紐付いたタスク一覧を提供（FutureProvider）
-///
-/// @deprecated tasksByMilestoneProvider を使用してください
-final tasksByMilestoneIdProvider = FutureProvider.family<List<Task>, String>((
-  ref,
-  milestoneId,
-) {
-  return ref.watch(taskRepositoryProvider).getTasksByMilestoneId(milestoneId);
-});
-
-/// ID指定でタスク詳細を提供（FutureProvider）
-///
-/// @deprecated taskDetailProvider を使用してください
-final taskByIdProvider = FutureProvider.family<Task?, String>((ref, taskId) {
-  return ref.watch(taskRepositoryProvider).getTaskById(taskId);
-});
-
-/// すべてのタスク一覧を提供（FutureProvider）
-///
-/// @deprecated todayTasksProvider を使用してください
-final taskListProvider = FutureProvider<List<Task>>((ref) {
-  return ref.watch(taskRepositoryProvider).getAllTasks();
-});
 
 /// ======================== Onboarding / Initialization Providers ========================
 

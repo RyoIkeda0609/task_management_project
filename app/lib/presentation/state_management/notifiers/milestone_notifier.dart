@@ -7,8 +7,8 @@ import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// マイルストーン一覧の状態を管理する Notifier
 ///
-/// 非同期のMilestone操作（ロード、作成、削除等）を統一的に管理し、
-/// UI側に AsyncValue で状態を提供します。
+/// 責務: 状態管理と Repository の呼び出しのみ
+/// UI側で判断（キャッシュ無効化など）を行うことで責務を分離
 class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
   final MilestoneRepository _repository;
 
@@ -28,61 +28,51 @@ class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
   }
 
   /// 新しいマイルストーンを作成
+  ///
+  /// 注意: UI側で ref.invalidate(milestonsByGoalProvider) を呼び出して一覧を更新してください
   Future<void> createMilestone({
     required String goalId,
     required MilestoneTitle title,
     required MilestoneDeadline deadline,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // 新しいMilestoneインスタンスを作成
-      final milestone = Milestone(
-        id: MilestoneId.generate(),
-        title: title,
-        deadline: deadline,
-        goalId: goalId,
-      );
-      // リポジトリに保存
-      await _repository.saveMilestone(milestone);
-      // 作成後、一覧を更新
-      return _repository.getMilestonesByGoalId(goalId);
-    });
+    // Notifier は単に保存処理を実行するのみ
+    final milestone = Milestone(
+      id: MilestoneId.generate(),
+      title: title,
+      deadline: deadline,
+      goalId: goalId,
+    );
+    await _repository.saveMilestone(milestone);
   }
 
   /// マイルストーンを更新
+  ///
+  /// 注意: UI側で ref.invalidate(milestonsByGoalProvider) を呼び出して一覧を更新してください
   Future<void> updateMilestone({
     required String milestoneId,
     required String goalId,
     MilestoneTitle? newTitle,
     MilestoneDeadline? newDeadline,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final milestone = await _repository.getMilestoneById(milestoneId);
-      if (milestone != null) {
-        // 新しいMilestoneインスタンスを作成（変更部分のみ上書き）
-        final updatedMilestone = Milestone(
-          id: milestone.id,
-          title: newTitle ?? milestone.title,
-          deadline: newDeadline ?? milestone.deadline,
-          goalId: goalId,
-        );
-        // リポジトリに保存
-        await _repository.saveMilestone(updatedMilestone);
-        // 更新後、一覧を更新
-        return _repository.getMilestonesByGoalId(goalId);
-      }
+    final milestone = await _repository.getMilestoneById(milestoneId);
+    if (milestone != null) {
+      // 新しいMilestoneインスタンスを作成（変更部分のみ上書き）
+      final updatedMilestone = Milestone(
+        id: milestone.id,
+        title: newTitle ?? milestone.title,
+        deadline: newDeadline ?? milestone.deadline,
+        goalId: goalId,
+      );
+      await _repository.saveMilestone(updatedMilestone);
+    } else {
       throw Exception('Milestone not found');
-    });
+    }
   }
 
   /// マイルストーンを削除（カスケード削除: 配下のタスクも削除）
+  ///
+  /// 注意: UI側で ref.invalidate(milestonsByGoalProvider) を呼び出して一覧を更新してください
   Future<void> deleteMilestone(String milestoneId, String goalId) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await _repository.deleteMilestone(milestoneId);
-      // 削除後、一覧を更新
-      return _repository.getMilestonesByGoalId(goalId);
-    });
+    await _repository.deleteMilestone(milestoneId);
   }
 }

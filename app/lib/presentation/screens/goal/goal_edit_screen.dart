@@ -45,7 +45,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final goalAsync = ref.watch(goalByIdProvider(widget.goalId));
+    final goalAsync = ref.watch(goalDetailProvider(widget.goalId));
 
     return goalAsync.when(
       data: (goal) => _buildForm(context, goal),
@@ -255,8 +255,8 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
 
       // プロバイダーキャッシュを無効化
       if (mounted) {
-        ref.invalidate(goalListProvider);
-        ref.invalidate(goalByIdProvider(widget.goalId));
+        ref.invalidate(goalsProvider);
+        ref.invalidate(goalDetailProvider(widget.goalId));
       }
 
       if (mounted) {

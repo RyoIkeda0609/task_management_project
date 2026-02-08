@@ -9,8 +9,8 @@ import 'package:app/domain/repositories/goal_repository.dart';
 
 /// ゴール一覧の状態を管理する Notifier
 ///
-/// 非同期のGoal操作（ロード、作成、削除等）を統一的に管理し、
-/// UI側に AsyncValue で状態を提供します。
+/// 責務: 状態管理と Repository の呼び出しのみ
+/// UI側で判断（キャッシュ無効化など）を行うことで責務を分離
 class GoalsNotifier extends StateNotifier<AsyncValue<List<Goal>>> {
   final GoalRepository _repository;
 
@@ -28,63 +28,53 @@ class GoalsNotifier extends StateNotifier<AsyncValue<List<Goal>>> {
   }
 
   /// 新しいゴールを作成
+  ///
+  /// 注意: UI側で ref.invalidate(goalsProvider) を呼び出して一覧を更新してください
   Future<void> createGoal({
     required GoalTitle title,
     required GoalCategory category,
     required GoalReason reason,
     required GoalDeadline deadline,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      // 新しいGoalインスタンスを作成
-      final goal = Goal(
-        id: GoalId.generate(),
-        title: title,
-        category: category,
-        reason: reason,
-        deadline: deadline,
-      );
-      // リポジトリに保存
-      await _repository.saveGoal(goal);
-      // 作成後、一覧を更新
-      return _repository.getAllGoals();
-    });
+    // Notifier は単に保存処理を実行するのみ
+    // UI側での状態更新は Repository ← UseCase ← UI の流れで自動化
+    final goal = Goal(
+      id: GoalId.generate(),
+      title: title,
+      category: category,
+      reason: reason,
+      deadline: deadline,
+    );
+    await _repository.saveGoal(goal);
   }
 
   /// ゴールを更新
+  ///
+  /// 注意: UI側で ref.invalidate(goalsProvider) を呼び出して一覧を更新してください
   Future<void> updateGoal({
     required String goalId,
     GoalTitle? newTitle,
     GoalDeadline? newDeadline,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final goal = await _repository.getGoalById(goalId);
-      if (goal != null) {
-        // 新しいGoalインスタンスを作成（変更部分のみ上書き）
-        final updatedGoal = Goal(
-          id: goal.id,
-          title: newTitle ?? goal.title,
-          category: goal.category,
-          reason: goal.reason,
-          deadline: newDeadline ?? goal.deadline,
-        );
-        // リポジトリに保存
-        await _repository.saveGoal(updatedGoal);
-        // 更新後、一覧を更新
-        return _repository.getAllGoals();
-      }
+    final goal = await _repository.getGoalById(goalId);
+    if (goal != null) {
+      final updatedGoal = Goal(
+        id: goal.id,
+        title: newTitle ?? goal.title,
+        category: goal.category,
+        reason: goal.reason,
+        deadline: newDeadline ?? goal.deadline,
+      );
+      await _repository.saveGoal(updatedGoal);
+    } else {
       throw Exception('Goal not found');
-    });
+    }
   }
 
   /// ゴールを削除（カスケード削除: 配下のMS・タスクも削除）
+  ///
+  /// 注意: UI側で ref.invalidate(goalsProvider) を呼び出して一覧を更新してください
   Future<void> deleteGoal(String goalId) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await _repository.deleteGoal(goalId);
-      // 削除後、一覧を更新
-      return _repository.getAllGoals();
-    });
+    await _repository.deleteGoal(goalId);
   }
 }
