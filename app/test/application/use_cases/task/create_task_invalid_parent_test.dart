@@ -36,12 +36,6 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
-
-  @override
-  Future<void> updateTask(Task task) async {
-    final index = _tasks.indexWhere((t) => t.id.value == task.id.value);
-    if (index != -1) _tasks[index] = task;
-  }
 }
 
 void main() {

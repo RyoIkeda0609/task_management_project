@@ -27,9 +27,6 @@ class FakeTaskRepository implements TaskRepository {
 
   @override
   Future<int> getTaskCount() async => 0;
-
-  @override
-  Future<void> updateTask(Task task) async {}
 }
 
 void main() {
