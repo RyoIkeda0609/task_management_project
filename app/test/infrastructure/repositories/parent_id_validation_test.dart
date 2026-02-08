@@ -32,6 +32,7 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.where((m) => m.goalId == goalId).toList();
 
   @override
+  @override
   Future<void> saveMilestone(Milestone milestone) async =>
       _milestones.add(milestone);
 
@@ -43,7 +44,6 @@ class MockMilestoneRepository implements MilestoneRepository {
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
-  @override
   Future<bool> deleteAllMilestones() async {
     _milestones.clear();
     return true;
@@ -86,7 +86,6 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<int> getTaskCount() async => _tasks.length;
 
-  @override
   Future<List<Task>> getTasksByDeadline(DateTime deadline) async =>
       _tasks.where((t) => t.deadline.value.day == deadline.day).toList();
 }

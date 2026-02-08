@@ -1,8 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/entities/task.dart';
-import 'repository_providers.dart';
 
 // ======================== Providers のエクスポート ========================
 // Repository Providers
