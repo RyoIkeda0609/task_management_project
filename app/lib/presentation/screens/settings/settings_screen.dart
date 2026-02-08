@@ -175,77 +175,81 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           Text('その他', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.medium),
-
-          // ヘルプ
-          _buildActionTile(
-            icon: Icons.help_outline,
-            title: 'ヘルプ',
-            onTap: () => _showDialog('ヘルプを表示'),
-          ),
-          SizedBox(height: Spacing.small),
-
-          // プライバシーポリシー
-          _buildActionTile(
-            icon: Icons.privacy_tip,
-            title: 'プライバシーポリシー',
-            onTap: () => _showDialog('プライバシーポリシーを表示'),
-          ),
-          SizedBox(height: Spacing.small),
-
-          // 利用規約
-          _buildActionTile(
-            icon: Icons.description,
-            title: '利用規約',
-            onTap: () => _showDialog('利用規約を表示'),
-          ),
+          _buildPolicyTiles(),
           SizedBox(height: Spacing.medium),
-
-          // バージョン情報
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: Spacing.small,
-              horizontal: Spacing.medium,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.neutral200),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('アプリケーションバージョン', style: AppTextStyles.bodyMedium),
-                    SizedBox(height: Spacing.xSmall),
-                    Text(
-                      'ビルド情報取得中...',
-                      style: AppTextStyles.labelSmall.copyWith(
-                        color: AppColors.neutral600,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  '1.0.0',
-                  style: AppTextStyles.labelLarge.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _buildVersionInfo(),
           SizedBox(height: Spacing.large),
+          _buildLogoutButton(),
+        ],
+      ),
+    );
+  }
 
-          // ログアウトボタン
-          CustomButton(
-            text: 'ログアウト',
-            onPressed: () => _showLogoutConfirmation(),
-            width: double.infinity,
-            type: ButtonType.danger,
+  Widget _buildPolicyTiles() {
+    return Column(
+      children: [
+        _buildActionTile(
+          icon: Icons.help_outline,
+          title: 'ヘルプ',
+          onTap: () => _showDialog('ヘルプを表示'),
+        ),
+        SizedBox(height: Spacing.small),
+        _buildActionTile(
+          icon: Icons.privacy_tip,
+          title: 'プライバシーポリシー',
+          onTap: () => _showDialog('プライバシーポリシーを表示'),
+        ),
+        SizedBox(height: Spacing.small),
+        _buildActionTile(
+          icon: Icons.description,
+          title: '利用規約',
+          onTap: () => _showDialog('利用規約を表示'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildVersionInfo() {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: Spacing.small,
+        horizontal: Spacing.medium,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.neutral200),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('アプリケーションバージョン', style: AppTextStyles.bodyMedium),
+              SizedBox(height: Spacing.xSmall),
+              Text(
+                'ビルド情報取得中...',
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.neutral600,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            '1.0.0',
+            style: AppTextStyles.labelLarge.copyWith(color: AppColors.primary),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    return CustomButton(
+      text: 'ログアウト',
+      onPressed: () => _showLogoutConfirmation(),
+      width: double.infinity,
+      type: ButtonType.danger,
     );
   }
 

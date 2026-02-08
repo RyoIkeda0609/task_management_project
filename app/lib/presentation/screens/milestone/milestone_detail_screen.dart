@@ -116,58 +116,9 @@ class MilestoneDetailScreen extends ConsumerWidget {
     final tasksAsync = ref.watch(tasksByMilestoneProvider(milestoneId));
 
     return tasksAsync.when(
-      data: (tasks) {
-        if (tasks.isEmpty) {
-          return SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(top: Spacing.medium),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.assignment_outlined,
-                      size: 64,
-                      color: AppColors.neutral300,
-                    ),
-                    SizedBox(height: Spacing.medium),
-                    Text('タスクがありません', style: AppTextStyles.headlineMedium),
-                    SizedBox(height: Spacing.small),
-                    Text(
-                      'このマイルストーンに紐付けられたタスクはありません。',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.neutral500,
-                      ),
-                    ),
-                    SizedBox(height: Spacing.large),
-                    FilledButton.tonal(
-                      onPressed: () {
-                        // ここは`context`がないため、別の方法で処理が必要
-                        // 実装時にはNavigatorを利用してtaskCreate画面へ遷移
-                      },
-                      child: const Text('タスクを追加'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }
-
-        return SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            if (index == 0) {
-              return SizedBox(height: Spacing.small);
-            }
-            final taskIndex = index - 1;
-            if (taskIndex >= tasks.length) {
-              return const SizedBox.shrink();
-            }
-            final task = tasks[taskIndex];
-            return _buildTaskItem(context, ref, task);
-          }, childCount: tasks.length + 1),
-        );
-      },
+      data: (tasks) => tasks.isEmpty
+          ? _buildTasksEmpty()
+          : _buildTasksListContent(ref, tasks),
       loading: () => SliverToBoxAdapter(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -176,6 +127,59 @@ class MilestoneDetailScreen extends ConsumerWidget {
       ),
       error: (error, stackTrace) =>
           SliverToBoxAdapter(child: _buildErrorWidget(error)),
+    );
+  }
+
+  Widget _buildTasksEmpty() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: EdgeInsets.only(top: Spacing.medium),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.assignment_outlined,
+                size: 64,
+                color: AppColors.neutral300,
+              ),
+              SizedBox(height: Spacing.medium),
+              Text('タスクがありません', style: AppTextStyles.headlineMedium),
+              SizedBox(height: Spacing.small),
+              Text(
+                'このマイルストーンに紐付けられたタスクはありません。',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  color: AppColors.neutral500,
+                ),
+              ),
+              SizedBox(height: Spacing.large),
+              FilledButton.tonal(
+                onPressed: () {
+                  // ここは`context`がないため、別の方法で処理が必要
+                  // 実装時にはNavigatorを利用してtaskCreate画面へ遷移
+                },
+                child: const Text('タスクを追加'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTasksListContent(WidgetRef ref, List<Task> tasks) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        if (index == 0) {
+          return SizedBox(height: Spacing.small);
+        }
+        final taskIndex = index - 1;
+        if (taskIndex >= tasks.length) {
+          return const SizedBox.shrink();
+        }
+        final task = tasks[taskIndex];
+        return _buildTaskItem(context, ref, task);
+      }, childCount: tasks.length + 1),
     );
   }
 
@@ -198,57 +202,16 @@ class MilestoneDetailScreen extends ConsumerWidget {
             ),
             child: Row(
               children: [
-                // ステータスアイコン
                 _buildTaskStatusIcon(task.status),
                 SizedBox(width: Spacing.small),
-                // タスク情報
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        task.title.value,
-                        style: AppTextStyles.bodyMedium,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: Spacing.xSmall),
-                      Text(
-                        _formatDate(task.deadline),
-                        style: AppTextStyles.labelSmall.copyWith(
-                          color: AppColors.neutral500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                Expanded(child: _buildTaskInfo(task)),
                 SizedBox(width: Spacing.small),
-                // ステータスバッジ
                 StatusBadge(
                   status: _mapTaskStatus(task.status),
                   size: BadgeSize.small,
                 ),
                 SizedBox(width: Spacing.small),
-                // メニューボタン
-                PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      child: const Text('ステータス変更'),
-                      onTap: () {
-                        // TODO: ステータス変更機能
-                      },
-                    ),
-                    PopupMenuItem(
-                      child: const Text(
-                        '削除',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      onTap: () {
-                        _showDeleteTaskDialog(context, ref, task);
-                      },
-                    ),
-                  ],
-                ),
+                _buildTaskMenu(context, ref, task),
               ],
             ),
           ),
@@ -257,37 +220,65 @@ class MilestoneDetailScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildTaskInfo(Task task) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          task.title.value,
+          style: AppTextStyles.bodyMedium,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(height: Spacing.xSmall),
+        Text(
+          _formatDate(task.deadline),
+          style: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral500),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTaskMenu(BuildContext context, WidgetRef ref, Task task) {
+    return PopupMenuButton(
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: const Text('ステータス変更'),
+          onTap: () {
+            // TODO: ステータス変更機能
+          },
+        ),
+        PopupMenuItem(
+          child: const Text('削除', style: TextStyle(color: Colors.red)),
+          onTap: () {
+            _showDeleteTaskDialog(context, ref, task);
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildTaskStatusIcon(dynamic status) {
     final statusStr = status?.toString() ?? 'unknown';
+
     if (statusStr.contains('done')) {
-      return Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          color: AppColors.success.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Icon(Icons.check, size: 14, color: AppColors.success),
-      );
-    } else if (statusStr.contains('doing')) {
-      return Container(
-        width: 24,
-        height: 24,
-        decoration: BoxDecoration(
-          color: AppColors.warning.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Icon(Icons.schedule, size: 14, color: AppColors.warning),
-      );
+      return _buildStatusIconBox(AppColors.success, Icons.check);
     }
+    if (statusStr.contains('doing')) {
+      return _buildStatusIconBox(AppColors.warning, Icons.schedule);
+    }
+    return _buildStatusIconBox(AppColors.neutral400, Icons.circle_outlined);
+  }
+
+  Widget _buildStatusIconBox(Color color, IconData icon) {
     return Container(
       width: 24,
       height: 24,
       decoration: BoxDecoration(
-        color: AppColors.neutral100,
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: Icon(Icons.circle_outlined, size: 14, color: AppColors.neutral400),
+      child: Icon(icon, size: 14, color: color),
     );
   }
 

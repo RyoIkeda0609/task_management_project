@@ -123,50 +123,56 @@ class GoalDetailScreen extends ConsumerWidget {
     return ref
         .watch(goalDetailProvider(goalId))
         .when(
-          data: (goal) {
-            if (goal == null) {
-              return Text('ゴールが見つかりません', style: AppTextStyles.titleMedium);
-            }
-
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('ゴール詳細（ピラミッドビュー）', style: AppTextStyles.headlineSmall),
-                SizedBox(height: Spacing.medium),
-                milestonesAsync.when(
-                  data: (milestones) {
-                    if (milestones.isEmpty) {
-                      return Column(
-                        children: [
-                          PyramidView(goal: goal, milestones: []),
-                          SizedBox(height: Spacing.medium),
-                          EmptyState(
-                            icon: Icons.flag_outlined,
-                            title: 'マイルストーンがありません',
-                            message: 'マイルストーンを追加してゴールを達成しましょう。',
-                            actionText: 'マイルストーン追加',
-                            onActionPressed: () =>
-                                AppRouter.navigateToMilestoneCreate(
-                                  context,
-                                  goalId,
-                                ),
-                          ),
-                        ],
-                      );
-                    }
-
-                    return PyramidView(goal: goal, milestones: milestones);
-                  },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
-                ),
-              ],
-            );
-          },
+          data: (goal) => goal != null
+              ? _buildMilestoneSectionContent(
+                  context,
+                  goal,
+                  goalId,
+                  milestonesAsync,
+                )
+              : Text('ゴールが見つかりません', style: AppTextStyles.titleMedium),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) => Text('ゴール取得エラー: $error'),
         );
+  }
+
+  Widget _buildMilestoneSectionContent(
+    BuildContext context,
+    Goal goal,
+    String goalId,
+    AsyncValue<List<Milestone>> milestonesAsync,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('ゴール詳細（ピラミッドビュー）', style: AppTextStyles.headlineSmall),
+        SizedBox(height: Spacing.medium),
+        milestonesAsync.when(
+          data: (milestones) => milestones.isEmpty
+              ? _buildMilestonesEmpty(context, goal, goalId)
+              : PyramidView(goal: goal, milestones: milestones),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMilestonesEmpty(BuildContext context, Goal goal, String goalId) {
+    return Column(
+      children: [
+        PyramidView(goal: goal, milestones: []),
+        SizedBox(height: Spacing.medium),
+        EmptyState(
+          icon: Icons.flag_outlined,
+          title: 'マイルストーンがありません',
+          message: 'マイルストーンを追加してゴールを達成しましょう。',
+          actionText: 'マイルストーン追加',
+          onActionPressed: () =>
+              AppRouter.navigateToMilestoneCreate(context, goalId),
+        ),
+      ],
+    );
   }
 
   String _formatDate(dynamic deadline) {

@@ -52,101 +52,123 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // マイルストーン名入力
-              Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
-              SizedBox(height: Spacing.small),
-              CustomTextField(
-                label: 'マイルストーン名を入力してください',
-                initialValue: _title,
-                onChanged: (value) => setState(() => _title = value),
-              ),
+              _buildTitleField(),
               SizedBox(height: Spacing.large),
-
-              // 目標日時選択
-              Text('目標日時 *', style: AppTextStyles.labelLarge),
-              SizedBox(height: Spacing.small),
-              InkWell(
-                onTap: _selectTargetDate,
-                child: Container(
-                  padding: EdgeInsets.all(Spacing.medium),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.neutral300),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.calendar_today, color: AppColors.primary),
-                      SizedBox(width: Spacing.small),
-                      Expanded(
-                        child: Text(
-                          _selectedTargetDate != null
-                              ? _formatDate(_selectedTargetDate!)
-                              : '目標日時を選択してください',
-                          style: _selectedTargetDate != null
-                              ? AppTextStyles.bodyMedium
-                              : AppTextStyles.bodyMedium.copyWith(
-                                  color: AppColors.neutral400,
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              _buildDeadlineField(),
               SizedBox(height: Spacing.large),
-
-              // ゴール情報表示
-              Container(
-                padding: EdgeInsets.all(Spacing.medium),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.2),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.flag, color: AppColors.primary, size: 20),
-                    SizedBox(width: Spacing.small),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('このゴールに紐付けます', style: AppTextStyles.labelSmall),
-                          SizedBox(height: Spacing.xSmall),
-                          Text(
-                            'ゴールID: ${widget.goalId}',
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.neutral600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildGoalInfo(),
               SizedBox(height: Spacing.large),
-
-              // ボタン
-              CustomButton(
-                text: 'マイルストーンを作成',
-                onPressed: _submitForm,
-                width: double.infinity,
-                type: ButtonType.primary,
-              ),
-              SizedBox(height: Spacing.small),
-              CustomButton(
-                text: 'キャンセル',
-                onPressed: () => context.pop(),
-                width: double.infinity,
-                type: ButtonType.secondary,
-              ),
+              _buildActionButtons(context),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTitleField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.small),
+        CustomTextField(
+          label: 'マイルストーン名を入力してください',
+          initialValue: _title,
+          onChanged: (value) => setState(() => _title = value),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDeadlineField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('目標日時 *', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.small),
+        InkWell(onTap: _selectTargetDate, child: _buildDeadlineDisplay()),
+      ],
+    );
+  }
+
+  Widget _buildDeadlineDisplay() {
+    return Container(
+      padding: EdgeInsets.all(Spacing.medium),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.neutral300),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.calendar_today, color: AppColors.primary),
+          SizedBox(width: Spacing.small),
+          Expanded(
+            child: Text(
+              _selectedTargetDate != null
+                  ? _formatDate(_selectedTargetDate!)
+                  : '目標日時を選択してください',
+              style: _selectedTargetDate != null
+                  ? AppTextStyles.bodyMedium
+                  : AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.neutral400,
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGoalInfo() {
+    return Container(
+      padding: EdgeInsets.all(Spacing.medium),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.flag, color: AppColors.primary, size: 20),
+          SizedBox(width: Spacing.small),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('このゴールに紐付けます', style: AppTextStyles.labelSmall),
+                SizedBox(height: Spacing.xSmall),
+                Text(
+                  'ゴールID: ${widget.goalId}',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.neutral600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButtons(BuildContext context) {
+    return Column(
+      children: [
+        CustomButton(
+          text: 'マイルストーンを作成',
+          onPressed: _submitForm,
+          width: double.infinity,
+          type: ButtonType.primary,
+        ),
+        SizedBox(height: Spacing.small),
+        CustomButton(
+          text: 'キャンセル',
+          onPressed: () => context.pop(),
+          width: double.infinity,
+          type: ButtonType.secondary,
+        ),
+      ],
     );
   }
 

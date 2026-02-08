@@ -113,54 +113,68 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         children: [
           Text('本日の進捗', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.small),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${grouped.completedCount} / ${grouped.total} 完了',
-                      style: AppTextStyles.headlineMedium.copyWith(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    SizedBox(height: Spacing.small),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: LinearProgressIndicator(
-                        value: grouped.completionPercentage / 100,
-                        minHeight: 8,
-                        backgroundColor: AppColors.neutral200,
-                        valueColor: AlwaysStoppedAnimation(
-                          grouped.completionPercentage == 100
-                              ? AppColors.success
-                              : AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: Spacing.medium),
-              Container(
-                padding: EdgeInsets.all(Spacing.small),
-                decoration: BoxDecoration(
-                  color: AppColors.neutral100,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  '${grouped.completionPercentage}%',
-                  style: AppTextStyles.headlineSmall.copyWith(
-                    color: grouped.completionPercentage == 100
-                        ? AppColors.success
-                        : AppColors.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          _buildProgressRow(grouped),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProgressRow(GroupedTasks grouped) {
+    return Row(
+      children: [
+        Expanded(child: _buildProgressDetails(grouped)),
+        SizedBox(width: Spacing.medium),
+        _buildPercentageBadge(grouped),
+      ],
+    );
+  }
+
+  Widget _buildProgressDetails(GroupedTasks grouped) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '${grouped.completedCount} / ${grouped.total} 完了',
+          style: AppTextStyles.headlineMedium.copyWith(
+            color: AppColors.primary,
+          ),
+        ),
+        SizedBox(height: Spacing.small),
+        _buildProgressBar(grouped),
+      ],
+    );
+  }
+
+  Widget _buildProgressBar(GroupedTasks grouped) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: LinearProgressIndicator(
+        value: grouped.completionPercentage / 100,
+        minHeight: 8,
+        backgroundColor: AppColors.neutral200,
+        valueColor: AlwaysStoppedAnimation(
+          grouped.completionPercentage == 100
+              ? AppColors.success
+              : AppColors.primary,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPercentageBadge(GroupedTasks grouped) {
+    return Container(
+      padding: EdgeInsets.all(Spacing.small),
+      decoration: BoxDecoration(
+        color: AppColors.neutral100,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        '${grouped.completionPercentage}%',
+        style: AppTextStyles.headlineSmall.copyWith(
+          color: grouped.completionPercentage == 100
+              ? AppColors.success
+              : AppColors.primary,
+        ),
       ),
     );
   }

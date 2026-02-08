@@ -56,96 +56,127 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // タスク情報
-            Text(task.title.value, style: AppTextStyles.headlineMedium),
-            SizedBox(height: Spacing.medium),
-
-            Text('タスクの説明', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.xSmall),
-            Text(task.description.value, style: AppTextStyles.bodyMedium),
+            _buildTaskHeader(task),
             SizedBox(height: Spacing.large),
-
-            // 期限
-            Text('期限', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.xSmall),
-            Text(_formatDate(task.deadline), style: AppTextStyles.bodyMedium),
+            _buildDeadlineSection(task),
             SizedBox(height: Spacing.large),
+            _buildStatusSection(task, context),
+            SizedBox(height: Spacing.large),
+            _buildStatusButtons(context, task),
+            SizedBox(height: Spacing.large),
+            _buildTaskInfoSection(task),
+          ],
+        ),
+      ),
+    );
+  }
 
-            // ステータス
-            Text('ステータス', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
-            Container(
-              padding: EdgeInsets.all(Spacing.medium),
-              decoration: BoxDecoration(
-                color: _getStatusBackgroundColor(task.status),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: _getStatusBorderColor(task.status)),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    _getStatusIcon(task.status),
-                    color: _getStatusColor(task.status),
-                  ),
-                  SizedBox(width: Spacing.small),
-                  Text(
-                    _getStatusLabel(task.status),
-                    style: AppTextStyles.bodyMedium,
-                  ),
-                ],
-              ),
+  Widget _buildTaskHeader(Task task) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(task.title.value, style: AppTextStyles.headlineMedium),
+        SizedBox(height: Spacing.medium),
+        Text('タスクの説明', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.xSmall),
+        Text(task.description.value, style: AppTextStyles.bodyMedium),
+      ],
+    );
+  }
+
+  Widget _buildDeadlineSection(Task task) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('期限', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.xSmall),
+        Text(_formatDate(task.deadline), style: AppTextStyles.bodyMedium),
+      ],
+    );
+  }
+
+  Widget _buildStatusSection(Task task, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('ステータス', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.small),
+        _buildStatusDisplay(task),
+      ],
+    );
+  }
+
+  Widget _buildStatusDisplay(Task task) {
+    return Container(
+      padding: EdgeInsets.all(Spacing.medium),
+      decoration: BoxDecoration(
+        color: _getStatusBackgroundColor(task.status),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: _getStatusBorderColor(task.status)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            _getStatusIcon(task.status),
+            color: _getStatusColor(task.status),
+          ),
+          SizedBox(width: Spacing.small),
+          Text(_getStatusLabel(task.status), style: AppTextStyles.bodyMedium),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusButtons(BuildContext context, Task task) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('ステータスを更新', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.small),
+        Column(
+          children: [
+            CustomButton(
+              text: '未完了にする',
+              onPressed: () => _updateStatus(context, task, 'todo'),
+              type: ButtonType.secondary,
+              width: double.infinity,
             ),
-            SizedBox(height: Spacing.large),
-
-            // ステータス変更ボタン
-            Text('ステータスを更新', style: AppTextStyles.labelLarge),
             SizedBox(height: Spacing.small),
-            Column(
-              children: [
-                CustomButton(
-                  text: '未完了にする',
-                  onPressed: () => _updateStatus(context, task, 'todo'),
-                  type: ButtonType.secondary,
-                  width: double.infinity,
-                ),
-                SizedBox(height: Spacing.small),
-                CustomButton(
-                  text: '進行中にする',
-                  onPressed: () => _updateStatus(context, task, 'doing'),
-                  type: ButtonType.secondary,
-                  width: double.infinity,
-                ),
-                SizedBox(height: Spacing.small),
-                CustomButton(
-                  text: '完了にする',
-                  onPressed: () => _updateStatus(context, task, 'done'),
-                  type: ButtonType.primary,
-                  width: double.infinity,
-                ),
-              ],
+            CustomButton(
+              text: '進行中にする',
+              onPressed: () => _updateStatus(context, task, 'doing'),
+              type: ButtonType.secondary,
+              width: double.infinity,
             ),
-            SizedBox(height: Spacing.large),
-
-            // タスク詳細情報
-            Container(
-              padding: EdgeInsets.all(Spacing.medium),
-              decoration: BoxDecoration(
-                color: AppColors.neutral50,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('タスク情報', style: AppTextStyles.labelLarge),
-                  SizedBox(height: Spacing.small),
-                  _buildInfoRow('タスクID', task.id.value),
-                  SizedBox(height: Spacing.xSmall),
-                  _buildInfoRow('マイルストーン', task.milestoneId),
-                ],
-              ),
+            SizedBox(height: Spacing.small),
+            CustomButton(
+              text: '完了にする',
+              onPressed: () => _updateStatus(context, task, 'done'),
+              type: ButtonType.primary,
+              width: double.infinity,
             ),
           ],
         ),
+      ],
+    );
+  }
+
+  Widget _buildTaskInfoSection(Task task) {
+    return Container(
+      padding: EdgeInsets.all(Spacing.medium),
+      decoration: BoxDecoration(
+        color: AppColors.neutral50,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('タスク情報', style: AppTextStyles.labelLarge),
+          SizedBox(height: Spacing.small),
+          _buildInfoRow('タスクID', task.id.value),
+          SizedBox(height: Spacing.xSmall),
+          _buildInfoRow('マイルストーン', task.milestoneId),
+        ],
       ),
     );
   }
