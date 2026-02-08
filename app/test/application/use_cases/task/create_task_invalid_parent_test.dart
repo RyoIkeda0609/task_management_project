@@ -1,13 +1,57 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/task/create_task_use_case.dart';
+import 'package:app/domain/entities/task.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
+
+class MockTaskRepository implements TaskRepository {
+  final List<Task> _tasks = [];
+
+  @override
+  Future<List<Task>> getAllTasks() async => _tasks;
+
+  @override
+  Future<Task?> getTaskById(String id) async {
+    try {
+      return _tasks.firstWhere((t) => t.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+
+  @override
+  Future<void> saveTask(Task task) async => _tasks.add(task);
+
+  @override
+  Future<void> deleteTask(String id) async =>
+      _tasks.removeWhere((t) => t.id.value == id);
+
+  @override
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+
+  @override
+  Future<int> getTaskCount() async => _tasks.length;
+
+  @override
+  Future<void> updateTask(Task task) async {
+    final index = _tasks.indexWhere((t) => t.id.value == task.id.value);
+    if (index != -1) _tasks[index] = task;
+  }
+}
 
 void main() {
   group('CreateTaskUseCase - 不正な親への追加テスト', () {
     late CreateTaskUseCase useCase;
+    late MockTaskRepository mockRepository;
 
     setUp(() {
-      useCase = CreateTaskUseCaseImpl();
+      mockRepository = MockTaskRepository();
+      useCase = CreateTaskUseCaseImpl(mockRepository);
     });
 
     test('タスクは ValueObject バリデーションで作成できる', () async {

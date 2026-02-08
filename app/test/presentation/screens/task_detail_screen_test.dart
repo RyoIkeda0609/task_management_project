@@ -37,13 +37,6 @@ class FakeTaskRepository implements TaskRepository {
   Future<void> updateTask(Task task) async {}
 }
 
-  @override
-  Future<void> deleteTasksByMilestoneId(String milestoneId) async {}
-
-  @override
-  Future<int> getTaskCount() async => 0;
-}
-
 void main() {
   group('TaskDetailScreen', () {
     testWidgets('displays task details properly', (WidgetTester tester) async {

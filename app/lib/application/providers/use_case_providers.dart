@@ -15,6 +15,7 @@ import 'package:app/application/use_cases/task/update_task_use_case.dart';
 import 'package:app/application/use_cases/task/delete_task_use_case.dart';
 import 'package:app/application/use_cases/task/change_task_status_use_case.dart';
 import 'package:app/application/use_cases/task/get_all_tasks_today_use_case.dart';
+import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import 'package:app/application/use_cases/progress/calculate_progress_use_case.dart';
 
 import 'package:app/domain/services/goal_completion_service.dart';
@@ -145,3 +146,9 @@ final calculateProgressUseCaseProvider = Provider<CalculateProgressUseCase>((
     ref.watch(taskRepositoryProvider),
   );
 });
+
+/// GetTasksGroupedByStatusUseCase Provider
+final getTasksGroupedByStatusUseCaseProvider =
+    Provider<GetTasksGroupedByStatusUseCase>((ref) {
+      return GetTasksGroupedByStatusUseCaseImpl();
+    });

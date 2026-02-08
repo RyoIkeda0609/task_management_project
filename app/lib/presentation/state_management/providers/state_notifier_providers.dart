@@ -2,6 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
+import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
+import 'package:app/application/providers/use_case_providers.dart';
 import '../notifiers/goal_notifier.dart';
 import '../notifiers/milestone_notifier.dart';
 import '../notifiers/task_notifier.dart';
@@ -119,4 +121,28 @@ final taskDetailProvider = FutureProvider.family<Task?, String>((
 ) async {
   final repository = ref.watch(taskRepositoryProvider);
   return repository.getTaskById(taskId);
+});
+
+/// ======================== Grouped Task Providers ========================
+
+/// 本日のタスクをステータス別にグループ化するProvider
+///
+/// 使用方法:
+/// ```dart
+/// final groupedAsync = ref.watch(todayTasksGroupedProvider);
+/// groupedAsync.when(
+///   data: (grouped) => _buildGroupedContent(grouped),
+///   loading: () => LoadingWidget(),
+///   error: (error, stack) => ErrorWidget(error: error),
+/// );
+/// ```
+final todayTasksGroupedProvider = FutureProvider<GroupedTasks>((ref) async {
+  final useCase = ref.watch(getTasksGroupedByStatusUseCaseProvider);
+  final tasksAsync = ref.watch(todayTasksProvider);
+
+  return tasksAsync.when(
+    data: (tasks) => useCase.call(tasks),
+    loading: () => throw Exception('Loading tasks...'),
+    error: (error, stack) => throw error,
+  );
 });

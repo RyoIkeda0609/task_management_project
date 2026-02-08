@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
@@ -26,7 +27,7 @@ class TodayTasksScreen extends ConsumerStatefulWidget {
 class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   @override
   Widget build(BuildContext context) {
-    final tasksAsync = ref.watch(todayTasksProvider);
+    final groupedAsync = ref.watch(todayTasksGroupedProvider);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -34,19 +35,16 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         hasLeading: false,
         backgroundColor: AppColors.neutral100,
       ),
-      body: tasksAsync.when(
-        data: (allTasks) => _buildContent(context, allTasks),
+      body: groupedAsync.when(
+        data: (grouped) => _buildContent(context, grouped),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => _buildErrorWidget(error),
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context, List<Task> allTasks) {
-    // すべてのタスクは既に use case で本日 + 過期限タスクにフィルタリングされている
-    final todayTasks = allTasks;
-
-    if (todayTasks.isEmpty) {
+  Widget _buildContent(BuildContext context, GroupedTasks grouped) {
+    if (grouped.total == 0) {
       return EmptyState(
         icon: Icons.check_circle_outline,
         title: '今日のタスクはありません',
@@ -56,40 +54,44 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
       );
     }
 
-    // ステータス別にグループ化
-    final todoTasks = todayTasks
-        .where((t) => _isStatus(t.status, 'todo'))
-        .toList();
-    final doingTasks = todayTasks
-        .where((t) => _isStatus(t.status, 'doing'))
-        .toList();
-    final doneTasks = todayTasks
-        .where((t) => _isStatus(t.status, 'done'))
-        .toList();
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // サマリー
-          _buildSummary(context, todayTasks.length, doneTasks.length),
+          _buildSummary(context, grouped),
           SizedBox(height: Spacing.medium),
 
           // 未完了タスク
-          if (todoTasks.isNotEmpty) ...[
-            _buildTaskSection(context, '未完了', todoTasks, AppColors.neutral400),
+          if (grouped.todoTasks.isNotEmpty) ...[
+            _buildTaskSection(
+              context,
+              '未完了',
+              grouped.todoTasks,
+              AppColors.neutral400,
+            ),
             SizedBox(height: Spacing.medium),
           ],
 
           // 進行中タスク
-          if (doingTasks.isNotEmpty) ...[
-            _buildTaskSection(context, '進行中', doingTasks, AppColors.warning),
+          if (grouped.doingTasks.isNotEmpty) ...[
+            _buildTaskSection(
+              context,
+              '進行中',
+              grouped.doingTasks,
+              AppColors.warning,
+            ),
             SizedBox(height: Spacing.medium),
           ],
 
           // 完了タスク
-          if (doneTasks.isNotEmpty) ...[
-            _buildTaskSection(context, '完了', doneTasks, AppColors.success),
+          if (grouped.doneTasks.isNotEmpty) ...[
+            _buildTaskSection(
+              context,
+              '完了',
+              grouped.doneTasks,
+              AppColors.success,
+            ),
             SizedBox(height: Spacing.medium),
           ],
         ],
@@ -97,9 +99,7 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
     );
   }
 
-  Widget _buildSummary(BuildContext context, int total, int done) {
-    final percentage = total > 0 ? (done / total * 100).toInt() : 0;
-
+  Widget _buildSummary(BuildContext context, GroupedTasks grouped) {
     return Container(
       margin: EdgeInsets.all(Spacing.medium),
       padding: EdgeInsets.all(Spacing.medium),
@@ -120,7 +120,7 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$done / $total 完了',
+                      '${grouped.completedCount} / ${grouped.total} 完了',
                       style: AppTextStyles.headlineMedium.copyWith(
                         color: AppColors.primary,
                       ),
@@ -129,11 +129,11 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(4),
                       child: LinearProgressIndicator(
-                        value: percentage / 100,
+                        value: grouped.completionPercentage / 100,
                         minHeight: 8,
                         backgroundColor: AppColors.neutral200,
                         valueColor: AlwaysStoppedAnimation(
-                          percentage == 100
+                          grouped.completionPercentage == 100
                               ? AppColors.success
                               : AppColors.primary,
                         ),
@@ -150,9 +150,11 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  '$percentage%',
+                  '${grouped.completionPercentage}%',
                   style: AppTextStyles.headlineSmall.copyWith(
-                    color: AppColors.primary,
+                    color: grouped.completionPercentage == 100
+                        ? AppColors.success
+                        : AppColors.primary,
                   ),
                 ),
               ),
