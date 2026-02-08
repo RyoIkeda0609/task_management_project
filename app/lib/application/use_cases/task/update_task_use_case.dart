@@ -1,12 +1,10 @@
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/value_objects/task/task_deadline.dart';
+import 'package:app/domain/value_objects/task/task_description.dart';
+import 'package:app/domain/value_objects/task/task_title.dart';
 
-/// UpdateTaskUseCase - タスクを編集する
-///
-/// タスク詳細画面で使用される
+/// UpdateTaskUseCase - タスクを更新する
 abstract class UpdateTaskUseCase {
   Future<Task> call({
     required String taskId,
@@ -29,18 +27,18 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     required String description,
     required DateTime deadline,
   }) async {
-    // 既存タスクを取得
+    // Load
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
-      throw ArgumentError('Task with id $taskId not found');
+      throw ArgumentError('Task not found');
     }
 
-    // ValueObject による入力値検証
+    // Validate
     final taskTitle = TaskTitle(title);
     final taskDescription = TaskDescription(description);
     final taskDeadline = TaskDeadline(deadline);
 
-    // 更新されたタスクエンティティの作成（ステータスは変更しない）
+    // Execute
     final updatedTask = Task(
       id: existingTask.id,
       title: taskTitle,
@@ -50,7 +48,9 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
       milestoneId: existingTask.milestoneId,
     );
 
+    // Save
     await _taskRepository.saveTask(updatedTask);
+
     return updatedTask;
   }
 }

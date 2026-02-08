@@ -14,15 +14,16 @@ class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
   @override
   Future<void> call(String taskId) async {
     if (taskId.isEmpty) {
-      throw ArgumentError('taskId must not be empty');
+      throw ArgumentError('Task ID is required');
     }
 
-    // タスクが存在することを確認
+    // Load
     final task = await _taskRepository.getTaskById(taskId);
     if (task == null) {
-      throw ArgumentError('Task with id $taskId not found');
+      throw ArgumentError('Task not found');
     }
 
+    // Execute
     await _taskRepository.deleteTask(taskId);
   }
 }

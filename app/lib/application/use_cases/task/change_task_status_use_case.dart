@@ -2,9 +2,6 @@ import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 
 /// ChangeTaskStatusUseCase - タスクのステータスを変更する
-///
-/// 要件: 状態変更はユーザー操作でのみ行われる
-/// 状態遷移: Todo → Doing → Done → Todo（循環）
 abstract class ChangeTaskStatusUseCase {
   Future<Task> call(String taskId);
 }
@@ -18,19 +15,21 @@ class ChangeTaskStatusUseCaseImpl implements ChangeTaskStatusUseCase {
   @override
   Future<Task> call(String taskId) async {
     if (taskId.isEmpty) {
-      throw ArgumentError('taskId must not be empty');
+      throw ArgumentError('Task ID is required');
     }
 
-    // 既存タスクを取得
+    // Load
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
-      throw ArgumentError('Task with id $taskId not found');
+      throw ArgumentError('Task not found');
     }
 
-    // ステータスを次の状態に遷移（Todo→Doing→Done→Todo）
+    // Execute
     final updatedTask = existingTask.cycleStatus();
 
+    // Save
     await _taskRepository.saveTask(updatedTask);
+
     return updatedTask;
   }
 }

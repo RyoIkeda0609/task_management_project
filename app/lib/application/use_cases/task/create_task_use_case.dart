@@ -1,19 +1,12 @@
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
-import 'package:app/domain/value_objects/task/task_status.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/value_objects/task/task_deadline.dart';
+import 'package:app/domain/value_objects/task/task_description.dart';
+import 'package:app/domain/value_objects/task/task_id.dart';
+import 'package:app/domain/value_objects/task/task_status.dart';
+import 'package:app/domain/value_objects/task/task_title.dart';
 
-/// CreateTaskUseCase - 新しいタスクを作成する
-///
-/// ビジネスロジック：
-/// - タスク ID は自動生成される
-/// - ステータスは常に Todo で開始される
-/// - すべての入力値は ValueObject でバリデーションされる
-/// - 親マイルストーン ID が必須
-/// - Domain を作成してから Repository に保存する
+/// CreateTaskUseCase - タスクを新規作成する
 abstract class CreateTaskUseCase {
   Future<Task> call({
     required String title,
@@ -36,17 +29,16 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     required DateTime deadline,
     required String milestoneId,
   }) async {
-    // ValueObject による入力値検証
+    // Validate
     final taskTitle = TaskTitle(title);
     final taskDescription = TaskDescription(description);
     final taskDeadline = TaskDeadline(deadline);
 
-    // milestoneId の検証（空文字列でないかチェック）
     if (milestoneId.isEmpty) {
       throw ArgumentError('milestoneId cannot be empty');
     }
 
-    // Task エンティティの作成（ステータスは Todo で開始）
+    // Execute
     final task = Task(
       id: TaskId.generate(),
       title: taskTitle,
@@ -56,7 +48,7 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
       milestoneId: milestoneId,
     );
 
-    // Repository に保存
+    // Save
     await _taskRepository.saveTask(task);
 
     return task;
