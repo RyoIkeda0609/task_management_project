@@ -223,53 +223,6 @@ class GoalDetailScreen extends ConsumerWidget {
     );
   }
 
-  void _showDeleteMilestoneDialog(
-    BuildContext context,
-    WidgetRef ref,
-    Milestone milestone,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('マイルストーン削除'),
-        content: Text('「${milestone.title.value}」を削除してもよろしいですか？'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(context).pop();
-              try {
-                final milestoneRepository = ref.read(
-                  milestoneRepositoryProvider,
-                );
-                await milestoneRepository.deleteMilestone(milestone.id.value);
-
-                // マイルストーン一覧をリフレッシュ
-                ref.invalidate(milestonsByGoalProvider(goalId));
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('マイルストーンを削除しました')),
-                  );
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
-                }
-              }
-            },
-            child: const Text('削除', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildErrorWidget(Object error) {
     return Center(
       child: Column(

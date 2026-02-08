@@ -118,7 +118,9 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
           title: 'ゴール作成完了',
           message: '「${_titleController.text}」を作成しました。',
         );
+      }
 
+      if (mounted) {
         // ホーム画面へナビゲート
         AppRouter.navigateToHome(context);
       }

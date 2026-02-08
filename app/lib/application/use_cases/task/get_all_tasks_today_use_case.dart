@@ -4,10 +4,10 @@ import 'package:app/domain/repositories/task_repository.dart';
 /// DateTimeプロバイダー - テスト時にモック化可能な現在時刻提供
 typedef DateTimeProvider = DateTime Function();
 
-/// GetAllTasksTodayUseCase - 本日のタスクをすべて取得する
+/// GetAllTasksTodayUseCase - 本日のタスクと過期限タスクをすべて取得する
 ///
 /// ロードマップ要件: No.10 今日のタスク 行動集中ビュー
-/// 期限が本日のすべてのタスクを取得
+/// 期限が本日または過期限（期限が昨日以前）のタスクを取得
 abstract class GetAllTasksTodayUseCase {
   Future<List<Task>> call();
 }
@@ -31,12 +31,18 @@ class GetAllTasksTodayUseCaseImpl implements GetAllTasksTodayUseCase {
     final now = _dateTimeProvider();
     final today = DateTime(now.year, now.month, now.day);
 
-    // 本日の期限のタスクをフィルタリング
+    // 本日以前（本日 + 過期限）のタスクをフィルタリング
     final tasksToday = allTasks.where((task) {
       final taskDate = task.deadline.value;
-      return taskDate.year == today.year &&
-          taskDate.month == today.month &&
-          taskDate.day == today.day;
+      final normalizedTaskDate = DateTime(
+        taskDate.year,
+        taskDate.month,
+        taskDate.day,
+      );
+
+      // タスクの期限が本日以前（本日含む）なら対象
+      return normalizedTaskDate.isBefore(today) ||
+          normalizedTaskDate.isAtSameMomentAs(today);
     }).toList();
 
     return tasksToday;

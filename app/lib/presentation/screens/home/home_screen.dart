@@ -146,24 +146,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGoalList(BuildContext context, List<Goal> goals) {
-    if (goals.isEmpty) {
-      return EmptyState(
-        icon: Icons.flag_outlined,
-        title: 'ゴールがまだありません',
-        message: 'まずは今月のゴールを設定しましょう。',
-        actionText: 'ゴールを作成',
-        onActionPressed: () => AppRouter.navigateToGoalCreate(context),
-      );
-    }
-
-    return ListView.builder(
-      padding: EdgeInsets.all(Spacing.medium),
-      itemCount: goals.length,
-      itemBuilder: (context, index) => _buildGoalCard(context, goals[index]),
-    );
-  }
-
   Widget _buildGoalCard(BuildContext context, Goal goal) {
     return InkWell(
       onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),

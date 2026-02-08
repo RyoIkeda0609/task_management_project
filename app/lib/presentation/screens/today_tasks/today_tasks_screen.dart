@@ -43,18 +43,8 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   }
 
   Widget _buildContent(BuildContext context, List<Task> allTasks) {
-    // 今日のタスクをフィルタリング
-    final today = DateTime.now();
-    final todayTasks = allTasks.where((task) {
-      try {
-        final deadline = task.deadline.value;
-        return deadline.year == today.year &&
-            deadline.month == today.month &&
-            deadline.day == today.day;
-      } catch (e) {
-        return false;
-      }
-    }).toList();
+    // すべてのタスクは既に use case で本日 + 過期限タスクにフィルタリングされている
+    final todayTasks = allTasks;
 
     if (todayTasks.isEmpty) {
       return EmptyState(
@@ -287,7 +277,7 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
       final taskRepository = ref.read(taskRepositoryProvider);
 
       // ステータスをサイクル：todo → doing → done → todo
-      final newTaskStatus;
+      final TaskStatus newTaskStatus;
       if (_isStatus(task.status, 'done')) {
         newTaskStatus = TaskStatus.todo();
       } else if (_isStatus(task.status, 'doing')) {

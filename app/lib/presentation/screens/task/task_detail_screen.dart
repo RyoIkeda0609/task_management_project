@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
@@ -187,31 +188,30 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
         milestoneId: task.milestoneId,
       );
 
+      if (!mounted) return;
+
       // タスクを保存
       await taskRepository.saveTask(updatedTask);
+      if (!mounted) return;
 
       // プロバイダーキャッシュを無効化
-      if (mounted) {
-        ref.invalidate(taskDetailProvider(widget.taskId));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
-      }
+      ref.invalidate(taskDetailProvider(widget.taskId));
+      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
 
-      if (mounted) {
-        await ValidationHelper.showSuccess(
-          context,
-          title: 'ステータス更新完了',
-          message: 'ステータスを「${_getStatusLabel(newStatus)}」に更新しました。',
-        );
-      }
+      await ValidationHelper.showSuccess(
+        context,
+        title: 'ステータス更新完了',
+        message: 'ステータスを「${_getStatusLabel(newStatus)}」に更新しました。',
+      );
     } catch (e) {
-      if (mounted) {
-        await ValidationHelper.handleException(
-          context,
-          e,
-          customTitle: 'ステータス更新エラー',
-          customMessage: 'ステータスの更新に失敗しました。',
-        );
-      }
+      if (!mounted) return;
+      
+      await ValidationHelper.handleException(
+        context,
+        e,
+        customTitle: 'ステータス更新エラー',
+        customMessage: 'ステータスの更新に失敗しました。',
+      );
     }
   }
 
