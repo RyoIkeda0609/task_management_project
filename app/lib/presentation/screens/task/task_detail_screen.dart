@@ -205,7 +205,7 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      
+
       await ValidationHelper.handleException(
         context,
         e,
