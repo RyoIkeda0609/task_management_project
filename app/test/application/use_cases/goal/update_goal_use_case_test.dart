@@ -19,6 +19,7 @@ import 'package:app/domain/value_objects/task/task_status.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/services/goal_completion_service.dart';
 
 class MockGoalRepository implements GoalRepository {
   final List<Goal> _goals = [];
@@ -126,6 +127,12 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
+
+  @override
+  Future<void> updateTask(Task task) async {
+    final index = _tasks.indexWhere((t) => t.id.value == task.id.value);
+    if (index != -1) _tasks[index] = task;
+  }
 }
 
 void main() {
@@ -134,16 +141,17 @@ void main() {
     late MockGoalRepository goalRepository;
     late MockMilestoneRepository milestoneRepository;
     late MockTaskRepository taskRepository;
+    late GoalCompletionService goalCompletionService;
 
     setUp(() {
       goalRepository = MockGoalRepository();
       milestoneRepository = MockMilestoneRepository();
       taskRepository = MockTaskRepository();
-      useCase = UpdateGoalUseCaseImpl(
-        goalRepository,
+      goalCompletionService = GoalCompletionService(
         milestoneRepository,
         taskRepository,
       );
+      useCase = UpdateGoalUseCaseImpl(goalRepository, goalCompletionService);
     });
 
     test('存在しないゴール ID でエラーが発生すること', () async {

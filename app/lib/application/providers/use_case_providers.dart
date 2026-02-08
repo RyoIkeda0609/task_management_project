@@ -17,7 +17,18 @@ import 'package:app/application/use_cases/task/change_task_status_use_case.dart'
 import 'package:app/application/use_cases/task/get_all_tasks_today_use_case.dart';
 import 'package:app/application/use_cases/progress/calculate_progress_use_case.dart';
 
+import 'package:app/domain/services/goal_completion_service.dart';
 import 'package:app/presentation/state_management/providers/repository_providers.dart';
+
+// ==================== Domain Service Providers ====================
+
+/// GoalCompletionService Provider
+final goalCompletionServiceProvider = Provider<GoalCompletionService>((ref) {
+  return GoalCompletionService(
+    ref.watch(milestoneRepositoryProvider),
+    ref.watch(taskRepositoryProvider),
+  );
+});
 
 // ==================== Goal UseCase Providers ====================
 
@@ -40,8 +51,7 @@ final getGoalByIdUseCaseProvider = Provider<GetGoalByIdUseCase>((ref) {
 final updateGoalUseCaseProvider = Provider<UpdateGoalUseCase>((ref) {
   return UpdateGoalUseCaseImpl(
     ref.watch(goalRepositoryProvider),
-    ref.watch(milestoneRepositoryProvider),
-    ref.watch(taskRepositoryProvider),
+    ref.watch(goalCompletionServiceProvider),
   );
 });
 

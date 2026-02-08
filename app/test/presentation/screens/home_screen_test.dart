@@ -55,7 +55,7 @@ class FakeMilestoneRepository implements MilestoneRepository {
 
 class FakeTaskRepository implements TaskRepository {
   @override
-  Future<void> saveTask(task) async {}
+  Future<void> saveTask(Task task) async {}
 
   @override
   Future<List<Task>> getAllTasks() async => [];
@@ -74,6 +74,9 @@ class FakeTaskRepository implements TaskRepository {
 
   @override
   Future<int> getTaskCount() async => 0;
+
+  @override
+  Future<void> updateTask(Task task) async {}
 }
 
 void main() {
