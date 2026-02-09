@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/custom_button.dart';
+import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// オンボーディング画面
 ///
 /// アプリケーション初回起動時に、ゴール設定やタスク完了の説明など、
 /// 2ページの PageView で構成されます。
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   /// ページコントローラー
   late PageController _pageController;
 
@@ -61,9 +63,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ///
   /// オンボーディング完了後、ホーム画面へ遷移
   void _completeOnboarding() {
-    // TODO: オンボーディング完了フラグを保存
-    // SharedPreferences または Riverpod で管理
-    AppRouter.navigateToHome(context);
+    // Riverpod の onboardingCompleteProvider にフラグを保存
+    ref.read(onboardingCompleteProvider.notifier).state = true;
+    if (mounted) {
+      AppRouter.navigateToHome(context);
+    }
   }
 
   @override

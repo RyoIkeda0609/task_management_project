@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
+import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// スプラッシュ画面
 ///
 /// アプリケーション起動時に2秒間表示され、その後ホーム画面またはオンボーディング画面に自動遷移します。
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   /// オンボーディング完了フラグ
   ///
   /// true の場合はホーム画面へ、false の場合はオンボーディング画面へ遷移
@@ -16,10 +18,10 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, this.isOnboardingComplete = false});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -38,11 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
   /// 初回起動フロー制御：オンボーディング完了フラグを確認
   Future<void> _performInitialNavigation() async {
     try {
-      // SharedPreferences または 他の永続化機構でオンボーディング完了フラグを確認
-      // 現在は簡易実装：常にオンボーディング画面を表示する初回フローに戻す
-      // TODO: 実装時にフラグをチェックして分岐
+      // Riverpod の onboardingCompleteProvider からフラグを読み取り
+      final isOnboardingComplete = ref.read(onboardingCompleteProvider);
       if (mounted) {
-        AppRouter.navigateFromSplash(context, false);
+        AppRouter.navigateFromSplash(context, isOnboardingComplete);
       }
     } catch (e) {
       // エラー時はオンボーディング画面へ

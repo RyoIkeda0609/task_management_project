@@ -5,8 +5,6 @@ import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
-import '../../widgets/common/custom_button.dart';
-import '../../utils/validation_helper.dart';
 import '../../../domain/entities/task.dart';
 import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
@@ -129,58 +127,42 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
   }
 
   Widget _buildStatusDisplay(Task task) {
-    return Container(
-      padding: EdgeInsets.all(Spacing.medium),
-      decoration: BoxDecoration(
-        color: _getStatusBackgroundColor(task.status),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _getStatusBorderColor(task.status)),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            _getStatusIcon(task.status),
-            color: _getStatusColor(task.status),
-          ),
-          SizedBox(width: Spacing.small),
-          Text(_getStatusLabel(task.status), style: AppTextStyles.bodyMedium),
-        ],
+    return InkWell(
+      onTap: () => _cycleTaskStatus(task),
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: EdgeInsets.all(Spacing.medium),
+        decoration: BoxDecoration(
+          color: _getStatusBackgroundColor(task.status),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: _getStatusBorderColor(task.status)),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              _getStatusIcon(task.status),
+              color: _getStatusColor(task.status),
+            ),
+            SizedBox(width: Spacing.small),
+            Expanded(
+              child: Text(
+                _getStatusLabel(task.status),
+                style: AppTextStyles.bodyMedium,
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward,
+              color: _getStatusColor(task.status),
+              size: 16,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildStatusButtons(BuildContext context, Task task) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('ステータスを更新', style: AppTextStyles.labelLarge),
-        SizedBox(height: Spacing.small),
-        Column(
-          children: [
-            CustomButton(
-              text: '未完了にする',
-              onPressed: () => _updateStatus(context, task, 'todo'),
-              type: ButtonType.secondary,
-              width: double.infinity,
-            ),
-            SizedBox(height: Spacing.small),
-            CustomButton(
-              text: '進行中にする',
-              onPressed: () => _updateStatus(context, task, 'doing'),
-              type: ButtonType.secondary,
-              width: double.infinity,
-            ),
-            SizedBox(height: Spacing.small),
-            CustomButton(
-              text: '完了にする',
-              onPressed: () => _updateStatus(context, task, 'done'),
-              type: ButtonType.primary,
-              width: double.infinity,
-            ),
-          ],
-        ),
-      ],
-    );
+    return const SizedBox.shrink(); // ステータスボタンセクションを非表示にする
   }
 
   Widget _buildTaskInfoSection(Task task) {
@@ -221,50 +203,49 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
     );
   }
 
-  void _updateStatus(BuildContext context, Task task, String newStatus) async {
+  /// ステータスを循環変更（todo → doing → done → todo）
+  void _cycleTaskStatus(Task task) {
+    final newStatus = task.status.toString().contains('todo')
+        ? TaskStatus.doing()
+        : task.status.toString().contains('doing')
+        ? TaskStatus.done()
+        : TaskStatus.todo();
+
+    _updateStatus(newStatus, task);
+  }
+
+  /// ステータスを更新
+  Future<void> _updateStatus(TaskStatus newStatus, Task task) async {
     try {
       final taskRepository = ref.read(taskRepositoryProvider);
-
-      // ステータスの値オブジェクトを作成
-      final newTaskStatus = newStatus == 'done'
-          ? TaskStatus.done()
-          : newStatus == 'doing'
-          ? TaskStatus.doing()
-          : TaskStatus.todo();
 
       final updatedTask = Task(
         id: task.id,
         title: task.title,
         description: task.description,
         deadline: task.deadline,
-        status: newTaskStatus,
+        status: newStatus,
         milestoneId: task.milestoneId,
       );
 
-      if (!mounted) return;
-
-      // タスクを保存
       await taskRepository.saveTask(updatedTask);
-      if (!mounted) return;
-
-      // プロバイダーキャッシュを無効化
       ref.invalidate(taskDetailProvider(widget.taskId));
       ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
 
-      await ValidationHelper.showSuccess(
-        context,
-        title: 'ステータス更新完了',
-        message: 'ステータスを「${_getStatusLabel(newStatus)}」に更新しました。',
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('ステータスを「${_getStatusLabel(newStatus)}」に更新しました。'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
     } catch (e) {
-      if (!mounted) return;
-
-      await ValidationHelper.handleException(
-        context,
-        e,
-        customTitle: 'ステータス更新エラー',
-        customMessage: 'ステータスの更新に失敗しました。',
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('更新に失敗しました: $e')));
+      }
     }
   }
 

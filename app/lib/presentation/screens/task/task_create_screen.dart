@@ -70,10 +70,15 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
               SizedBox(height: Spacing.medium),
 
               // 説明入力
-              Text('タスクの説明', style: AppTextStyles.labelLarge),
+              Text(
+                'タスクの説明 （任意）',
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: AppColors.neutral600,
+                ),
+              ),
               SizedBox(height: Spacing.small),
               CustomTextField(
-                label: 'タスクの詳細を入力してください（任意）',
+                label: 'タスクの詳細を入力してください',
                 initialValue: _description,
                 onChanged: (value) => setState(() => _description = value),
                 multiline: true,
@@ -115,40 +120,91 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
 
               // マイルストーン情報
               if (_milestoneId.isNotEmpty)
-                Container(
-                  padding: EdgeInsets.all(Spacing.medium),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColors.primary.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.flag, color: AppColors.primary, size: 20),
-                      SizedBox(width: Spacing.small),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'マイルストーンに紐付けます',
-                              style: AppTextStyles.labelSmall,
+                ref
+                    .watch(milestoneDetailProvider(_milestoneId))
+                    .when(
+                      data: (milestone) {
+                        if (milestone == null) return SizedBox.shrink();
+                        return Container(
+                          padding: EdgeInsets.all(Spacing.medium),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.2),
                             ),
-                            SizedBox(height: Spacing.xSmall),
-                            Text(
-                              'ID: $_milestoneId',
-                              style: AppTextStyles.bodySmall.copyWith(
-                                color: AppColors.neutral600,
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.flag,
+                                color: AppColors.primary,
+                                size: 20,
                               ),
+                              SizedBox(width: Spacing.small),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'マイルストーンに紐付けます',
+                                      style: AppTextStyles.labelSmall,
+                                    ),
+                                    SizedBox(height: Spacing.xSmall),
+                                    Text(
+                                      milestone.title.value,
+                                      style: AppTextStyles.bodySmall.copyWith(
+                                        color: AppColors.neutral600,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      loading: () => Container(
+                        padding: EdgeInsets.all(Spacing.medium),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.05),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: AppColors.primary.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.flag,
+                              color: AppColors.primary,
+                              size: 20,
                             ),
+                            SizedBox(width: Spacing.small),
+                            const Expanded(child: CircularProgressIndicator()),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                      error: (error, stackTrace) => Container(
+                        padding: EdgeInsets.all(Spacing.medium),
+                        decoration: BoxDecoration(
+                          color: AppColors.error.withValues(alpha: 0.05),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: AppColors.error.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.error, color: AppColors.error, size: 20),
+                            SizedBox(width: Spacing.small),
+                            const Expanded(child: Text('マイルストーン情報を読み込めません')),
+                          ],
+                        ),
+                      ),
+                    ),
               SizedBox(height: Spacing.large),
 
               // ボタン

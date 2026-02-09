@@ -161,7 +161,10 @@ class MilestoneDetailScreen extends ConsumerWidget {
   Widget _buildTasksEmpty() {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: EdgeInsets.only(top: Spacing.medium),
+        padding: EdgeInsets.symmetric(
+          horizontal: Spacing.medium,
+          vertical: Spacing.large,
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -180,13 +183,12 @@ class MilestoneDetailScreen extends ConsumerWidget {
                   color: AppColors.neutral500,
                 ),
               ),
-              SizedBox(height: Spacing.large),
-              FilledButton.tonal(
-                onPressed: () {
-                  // ここは`context`がないため、別の方法で処理が必要
-                  // 実装時にはNavigatorを利用してtaskCreate画面へ遷移
-                },
-                child: const Text('タスクを追加'),
+              SizedBox(height: Spacing.small),
+              Text(
+                '右下の「+」ボタンをタップしてタスクを追加してください。',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.neutral500,
+                ),
               ),
             ],
           ),

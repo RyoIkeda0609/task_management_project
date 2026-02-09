@@ -99,10 +99,25 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildListView(BuildContext context, List<Goal> goals) {
+    // 期限の近い順でソート（期限の値で比較）
+    final sortedGoals = [...goals]
+      ..sort((a, b) => a.deadline.value.compareTo(b.deadline.value));
+
     return ListView.builder(
       padding: EdgeInsets.all(Spacing.medium),
-      itemCount: goals.length,
-      itemBuilder: (context, index) => _buildGoalCard(context, goals[index]),
+      itemCount: sortedGoals.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: Spacing.small),
+            child: Text(
+              '期限が近い順に表示',
+              style: AppTextStyles.bodySmall.copyWith(color: Colors.grey),
+            ),
+          );
+        }
+        return _buildGoalCard(context, sortedGoals[index - 1]);
+      },
     );
   }
 
@@ -156,13 +171,38 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                goal.title.value,
-                style: AppTextStyles.titleLarge,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              // タイトルとカテゴリを並べて表示
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      goal.title.value,
+                      style: AppTextStyles.titleLarge,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(width: Spacing.small),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Spacing.xSmall,
+                      vertical: Spacing.xSmall,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      goal.category.value,
+                      style: AppTextStyles.labelSmall.copyWith(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: Spacing.small),
+              // 説明
               Text(
                 goal.reason.value,
                 style: AppTextStyles.bodySmall.copyWith(
@@ -171,11 +211,23 @@ class HomeScreen extends ConsumerWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
+              SizedBox(height: Spacing.medium),
+              // 期限
+              Text(
+                '期限: ${_formatDate(goal.deadline.value)}',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.neutral500,
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.year}年${date.month}月${date.day}日';
   }
 
   Widget _buildErrorWidget(BuildContext context, Object error) {

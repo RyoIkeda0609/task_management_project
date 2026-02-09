@@ -144,7 +144,11 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'ゴールを作成', hasLeading: true),
+      appBar: CustomAppBar(
+        title: 'ゴールを作成',
+        hasLeading: true,
+        onLeadingPressed: () => AppRouter.navigateToHome(context),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -220,7 +224,7 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
                   Expanded(
                     child: CustomButton(
                       text: 'キャンセル',
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => AppRouter.navigateToHome(context),
                       type: ButtonType.secondary,
                     ),
                   ),

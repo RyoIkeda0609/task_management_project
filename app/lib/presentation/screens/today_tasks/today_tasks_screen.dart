@@ -130,31 +130,45 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   }
 
   Widget _buildProgressDetails(GroupedTasks grouped) {
+    // Todo=0%, Doing=50%, Done=100% で進捗を計算
+    final progressPercentage = grouped.total == 0
+        ? 0.0
+        : ((grouped.doingTasks.length * 50 + grouped.doneTasks.length * 100) /
+                  (grouped.total * 100)) *
+              100;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '${grouped.completedCount} / ${grouped.total} 完了',
+          '${grouped.doneTasks.length} / ${grouped.total} 完了',
           style: AppTextStyles.headlineMedium.copyWith(
             color: AppColors.primary,
           ),
         ),
         SizedBox(height: Spacing.small),
-        _buildProgressBar(grouped),
+        _buildProgressBar(progressPercentage),
+        SizedBox(height: Spacing.small),
+        Text(
+          '進捗: ${progressPercentage.toStringAsFixed(0)}%',
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
+        ),
       ],
     );
   }
 
-  Widget _buildProgressBar(GroupedTasks grouped) {
+  Widget _buildProgressBar(double progressPercentage) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
       child: LinearProgressIndicator(
-        value: grouped.completionPercentage / 100,
+        value: progressPercentage / 100,
         minHeight: 8,
         backgroundColor: AppColors.neutral200,
         valueColor: AlwaysStoppedAnimation(
-          grouped.completionPercentage == 100
+          progressPercentage == 100
               ? AppColors.success
+              : progressPercentage >= 50
+              ? AppColors.warning
               : AppColors.primary,
         ),
       ),
@@ -162,6 +176,12 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   }
 
   Widget _buildPercentageBadge(GroupedTasks grouped) {
+    final progressPercentage = grouped.total == 0
+        ? 0.0
+        : ((grouped.doingTasks.length * 50 + grouped.doneTasks.length * 100) /
+                  (grouped.total * 100)) *
+              100;
+
     return Container(
       padding: EdgeInsets.all(Spacing.small),
       decoration: BoxDecoration(
@@ -169,10 +189,12 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        '${grouped.completionPercentage}%',
+        '${progressPercentage.toStringAsFixed(0)}%',
         style: AppTextStyles.headlineSmall.copyWith(
-          color: grouped.completionPercentage == 100
+          color: progressPercentage == 100
               ? AppColors.success
+              : progressPercentage >= 50
+              ? AppColors.warning
               : AppColors.primary,
         ),
       ),
