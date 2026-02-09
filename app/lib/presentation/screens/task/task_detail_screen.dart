@@ -34,6 +34,28 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
         title: 'タスク詳細',
         hasLeading: true,
         onLeadingPressed: () => Navigator.of(context).pop(),
+        actions: [
+          // 編集ボタン
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text('タスク編集機能は準備中です')));
+            },
+          ),
+          // 削除ボタン
+          IconButton(
+            icon: const Icon(Icons.delete_outline),
+            onPressed: () {
+              taskAsync.whenData((task) {
+                if (task != null) {
+                  _showDeleteTaskDialog(context, ref, task);
+                }
+              });
+            },
+          ),
+        ],
       ),
       body: taskAsync.when(
         data: (task) => _buildContent(context, task),
@@ -307,6 +329,49 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
           const Icon(Icons.error_outline, size: 64, color: Colors.red),
           SizedBox(height: Spacing.medium),
           Text('エラーが発生しました', style: AppTextStyles.titleMedium),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteTaskDialog(BuildContext context, WidgetRef ref, Task task) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('タスク削除'),
+        content: Text('「${task.title.value}」を削除してもよろしいですか？'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(dialogContext).pop(); // ダイアログを閉じる
+              try {
+                final taskRepository = ref.read(taskRepositoryProvider);
+                await taskRepository.deleteTask(task.id.value);
+
+                // タスク一覧をリフレッシュ
+                ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
+                  // 親画面（マイルストーン詳細）に戻る
+                  Navigator.of(context).pop();
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
+                }
+              }
+            },
+            child: const Text('削除', style: TextStyle(color: Colors.red)),
+          ),
         ],
       ),
     );

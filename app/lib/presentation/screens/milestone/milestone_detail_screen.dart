@@ -333,17 +333,17 @@ class MilestoneDetailScreen extends ConsumerWidget {
   void _showDeleteTaskDialog(BuildContext context, WidgetRef ref, Task task) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('タスク削除'),
         content: Text('「${task.title.value}」を削除してもよろしいですか？'),
         actions: [
           TextButton(
-            onPressed: () => context.pop(),
+            onPressed: () => Navigator.of(dialogContext).pop(),
             child: const Text('キャンセル'),
           ),
           TextButton(
             onPressed: () async {
-              context.pop();
+              Navigator.of(dialogContext).pop(); // ダイアログを閉じる
               try {
                 final taskRepository = ref.read(taskRepositoryProvider);
                 await taskRepository.deleteTask(task.id.value);
@@ -382,31 +382,35 @@ class MilestoneDetailScreen extends ConsumerWidget {
   ) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('マイルストーン削除'),
         content: Text(
           '「${milestone.title.value}」を削除してもよろしいですか？\n関連するタスクもすべて削除されます。',
         ),
         actions: [
           TextButton(
-            onPressed: () => context.pop(),
+            onPressed: () => Navigator.of(dialogContext).pop(),
             child: const Text('キャンセル'),
           ),
           TextButton(
             onPressed: () async {
-              context.pop();
+              Navigator.of(dialogContext).pop(); // ダイアログを閉じる
               try {
                 final milestoneRepository = ref.read(
                   milestoneRepositoryProvider,
                 );
                 await milestoneRepository.deleteMilestone(milestoneId);
 
+                // マイルストーン一覧をリフレッシュ
+                // ゴール詳細画面が watch している provider を無効化
+                ref.invalidate(milestonsByGoalProvider(milestone.goalId));
+
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('マイルストーンを削除しました')),
                   );
                   // 親画面（ゴール詳細）に戻る
-                  context.pop();
+                  Navigator.of(context).pop();
                 }
               } catch (e) {
                 if (context.mounted) {
