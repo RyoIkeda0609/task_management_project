@@ -29,6 +29,34 @@ class MilestoneDetailScreen extends ConsumerWidget {
         title: 'マイルストーン詳細',
         hasLeading: true,
         onLeadingPressed: () => context.pop(),
+        actions: [
+          // 編集ボタン
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              milestoneAsync.whenData((milestone) {
+                if (milestone != null) {
+                  AppRouter.navigateToMilestoneEdit(
+                    context,
+                    milestone.goalId,
+                    milestoneId,
+                  );
+                }
+              });
+            },
+          ),
+          // 削除ボタン
+          IconButton(
+            icon: const Icon(Icons.delete_outline),
+            onPressed: () {
+              milestoneAsync.whenData((milestone) {
+                if (milestone != null) {
+                  _showDeleteMilestoneDialog(context, ref, milestone);
+                }
+              });
+            },
+          ),
+        ],
       ),
       body: milestoneAsync.when(
         data: (milestone) => _buildContent(context, ref, milestone),
@@ -345,6 +373,54 @@ class MilestoneDetailScreen extends ConsumerWidget {
 
   void _navigateToTaskDetail(BuildContext context, String taskId) {
     AppRouter.navigateToTaskDetail(context, taskId);
+  }
+
+  void _showDeleteMilestoneDialog(
+    BuildContext context,
+    WidgetRef ref,
+    Milestone milestone,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('マイルストーン削除'),
+        content: Text(
+          '「${milestone.title.value}」を削除してもよろしいですか？\n関連するタスクもすべて削除されます。',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => context.pop(),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () async {
+              context.pop();
+              try {
+                final milestoneRepository = ref.read(
+                  milestoneRepositoryProvider,
+                );
+                await milestoneRepository.deleteMilestone(milestoneId);
+
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('マイルストーンを削除しました')),
+                  );
+                  // 親画面（ゴール詳細）に戻る
+                  context.pop();
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
+                }
+              }
+            },
+            child: const Text('削除', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildErrorWidget(Object error) {

@@ -89,29 +89,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const GoalCreateScreen(),
       ),
 
-      /// マイルストーン作成画面ルート
-      GoRoute(
-        path: AppRoutePaths.milestoneCreate,
-        builder: (context, state) {
-          // goalId を URL query parameter から取得
-          final goalId = state.uri.queryParameters['goalId'] ?? '';
-          return MilestoneCreateScreen(goalId: goalId);
-        },
-      ),
-
-      /// タスク作成画面ルート
-      GoRoute(
-        path: AppRoutePaths.taskCreate,
-        builder: (context, state) {
-          // milestoneId を URL query parameter から取得
-          final milestoneId = state.uri.queryParameters['milestoneId'] ?? '';
-          final goalId = state.uri.queryParameters['goalId'] ?? '';
-          return TaskCreateScreen(
-            arguments: {'milestoneId': milestoneId, 'goalId': goalId},
-          );
-        },
-      ),
-
       /// ボトムナビゲーション タブ化されたルート
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -142,6 +119,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         },
                       ),
 
+                      /// マイルストーン作成画面（ゴール配下）
+                      GoRoute(
+                        path: 'milestone_create',
+                        builder: (context, state) {
+                          final goalId = state.pathParameters['goalId'] ?? '';
+                          return MilestoneCreateScreen(goalId: goalId);
+                        },
+                      ),
+
                       /// マイルストーン詳細画面
                       GoRoute(
                         path: 'milestone/:milestoneId',
@@ -161,6 +147,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                                   state.pathParameters['milestoneId'] ?? '';
                               return MilestoneEditScreen(
                                 milestoneId: milestoneId,
+                              );
+                            },
+                          ),
+
+                          /// タスク作成画面（マイルストーン配下）
+                          GoRoute(
+                            path: 'task_create',
+                            builder: (context, state) {
+                              final milestoneId =
+                                  state.pathParameters['milestoneId'] ?? '';
+                              final goalId =
+                                  state.pathParameters['goalId'] ?? '';
+                              return TaskCreateScreen(
+                                arguments: {
+                                  'milestoneId': milestoneId,
+                                  'goalId': goalId,
+                                },
                               );
                             },
                           ),
@@ -317,20 +320,18 @@ class AppRouter {
     context.go('/home/goal/$goalId/milestone/$milestoneId/edit');
   }
 
-  /// マイルストーン作成画面へナビゲート
+  /// マイルストーン作成画面へナビゲート（階層的）
   static void navigateToMilestoneCreate(BuildContext context, String goalId) {
-    context.go('${AppRoutePaths.milestoneCreate}?goalId=$goalId');
+    context.go('/home/goal/$goalId/milestone_create');
   }
 
-  /// タスク作成画面へナビゲート
+  /// タスク作成画面へナビゲート（階層的）
   static void navigateToTaskCreate(
     BuildContext context,
     String milestoneId,
     String goalId,
   ) {
-    context.go(
-      '${AppRoutePaths.taskCreate}?milestoneId=$milestoneId&goalId=$goalId',
-    );
+    context.go('/home/goal/$goalId/milestone/$milestoneId/task_create');
   }
 
   /// タスク詳細画面へナビゲート
