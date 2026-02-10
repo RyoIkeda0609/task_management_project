@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/update_milestone_use_case.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/services/milestone_completion_service.dart';
 import 'package:app/domain/value_objects/milestone/milestone_id.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
@@ -43,14 +44,32 @@ class MockMilestoneRepository implements MilestoneRepository {
   Future<int> getMilestoneCount() async => _milestones.length;
 }
 
+class MockMilestoneCompletionService implements MilestoneCompletionService {
+  @override
+  Future<bool> isMilestoneCompleted(String milestoneId) async {
+    // For testing: by default, no milestone is marked as completed
+    return false;
+  }
+
+  @override
+  Future<int> calculateMilestoneProgress(String milestoneId) async {
+    return 0;
+  }
+}
+
 void main() {
   group('UpdateMilestoneUseCase', () {
     late UpdateMilestoneUseCase useCase;
     late MockMilestoneRepository mockRepository;
+    late MockMilestoneCompletionService mockCompletionService;
 
     setUp(() {
       mockRepository = MockMilestoneRepository();
-      useCase = UpdateMilestoneUseCaseImpl(mockRepository);
+      mockCompletionService = MockMilestoneCompletionService();
+      useCase = UpdateMilestoneUseCaseImpl(
+        mockRepository,
+        mockCompletionService,
+      );
     });
 
     group('マイルストーン更新', () {

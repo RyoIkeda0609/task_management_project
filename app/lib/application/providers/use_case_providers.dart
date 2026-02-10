@@ -19,6 +19,8 @@ import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_c
 import 'package:app/application/use_cases/progress/calculate_progress_use_case.dart';
 
 import 'package:app/domain/services/goal_completion_service.dart';
+import 'package:app/domain/services/milestone_completion_service.dart';
+import 'package:app/domain/services/task_completion_service.dart';
 import 'package:app/presentation/state_management/providers/repository_providers.dart';
 
 // ==================== Domain Service Providers ====================
@@ -29,6 +31,18 @@ final goalCompletionServiceProvider = Provider<GoalCompletionService>((ref) {
     ref.watch(milestoneRepositoryProvider),
     ref.watch(taskRepositoryProvider),
   );
+});
+
+/// MilestoneCompletionService Provider
+final milestoneCompletionServiceProvider = Provider<MilestoneCompletionService>(
+  (ref) {
+    return MilestoneCompletionService(ref.watch(taskRepositoryProvider));
+  },
+);
+
+/// TaskCompletionService Provider
+final taskCompletionServiceProvider = Provider<TaskCompletionService>((ref) {
+  return TaskCompletionService(ref.watch(taskRepositoryProvider));
 });
 
 // ==================== Goal UseCase Providers ====================
@@ -86,7 +100,10 @@ final getMilestonesByGoalIdUseCaseProvider =
 
 /// UpdateMilestoneUseCase Provider
 final updateMilestoneUseCaseProvider = Provider<UpdateMilestoneUseCase>((ref) {
-  return UpdateMilestoneUseCaseImpl(ref.watch(milestoneRepositoryProvider));
+  return UpdateMilestoneUseCaseImpl(
+    ref.watch(milestoneRepositoryProvider),
+    ref.watch(milestoneCompletionServiceProvider),
+  );
 });
 
 /// DeleteMilestoneUseCase Provider
@@ -114,7 +131,10 @@ final getTasksByMilestoneIdUseCaseProvider =
 
 /// UpdateTaskUseCase Provider
 final updateTaskUseCaseProvider = Provider<UpdateTaskUseCase>((ref) {
-  return UpdateTaskUseCaseImpl(ref.watch(taskRepositoryProvider));
+  return UpdateTaskUseCaseImpl(
+    ref.watch(taskRepositoryProvider),
+    ref.watch(taskCompletionServiceProvider),
+  );
 });
 
 /// DeleteTaskUseCase Provider

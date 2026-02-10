@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/services/task_completion_service.dart';
 import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_description.dart';
 import 'package:app/domain/value_objects/task/task_title.dart';
@@ -17,8 +18,9 @@ abstract class UpdateTaskUseCase {
 /// UpdateTaskUseCaseImpl - UpdateTaskUseCase の実装
 class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
   final TaskRepository _taskRepository;
+  final TaskCompletionService _taskCompletionService;
 
-  UpdateTaskUseCaseImpl(this._taskRepository);
+  UpdateTaskUseCaseImpl(this._taskRepository, this._taskCompletionService);
 
   @override
   Future<Task> call({
@@ -31,6 +33,11 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
       throw ArgumentError('対象のタスクが見つかりません');
+    }
+
+    // Check if task is completed (Done) - if so, cannot be edited
+    if (await _taskCompletionService.isTaskCompleted(taskId)) {
+      throw ArgumentError('完了したタスクは更新できません');
     }
 
     // Validate

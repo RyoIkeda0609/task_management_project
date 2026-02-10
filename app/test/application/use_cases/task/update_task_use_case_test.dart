@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/task/update_task_use_case.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/services/task_completion_service.dart';
 import 'package:app/domain/value_objects/task/task_id.dart';
 import 'package:app/domain/value_objects/task/task_title.dart';
 import 'package:app/domain/value_objects/task/task_description.dart';
@@ -45,14 +46,24 @@ class MockTaskRepository implements TaskRepository {
   Future<int> getTaskCount() async => _tasks.length;
 }
 
+class MockTaskCompletionService implements TaskCompletionService {
+  @override
+  Future<bool> isTaskCompleted(String taskId) async {
+    // For testing: by default, no task is marked as completed
+    return false;
+  }
+}
+
 void main() {
   group('UpdateTaskUseCase', () {
     late UpdateTaskUseCase useCase;
     late MockTaskRepository mockRepository;
+    late MockTaskCompletionService mockCompletionService;
 
     setUp(() {
       mockRepository = MockTaskRepository();
-      useCase = UpdateTaskUseCaseImpl(mockRepository);
+      mockCompletionService = MockTaskCompletionService();
+      useCase = UpdateTaskUseCaseImpl(mockRepository, mockCompletionService);
     });
 
     group('タスク更新', () {
