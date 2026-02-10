@@ -265,7 +265,8 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
             // 中央：タスク情報（タップで詳細へ遷移）
             Expanded(
               child: GestureDetector(
-                onTap: () => AppRouter.navigateToTaskDetail(context, task.id.value),
+                onTap: () =>
+                    AppRouter.navigateToTaskDetail(context, task.id.value),
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: Spacing.medium),
                   child: Column(
