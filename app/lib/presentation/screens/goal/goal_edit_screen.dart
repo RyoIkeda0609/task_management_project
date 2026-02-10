@@ -9,12 +9,8 @@ import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../utils/validation_helper.dart';
 import '../../../domain/entities/goal.dart';
-import '../../../domain/value_objects/goal/goal_id.dart';
-import '../../../domain/value_objects/goal/goal_title.dart';
-import '../../../domain/value_objects/goal/goal_category.dart';
-import '../../../domain/value_objects/goal/goal_reason.dart';
-import '../../../domain/value_objects/goal/goal_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 
 /// ゴール編集画面
 ///
@@ -239,19 +235,16 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
     }
 
     try {
-      final goalRepository = ref.read(goalRepositoryProvider);
+      final updateGoalUseCase = ref.read(updateGoalUseCaseProvider);
 
-      // 更新されたゴールエンティティを作成
-      final updatedGoal = Goal(
-        id: GoalId(widget.goalId),
-        title: GoalTitle(_title),
-        reason: GoalReason(_reason),
-        category: GoalCategory(_category),
-        deadline: GoalDeadline(_deadline),
+      // UseCase 経由で更新
+      await updateGoalUseCase(
+        goalId: widget.goalId,
+        title: _title,
+        reason: _reason,
+        category: _category,
+        deadline: _deadline,
       );
-
-      // ゴールを保存
-      await goalRepository.saveGoal(updatedGoal);
 
       // プロバイダーキャッシュを無効化
       if (mounted) {

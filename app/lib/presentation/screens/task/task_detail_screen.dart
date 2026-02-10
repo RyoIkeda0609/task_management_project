@@ -6,8 +6,8 @@ import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../../domain/entities/task.dart';
-import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// タスク詳細画面
@@ -171,7 +171,7 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
 
   Widget _buildStatusDisplay(Task task) {
     return InkWell(
-      onTap: () => _cycleTaskStatus(task),
+      onTap: () => _changeTaskStatus(task),
       borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: EdgeInsets.all(Spacing.medium),
@@ -246,39 +246,22 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
     );
   }
 
-  /// ステータスを循環変更（todo → doing → done → todo）
-  void _cycleTaskStatus(Task task) {
-    final newStatus = task.status.toString().contains('todo')
-        ? TaskStatus.doing()
-        : task.status.toString().contains('doing')
-        ? TaskStatus.done()
-        : TaskStatus.todo();
-
-    _updateStatus(newStatus, task);
-  }
-
-  /// ステータスを更新
-  Future<void> _updateStatus(TaskStatus newStatus, Task task) async {
+  /// ステータスを循環変更（UseCase経由）
+  Future<void> _changeTaskStatus(Task task) async {
     try {
-      final taskRepository = ref.read(taskRepositoryProvider);
+      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
+      final updatedTask = await changeTaskStatusUseCase(task.id.value);
 
-      final updatedTask = Task(
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        deadline: task.deadline,
-        status: newStatus,
-        milestoneId: task.milestoneId,
-      );
-
-      await taskRepository.saveTask(updatedTask);
+      // State を再取得
       ref.invalidate(taskDetailProvider(widget.taskId));
       ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('ステータスを「${_getStatusLabel(newStatus)}」に更新しました。'),
+            content: Text(
+              'ステータスを「${_getStatusLabel(updatedTask.status)}」に更新しました。',
+            ),
             duration: const Duration(seconds: 2),
           ),
         );
@@ -373,8 +356,8 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
             onPressed: () async {
               Navigator.of(dialogContext).pop(); // ダイアログを閉じる
               try {
-                final taskRepository = ref.read(taskRepositoryProvider);
-                await taskRepository.deleteTask(task.id.value);
+                final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
+                await deleteTaskUseCase(task.id.value);
 
                 // タスク一覧をリフレッシュ
                 ref.invalidate(tasksByMilestoneProvider(task.milestoneId));

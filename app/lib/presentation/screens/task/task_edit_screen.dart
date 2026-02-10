@@ -10,10 +10,8 @@ import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../utils/validation_helper.dart';
 import '../../../domain/entities/task.dart';
-import '../../../domain/value_objects/task/task_title.dart';
-import '../../../domain/value_objects/task/task_description.dart';
-import '../../../domain/value_objects/task/task_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 
 /// タスク編集画面
 ///
@@ -279,21 +277,14 @@ class _TaskEditScreenState extends ConsumerState<TaskEditScreen> {
     setState(() => _isLoading = true);
 
     try {
-      // 更新したTask を作成
-      final updatedTask = Task(
-        id: task.id,
-        title: TaskTitle(_title),
-        description: TaskDescription(
-          _description.isNotEmpty ? _description : '',
-        ),
-        deadline: TaskDeadline(_selectedDeadline!),
-        status: task.status,
-        milestoneId: task.milestoneId,
-      );
+      final updateTaskUseCase = ref.read(updateTaskUseCaseProvider);
 
-      // リポジトリに保存
-      final taskRepository = ref.read(taskRepositoryProvider);
-      await taskRepository.saveTask(updatedTask);
+      await updateTaskUseCase(
+        taskId: widget.taskId,
+        title: _title,
+        description: _description.isNotEmpty ? _description : '',
+        deadline: _selectedDeadline!,
+      );
 
       // キャッシュを無効化
       ref.invalidate(taskDetailProvider(widget.taskId));

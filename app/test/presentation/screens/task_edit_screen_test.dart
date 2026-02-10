@@ -32,9 +32,6 @@ class FakeTaskRepository implements TaskRepository {
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async => [];
 
   @override
-  Future<List<Task>> getTasksForToday() async => [];
-
-  @override
   Future<void> deleteTask(String taskId) async {}
 
   @override

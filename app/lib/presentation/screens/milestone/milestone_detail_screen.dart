@@ -9,6 +9,7 @@ import '../../widgets/common/status_badge.dart';
 import '../../../domain/entities/milestone.dart';
 import '../../../domain/entities/task.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// マイルストーン詳細画面
@@ -286,8 +287,8 @@ class MilestoneDetailScreen extends ConsumerWidget {
       itemBuilder: (context) => [
         PopupMenuItem(
           child: const Text('ステータス変更'),
-          onTap: () {
-            // TODO: ステータス変更機能
+          onTap: () async {
+            await _changeTaskStatus(ref, task);
           },
         ),
         PopupMenuItem(
@@ -298,6 +299,21 @@ class MilestoneDetailScreen extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  /// ステータスを循環変更（UseCase経由）
+  Future<void> _changeTaskStatus(WidgetRef ref, Task task) async {
+    try {
+      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
+      await changeTaskStatusUseCase(task.id.value);
+
+      // State を再取得
+      ref.invalidate(milestoneDetailProvider(task.milestoneId));
+      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+    } catch (e) {
+      // エラー処理（UIスナックバーはさらに上層で）
+      rethrow;
+    }
   }
 
   Widget _buildTaskStatusIcon(dynamic status) {
@@ -359,8 +375,8 @@ class MilestoneDetailScreen extends ConsumerWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop(); // ダイアログを閉じる
               try {
-                final taskRepository = ref.read(taskRepositoryProvider);
-                await taskRepository.deleteTask(task.id.value);
+                final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
+                await deleteTaskUseCase(task.id.value);
 
                 // タスク一覧をリフレッシュ
                 ref.invalidate(tasksByMilestoneProvider(milestoneId));
@@ -419,10 +435,10 @@ class MilestoneDetailScreen extends ConsumerWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop(); // ダイアログを閉じる
               try {
-                final milestoneRepository = ref.read(
-                  milestoneRepositoryProvider,
+                final deleteMilestoneUseCase = ref.read(
+                  deleteMilestoneUseCaseProvider,
                 );
-                await milestoneRepository.deleteMilestone(milestoneId);
+                await deleteMilestoneUseCase(milestoneId);
 
                 // マイルストーン一覧をリフレッシュ
                 // ゴール詳細画面が watch している provider を無効化

@@ -7,13 +7,8 @@ import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../utils/validation_helper.dart';
-import '../../../domain/entities/goal.dart';
-import '../../../domain/value_objects/goal/goal_id.dart';
-import '../../../domain/value_objects/goal/goal_title.dart';
-import '../../../domain/value_objects/goal/goal_category.dart';
-import '../../../domain/value_objects/goal/goal_reason.dart';
-import '../../../domain/value_objects/goal/goal_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// ゴール作成画面
@@ -95,19 +90,14 @@ class _GoalCreateScreenState extends ConsumerState<GoalCreateScreen> {
 
     try {
       // ゴール作成ユースケースを実行
-      final goalRepository = ref.read(goalRepositoryProvider);
+      final createGoalUseCase = ref.read(createGoalUseCaseProvider);
 
-      // Goal エンティティを作成
-      final newGoal = Goal(
-        id: GoalId.generate(),
-        title: GoalTitle(_titleController.text),
-        category: GoalCategory(_selectedCategory),
-        reason: GoalReason(_reasonController.text),
-        deadline: GoalDeadline(_selectedDeadline),
+      await createGoalUseCase(
+        title: _titleController.text,
+        category: _selectedCategory,
+        reason: _reasonController.text,
+        deadline: _selectedDeadline,
       );
-
-      // リポジトリに保存
-      await goalRepository.saveGoal(newGoal);
 
       // goalsNotifier に新しいゴールを読み込ませる
       final goalsNotifier = ref.read(goalsProvider.notifier);

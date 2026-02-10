@@ -8,13 +8,8 @@ import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../utils/validation_helper.dart';
-import '../../../domain/entities/task.dart';
-import '../../../domain/value_objects/task/task_id.dart';
-import '../../../domain/value_objects/task/task_title.dart';
-import '../../../domain/value_objects/task/task_description.dart';
-import '../../../domain/value_objects/task/task_deadline.dart';
-import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 
 /// タスク作成画面
 ///
@@ -35,7 +30,6 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
   String _title = '';
   String _description = '';
   DateTime? _selectedDeadline;
-  final bool _isLoading = false;
 
   @override
   void initState() {
@@ -210,7 +204,7 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
               // ボタン
               CustomButton(
                 text: 'タスクを作成',
-                onPressed: _isLoading ? null : _submitForm,
+                onPressed: _submitForm,
                 width: double.infinity,
                 type: ButtonType.primary,
               ),
@@ -264,21 +258,14 @@ class _TaskCreateScreenState extends ConsumerState<TaskCreateScreen> {
 
   Future<void> _createTask() async {
     try {
-      // Task エンティティを作成
-      final newTask = Task(
-        id: TaskId.generate(),
-        title: TaskTitle(_title),
-        description: TaskDescription(
-          _description.isNotEmpty ? _description : '',
-        ),
-        deadline: TaskDeadline(_selectedDeadline!),
-        status: TaskStatus.todo(),
+      final createTaskUseCase = ref.read(createTaskUseCaseProvider);
+
+      await createTaskUseCase(
+        title: _title,
+        description: _description.isNotEmpty ? _description : '',
+        deadline: _selectedDeadline!,
         milestoneId: _milestoneId,
       );
-
-      // リポジトリに保存（ref は ConsumerState で利用可能）
-      final taskRepository = ref.read(taskRepositoryProvider);
-      await taskRepository.saveTask(newTask);
 
       // tasksByMilestoneProvider のキャッシュを無効化
       ref.invalidate(tasksByMilestoneProvider(_milestoneId));

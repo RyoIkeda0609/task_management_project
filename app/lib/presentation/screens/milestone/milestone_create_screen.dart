@@ -8,11 +8,8 @@ import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../utils/validation_helper.dart';
-import '../../../domain/entities/milestone.dart';
-import '../../../domain/value_objects/milestone/milestone_id.dart';
-import '../../../domain/value_objects/milestone/milestone_title.dart';
-import '../../../domain/value_objects/milestone/milestone_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 
 /// マイルストーン作成画面
 ///
@@ -247,17 +244,13 @@ class _MilestoneCreateScreenState extends ConsumerState<MilestoneCreateScreen> {
 
   Future<void> _createMilestone() async {
     try {
-      // Milestone エンティティを作成
-      final newMilestone = Milestone(
-        id: MilestoneId.generate(),
-        title: MilestoneTitle(_title),
-        deadline: MilestoneDeadline(_selectedTargetDate!),
+      final createMilestoneUseCase = ref.read(createMilestoneUseCaseProvider);
+
+      await createMilestoneUseCase(
+        title: _title,
+        deadline: _selectedTargetDate!,
         goalId: widget.goalId,
       );
-
-      // リポジトリに保存（ref は ConsumerState で利用可能）
-      final milestoneRepository = ref.read(milestoneRepositoryProvider);
-      await milestoneRepository.saveMilestone(newMilestone);
 
       // milestonsByGoalProvider のキャッシュを無効化
       ref.invalidate(milestonsByGoalProvider(widget.goalId));

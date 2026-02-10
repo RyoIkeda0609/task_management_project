@@ -9,8 +9,8 @@ import '../../widgets/common/status_badge.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../utils/validation_helper.dart';
 import '../../../domain/entities/task.dart';
-import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// 今日のタスク画面
@@ -329,30 +329,8 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
 
   Future<void> _toggleTaskStatus(Task task) async {
     try {
-      final taskRepository = ref.read(taskRepositoryProvider);
-
-      // ステータスをサイクル：todo → doing → done → todo
-      final TaskStatus newTaskStatus;
-      if (_isStatus(task.status, 'done')) {
-        newTaskStatus = TaskStatus.todo();
-      } else if (_isStatus(task.status, 'doing')) {
-        newTaskStatus = TaskStatus.done();
-      } else {
-        // todo の場合
-        newTaskStatus = TaskStatus.doing();
-      }
-
-      final updatedTask = Task(
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        deadline: task.deadline,
-        status: newTaskStatus,
-        milestoneId: task.milestoneId,
-      );
-
-      // タスクを保存
-      await taskRepository.saveTask(updatedTask);
+      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
+      await changeTaskStatusUseCase(task.id.value);
 
       // プロバイダーキャッシュを無効化
       if (mounted) {

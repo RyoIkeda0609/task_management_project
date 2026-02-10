@@ -3,8 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/screens/task/task_create_screen.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:app/domain/entities/task.dart';
+import 'package:app/domain/entities/milestone.dart';
+import 'package:app/domain/value_objects/milestone/milestone_id.dart';
+import 'package:app/domain/value_objects/milestone/milestone_title.dart';
+import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 
 class FakeTaskRepository implements TaskRepository {
   @override
@@ -27,6 +32,42 @@ class FakeTaskRepository implements TaskRepository {
 
   @override
   Future<int> getTaskCount() async => 0;
+}
+
+class FakeMilestoneRepository implements MilestoneRepository {
+  @override
+  Future<void> saveMilestone(Milestone milestone) async {}
+
+  @override
+  Future<List<Milestone>> getAllMilestones() async => [];
+
+  @override
+  Future<Milestone?> getMilestoneById(String id) async {
+    if (id == 'milestone-123') {
+      return Milestone(
+        id: MilestoneId('milestone-123'),
+        goalId: 'goal-123',
+        title: MilestoneTitle('Test Milestone'),
+        deadline: MilestoneDeadline(DateTime.now().add(Duration(days: 7))),
+      );
+    }
+    return null;
+  }
+
+  @override
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async => [];
+
+  @override
+  Future<void> deleteMilestone(String id) async {}
+
+  @override
+  Future<void> deleteAllByGoalId(String goalId) async {}
+
+  @override
+  Future<void> deleteMilestonesByGoalId(String goalId) async {}
+
+  @override
+  Future<int> getMilestoneCount() async => 0;
 }
 
 void main() {
@@ -75,6 +116,9 @@ void main() {
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+            milestoneRepositoryProvider.overrideWithValue(
+              FakeMilestoneRepository(),
+            ),
           ],
           child: MaterialApp(
             home: TaskCreateScreen(arguments: {'milestoneId': 'milestone-123'}),

@@ -9,6 +9,7 @@ import '../../widgets/views/pyramid_view.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/entities/milestone.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 import '../../navigation/app_router.dart';
 
 /// ゴール詳細画面
@@ -201,8 +202,8 @@ class GoalDetailScreen extends ConsumerWidget {
             onPressed: () async {
               Navigator.of(context).pop();
               try {
-                final goalRepository = ref.read(goalRepositoryProvider);
-                await goalRepository.deleteGoal(goal.id.value);
+                final deleteGoalUseCase = ref.read(deleteGoalUseCaseProvider);
+                await deleteGoalUseCase(goal.id.value);
 
                 // ゴール一覧をリフレッシュ
                 ref.invalidate(goalsProvider);

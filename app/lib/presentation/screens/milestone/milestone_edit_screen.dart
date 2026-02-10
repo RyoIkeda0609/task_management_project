@@ -9,10 +9,8 @@ import '../../widgets/common/custom_button.dart';
 import '../../widgets/common/custom_text_field.dart';
 import '../../utils/validation_helper.dart';
 import '../../../domain/entities/milestone.dart';
-import '../../../domain/value_objects/milestone/milestone_id.dart';
-import '../../../domain/value_objects/milestone/milestone_title.dart';
-import '../../../domain/value_objects/milestone/milestone_deadline.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 
 /// マイルストーン編集画面
 ///
@@ -186,7 +184,7 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
     }
 
     try {
-      final milestoneRepository = ref.read(milestoneRepositoryProvider);
+      final updateMilestoneUseCase = ref.read(updateMilestoneUseCaseProvider);
 
       // 現在のマイルストーンデータを取得して goalId を保持
       final currentMilestone = await ref.read(
@@ -197,16 +195,12 @@ class _MilestoneEditScreenState extends ConsumerState<MilestoneEditScreen> {
         throw Exception('マイルストーンが見つかりません');
       }
 
-      // 更新されたマイルストーンエンティティを作成
-      final updatedMilestone = Milestone(
-        id: MilestoneId(widget.milestoneId),
-        title: MilestoneTitle(_title),
-        deadline: MilestoneDeadline(_targetDate),
-        goalId: currentMilestone.goalId,
+      // UseCase 経由で更新
+      await updateMilestoneUseCase(
+        milestoneId: widget.milestoneId,
+        title: _title,
+        deadline: _targetDate,
       );
-
-      // マイルストーンを保存
-      await milestoneRepository.saveMilestone(updatedMilestone);
 
       // プロバイダーキャッシュを無効化
       if (mounted) {

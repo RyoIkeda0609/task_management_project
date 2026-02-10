@@ -20,12 +20,11 @@ void main() {
         expect(description.value, longDescription);
       });
 
-      test('空文字列でコンストラクタを呼び出してもエラーが発生しないこと（任意フィールド）', () {
-        final description = TaskDescription('');
-        expect(description.value, '');
+      test('空文字列でコンストラクタを呼び出すと例外が発生すること', () {
+        expect(() => TaskDescription(''), throwsArgumentError);
       });
 
-      test('nullでコンストラクタを呼び出してもエラーが発生しないこと（任意フィールド）', () {
+      test('nullでコンストラクタを呼び出すと空文字列に変換されること', () {
         final description = TaskDescription(null);
         expect(description.value, '');
       });
@@ -44,7 +43,7 @@ void main() {
 
     group('isNotEmpty メソッド', () {
       test('値がない場合は false を返すこと', () {
-        final description = TaskDescription('');
+        final description = TaskDescription(null);
         expect(description.isNotEmpty, false);
       });
 
@@ -54,7 +53,7 @@ void main() {
       });
 
       test('空白のみの値は false を返すこと', () {
-        final description = TaskDescription();
+        final description = TaskDescription(null);
         expect(description.isNotEmpty, false);
       });
     });
