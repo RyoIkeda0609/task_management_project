@@ -16,7 +16,7 @@ class DeleteGoalUseCaseImpl implements DeleteGoalUseCase {
   @override
   Future<void> call(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが無効です');
+      throw ArgumentError('ゴールIDが正しくありません');
     }
 
     // Load

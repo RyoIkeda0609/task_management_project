@@ -15,7 +15,7 @@ class ChangeTaskStatusUseCaseImpl implements ChangeTaskStatusUseCase {
   @override
   Future<Task> call(String taskId) async {
     if (taskId.isEmpty) {
-      throw ArgumentError('タスクIDが無効です');
+      throw ArgumentError('タスクIDが正しくありません');
     }
 
     // Load

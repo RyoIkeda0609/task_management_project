@@ -18,7 +18,7 @@ class SearchGoalsUseCaseImpl implements SearchGoalsUseCase {
   @override
   Future<List<Goal>> call(String keyword) async {
     if (keyword.isEmpty) {
-      throw ArgumentError('検索キーワードが空です');
+      throw ArgumentError('検索キーワードを入力してください');
     }
 
     // すべてのゴールを取得

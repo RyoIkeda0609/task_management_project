@@ -17,7 +17,7 @@ class GetMilestonesByGoalIdUseCaseImpl implements GetMilestonesByGoalIdUseCase {
   @override
   Future<List<Milestone>> call(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが無効です');
+      throw ArgumentError('ゴールIDが正しくありません');
     }
     return await _milestoneRepository.getMilestonesByGoalId(goalId);
   }

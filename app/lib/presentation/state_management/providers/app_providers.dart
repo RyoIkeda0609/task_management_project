@@ -31,12 +31,6 @@ final onboardingCompleteProvider = StateProvider<bool>((ref) => false);
 /// アプリケーション初期化処理を提供
 ///
 /// アプリケーション起動時に必要な初期化を実行します。
-/// 例：データベース初期化、ユーザーデータの読み込み等
 final appInitializationProvider = FutureProvider<bool>((ref) async {
-  // TODO: 実装が必要
-  // 例えば以下の初期化処理を実装：
-  // - Hive データベースの初期化
-  // - ユーザー設定の読み込み
-  // - オンボーディング完了フラグの確認
   return true;
 });

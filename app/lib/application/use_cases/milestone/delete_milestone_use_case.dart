@@ -16,7 +16,7 @@ class DeleteMilestoneUseCaseImpl implements DeleteMilestoneUseCase {
   @override
   Future<void> call(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('マイルストーンIDが無効です');
+      throw ArgumentError('マイルストーンIDが正しくありません');
     }
 
     // Load

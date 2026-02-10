@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
+
+import '../../../application/providers/use_case_providers.dart';
+import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
+import '../../../domain/entities/task.dart';
+import '../../navigation/app_router.dart';
+import '../../state_management/providers/app_providers.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
-import '../../widgets/common/app_bar_common.dart';
-import '../../widgets/common/status_badge.dart';
-import '../../widgets/common/empty_state.dart';
 import '../../utils/validation_helper.dart';
-import '../../../domain/entities/task.dart';
-import '../../state_management/providers/app_providers.dart';
-import '../../../application/providers/use_case_providers.dart';
-import '../../navigation/app_router.dart';
+import '../../widgets/common/app_bar_common.dart';
+import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/status_badge.dart';
 
 /// 今日のタスク画面
 ///
@@ -274,7 +275,8 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
                     children: [
                       Text(
                         task.title.value,
-                        style: _isStatus(task.status, 'done')
+                        style:
+                            _doesTaskStatusMatchTargetState(task.status, 'done')
                             ? AppTextStyles.bodyMedium.copyWith(
                                 decoration: TextDecoration.lineThrough,
                                 color: AppColors.neutral500,
@@ -297,7 +299,7 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
                 child: Container(
                   padding: EdgeInsets.all(Spacing.medium),
                   child: StatusBadge(
-                    status: _mapTaskStatus(task.status),
+                    status: _normalizeTaskStatusToKnownState(task.status),
                     size: BadgeSize.small,
                   ),
                 ),
@@ -313,10 +315,10 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
     Color color;
     IconData icon;
 
-    if (_isStatus(status, 'done')) {
+    if (_doesTaskStatusMatchTargetState(status, 'done')) {
       color = AppColors.success;
       icon = Icons.check_circle;
-    } else if (_isStatus(status, 'doing')) {
+    } else if (_doesTaskStatusMatchTargetState(status, 'doing')) {
       color = AppColors.warning;
       icon = Icons.radio_button_checked;
     } else {
@@ -358,16 +360,16 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
     }
   }
 
-  String _mapTaskStatus(dynamic status) {
+  String _normalizeTaskStatusToKnownState(dynamic status) {
     final statusStr = status?.toString() ?? 'unknown';
     if (statusStr.contains('done')) return 'done';
     if (statusStr.contains('doing')) return 'doing';
     return 'todo';
   }
 
-  bool _isStatus(dynamic status, String target) {
+  bool _doesTaskStatusMatchTargetState(dynamic status, String targetState) {
     final statusStr = status?.toString() ?? 'unknown';
-    return statusStr.contains(target);
+    return statusStr.contains(targetState);
   }
 
   Widget _buildErrorWidget(Object error) {

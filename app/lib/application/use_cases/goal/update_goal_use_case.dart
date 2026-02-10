@@ -38,7 +38,6 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
       throw ArgumentError('対象のゴールが見つかりません');
     }
 
-    // Check
     if (await _goalCompletionService.isGoalCompleted(goalId)) {
       throw ArgumentError('完了したゴールは更新できません');
     }

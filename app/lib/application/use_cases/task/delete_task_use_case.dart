@@ -14,7 +14,7 @@ class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
   @override
   Future<void> call(String taskId) async {
     if (taskId.isEmpty) {
-      throw ArgumentError('タスクIDが無効です');
+      throw ArgumentError('タスクIDが正しくありません');
     }
 
     // Load

@@ -30,7 +30,7 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
     final milestoneDeadline = MilestoneDeadline(deadline);
 
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが無効です');
+      throw ArgumentError('ゴールIDが正しくありません');
     }
 
     // Execute

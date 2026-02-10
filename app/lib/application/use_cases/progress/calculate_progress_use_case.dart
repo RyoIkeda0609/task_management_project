@@ -27,7 +27,7 @@ class CalculateProgressUseCaseImpl implements CalculateProgressUseCase {
   @override
   Future<Progress> calculateGoalProgress(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが無効です');
+      throw ArgumentError('ゴールIDが正しくありません');
     }
 
     // Load
@@ -55,7 +55,7 @@ class CalculateProgressUseCaseImpl implements CalculateProgressUseCase {
   @override
   Future<Progress> calculateMilestoneProgress(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('マイルストーンIDが無効です');
+      throw ArgumentError('マイルストーンIDが正しくありません');
     }
 
     // Load

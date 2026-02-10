@@ -41,7 +41,7 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     final taskDeadline = TaskDeadline(deadline);
 
     if (milestoneId.isEmpty) {
-      throw ArgumentError('マイルストーンが無効です');
+      throw ArgumentError('マイルストーンが正しくありません');
     }
 
     // Execute
