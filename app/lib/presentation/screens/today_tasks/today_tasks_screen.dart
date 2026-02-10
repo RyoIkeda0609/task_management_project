@@ -242,25 +242,32 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         horizontal: Spacing.medium,
         vertical: Spacing.xSmall,
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => _toggleTaskStatus(task),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.neutral200),
           borderRadius: BorderRadius.circular(8),
-          child: Container(
-            padding: EdgeInsets.all(Spacing.medium),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.neutral200),
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+          color: Colors.white,
+        ),
+        child: Row(
+          children: [
+            // 左側：ステータスインジケーター部分（タップで更新）
+            Expanded(
+              flex: 0,
+              child: GestureDetector(
+                onTap: () => _toggleTaskStatus(task),
+                child: Container(
+                  padding: EdgeInsets.all(Spacing.medium),
+                  child: _buildStatusIndicator(task.status),
+                ),
+              ),
             ),
-            child: Row(
-              children: [
-                // ステータスインジケーター（左側）
-                _buildStatusIndicator(task.status),
-                SizedBox(width: Spacing.small),
-                // タスク情報
-                Expanded(
+            SizedBox(width: Spacing.small),
+            // 中央：タスク情報（タップで詳細へ遷移）
+            Expanded(
+              child: GestureDetector(
+                onTap: () => AppRouter.navigateToTaskDetail(context, task.id.value),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: Spacing.medium),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -278,15 +285,24 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
                     ],
                   ),
                 ),
-                SizedBox(width: Spacing.small),
-                // ステータスバッジ
-                StatusBadge(
-                  status: _mapTaskStatus(task.status),
-                  size: BadgeSize.small,
-                ),
-              ],
+              ),
             ),
-          ),
+            SizedBox(width: Spacing.small),
+            // 右側：ステータスバッジ（タップで更新）
+            Expanded(
+              flex: 0,
+              child: GestureDetector(
+                onTap: () => _toggleTaskStatus(task),
+                child: Container(
+                  padding: EdgeInsets.all(Spacing.medium),
+                  child: StatusBadge(
+                    status: _mapTaskStatus(task.status),
+                    size: BadgeSize.small,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

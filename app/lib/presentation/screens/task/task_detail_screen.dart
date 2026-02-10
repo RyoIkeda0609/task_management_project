@@ -8,6 +8,7 @@ import '../../widgets/common/app_bar_common.dart';
 import '../../../domain/entities/task.dart';
 import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../navigation/app_router.dart';
 
 /// タスク詳細画面
 ///
@@ -46,9 +47,31 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text('タスク編集機能は準備中です')));
+              taskAsync.whenData((task) {
+                if (task != null) {
+                  if (widget.source == 'milestone') {
+                    // マイルストーン情報を取得してgoalIdを取得
+                    ref
+                        .watch(milestoneDetailProvider(task.milestoneId))
+                        .whenData((milestone) {
+                          if (milestone != null) {
+                            AppRouter.navigateToTaskEditFromMilestone(
+                              context,
+                              milestone.goalId,
+                              task.milestoneId,
+                              widget.taskId,
+                            );
+                          }
+                        });
+                  } else {
+                    // today_tasks
+                    AppRouter.navigateToTaskEditFromTodayTasks(
+                      context,
+                      widget.taskId,
+                    );
+                  }
+                }
+              });
             },
           ),
           // 削除ボタン

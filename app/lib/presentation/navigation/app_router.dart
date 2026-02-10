@@ -14,6 +14,7 @@ import '../screens/milestone/milestone_detail_screen.dart';
 import '../screens/milestone/milestone_edit_screen.dart';
 import '../screens/task/task_detail_screen.dart';
 import '../screens/task/task_create_screen.dart';
+import '../screens/task/task_edit_screen.dart';
 
 /// go_router を使用したアプリケーションのルーティング管理
 ///
@@ -179,6 +180,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                                 source: 'milestone',
                               );
                             },
+                            routes: [
+                              /// タスク編集画面
+                              GoRoute(
+                                path: 'edit',
+                                builder: (context, state) {
+                                  final taskId =
+                                      state.pathParameters['taskId'] ?? '';
+                                  return TaskEditScreen(taskId: taskId);
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -206,6 +218,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         source: 'today_tasks',
                       );
                     },
+                    routes: [
+                      /// タスク編集画面
+                      GoRoute(
+                        path: 'edit',
+                        builder: (context, state) {
+                          final taskId = state.pathParameters['taskId'] ?? '';
+                          return TaskEditScreen(taskId: taskId);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -363,6 +385,24 @@ class AppRouter {
     String taskId,
   ) {
     context.go('/home/goal/$goalId/milestone/$milestoneId/task/$taskId');
+  }
+
+  /// タスク編集画面へナビゲート（マイルストーン経由）
+  static void navigateToTaskEditFromMilestone(
+    BuildContext context,
+    String goalId,
+    String milestoneId,
+    String taskId,
+  ) {
+    context.go('/home/goal/$goalId/milestone/$milestoneId/task/$taskId/edit');
+  }
+
+  /// タスク編集画面へナビゲート（今日のタスク経由）
+  static void navigateToTaskEditFromTodayTasks(
+    BuildContext context,
+    String taskId,
+  ) {
+    context.go('/today_tasks/task/$taskId/edit');
   }
 
   /// スプラッシュ画面からのナビゲート
