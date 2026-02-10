@@ -165,19 +165,18 @@ void main() {
         );
       });
 
-      test('空白のみの説明でエラーが発生すること', () async {
+      test('空白のみの説明でも正常に作成できること', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
         const milestoneId = 'milestone-123';
 
-        expect(
-          () => useCase.call(
-            title: 'タイトル',
-            description: '   ',
-            deadline: tomorrow,
-            milestoneId: milestoneId,
-          ),
-          throwsArgumentError,
+        final task = await useCase.call(
+          title: 'タイトル',
+          description: '   ',
+          deadline: tomorrow,
+          milestoneId: milestoneId,
         );
+
+        expect(task.description.value, '   ');
       });
 
       test('空の milestoneId でエラーが発生すること', () async {

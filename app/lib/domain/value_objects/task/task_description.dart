@@ -1,33 +1,11 @@
 /// TaskDescription - タスクの説明を表現する ValueObject
 ///
-/// バリデーション：
-/// - 空文字列は不可
-/// - nullの場合は空文字列に変換（任意フィールド）
-/// - 値がある場合は1～500文字、空白のみ不可
+/// 任意フィールド。空文字列も許容。
+/// Validation は UseCase 側で行う。
 class TaskDescription {
-  static const int maxLength = 500;
-  late String value;
+  final String value;
 
-  TaskDescription([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-      _validate();
-    }
-  }
-
-  void _validate() {
-    if (value.isEmpty) {
-      throw ArgumentError('TaskDescription cannot be empty');
-    }
-    final trimmed = value.trim();
-    if (trimmed.isEmpty || trimmed.length > maxLength) {
-      throw ArgumentError(
-        'TaskDescription must be between 1 and $maxLength characters (trimmed), got: "${value.length}"',
-      );
-    }
-  }
+  TaskDescription(this.value);
 
   /// 説明が入力されているかチェック
   bool get isNotEmpty => value.trim().isNotEmpty;

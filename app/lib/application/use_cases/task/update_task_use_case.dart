@@ -35,7 +35,13 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
 
     // Validate
     final taskTitle = TaskTitle(title);
+
+    // Description: 任意フィールド、空文字許容、ただし500文字制限
+    if (description.trim().isNotEmpty && description.length > 500) {
+      throw ArgumentError('Task description must be 500 characters or less');
+    }
     final taskDescription = TaskDescription(description);
+
     final taskDeadline = TaskDeadline(deadline);
 
     // Execute

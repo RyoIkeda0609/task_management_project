@@ -118,7 +118,7 @@ void main() {
 
     group('タスク作成の制約', () {
       test('タスクのタイトルが空でないこと', () {
-        // Act & Assert
+        // Act & Assert -値Object レベルでは空文字を許可しない
         expect(() => TaskTitle(''), throwsA(isA<ArgumentError>()));
       });
 
@@ -130,28 +130,28 @@ void main() {
         expect(() => TaskTitle(longTitle), throwsA(isA<ArgumentError>()));
       });
 
-      test('タスクの説明が空でないこと', () {
-        // Act & Assert
-        expect(() => TaskDescription(''), throwsA(isA<ArgumentError>()));
-      });
-
-      test('タスクの説明が500文字以下であること', () {
-        // Arrange
-        final longDescription = 'a' * 501;
-
-        // Act & Assert
-        expect(
-          () => TaskDescription(longDescription),
-          throwsA(isA<ArgumentError>()),
-        );
+      test('タスクの説明は任意フィールド（空文字許容）', () {
+        // ValueObject は任意を許容
+        final description = TaskDescription('');
+        expect(description.value, '');
       });
 
       test('タスクの説明が500文字なら有効', () {
         // Arrange
         final description500chars = 'a' * 500;
 
-        // Act & Assert
-        expect(() => TaskDescription(description500chars), returnsNormally);
+        // Act & Assert - ValueObject は长い値も許容
+        final description = TaskDescription(description500chars);
+        expect(description.value.length, 500);
+      });
+
+      test('タスクの説明が501文字でもValueObjectは許容', () {
+        // Arrange
+        final longDescription = 'a' * 501;
+
+        // Act & Assert - ValueObject は制限なし（制約は UseCase で実施）
+        final description = TaskDescription(longDescription);
+        expect(description.value.length, 501);
       });
 
       test('タスクのデッドラインは過去の日付も許容する（システム日付が進むため）', () {
@@ -204,12 +204,13 @@ void main() {
       });
 
       test('最大長制約の境界値テスト: Task 説明', () {
+        // TaskDescription は ValueObject レベルでは制限なし（UseCase で制約）
         // 499文字: 有効
         expect(() => TaskDescription('a' * 499), returnsNormally);
         // 500文字: 有効
         expect(() => TaskDescription('a' * 500), returnsNormally);
-        // 501文字: 無効
-        expect(() => TaskDescription('a' * 501), throwsA(isA<ArgumentError>()));
+        // 501文字: ValueObject は許容（制約は UseCase で実施）
+        expect(() => TaskDescription('a' * 501), returnsNormally);
       });
 
       test('複数制約の同時検証: Goal', () {

@@ -61,9 +61,6 @@ class FakeMilestoneRepository implements MilestoneRepository {
   Future<void> deleteMilestone(String id) async {}
 
   @override
-  Future<void> deleteAllByGoalId(String goalId) async {}
-
-  @override
   Future<void> deleteMilestonesByGoalId(String goalId) async {}
 
   @override
