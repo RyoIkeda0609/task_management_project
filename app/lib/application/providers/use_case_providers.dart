@@ -23,6 +23,8 @@ import 'package:app/domain/services/milestone_completion_service.dart';
 import 'package:app/domain/services/task_completion_service.dart';
 import 'package:app/presentation/state_management/providers/repository_providers.dart';
 
+import 'package:app/application/app_service_facade.dart';
+
 // ==================== Domain Service Providers ====================
 
 /// GoalCompletionService Provider
@@ -178,3 +180,35 @@ final getTasksGroupedByStatusUseCaseProvider =
     Provider<GetTasksGroupedByStatusUseCase>((ref) {
       return GetTasksGroupedByStatusUseCaseImpl();
     });
+
+// ==================== Application Service Facade Provider ====================
+
+/// AppServiceFacade Provider
+/// Presentation層がすべてのUseCaseにアクセスするための単一エントリーポイント
+final appServiceFacadeProvider = Provider<AppServiceFacade>((ref) {
+  return AppServiceFacade(
+    // Goal UseCases
+    createGoalUseCase: ref.watch(createGoalUseCaseProvider),
+    deleteGoalUseCase: ref.watch(deleteGoalUseCaseProvider),
+    getAllGoalsUseCase: ref.watch(getAllGoalsUseCaseProvider),
+    getGoalByIdUseCase: ref.watch(getGoalByIdUseCaseProvider),
+    searchGoalsUseCase: ref.watch(searchGoalsUseCaseProvider),
+    updateGoalUseCase: ref.watch(updateGoalUseCaseProvider),
+    // Milestone UseCases
+    createMilestoneUseCase: ref.watch(createMilestoneUseCaseProvider),
+    deleteMilestoneUseCase: ref.watch(deleteMilestoneUseCaseProvider),
+    getMilestonesByGoalIdUseCase: ref.watch(getMilestonesByGoalIdUseCaseProvider),
+    updateMilestoneUseCase: ref.watch(updateMilestoneUseCaseProvider),
+    // Task UseCases
+    changeTaskStatusUseCase: ref.watch(changeTaskStatusUseCaseProvider),
+    createTaskUseCase: ref.watch(createTaskUseCaseProvider),
+    deleteTaskUseCase: ref.watch(deleteTaskUseCaseProvider),
+    getAllTasksTodayUseCase: ref.watch(getAllTasksTodayUseCaseProvider),
+    getTasksByMilestoneIdUseCase: ref.watch(getTasksByMilestoneIdUseCaseProvider),
+    getTasksGroupedByStatusUseCase: ref.watch(getTasksGroupedByStatusUseCaseProvider),
+    updateTaskUseCase: ref.watch(updateTaskUseCaseProvider),
+    // Progress UseCases
+    calculateProgressUseCase: ref.watch(calculateProgressUseCaseProvider),
+  );
+});
+
