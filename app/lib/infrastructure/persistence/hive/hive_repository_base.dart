@@ -22,8 +22,11 @@ abstract class HiveRepositoryBase<T> {
   /// Box インスタンス（遅延初期化）
   late Box<String> _box;
 
+  /// 初期化フラグ
+  bool _isInitialized = false;
+
   /// Box が初期化済みかどうか
-  bool get isInitialized => _box.isOpen;
+  bool get isInitialized => _isInitialized;
 
   /// リポジトリを初期化する
   ///
@@ -32,6 +35,7 @@ abstract class HiveRepositoryBase<T> {
     if (isInitialized) return;
     try {
       _box = await Hive.openBox<String>(boxName);
+      _isInitialized = true;
     } catch (e) {
       throw _handleError('Failed to initialize $boxName box', e);
     }
