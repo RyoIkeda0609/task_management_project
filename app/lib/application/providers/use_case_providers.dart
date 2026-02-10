@@ -197,18 +197,23 @@ final appServiceFacadeProvider = Provider<AppServiceFacade>((ref) {
     // Milestone UseCases
     createMilestoneUseCase: ref.watch(createMilestoneUseCaseProvider),
     deleteMilestoneUseCase: ref.watch(deleteMilestoneUseCaseProvider),
-    getMilestonesByGoalIdUseCase: ref.watch(getMilestonesByGoalIdUseCaseProvider),
+    getMilestonesByGoalIdUseCase: ref.watch(
+      getMilestonesByGoalIdUseCaseProvider,
+    ),
     updateMilestoneUseCase: ref.watch(updateMilestoneUseCaseProvider),
     // Task UseCases
     changeTaskStatusUseCase: ref.watch(changeTaskStatusUseCaseProvider),
     createTaskUseCase: ref.watch(createTaskUseCaseProvider),
     deleteTaskUseCase: ref.watch(deleteTaskUseCaseProvider),
     getAllTasksTodayUseCase: ref.watch(getAllTasksTodayUseCaseProvider),
-    getTasksByMilestoneIdUseCase: ref.watch(getTasksByMilestoneIdUseCaseProvider),
-    getTasksGroupedByStatusUseCase: ref.watch(getTasksGroupedByStatusUseCaseProvider),
+    getTasksByMilestoneIdUseCase: ref.watch(
+      getTasksByMilestoneIdUseCaseProvider,
+    ),
+    getTasksGroupedByStatusUseCase: ref.watch(
+      getTasksGroupedByStatusUseCaseProvider,
+    ),
     updateTaskUseCase: ref.watch(updateTaskUseCaseProvider),
     // Progress UseCases
     calculateProgressUseCase: ref.watch(calculateProgressUseCaseProvider),
   );
 });
-
