@@ -1,7 +1,51 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/create_milestone_use_case.dart';
+import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
+import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/value_objects/goal/goal_id.dart';
+import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/goal/goal_category.dart';
+import 'package:app/domain/value_objects/goal/goal_reason.dart';
+import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+
+/// MockGoalRepository
+class MockGoalRepository implements GoalRepository {
+  final List<Goal> _goals = [];
+
+  @override
+  Future<bool> deleteAllGoals() async => true;
+
+  @override
+  Future<void> deleteGoal(String id) async =>
+      _goals.removeWhere((g) => g.id.value == id);
+
+  @override
+  Future<int> getGoalCount() async => _goals.length;
+
+  @override
+  Future<List<Goal>> getAllGoals() async => _goals;
+
+  @override
+  Future<Goal?> getGoalById(String id) async {
+    try {
+      return _goals.firstWhere((g) => g.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<void> saveGoal(Goal goal) async {
+    final index = _goals.indexWhere((g) => g.id.value == goal.id.value);
+    if (index >= 0) {
+      _goals[index] = goal;
+    } else {
+      _goals.add(goal);
+    }
+  }
+}
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -41,11 +85,27 @@ class MockMilestoneRepository implements MilestoneRepository {
 void main() {
   group('CreateMilestoneUseCase', () {
     late CreateMilestoneUseCase useCase;
-    late MockMilestoneRepository mockRepository;
+    late MockMilestoneRepository mockMilestoneRepository;
+    late MockGoalRepository mockGoalRepository;
 
     setUp(() {
-      mockRepository = MockMilestoneRepository();
-      useCase = CreateMilestoneUseCaseImpl(mockRepository);
+      mockMilestoneRepository = MockMilestoneRepository();
+      mockGoalRepository = MockGoalRepository();
+      useCase = CreateMilestoneUseCaseImpl(
+        mockMilestoneRepository,
+        mockGoalRepository,
+      );
+
+      // Pre-populate goal-123 for tests
+      mockGoalRepository.saveGoal(
+        Goal(
+          id: GoalId('goal-123'),
+          title: GoalTitle('テスト用ゴール'),
+          category: GoalCategory('ビジネス'),
+          reason: GoalReason('テスト'),
+          deadline: GoalDeadline(DateTime(2026, 12, 31)),
+        ),
+      );
     });
 
     group('実行', () {

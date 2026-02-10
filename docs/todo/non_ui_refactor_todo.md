@@ -49,36 +49,94 @@ UIの改善はこの完了後にのみ実施する。
 
 spec_gap_report.md を作成。
 
+**ステータス**: ✅ 完了  
+**完成日**: 2025-02-11  
+**成果物**: [docs/analysis/phase1_spec_gap_report.md](../analysis/phase1_spec_gap_report.md)
+
+---
+
+## Phase 1.5a: 編集制限の実装
+
+### 目的
+
+100% 完了した Goal/Milestone/Task 項目は編集・削除できないようにする。
+
+### 実装内容
+
+- MilestoneCompletionService: Milestone 完了判定（すべての Task が Done）
+- TaskCompletionService: Task 完了判定（Status が Done）
+- UpdateMilestoneUseCase: 完了時の編集禁止
+- UpdateTaskUseCase: 完了時の編集禁止
+
+**ステータス**: ✅ 完了  
+**完成日**: 2025-02-11  
+**テスト数**: 41 tests passing (UpdateMilestone 21 + UpdateTask 20)
+
 ---
 
 ## Phase 2: Domain 強化
 
 ### 目的
 
-ビジネスルールの最終防衛ラインを完成させる。
+参照整合性、Cascade 削除、状態遷移ルールの検証・強化。
 
-### チェック項目
+### チェックリスト
 
-- 生成時に不正値を完全排除できるか？
-- nullable や空文字が侵入できないか？
-- 状態遷移は閉じているか？
-- ID は必ず保証されるか？
+1. ✅ Cascade 削除の動作確認
+   - Goal 削除 → Milestone, Task すべて削除
+   - テスト数: 9 tests passing
+   - ファイル: [test/application/use_cases/goal/delete_goal_cascade_test.dart](../../test/application/use_cases/goal/delete_goal_cascade_test.dart)
 
-### 修正
+2. ✅ 参照整合性テスト（Task）
+   - 存在しないマイルストーン ID への Task 作成試行
+   - テスト数: 6 tests passing (1 skipped)
+   - ファイル: [test/application/use_cases/task/create_task_invalid_parent_test.dart](../../test/application/use_cases/task/create_task_invalid_parent_test.dart)
 
-- ValueObject を追加・強化。
-- Factory / DomainService の導入。
-- 不変条件をコンストラクタへ移動。
+3. ✅ 親の状態遷移ルール（Goal 100% → 子要素ロック）
+   - Goal 完了時の制限ルール（部分実装）
+   - テスト数: 6 tests passing (1 skipped)
+   - ファイル: [test/domain/parent_child_state_rule_test.dart](../../test/domain/parent_child_state_rule_test.dart)
 
-### テスト
+### 成果物
 
-- 正常
-- 境界値
-- 例外
+[docs/analysis/phase2_implementation_report.md](../analysis/phase2_implementation_report.md)
+
+**ステータス**: ✅ 完了  
+**完成日**: 2025-02-11  
+**全体テスト**: 585 tests passing ✅
 
 ---
 
-## Phase 3: Application 整理
+## Phase 3: 参照整合性の補強
+
+### 目的
+
+Child 要素が存在しない Parent ID での生成を防止。
+参照の完全性（Referential Integrity）を保証。
+
+### チェックリスト
+
+1. ⏳ CreateTaskUseCase に MilestoneRepository 注入
+   - call() 内で getMilestoneById(milestoneId) のチェック追加
+   - 存在しない場合は ArgumentError スロー
+   - 予定テスト: [test/application/use_cases/task/create_task_invalid_parent_test.dart](../../test/application/use_cases/task/create_task_invalid_parent_test.dart) の skip 解除
+
+2. ⏳ CreateMilestoneUseCase に GoalRepository 注入
+   - call() 内で getGoalById(goalId) のチェック追加
+   - 存在しない場合は ArgumentError スロー
+
+### テスト
+
+- 正常: 既存の parent で作成 → OK
+- 例外: 存在しない parent ID で作成 → ArgumentError
+
+**ステータス**: ⏳ 予定  
+**推定工数**: 2-3 時間  
+**予定テスト追加**: +5-10 tests
+
+---
+
+## Phase 4: Application 整理
 
 ### 目的
 
@@ -88,6 +146,60 @@ UseCase を唯一の操作入口に固定する。
 
 - UI や Notifier が Domain を直接触っていないか？
 - Repository を直接呼んでいないか？
+- Provider が注入を正しく管理しているか？
+
+### 修正
+
+- 依存の逆流を禁止。
+- Provider 経由での注入を強制。
+
+**ステータス**: 審査待ち  
+**担当**: UI/Provider レイヤーチェック
+
+---
+
+## Phase 5: Infrastructure 正規化
+
+### 目的
+
+永続化層を「愚か」にする。ビジネス判断は持たない。
+
+### チェック項目
+
+- ビジネス判断を書いていないか？
+- Validation をしていないか？
+- Domain ロジックが漏れていないか？
+
+### 修正
+
+- 余計な処理を Domain/Application へ戻す。
+- Mapper を明確化。
+- Repository は CRUD のみ。
+
+**ステータス**: ⏳ 後続フェーズ
+
+---
+
+## Phase 6: (参考) 削除予定の Spec 外 UseCase
+
+以下 3 つは MVP スコープ外のため削除を推奨：
+
+1. SearchGoalsUseCase
+2. GetTasksGroupedByStatusUseCase
+3. CalculateProgressUseCase
+
+詳細: [docs/analysis/phase1_spec_gap_report.md](../analysis/phase1_spec_gap_report.md)
+
+削除時は UI への影響を確認して実施。
+
+**ステータス**: ⏳ Phase 3 実装後に実施
+
+---
+
+## 次フェーズへ進める状態
+
+テストだけでアプリの正しさを保証できる。
+
 - 1ユースケース = 1責務 になっているか？
 
 ### 修正

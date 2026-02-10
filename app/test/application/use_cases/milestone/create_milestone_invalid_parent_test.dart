@@ -4,25 +4,47 @@ import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/value_objects/goal/goal_id.dart';
+import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/goal/goal_category.dart';
+import 'package:app/domain/value_objects/goal/goal_reason.dart';
+import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 
-class FakeGoalRepository implements GoalRepository {
+/// MockGoalRepository - ゴールを管理
+class MockGoalRepository implements GoalRepository {
+  final List<Goal> _goals = [];
+
   @override
   Future<bool> deleteAllGoals() async => true;
 
   @override
-  Future<void> deleteGoal(String id) async {}
+  Future<void> deleteGoal(String id) async =>
+      _goals.removeWhere((g) => g.id.value == id);
 
   @override
-  Future<int> getGoalCount() async => 0;
+  Future<int> getGoalCount() async => _goals.length;
 
   @override
-  Future<List<Goal>> getAllGoals() async => [];
+  Future<List<Goal>> getAllGoals() async => _goals;
 
   @override
-  Future<Goal?> getGoalById(String id) async => null;
+  Future<Goal?> getGoalById(String id) async {
+    try {
+      return _goals.firstWhere((g) => g.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
 
   @override
-  Future<void> saveGoal(Goal goal) async {}
+  Future<void> saveGoal(Goal goal) async {
+    final index = _goals.indexWhere((g) => g.id.value == goal.id.value);
+    if (index >= 0) {
+      _goals[index] = goal;
+    } else {
+      _goals.add(goal);
+    }
+  }
 }
 
 class MockMilestoneRepository implements MilestoneRepository {
@@ -63,11 +85,27 @@ class MockMilestoneRepository implements MilestoneRepository {
 void main() {
   group('CreateMilestoneUseCase - 不正な親への追加テスト', () {
     late CreateMilestoneUseCase useCase;
-    late MockMilestoneRepository mockRepository;
+    late MockMilestoneRepository mockMilestoneRepository;
+    late MockGoalRepository mockGoalRepository;
 
     setUp(() {
-      mockRepository = MockMilestoneRepository();
-      useCase = CreateMilestoneUseCaseImpl(mockRepository);
+      mockMilestoneRepository = MockMilestoneRepository();
+      mockGoalRepository = MockGoalRepository();
+      useCase = CreateMilestoneUseCaseImpl(
+        mockMilestoneRepository,
+        mockGoalRepository,
+      );
+
+      // Pre-populate goal-1 for tests
+      mockGoalRepository.saveGoal(
+        Goal(
+          id: GoalId('goal-1'),
+          title: GoalTitle('テストゴール'),
+          category: GoalCategory('ビジネス'),
+          reason: GoalReason('テスト用のゴール'),
+          deadline: GoalDeadline(DateTime(2026, 12, 31)),
+        ),
+      );
     });
 
     test('マイルストーンは ValueObject のバリデーションで作成できる', () async {
@@ -100,6 +138,20 @@ void main() {
           goalId: 'goal-1',
         ),
         returnsNormally,
+      );
+    });
+
+    /// NOTE: Phase 3 参照整合性検証（実装完了）
+    /// CreateMilestoneUseCase が GoalRepository を注入されて
+    /// 存在しないゴール ID のチェックを実装完了
+    test('存在しないゴール ID でマイルストーンを作成しようとするとエラー', () async {
+      expect(
+        () async => await useCase.call(
+          title: 'マイルストーン',
+          deadline: DateTime(2026, 12, 31),
+          goalId: 'non-existent-goal',
+        ),
+        throwsA(isA<ArgumentError>()),
       );
     });
   });

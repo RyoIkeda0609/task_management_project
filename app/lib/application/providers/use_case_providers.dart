@@ -87,7 +87,10 @@ final searchGoalsUseCaseProvider = Provider<SearchGoalsUseCase>((ref) {
 
 /// CreateMilestoneUseCase Provider
 final createMilestoneUseCaseProvider = Provider<CreateMilestoneUseCase>((ref) {
-  return CreateMilestoneUseCaseImpl(ref.watch(milestoneRepositoryProvider));
+  return CreateMilestoneUseCaseImpl(
+    ref.watch(milestoneRepositoryProvider),
+    ref.watch(goalRepositoryProvider),
+  );
 });
 
 /// GetMilestonesByGoalIdUseCase Provider
@@ -118,7 +121,10 @@ final deleteMilestoneUseCaseProvider = Provider<DeleteMilestoneUseCase>((ref) {
 
 /// CreateTaskUseCase Provider
 final createTaskUseCaseProvider = Provider<CreateTaskUseCase>((ref) {
-  return CreateTaskUseCaseImpl(ref.watch(taskRepositoryProvider));
+  return CreateTaskUseCaseImpl(
+    ref.watch(taskRepositoryProvider),
+    ref.watch(milestoneRepositoryProvider),
+  );
 });
 
 /// GetTasksByMilestoneIdUseCase Provider
