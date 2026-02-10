@@ -19,13 +19,19 @@ void main() {
         final description = TaskDescription(longDescription);
         expect(description.value, longDescription);
       });
+
+      test('空文字列でコンストラクタを呼び出してもエラーが発生しないこと（任意フィールド）', () {
+        final description = TaskDescription('');
+        expect(description.value, '');
+      });
+
+      test('nullでコンストラクタを呼び出してもエラーが発生しないこと（任意フィールド）', () {
+        final description = TaskDescription(null);
+        expect(description.value, '');
+      });
     });
 
     group('バリデーション', () {
-      test('空文字列でコンストラクタを呼び出すと例外が発生すること', () {
-        expect(() => TaskDescription(''), throwsArgumentError);
-      });
-
       test('500文字を超える説明でコンストラクタを呼び出すと例外が発生すること', () {
         final tooLongDescription = 'a' * 501;
         expect(() => TaskDescription(tooLongDescription), throwsArgumentError);
@@ -33,6 +39,23 @@ void main() {
 
       test('空白のみの説明でコンストラクタを呼び出すと例外が発生すること', () {
         expect(() => TaskDescription('   '), throwsArgumentError);
+      });
+    });
+
+    group('isNotEmpty メソッド', () {
+      test('値がない場合は false を返すこと', () {
+        final description = TaskDescription('');
+        expect(description.isNotEmpty, false);
+      });
+
+      test('値がある場合は true を返すこと', () {
+        final description = TaskDescription('説明あり');
+        expect(description.isNotEmpty, true);
+      });
+
+      test('空白のみの値は false を返すこと', () {
+        final description = TaskDescription();
+        expect(description.isNotEmpty, false);
       });
     });
 

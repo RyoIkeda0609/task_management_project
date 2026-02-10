@@ -167,6 +167,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                               );
                             },
                           ),
+
+                          /// タスク詳細画面（マイルストーン配下）
+                          GoRoute(
+                            path: 'task/:taskId',
+                            builder: (context, state) {
+                              final taskId =
+                                  state.pathParameters['taskId'] ?? '';
+                              return TaskDetailScreen(
+                                taskId: taskId,
+                                source: 'milestone',
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],
@@ -188,7 +201,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     path: 'task/:taskId',
                     builder: (context, state) {
                       final taskId = state.pathParameters['taskId'] ?? '';
-                      return TaskDetailScreen(taskId: taskId);
+                      return TaskDetailScreen(
+                        taskId: taskId,
+                        source: 'today_tasks',
+                      );
                     },
                   ),
                 ],
@@ -334,9 +350,19 @@ class AppRouter {
     context.go('/home/goal/$goalId/milestone/$milestoneId/task_create');
   }
 
-  /// タスク詳細画面へナビゲート
+  /// タスク詳細画面へナビゲート（今日のタスクから）
   static void navigateToTaskDetail(BuildContext context, String taskId) {
     context.go('/today_tasks/task/$taskId');
+  }
+
+  /// タスク詳細画面へナビゲート（マイルストーンから）
+  static void navigateToTaskDetailFromMilestone(
+    BuildContext context,
+    String goalId,
+    String milestoneId,
+    String taskId,
+  ) {
+    context.go('/home/goal/$goalId/milestone/$milestoneId/task/$taskId');
   }
 
   /// スプラッシュ画面からのナビゲート

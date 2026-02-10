@@ -1,12 +1,14 @@
 /// TaskDescription - タスクの説明を表現する ValueObject
 ///
-/// バリデーション：1～500文字、空白のみ不可
+/// バリデーション：
+/// - nullまたは空文字列は許容（任意フィールド）
+/// - 値がある場合は1～500文字、空白のみ不可
 class TaskDescription {
   static const int maxLength = 500;
   late String value;
 
   TaskDescription([String? val]) {
-    if (val == null) {
+    if (val == null || val.isEmpty) {
       value = '';
     } else {
       value = val;
@@ -22,6 +24,9 @@ class TaskDescription {
       );
     }
   }
+
+  /// 説明が入力されているかチェック
+  bool get isNotEmpty => value.trim().isNotEmpty;
 
   @override
   bool operator ==(Object other) =>

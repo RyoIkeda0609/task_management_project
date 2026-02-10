@@ -49,16 +49,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     }
   }
 
-  /// 前のページへスクロール
-  void _goToPreviousPage() {
-    if (_currentPageIndex > 0) {
-      _pageController.previousPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
   /// オンボーディング完了処理
   ///
   /// オンボーディング完了後、ホーム画面へ遷移
@@ -126,22 +116,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
                 SizedBox(height: Spacing.large),
 
-                // 次へボタン
+                // メインボタン：次へ or 開始する（全幅）
                 CustomButton(
                   text: _currentPageIndex == 1 ? '開始する' : '次へ',
                   onPressed: _goToNextPage,
                   type: ButtonType.primary,
                 ),
-
-                SizedBox(height: Spacing.medium),
-
-                // 前へボタン（1ページ目では非表示）
-                if (_currentPageIndex > 0)
-                  CustomButton(
-                    text: '戻る',
-                    onPressed: _goToPreviousPage,
-                    type: ButtonType.secondary,
-                  ),
               ],
             ),
           ),

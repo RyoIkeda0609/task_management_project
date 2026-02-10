@@ -91,14 +91,14 @@ class HomeScreen extends ConsumerWidget {
 
     return TabBarView(
       children: [
-        _buildListView(context, goals),
+        _buildListView(context, ref, goals),
         _buildPyramidViewTab(context, ref, goals),
         CalendarView(goals: goals),
       ],
     );
   }
 
-  Widget _buildListView(BuildContext context, List<Goal> goals) {
+  Widget _buildListView(BuildContext context, WidgetRef ref, List<Goal> goals) {
     // 期限の近い順でソート（期限の値で比較）
     final sortedGoals = [...goals]
       ..sort((a, b) => a.deadline.value.compareTo(b.deadline.value));
@@ -116,7 +116,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           );
         }
-        return _buildGoalCard(context, sortedGoals[index - 1]);
+        return _buildGoalCard(context, ref, sortedGoals[index - 1]);
       },
     );
   }
@@ -161,7 +161,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildGoalCard(BuildContext context, Goal goal) {
+  Widget _buildGoalCard(BuildContext context, WidgetRef ref, Goal goal) {
     return InkWell(
       onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),
       borderRadius: BorderRadius.circular(8),
@@ -212,6 +212,9 @@ class HomeScreen extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: Spacing.medium),
+              // 進捗表示
+              _buildGoalProgressSection(goal, ref),
+              SizedBox(height: Spacing.medium),
               // 期限
               Text(
                 '期限: ${_formatDate(goal.deadline.value)}',
@@ -224,6 +227,62 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  /// ゴールの進捗セクション
+  Widget _buildGoalProgressSection(Goal goal, WidgetRef ref) {
+    final progressAsync = ref.watch(goalProgressProvider(goal.id.value));
+
+    return progressAsync.when(
+      data: (progress) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 進捗率テキスト
+            Text(
+              '進捗: ${progress.value}%',
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.neutral600,
+              ),
+            ),
+            SizedBox(height: Spacing.xSmall),
+            // 進捗バー
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: progress.value / 100.0,
+                minHeight: 8,
+                backgroundColor: AppColors.neutral200,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  _getProgressColor(progress.value),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+      loading: () => const SizedBox(
+        height: 16,
+        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+      ),
+      error: (error, stackTrace) => Text(
+        '進捗読み込みエラー',
+        style: AppTextStyles.bodySmall.copyWith(color: AppColors.error),
+      ),
+    );
+  }
+
+  /// 進捗率に応じた色を取得
+  Color _getProgressColor(int progressValue) {
+    if (progressValue == 0) {
+      return AppColors.neutral400;
+    } else if (progressValue < 50) {
+      return AppColors.primary;
+    } else if (progressValue < 100) {
+      return AppColors.warning;
+    } else {
+      return AppColors.success;
+    }
   }
 
   String _formatDate(DateTime date) {

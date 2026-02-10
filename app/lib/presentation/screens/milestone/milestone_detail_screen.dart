@@ -59,7 +59,8 @@ class MilestoneDetailScreen extends ConsumerWidget {
         ],
       ),
       body: milestoneAsync.when(
-        data: (milestone) => _buildContent(context, ref, milestone),
+        data: (milestone) =>
+            _buildContent(context, ref, milestone, milestoneAsync),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => _buildErrorWidget(error),
       ),
@@ -81,6 +82,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     Milestone? milestone,
+    AsyncValue<Milestone?> milestoneAsync,
   ) {
     if (milestone == null) {
       return Center(
@@ -146,7 +148,7 @@ class MilestoneDetailScreen extends ConsumerWidget {
     return tasksAsync.when(
       data: (tasks) => tasks.isEmpty
           ? _buildTasksEmpty()
-          : _buildTasksListContent(ref, tasks),
+          : _buildTasksListContent(ref, tasks, milestone),
       loading: () => SliverToBoxAdapter(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -197,7 +199,11 @@ class MilestoneDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTasksListContent(WidgetRef ref, List<Task> tasks) {
+  Widget _buildTasksListContent(
+    WidgetRef ref,
+    List<Task> tasks,
+    Milestone milestone,
+  ) {
     return SliverList(
       delegate: SliverChildBuilderDelegate((context, index) {
         if (index == 0) {
@@ -208,12 +214,17 @@ class MilestoneDetailScreen extends ConsumerWidget {
           return const SizedBox.shrink();
         }
         final task = tasks[taskIndex];
-        return _buildTaskItem(context, ref, task);
+        return _buildTaskItem(context, ref, task, milestone);
       }, childCount: tasks.length + 1),
     );
   }
 
-  Widget _buildTaskItem(BuildContext context, WidgetRef ref, Task task) {
+  Widget _buildTaskItem(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+    Milestone milestone,
+  ) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: Spacing.medium,
@@ -222,7 +233,8 @@ class MilestoneDetailScreen extends ConsumerWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => _navigateToTaskDetail(context, task.id.value),
+          onTap: () =>
+              _navigateToTaskDetail(context, task.id.value, milestone.goalId),
           borderRadius: BorderRadius.circular(8),
           child: Container(
             padding: EdgeInsets.all(Spacing.medium),
@@ -373,8 +385,17 @@ class MilestoneDetailScreen extends ConsumerWidget {
     );
   }
 
-  void _navigateToTaskDetail(BuildContext context, String taskId) {
-    AppRouter.navigateToTaskDetail(context, taskId);
+  void _navigateToTaskDetail(
+    BuildContext context,
+    String taskId,
+    String goalId,
+  ) {
+    AppRouter.navigateToTaskDetailFromMilestone(
+      context,
+      goalId,
+      milestoneId,
+      taskId,
+    );
   }
 
   void _showDeleteMilestoneDialog(

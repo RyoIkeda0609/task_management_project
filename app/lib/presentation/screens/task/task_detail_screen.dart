@@ -13,10 +13,19 @@ import '../../state_management/providers/app_providers.dart';
 ///
 /// 選択されたタスクの詳細情報を表示し、
 /// ステータスの変更ができます。
+///
+/// source パラメータ：
+/// - 'milestone': マイルストーン詳細から遷移した
+/// - 'today_tasks': 今日のタスク画面から遷移した
 class TaskDetailScreen extends ConsumerStatefulWidget {
   final String taskId;
+  final String source;
 
-  const TaskDetailScreen({super.key, required this.taskId});
+  const TaskDetailScreen({
+    super.key,
+    required this.taskId,
+    this.source = 'today_tasks',
+  });
 
   @override
   ConsumerState<TaskDetailScreen> createState() => _TaskDetailScreenStateImpl();
@@ -31,7 +40,7 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
       appBar: CustomAppBar(
         title: 'タスク詳細',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => _navigateBack(context),
         actions: [
           // 編集ボタン
           IconButton(
@@ -61,6 +70,17 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
         error: (error, stackTrace) => _buildErrorWidget(error),
       ),
     );
+  }
+
+  /// 遷移元に基づいて戻る処理
+  void _navigateBack(BuildContext context) {
+    if (widget.source == 'milestone') {
+      // マイルストーン詳細から来た場合は pop（前画面に戻る）
+      Navigator.of(context).pop();
+    } else {
+      // 今日のタスク（またはそれ以外）から来た場合も pop
+      Navigator.of(context).pop();
+    }
   }
 
   Widget _buildContent(BuildContext context, Task? task) {
@@ -335,13 +355,14 @@ class _TaskDetailScreenStateImpl extends ConsumerState<TaskDetailScreen> {
 
                 // タスク一覧をリフレッシュ
                 ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+                ref.invalidate(todayTasksProvider);
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
-                  // 親画面（マイルストーン詳細）に戻る
-                  Navigator.of(context).pop();
+                  // 親画面に戻る
+                  _navigateBack(context);
                 }
               } catch (e) {
                 if (context.mounted) {

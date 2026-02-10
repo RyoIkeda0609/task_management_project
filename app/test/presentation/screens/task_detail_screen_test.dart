@@ -107,8 +107,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // ステータスセクションをタップしてステータスを更新（cycle\uff09
-      await tester.tap(find.byIcon(Icons.circle_outlined));
+      // ステータス表示（ステータス バッジ）をタップしてステータスを更新
+      await tester.tap(find.text('未完了'));
       await tester.pumpAndSettle();
     });
 

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
+import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import 'package:app/application/providers/use_case_providers.dart';
 import '../notifiers/goal_notifier.dart';
@@ -145,4 +146,25 @@ final todayTasksGroupedProvider = FutureProvider<GroupedTasks>((ref) async {
     loading: () => throw Exception('Loading tasks...'),
     error: (error, stack) => throw error,
   );
+});
+
+/// ======================== Progress Providers ========================
+
+/// 特定ゴールの進捗を計算するProvider
+///
+/// 使用方法:
+/// ```dart
+/// final progressAsync = ref.watch(goalProgressProvider(goalId));
+/// progressAsync.when(
+///   data: (progress) => Text('進捗: ${progress.value}%'),
+///   loading: () => LoadingWidget(),
+///   error: (error, stack) => ErrorWidget(error: error),
+/// );
+/// ```
+final goalProgressProvider = FutureProvider.family<Progress, String>((
+  ref,
+  goalId,
+) async {
+  final useCase = ref.watch(calculateProgressUseCaseProvider);
+  return useCase.calculateGoalProgress(goalId);
 });
