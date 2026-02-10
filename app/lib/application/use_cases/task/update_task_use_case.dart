@@ -30,7 +30,7 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     // Load
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
-      throw ArgumentError('Task not found');
+      throw ArgumentError('対象のタスクが見つかりません');
     }
 
     // Validate
@@ -38,7 +38,7 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
 
     // Description: 任意フィールド、空文字許容、ただし500文字制限
     if (description.trim().isNotEmpty && description.length > 500) {
-      throw ArgumentError('Task description must be 500 characters or less');
+      throw ArgumentError('説明は500文字以下で入力してください');
     }
     final taskDescription = TaskDescription(description);
 

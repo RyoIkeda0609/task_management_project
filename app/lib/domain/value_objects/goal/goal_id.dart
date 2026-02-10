@@ -6,13 +6,12 @@ import 'package:uuid/uuid.dart';
 class GoalId {
   late String value;
 
-  GoalId([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-    }
+  GoalId(String val) {
+    value = val;
   }
+
+  /// 空のIDを作成
+  factory GoalId.empty() => GoalId('');
 
   /// 新しい ID を自動生成
   factory GoalId.generate() => GoalId(const Uuid().v4());

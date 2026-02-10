@@ -7,13 +7,9 @@ class Progress {
 
   late int value;
 
-  Progress([int? val]) {
-    if (val == null) {
-      value = minValue;
-    } else {
-      value = val;
-      _validate();
-    }
+  Progress(int val) {
+    value = val;
+    _validate();
   }
 
   void _validate() {

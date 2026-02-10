@@ -15,13 +15,9 @@ class TaskStatus {
 
   late String value;
 
-  /// コンストラクタ（デフォルト値'todo'対応）
-  TaskStatus([String? val]) {
-    if (val == null) {
-      value = statusTodo;
-    } else {
-      value = val;
-    }
+  /// コンストラクタ（明示的なステータス値が必須）
+  TaskStatus(String val) {
+    value = val;
   }
 
   /// ステータス：未着手

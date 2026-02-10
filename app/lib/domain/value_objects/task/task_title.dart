@@ -5,13 +5,9 @@ class TaskTitle {
   static const int maxLength = 100;
   late String value;
 
-  TaskTitle([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-      _validate();
-    }
+  TaskTitle(String val) {
+    value = val;
+    _validate();
   }
 
   void _validate() {

@@ -29,7 +29,7 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
       milestoneId,
     );
     if (existingMilestone == null) {
-      throw ArgumentError('Milestone not found');
+      throw ArgumentError('対象のマイルストーンが見つかりません');
     }
 
     // Validate

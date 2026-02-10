@@ -17,7 +17,7 @@ class GetGoalByIdUseCaseImpl implements GetGoalByIdUseCase {
   @override
   Future<Goal?> call(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('goalId must not be empty');
+      throw ArgumentError('ゴールIDが無効です');
     }
     return await _goalRepository.getGoalById(goalId);
   }

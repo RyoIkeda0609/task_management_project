@@ -5,13 +5,9 @@ class GoalCategory {
   static const int maxLength = 100;
   late String value;
 
-  GoalCategory([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-      _validate();
-    }
+  GoalCategory(String val) {
+    value = val;
+    _validate();
   }
 
   void _validate() {

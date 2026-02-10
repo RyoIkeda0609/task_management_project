@@ -17,7 +17,7 @@ class GetTasksByMilestoneIdUseCaseImpl implements GetTasksByMilestoneIdUseCase {
   @override
   Future<List<Task>> call(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('milestoneId must not be empty');
+      throw ArgumentError('マイルストーンIDが無効です');
     }
     return await _taskRepository.getTasksByMilestoneId(milestoneId);
   }

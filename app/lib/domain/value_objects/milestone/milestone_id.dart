@@ -6,13 +6,12 @@ import 'package:uuid/uuid.dart';
 class MilestoneId {
   late String value;
 
-  MilestoneId([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-    }
+  MilestoneId(String val) {
+    value = val;
   }
+
+  /// 空のIDを作成
+  factory MilestoneId.empty() => MilestoneId('');
 
   /// 新しい MilestoneId を自動生成する
   factory MilestoneId.generate() => MilestoneId(const Uuid().v4());

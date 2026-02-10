@@ -16,13 +16,13 @@ class DeleteGoalUseCaseImpl implements DeleteGoalUseCase {
   @override
   Future<void> call(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('Goal ID is required');
+      throw ArgumentError('ゴールIDが無効です');
     }
 
     // Load
     final goal = await _goalRepository.getGoalById(goalId);
     if (goal == null) {
-      throw ArgumentError('Goal not found');
+      throw ArgumentError('対象のゴールが見つかりません');
     }
 
     // Execute

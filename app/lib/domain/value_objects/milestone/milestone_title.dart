@@ -5,13 +5,9 @@ class MilestoneTitle {
   static const int maxLength = 100;
   late String value;
 
-  MilestoneTitle([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-      _validate();
-    }
+  MilestoneTitle(String val) {
+    value = val;
+    _validate();
   }
 
   void _validate() {

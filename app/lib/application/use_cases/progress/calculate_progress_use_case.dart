@@ -27,13 +27,13 @@ class CalculateProgressUseCaseImpl implements CalculateProgressUseCase {
   @override
   Future<Progress> calculateGoalProgress(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('Goal ID is required');
+      throw ArgumentError('ゴールIDが無効です');
     }
 
     // Load
     final goal = await _goalRepository.getGoalById(goalId);
     if (goal == null) {
-      throw ArgumentError('Goal not found');
+      throw ArgumentError('対象のゴールが見つかりません');
     }
 
     // Execute
@@ -55,13 +55,13 @@ class CalculateProgressUseCaseImpl implements CalculateProgressUseCase {
   @override
   Future<Progress> calculateMilestoneProgress(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('Milestone ID is required');
+      throw ArgumentError('マイルストーンIDが無効です');
     }
 
     // Load
     final milestone = await _milestoneRepository.getMilestoneById(milestoneId);
     if (milestone == null) {
-      throw ArgumentError('Milestone not found');
+      throw ArgumentError('対象のマイルストーンが見つかりません');
     }
 
     // Execute

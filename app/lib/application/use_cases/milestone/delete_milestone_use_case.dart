@@ -16,13 +16,13 @@ class DeleteMilestoneUseCaseImpl implements DeleteMilestoneUseCase {
   @override
   Future<void> call(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('Milestone ID is required');
+      throw ArgumentError('マイルストーンIDが無効です');
     }
 
     // Load
     final milestone = await _milestoneRepository.getMilestoneById(milestoneId);
     if (milestone == null) {
-      throw ArgumentError('Milestone not found');
+      throw ArgumentError('対象のマイルストーンが見つかりません');
     }
 
     // Execute

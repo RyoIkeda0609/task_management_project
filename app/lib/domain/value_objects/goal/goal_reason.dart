@@ -5,13 +5,9 @@ class GoalReason {
   static const int maxLength = 100;
   late String value;
 
-  GoalReason([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-      _validate();
-    }
+  GoalReason(String val) {
+    value = val;
+    _validate();
   }
 
   void _validate() {

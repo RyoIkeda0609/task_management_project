@@ -5,13 +5,9 @@ class GoalTitle {
   static const int maxLength = 100;
   late String value;
 
-  GoalTitle([String? val]) {
-    if (val == null) {
-      value = '';
-    } else {
-      value = val;
-      _validate();
-    }
+  GoalTitle(String val) {
+    value = val;
+    _validate();
   }
 
   void _validate() {

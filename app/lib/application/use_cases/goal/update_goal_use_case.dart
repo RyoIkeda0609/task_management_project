@@ -35,12 +35,12 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
     // Load
     final existingGoal = await _goalRepository.getGoalById(goalId);
     if (existingGoal == null) {
-      throw ArgumentError('Goal not found');
+      throw ArgumentError('対象のゴールが見つかりません');
     }
 
     // Check
     if (await _goalCompletionService.isGoalCompleted(goalId)) {
-      throw ArgumentError('Completed goal cannot be updated');
+      throw ArgumentError('完了したゴールは更新できません');
     }
 
     // Validate
