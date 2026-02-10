@@ -177,7 +177,7 @@ class _GoalEditScreenState extends ConsumerState<GoalEditScreen> {
 
   Widget _buildCategoryDropdown() {
     const defaultCategories = ['キャリア', '学習', '健康', '趣味', 'その他'];
-    
+
     // 現在の _category がリストに含まれていない場合は追加
     final categories = defaultCategories.contains(_category)
         ? defaultCategories
