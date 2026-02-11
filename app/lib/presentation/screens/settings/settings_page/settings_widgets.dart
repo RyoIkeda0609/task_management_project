@@ -1,52 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
-import '../../theme/app_theme.dart';
-import '../../widgets/common/app_bar_common.dart';
-import '../../widgets/common/custom_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../theme/app_colors.dart';
+import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_theme.dart';
+import '../../../widgets/common/custom_button.dart';
+import 'settings_view_model.dart';
 
-/// 設定画面
-///
-/// アプリケーション全体の設定とユーザー情報を管理します。
-class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
-
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
-  bool _darkModeEnabled = false;
+class SettingsUserSectionWidget extends StatelessWidget {
+  const SettingsUserSectionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: '設定',
-        hasLeading: false,
-        backgroundColor: AppColors.neutral100,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // ユーザー情報セクション
-            _buildUserSection(),
-            const Divider(height: 1),
-
-            // アプリケーション設定セクション
-            _buildApplicationSettingsSection(),
-            const Divider(height: 1),
-
-            // その他セクション
-            _buildOtherSection(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUserSection() {
     return Container(
       padding: EdgeInsets.all(Spacing.medium),
       color: AppColors.neutral50,
@@ -88,8 +52,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
+}
 
-  Widget _buildApplicationSettingsSection() {
+class SettingsApplicationSectionWidget extends ConsumerWidget {
+  const SettingsApplicationSectionWidget({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(settingsViewModelProvider);
+    final viewModel = ref.read(settingsViewModelProvider.notifier);
+
     return Padding(
       padding: EdgeInsets.all(Spacing.medium),
       child: Column(
@@ -99,35 +71,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SizedBox(height: Spacing.medium),
 
           // 通知設定
-          _buildSettingsTile(
+          SettingsTileWidget(
             icon: Icons.notifications,
             title: '通知を受け取る',
             subtitle: 'タスク期限やリマインダーの通知',
-            value: _notificationsEnabled,
-            onChanged: (value) => setState(() => _notificationsEnabled = value),
+            value: state.notificationsEnabled,
+            onChanged: (value) => viewModel.toggleNotifications(value),
           ),
           SizedBox(height: Spacing.medium),
 
           // ダークモード設定
-          _buildSettingsTile(
+          SettingsTileWidget(
             icon: Icons.dark_mode,
             title: 'ダークモード',
             subtitle: 'ダークモードを有効にする',
-            value: _darkModeEnabled,
-            onChanged: (value) => setState(() => _darkModeEnabled = value),
+            value: state.darkModeEnabled,
+            onChanged: (value) => viewModel.toggleDarkMode(value),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildSettingsTile({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
+class SettingsTileWidget extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const SettingsTileWidget({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: Spacing.small,
@@ -166,8 +150,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
   }
+}
 
-  Widget _buildOtherSection() {
+class SettingsOtherSectionWidget extends StatelessWidget {
+  const SettingsOtherSectionWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(Spacing.medium),
       child: Column(
@@ -175,35 +164,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           Text('その他', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.medium),
-          _buildPolicyTiles(),
+          _buildPolicyTiles(context),
           SizedBox(height: Spacing.medium),
           _buildVersionInfo(),
           SizedBox(height: Spacing.large),
-          _buildLogoutButton(),
+          _buildLogoutButton(context),
         ],
       ),
     );
   }
 
-  Widget _buildPolicyTiles() {
+  Widget _buildPolicyTiles(BuildContext context) {
     return Column(
       children: [
-        _buildActionTile(
+        SettingsActionTileWidget(
           icon: Icons.help_outline,
           title: 'ヘルプ',
-          onTap: () => _showDialog('ヘルプを表示'),
+          onTap: () => _showDialog(context, 'ヘルプを表示'),
         ),
         SizedBox(height: Spacing.small),
-        _buildActionTile(
+        SettingsActionTileWidget(
           icon: Icons.privacy_tip,
           title: 'プライバシーポリシー',
-          onTap: () => _showDialog('プライバシーポリシーを表示'),
+          onTap: () => _showDialog(context, 'プライバシーポリシーを表示'),
         ),
         SizedBox(height: Spacing.small),
-        _buildActionTile(
+        SettingsActionTileWidget(
           icon: Icons.description,
           title: '利用規約',
-          onTap: () => _showDialog('利用規約を表示'),
+          onTap: () => _showDialog(context, '利用規約を表示'),
         ),
       ],
     );
@@ -244,20 +233,69 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildLogoutButton() {
+  Widget _buildLogoutButton(BuildContext context) {
     return CustomButton(
       text: 'ログアウト',
-      onPressed: () => _showLogoutConfirmation(),
+      onPressed: () => _showLogoutConfirmation(context),
       width: double.infinity,
       type: ButtonType.danger,
     );
   }
 
-  Widget _buildActionTile({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
+  void _showDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('情報', style: AppTextStyles.headlineMedium),
+        content: Text(message, style: AppTextStyles.bodyMedium),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('閉じる'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('ログアウト', style: AppTextStyles.headlineMedium),
+        content: Text('ログアウトしてもよろしいですか？', style: AppTextStyles.bodyMedium),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('キャンセル'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: Text('ログアウト', style: TextStyle(color: AppColors.error)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsActionTileWidget extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const SettingsActionTileWidget({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -285,45 +323,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _showDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('情報', style: AppTextStyles.headlineMedium),
-        content: Text(message, style: AppTextStyles.bodyMedium),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('閉じる'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showLogoutConfirmation() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('ログアウト', style: AppTextStyles.headlineMedium),
-        content: Text('ログアウトしてもよろしいですか？', style: AppTextStyles.bodyMedium),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            },
-            child: Text('ログアウト', style: TextStyle(color: AppColors.error)),
-          ),
-        ],
       ),
     );
   }

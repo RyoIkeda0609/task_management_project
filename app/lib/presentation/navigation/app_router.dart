@@ -5,7 +5,7 @@ import '../screens/splash/splash_page.dart';
 import '../screens/onboarding/onboarding_page.dart';
 import '../screens/home/home_page.dart';
 import '../screens/today_tasks/today_tasks_page.dart';
-import '../screens/settings/settings_screen.dart';
+import '../screens/settings/settings_page/settings_page.dart';
 import '../screens/goal/goal_create/goal_create_page.dart';
 import '../screens/goal/goal_detail/goal_detail_page.dart';
 import '../screens/goal/goal_edit/goal_edit_page.dart';
@@ -235,7 +235,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutePaths.settings,
-                builder: (context, state) => const SettingsScreen(),
+                builder: (context, state) => const SettingsPage(),
               ),
             ],
           ),
