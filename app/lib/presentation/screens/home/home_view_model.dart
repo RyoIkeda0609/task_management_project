@@ -1,20 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter/material.dart';
 import 'home_state.dart';
 import '../../state_management/providers/app_providers.dart';
-import '../../../domain/entities/goal.dart';
 
 /// ホーム画面の ViewModel
 ///
 /// 責務：
 /// - ゴール一覧のロード
 /// - タブインデックスの管理
-/// - 進捗色の計算
 /// - UI 状態の更新
 ///
 /// 禁止：
 /// - UI 部品の操作
 /// - BuildContext 保持
+/// - UI整形ロジック（色計算など）
 class HomeViewModel extends StateNotifier<HomePageState> {
   final Ref _ref;
 
@@ -47,30 +45,6 @@ class HomeViewModel extends StateNotifier<HomePageState> {
   /// タブを選択
   void selectTab(int tabIndex) {
     state = state.updateTabIndex(tabIndex);
-  }
-
-  /// 進捗率に応じた色を取得
-  Color getProgressColor(int progressValue) {
-    if (progressValue == 0) {
-      return const Color(0xFFBCC0CA); // neutral400
-    } else if (progressValue < 50) {
-      return const Color(0xFF6366F1); // primary
-    } else if (progressValue < 100) {
-      return const Color(0xFFF59E0B); // warning
-    } else {
-      return const Color(0xFF10B981); // success
-    }
-  }
-
-  /// ゴール作成ボタンが押された
-  void onCreateGoalPressed() {
-    // ナビゲーションは Page が担当するため、
-    // ここでは何もしない（Page でコールバック処理）
-  }
-
-  /// ゴールカード選択
-  void onGoalCardTapped(Goal goal) {
-    // ナビゲーションは Page が担当
   }
 }
 

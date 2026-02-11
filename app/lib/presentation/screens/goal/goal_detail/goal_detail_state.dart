@@ -1,13 +1,59 @@
+import 'package:app/domain/entities/goal.dart';
+
+enum GoalDetailViewState { loading, notFound, data, error }
+
+/// ゴール詳細画面の UI状態
+///
+/// 表示用に整形された状態のみを保持
 class GoalDetailPageState {
-  final String goalId;
-  final bool isLoading;
+  final GoalDetailViewState viewState;
+  final Goal? goal;
+  final String? errorMessage;
 
-  const GoalDetailPageState({required this.goalId, this.isLoading = false});
+  const GoalDetailPageState({
+    required this.viewState,
+    this.goal,
+    this.errorMessage,
+  });
 
-  GoalDetailPageState copyWith({String? goalId, bool? isLoading}) {
+  /// ローディング状態
+  factory GoalDetailPageState.loading() {
+    return const GoalDetailPageState(viewState: GoalDetailViewState.loading);
+  }
+
+  /// データロード成功
+  factory GoalDetailPageState.withData(Goal? goal) {
+    if (goal == null) {
+      return const GoalDetailPageState(viewState: GoalDetailViewState.notFound);
+    }
     return GoalDetailPageState(
-      goalId: goalId ?? this.goalId,
-      isLoading: isLoading ?? this.isLoading,
+      viewState: GoalDetailViewState.data,
+      goal: goal,
     );
   }
+
+  /// エラー
+  factory GoalDetailPageState.withError(String message) {
+    return GoalDetailPageState(
+      viewState: GoalDetailViewState.error,
+      errorMessage: message,
+    );
+  }
+
+  GoalDetailPageState copyWith({
+    GoalDetailViewState? viewState,
+    Goal? goal,
+    String? errorMessage,
+  }) {
+    return GoalDetailPageState(
+      viewState: viewState ?? this.viewState,
+      goal: goal ?? this.goal,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+
+  bool get isLoading => viewState == GoalDetailViewState.loading;
+  bool get isNotFound => viewState == GoalDetailViewState.notFound;
+  bool get hasData => viewState == GoalDetailViewState.data && goal != null;
+  bool get isError => viewState == GoalDetailViewState.error;
 }

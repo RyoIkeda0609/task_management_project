@@ -1,16 +1,59 @@
+import 'package:app/domain/entities/milestone.dart';
+
+enum MilestoneDetailViewState { loading, notFound, data, error }
+
+/// マイルストーン詳細画面の UI状態
+///
+/// 表示用に整形された状態のみを保持
 class MilestoneDetailPageState {
-  final String milestoneId;
-  final bool isLoading;
+  final MilestoneDetailViewState viewState;
+  final Milestone? milestone;
+  final String? errorMessage;
 
   const MilestoneDetailPageState({
-    required this.milestoneId,
-    this.isLoading = false,
+    required this.viewState,
+    this.milestone,
+    this.errorMessage,
   });
 
-  MilestoneDetailPageState copyWith({String? milestoneId, bool? isLoading}) {
+  /// ローディング状態
+  factory MilestoneDetailPageState.loading() {
+    return const MilestoneDetailPageState(viewState: MilestoneDetailViewState.loading);
+  }
+
+  /// データロード成功
+  factory MilestoneDetailPageState.withData(Milestone? milestone) {
+    if (milestone == null) {
+      return const MilestoneDetailPageState(viewState: MilestoneDetailViewState.notFound);
+    }
     return MilestoneDetailPageState(
-      milestoneId: milestoneId ?? this.milestoneId,
-      isLoading: isLoading ?? this.isLoading,
+      viewState: MilestoneDetailViewState.data,
+      milestone: milestone,
     );
   }
+
+  /// エラー
+  factory MilestoneDetailPageState.withError(String message) {
+    return MilestoneDetailPageState(
+      viewState: MilestoneDetailViewState.error,
+      errorMessage: message,
+    );
+  }
+
+  MilestoneDetailPageState copyWith({
+    MilestoneDetailViewState? viewState,
+    Milestone? milestone,
+    String? errorMessage,
+  }) {
+    return MilestoneDetailPageState(
+      viewState: viewState ?? this.viewState,
+      milestone: milestone ?? this.milestone,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+
+  bool get isLoading => viewState == MilestoneDetailViewState.loading;
+  bool get isNotFound => viewState == MilestoneDetailViewState.notFound;
+  bool get hasData => viewState == MilestoneDetailViewState.data && milestone != null;
+  bool get isError => viewState == MilestoneDetailViewState.error;
 }

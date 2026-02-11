@@ -126,21 +126,6 @@ class HomeContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (state.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (state.isError) {
-      return GoalErrorView(
-        errorMessage: state.errorMessage ?? 'エラーが発生しました',
-        onCreatePressed: onCreatePressed,
-      );
-    }
-
-    if (state.isEmpty) {
-      return GoalEmptyView(onCreatePressed: onCreatePressed);
-    }
-
     return TabBarView(
       children: [
         GoalListView(goals: state.goals, onCreatePressed: onCreatePressed),

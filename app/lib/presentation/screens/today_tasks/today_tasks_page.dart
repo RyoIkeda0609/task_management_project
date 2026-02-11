@@ -7,6 +7,7 @@ import '../../navigation/app_router.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import 'today_tasks_widgets.dart';
+import 'today_tasks_state.dart';
 
 /// 今日のタスク画面
 ///
@@ -26,15 +27,36 @@ class TodayTasksPage extends ConsumerWidget {
         backgroundColor: AppColors.neutral100,
       ),
       body: groupedAsync.when(
-        data: (grouped) => _buildContent(context, grouped),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => TodayTasksErrorWidget(error: error),
+        data: (grouped) => _Body(
+          state: TodayTasksPageState.withData(grouped),
+        ),
+        loading: () => _Body(
+          state: TodayTasksPageState.loading(),
+        ),
+        error: (error, stackTrace) => _Body(
+          state: TodayTasksPageState.withError(error.toString()),
+        ),
       ),
     );
   }
+}
 
-  Widget _buildContent(BuildContext context, GroupedTasks grouped) {
-    if (grouped.total == 0) {
+class _Body extends StatelessWidget {
+  final TodayTasksPageState state;
+
+  const _Body({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.isError) {
+      return TodayTasksErrorWidget(error: state.errorMessage ?? 'Unknown error');
+    }
+
+    if (state.isEmpty) {
       return EmptyState(
         icon: Icons.check_circle_outline,
         title: '今日のタスクはありません',
@@ -44,36 +66,43 @@ class TodayTasksPage extends ConsumerWidget {
       );
     }
 
+    return _ContentView(grouped: state.groupedTasks!);
+  }
+}
+
+class _ContentView extends StatelessWidget {
+  final GroupedTasks grouped;
+
+  const _ContentView({required this.grouped});
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TodayTasksSummaryWidget(grouped: grouped),
           SizedBox(height: 16),
-          if (grouped.todoTasks.isNotEmpty) ...[
+          if (grouped.todoTasks.isNotEmpty)
             TodayTasksSectionWidget(
               title: '未完了',
               tasks: grouped.todoTasks,
               color: AppColors.neutral400,
             ),
-            SizedBox(height: 16),
-          ],
-          if (grouped.doingTasks.isNotEmpty) ...[
+          if (grouped.todoTasks.isNotEmpty) SizedBox(height: 16),
+          if (grouped.doingTasks.isNotEmpty)
             TodayTasksSectionWidget(
               title: '進行中',
               tasks: grouped.doingTasks,
               color: AppColors.warning,
             ),
-            SizedBox(height: 16),
-          ],
-          if (grouped.doneTasks.isNotEmpty) ...[
+          if (grouped.doingTasks.isNotEmpty) SizedBox(height: 16),
+          if (grouped.doneTasks.isNotEmpty)
             TodayTasksSectionWidget(
               title: '完了',
               tasks: grouped.doneTasks,
               color: AppColors.success,
             ),
-            SizedBox(height: 16),
-          ],
         ],
       ),
     );

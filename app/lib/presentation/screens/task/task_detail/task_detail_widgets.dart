@@ -7,6 +7,8 @@ import '../../../state_management/providers/app_providers.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
 
+// ============ Header Widget ============
+
 class TaskDetailHeaderWidget extends StatelessWidget {
   final Task task;
 
@@ -56,12 +58,12 @@ class TaskDetailDeadlineWidget extends StatelessWidget {
 
 class TaskDetailStatusWidget extends ConsumerWidget {
   final Task task;
-  final VoidCallback onStatusChanged;
+  final String source;
 
   const TaskDetailStatusWidget({
     super.key,
     required this.task,
-    required this.onStatusChanged,
+    required this.source,
   });
 
   @override
@@ -118,15 +120,13 @@ class TaskDetailStatusWidget extends ConsumerWidget {
       ref.invalidate(todayTasksProvider);
       ref.invalidate(goalsProvider);
       ref.invalidate(goalProgressProvider);
-
-      onStatusChanged();
     } catch (e) {
       rethrow;
     }
   }
 
   String _getStatusLabel(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
+    final statusStr = status.toString();
     if (statusStr.contains('todo')) return '未完了';
     if (statusStr.contains('doing')) return '進行中';
     if (statusStr.contains('done')) return '完了';
@@ -134,21 +134,21 @@ class TaskDetailStatusWidget extends ConsumerWidget {
   }
 
   IconData _getStatusIcon(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
+    final statusStr = status.toString();
     if (statusStr.contains('done')) return Icons.check_circle;
     if (statusStr.contains('doing')) return Icons.radio_button_checked;
     return Icons.radio_button_unchecked;
   }
 
   Color _getStatusColor(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
+    final statusStr = status.toString();
     if (statusStr.contains('done')) return AppColors.success;
     if (statusStr.contains('doing')) return AppColors.warning;
     return AppColors.neutral400;
   }
 
   Color _getStatusBackgroundColor(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
+    final statusStr = status.toString();
     if (statusStr.contains('done')) {
       return AppColors.success.withValues(alpha: 0.1);
     }
@@ -159,7 +159,7 @@ class TaskDetailStatusWidget extends ConsumerWidget {
   }
 
   Color _getStatusBorderColor(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
+    final statusStr = status.toString();
     if (statusStr.contains('done')) {
       return AppColors.success.withValues(alpha: 0.3);
     }

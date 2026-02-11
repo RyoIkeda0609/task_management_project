@@ -11,20 +11,18 @@ import 'home_widgets.dart';
 ///
 /// 責務：
 /// - Scaffold と Provider の接続
-/// - Widget の並列表示
-/// - ViewModel 呼び出し
+/// - _Body への配線
 /// - ナビゲーション処理
 ///
 /// 禁止：
 /// - ビジネスロジック
 /// - データ変換
-/// - 状態判定（if isLoading など）- ロジックは ViewModel へ
+/// - 状態判定（if isLoading など）- ロジックは _Body へ
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // goalsProvider を直接監視
     final goalsAsync = ref.watch(goalsProvider);
 
     return DefaultTabController(
@@ -32,27 +30,18 @@ class HomePage extends ConsumerWidget {
       child: Scaffold(
         appBar: const HomeAppBar(),
         body: goalsAsync.when(
-          data: (goals) {
-            final state = HomePageState.withData(goals);
-            return HomeContent(
-              state: state,
-              onCreatePressed: () => _onCreateGoalPressed(context),
-            );
-          },
-          loading: () {
-            final state = HomePageState.initial();
-            return HomeContent(
-              state: state,
-              onCreatePressed: () => _onCreateGoalPressed(context),
-            );
-          },
-          error: (error, stackTrace) {
-            final state = HomePageState.withError(error.toString());
-            return HomeContent(
-              state: state,
-              onCreatePressed: () => _onCreateGoalPressed(context),
-            );
-          },
+          data: (goals) => _Body(
+            state: HomePageState.withData(goals),
+            onCreatePressed: () => _onCreateGoalPressed(context),
+          ),
+          loading: () => _Body(
+            state: HomePageState.initial(),
+            onCreatePressed: () => _onCreateGoalPressed(context),
+          ),
+          error: (error, stackTrace) => _Body(
+            state: HomePageState.withError(error.toString()),
+            onCreatePressed: () => _onCreateGoalPressed(context),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _onCreateGoalPressed(context),
@@ -62,8 +51,47 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  /// ゴール作成ボタンが押された
   void _onCreateGoalPressed(BuildContext context) {
     AppRouter.navigateToGoalCreate(context);
+  }
+}
+
+class _Body extends StatelessWidget {
+  final HomePageState state;
+  final VoidCallback onCreatePressed;
+
+  const _Body({required this.state, required this.onCreatePressed});
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.isLoading) {
+      return TabBarView(
+        children: [
+          _buildLoadingTab(),
+          _buildLoadingTab(),
+          _buildLoadingTab(),
+        ],
+      );
+    }
+
+    if (state.isError) {
+      return GoalErrorView(
+        errorMessage: state.errorMessage ?? 'Unknown error',
+        onCreatePressed: onCreatePressed,
+      );
+    }
+
+    if (state.isEmpty) {
+      return GoalEmptyView(onCreatePressed: onCreatePressed);
+    }
+
+    return HomeContent(
+      state: state,
+      onCreatePressed: onCreatePressed,
+    );
+  }
+
+  Widget _buildLoadingTab() {
+    return const Center(child: CircularProgressIndicator());
   }
 }
