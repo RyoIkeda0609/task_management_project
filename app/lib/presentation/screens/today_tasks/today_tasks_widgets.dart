@@ -1,106 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../application/providers/use_case_providers.dart';
-import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
-import '../../../domain/entities/task.dart';
-import '../../navigation/app_router.dart';
-import '../../state_management/providers/app_providers.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
+import '../../../application/providers/use_case_providers.dart';
+import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
+import '../../../domain/entities/task.dart';
+import '../../state_management/providers/app_providers.dart';
 import '../../utils/validation_helper.dart';
-import '../../widgets/common/app_bar_common.dart';
-import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/status_badge.dart';
+import '../../navigation/app_router.dart';
 
-/// 今日のタスク画面
-///
-/// 本日中に完了すべきタスクを表示します。
-/// ステータス別にタスクをグループ化して表示します。
-class TodayTasksScreen extends ConsumerStatefulWidget {
-  const TodayTasksScreen({super.key});
+class TodayTasksSummaryWidget extends StatelessWidget {
+  final GroupedTasks grouped;
 
-  @override
-  ConsumerState<TodayTasksScreen> createState() => _TodayTasksScreenState();
-}
+  const TodayTasksSummaryWidget({super.key, required this.grouped});
 
-class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   @override
   Widget build(BuildContext context) {
-    final groupedAsync = ref.watch(todayTasksGroupedProvider);
-
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: '今日のタスク',
-        hasLeading: false,
-        backgroundColor: AppColors.neutral100,
-      ),
-      body: groupedAsync.when(
-        data: (grouped) => _buildContent(context, grouped),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => _buildErrorWidget(error),
-      ),
-    );
-  }
-
-  Widget _buildContent(BuildContext context, GroupedTasks grouped) {
-    if (grouped.total == 0) {
-      return EmptyState(
-        icon: Icons.check_circle_outline,
-        title: '今日のタスクはありません',
-        message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
-        actionText: 'ホームに戻る',
-        onActionPressed: () => AppRouter.navigateToHome(context),
-      );
-    }
-
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // サマリー
-          _buildSummary(context, grouped),
-          SizedBox(height: Spacing.medium),
-
-          // 未完了タスク
-          if (grouped.todoTasks.isNotEmpty) ...[
-            _buildTaskSection(
-              context,
-              '未完了',
-              grouped.todoTasks,
-              AppColors.neutral400,
-            ),
-            SizedBox(height: Spacing.medium),
-          ],
-
-          // 進行中タスク
-          if (grouped.doingTasks.isNotEmpty) ...[
-            _buildTaskSection(
-              context,
-              '進行中',
-              grouped.doingTasks,
-              AppColors.warning,
-            ),
-            SizedBox(height: Spacing.medium),
-          ],
-
-          // 完了タスク
-          if (grouped.doneTasks.isNotEmpty) ...[
-            _buildTaskSection(
-              context,
-              '完了',
-              grouped.doneTasks,
-              AppColors.success,
-            ),
-            SizedBox(height: Spacing.medium),
-          ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSummary(BuildContext context, GroupedTasks grouped) {
     return Container(
       margin: EdgeInsets.all(Spacing.medium),
       padding: EdgeInsets.all(Spacing.medium),
@@ -131,7 +48,6 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
   }
 
   Widget _buildProgressDetails(GroupedTasks grouped) {
-    // Todo=0%, Doing=50%, Done=100% で進捗を計算
     final progressPercentage = grouped.total == 0
         ? 0.0
         : ((grouped.doingTasks.length * 50 + grouped.doneTasks.length * 100) /
@@ -201,13 +117,22 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
       ),
     );
   }
+}
 
-  Widget _buildTaskSection(
-    BuildContext context,
-    String title,
-    List<Task> tasks,
-    Color color,
-  ) {
+class TodayTasksSectionWidget extends ConsumerWidget {
+  final String title;
+  final List<Task> tasks;
+  final Color color;
+
+  const TodayTasksSectionWidget({
+    super.key,
+    required this.title,
+    required this.tasks,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -231,13 +156,20 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         SizedBox(height: Spacing.small),
         ...tasks.asMap().entries.map((entry) {
           final task = entry.value;
-          return _buildTaskItem(context, task);
+          return TodayTaskItemWidget(task: task);
         }),
       ],
     );
   }
+}
 
-  Widget _buildTaskItem(BuildContext context, Task task) {
+class TodayTaskItemWidget extends ConsumerWidget {
+  final Task task;
+
+  const TodayTaskItemWidget({super.key, required this.task});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: Spacing.medium,
@@ -251,11 +183,11 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         ),
         child: Row(
           children: [
-            // 左側：ステータスインジケーター部分（タップで更新）
+            // ステータスインジケーター（タップで更新）
             Expanded(
               flex: 0,
               child: GestureDetector(
-                onTap: () => _toggleTaskStatus(task),
+                onTap: () => _toggleTaskStatus(context, ref, task),
                 child: Container(
                   padding: EdgeInsets.all(Spacing.medium),
                   child: _buildStatusIndicator(task.status),
@@ -263,11 +195,10 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
               ),
             ),
             SizedBox(width: Spacing.small),
-            // 中央：タスク情報（タップで詳細へ遷移）
+            // タスク情報
             Expanded(
               child: GestureDetector(
-                onTap: () =>
-                    AppRouter.navigateToTaskDetail(context, task.id.value),
+                onTap: () => _navigateToTaskDetail(context, task),
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: Spacing.medium),
                   child: Column(
@@ -291,11 +222,11 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
               ),
             ),
             SizedBox(width: Spacing.small),
-            // 右側：ステータスバッジ（タップで更新）
+            // ステータスバッジ
             Expanded(
               flex: 0,
               child: GestureDetector(
-                onTap: () => _toggleTaskStatus(task),
+                onTap: () => _toggleTaskStatus(context, ref, task),
                 child: Container(
                   padding: EdgeInsets.all(Spacing.medium),
                   child: StatusBadge(
@@ -329,19 +260,20 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
     return Icon(icon, color: color, size: 24);
   }
 
-  Future<void> _toggleTaskStatus(Task task) async {
+  Future<void> _toggleTaskStatus(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+  ) async {
     try {
       final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
       await changeTaskStatusUseCase(task.id.value);
 
-      // プロバイダーキャッシュを無効化
-      if (mounted) {
-        ref.invalidate(todayTasksProvider);
-        ref.invalidate(taskDetailProvider(task.id.value));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
-      }
+      ref.invalidate(todayTasksProvider);
+      ref.invalidate(taskDetailProvider(task.id.value));
+      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
 
-      if (mounted) {
+      if (context.mounted) {
         await ValidationHelper.showSuccess(
           context,
           title: 'ステータス更新完了',
@@ -349,7 +281,7 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         );
       }
     } catch (e) {
-      if (mounted) {
+      if (context.mounted) {
         await ValidationHelper.handleException(
           context,
           e,
@@ -358,6 +290,10 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
         );
       }
     }
+  }
+
+  void _navigateToTaskDetail(BuildContext context, Task task) {
+    AppRouter.navigateToTaskDetail(context, task.id.value);
   }
 
   String _normalizeTaskStatusToKnownState(dynamic status) {
@@ -371,8 +307,15 @@ class _TodayTasksScreenState extends ConsumerState<TodayTasksScreen> {
     final statusStr = status?.toString() ?? 'unknown';
     return statusStr.contains(targetState);
   }
+}
 
-  Widget _buildErrorWidget(Object error) {
+class TodayTasksErrorWidget extends StatelessWidget {
+  final Object error;
+
+  const TodayTasksErrorWidget({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

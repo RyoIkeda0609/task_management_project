@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../screens/splash/splash_page.dart';
 import '../screens/onboarding/onboarding_page.dart';
 import '../screens/home/home_page.dart';
-import '../screens/today_tasks/today_tasks_screen.dart';
+import '../screens/today_tasks/today_tasks_page.dart';
 import '../screens/settings/settings_screen.dart';
 import '../screens/goal/goal_create/goal_create_page.dart';
 import '../screens/goal/goal_detail/goal_detail_page.dart';
@@ -202,7 +202,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutePaths.todayTasks,
-                builder: (context, state) => const TodayTasksScreen(),
+                builder: (context, state) => const TodayTasksPage(),
                 routes: [
                   /// タスク詳細画面（今日のタスク配下）
                   GoRoute(

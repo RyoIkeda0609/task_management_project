@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import '../home/home_page.dart';
-import '../today_tasks/today_tasks_screen.dart';
+import '../today_tasks/today_tasks_page.dart';
 import '../settings/settings_screen.dart';
 
 /// ホーム画面のボトムタブナビゲーション
@@ -22,7 +22,7 @@ class _HomeNavigationShellState extends State<HomeNavigationShell> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: const [HomePage(), TodayTasksScreen(), SettingsScreen()],
+        children: const [HomePage(), TodayTasksPage(), SettingsScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
