@@ -13,7 +13,7 @@ void main() {
             body: const Text('Milestone Info'),
             floatingActionButton: FloatingActionButton(
               onPressed: () {},
-              child: const Icon(Icons.add),
+              child: const Icon(Icons.add_comment),
             ),
           ),
         ),

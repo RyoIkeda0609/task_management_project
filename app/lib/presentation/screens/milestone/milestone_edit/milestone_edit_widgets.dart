@@ -33,8 +33,6 @@ class MilestoneEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // マイルストーン名
-            Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
             CustomTextField(
               label: 'マイルストーン名を入力してください',
               initialValue: state.milestoneId == milestoneId
@@ -136,21 +134,23 @@ class _MilestoneEditActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
       children: [
-        CustomButton(
-          text: '更新する',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: CustomButton(
+            text: '更新する',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

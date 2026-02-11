@@ -117,4 +117,35 @@ class DialogHelper {
       ),
     );
   }
+
+  /// 削除確認ダイアログを表示
+  static Future<bool?> showDeleteConfirmDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+    String deleteText = '削除',
+    String cancelText = 'キャンセル',
+  }) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title, style: AppTextStyles.headlineMedium),
+        content: Text(message, style: AppTextStyles.bodyMedium),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(
+              cancelText,
+              style: AppTextStyles.button.copyWith(color: AppColors.neutral600),
+            ),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(deleteText),
+          ),
+        ],
+      ),
+    );
+  }
 }

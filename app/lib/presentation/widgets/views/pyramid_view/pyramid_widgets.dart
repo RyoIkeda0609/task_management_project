@@ -29,35 +29,20 @@ class PyramidGoalNode extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'ゴール',
-                          style: AppTextStyles.labelSmall.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        SizedBox(height: Spacing.xSmall),
-                        Text(
-                          goal.title.value,
-                          style: AppTextStyles.titleMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Icon(Icons.arrow_forward, color: AppColors.primary),
-                ],
+              Expanded(
+                child: Text(
+                  goal.title.value,
+                  style: AppTextStyles.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              SizedBox(width: Spacing.small),
+              Icon(Icons.arrow_forward, color: AppColors.primary, size: 20),
             ],
           ),
         ),
@@ -102,18 +87,20 @@ class PyramidMilestoneNode extends ConsumerWidget {
             onExpansionChanged: (_) {
               viewModel.toggleMilestoneExpansion(milestone.id.value);
             },
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  milestone.title.value,
-                  style: AppTextStyles.titleSmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Text(
+                    milestone.title.value,
+                    style: AppTextStyles.titleSmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                SizedBox(height: Spacing.xSmall),
+                SizedBox(width: Spacing.small),
                 Text(
-                  '期限: ${_formatDate(milestone.deadline.value)}',
+                  _formatDate(milestone.deadline.value),
                   style: AppTextStyles.bodySmall.copyWith(
                     color: AppColors.neutral600,
                   ),
@@ -126,17 +113,10 @@ class PyramidMilestoneNode extends ConsumerWidget {
                 goalId,
                 milestone.id.value,
               ),
-              child: Container(
-                padding: EdgeInsets.all(Spacing.xSmall),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                  color: AppColors.primary,
-                ),
+              child: Icon(
+                Icons.arrow_forward,
+                size: 18,
+                color: AppColors.primary,
               ),
             ),
             children: [
@@ -183,7 +163,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
+    return '${date.month}/${date.day}';
   }
 }
 
@@ -196,38 +176,24 @@ class PyramidTaskNode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: Spacing.small),
-      padding: EdgeInsets.all(Spacing.medium),
+      margin: EdgeInsets.only(bottom: Spacing.xSmall),
+      padding: EdgeInsets.all(Spacing.small),
       decoration: BoxDecoration(
         color: _getTaskStatusColor(task.status.value),
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppColors.neutral200),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            margin: EdgeInsets.only(right: Spacing.small),
-            child: _getStatusIcon(task.status.value),
-          ),
+          _getStatusIcon(task.status.value),
+          SizedBox(width: Spacing.small),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  task.title.value,
-                  style: AppTextStyles.bodyMedium,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: Spacing.xSmall),
-                Text(
-                  '期限: ${_formatDate(task.deadline.value)}',
-                  style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.neutral600,
-                  ),
-                ),
-              ],
+            child: Text(
+              task.title.value,
+              style: AppTextStyles.bodySmall,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -238,56 +204,32 @@ class PyramidTaskNode extends StatelessWidget {
   Color _getTaskStatusColor(String status) {
     switch (status) {
       case 'todo':
-        return Colors.grey.withValues(alpha: 0.1);
+        return AppColors.neutral200.withValues(alpha: 0.5);
       case 'doing':
-        return Colors.orange.withValues(alpha: 0.1);
+        return AppColors.warning.withValues(alpha: 0.1);
       case 'done':
-        return Colors.green.withValues(alpha: 0.1);
+        return AppColors.success.withValues(alpha: 0.1);
       default:
-        return Colors.grey.withValues(alpha: 0.1);
+        return AppColors.neutral100;
     }
   }
 
   Widget _getStatusIcon(String status) {
     switch (status) {
-      case 'todo':
-        return Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: AppColors.neutral400),
-          ),
-          child: const SizedBox.shrink(),
-        );
-      case 'doing':
-        return Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.orange.withValues(alpha: 0.3),
-            border: Border.all(color: Colors.orange),
-          ),
-          child: Center(
-            child: Container(
-              width: 12,
-              height: 12,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.orange,
-              ),
-            ),
-          ),
-        );
       case 'done':
-        return Icon(Icons.check_circle, color: Colors.green, size: 24);
+        return Icon(Icons.check_circle, color: AppColors.success, size: 18);
+      case 'doing':
+        return Icon(
+          Icons.radio_button_checked,
+          color: AppColors.warning,
+          size: 18,
+        );
       default:
-        return const SizedBox(width: 24, height: 24);
+        return Icon(
+          Icons.radio_button_unchecked,
+          color: AppColors.neutral400,
+          size: 18,
+        );
     }
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
   }
 }

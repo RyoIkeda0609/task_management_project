@@ -36,8 +36,6 @@ class TaskEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // タイトル入力
-            Text('タスク名 *', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
             CustomTextField(
               key: ValueKey('title_$taskId'),
               label: 'タスク名を入力してください',
@@ -47,13 +45,6 @@ class TaskEditFormWidget extends ConsumerWidget {
             SizedBox(height: Spacing.medium),
 
             // 説明入力
-            Text(
-              'タスクの説明 （任意）',
-              style: AppTextStyles.labelMedium.copyWith(
-                color: AppColors.neutral600,
-              ),
-            ),
-            SizedBox(height: Spacing.small),
             CustomTextField(
               key: ValueKey('description_$taskId'),
               label: 'タスクの詳細を入力してください',
@@ -250,21 +241,23 @@ class _TaskEditActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
       children: [
-        CustomButton(
-          text: 'タスクを更新',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.small),
+        Expanded(
+          child: CustomButton(
+            text: '更新',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

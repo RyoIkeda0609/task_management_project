@@ -21,29 +21,35 @@ class GoalDetailHeaderWidget extends StatelessWidget {
       children: [
         Text(goal.title.value, style: AppTextStyles.headlineMedium),
         SizedBox(height: Spacing.small),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.small,
-            vertical: Spacing.xSmall,
-          ),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            goal.category.value,
-            style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
-          ),
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: Spacing.small,
+                vertical: Spacing.xSmall,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(
+                goal.category.value,
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              '期限: ${_formatDate(goal.deadline)}',
+              style: AppTextStyles.bodyMedium,
+            ),
+          ],
         ),
         SizedBox(height: Spacing.medium),
         Text('ゴールの理由', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.xSmall),
         Text(goal.reason.value, style: AppTextStyles.bodyMedium),
-        SizedBox(height: Spacing.medium),
-        Text(
-          '期限: ${_formatDate(goal.deadline)}',
-          style: AppTextStyles.bodyMedium,
-        ),
       ],
     );
   }
@@ -75,7 +81,6 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('ゴール詳細（ピラミッドビュー）', style: AppTextStyles.headlineSmall),
         SizedBox(height: Spacing.medium),
         milestonesAsync.when(
           data: (milestones) => milestones.isEmpty

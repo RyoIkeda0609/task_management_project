@@ -45,7 +45,7 @@ class HomePage extends ConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _onCreateGoalPressed(context),
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add_comment),
         ),
       ),
     );

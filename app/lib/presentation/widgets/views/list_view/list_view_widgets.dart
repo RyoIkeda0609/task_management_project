@@ -25,12 +25,8 @@ class GoalCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _GoalCardHeader(goal: goal),
-              SizedBox(height: Spacing.small),
-              _GoalCardReason(reason: goal.reason.value),
               SizedBox(height: Spacing.medium),
-              _GoalCardProgress(goalId: goal.id.value),
-              SizedBox(height: Spacing.medium),
-              _GoalCardDeadline(deadline: goal.deadline.value),
+              _GoalCardFooter(goal: goal, goalId: goal.id.value),
             ],
           ),
         ),
@@ -48,12 +44,13 @@ class _GoalCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Text(
             goal.title.value,
-            style: AppTextStyles.titleLarge,
-            maxLines: 2,
+            style: AppTextStyles.titleMedium,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -77,28 +74,12 @@ class _GoalCardHeader extends StatelessWidget {
   }
 }
 
-/// ゴールカード - 理由説明
-class _GoalCardReason extends StatelessWidget {
-  final String reason;
-
-  const _GoalCardReason({required this.reason});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      reason,
-      style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
-  }
-}
-
-/// ゴールカード - 進捗セクション
-class _GoalCardProgress extends ConsumerWidget {
+/// ゴールカード - フッター（期限と進捗を1行にまとめる）
+class _GoalCardFooter extends ConsumerWidget {
+  final Goal goal;
   final String goalId;
 
-  const _GoalCardProgress({required this.goalId});
+  const _GoalCardFooter({required this.goal, required this.goalId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -109,18 +90,36 @@ class _GoalCardProgress extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '進捗: ${progress.value}%',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.neutral600,
-              ),
+            // 期限と進捗を1行にまとめる
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    '期限：${_formatDate(goal.deadline.value)}',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.neutral600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(width: Spacing.small),
+                Text(
+                  '進捗：${progress.value}%',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.neutral600,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: Spacing.xSmall),
+            SizedBox(height: Spacing.small),
+            // 進捗バー
             ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                 value: progress.value / 100.0,
-                minHeight: 8,
+                minHeight: 6,
                 backgroundColor: AppColors.neutral200,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   _getProgressColor(progress.value),
@@ -131,7 +130,7 @@ class _GoalCardProgress extends ConsumerWidget {
         );
       },
       loading: () => SizedBox(
-        height: 16,
+        height: 20,
         child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
       ),
       error: (error, _) => Text(
@@ -141,34 +140,19 @@ class _GoalCardProgress extends ConsumerWidget {
     );
   }
 
+  String _formatDate(DateTime date) {
+    return '${date.year}年${date.month}月${date.day}日';
+  }
+
   Color _getProgressColor(int progress) {
     if (progress < 25) {
-      return AppColors.error;
+      return AppColors.neutral400;
     } else if (progress < 50) {
-      return AppColors.warning;
-    } else if (progress < 75) {
       return AppColors.primary;
+    } else if (progress < 75) {
+      return AppColors.warning;
     } else {
       return AppColors.success;
     }
-  }
-}
-
-/// ゴールカード - 期限
-class _GoalCardDeadline extends StatelessWidget {
-  final DateTime deadline;
-
-  const _GoalCardDeadline({required this.deadline});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      '期限: ${_formatDate(deadline)}',
-      style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral500),
-    );
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
   }
 }

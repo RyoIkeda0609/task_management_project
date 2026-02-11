@@ -37,18 +37,13 @@ class GoalEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ゴール名
-            Text('ゴール名 *', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
             CustomTextField(
               label: 'ゴール名を入力してください',
               initialValue: state.goalId == goalId ? state.title : goalTitle,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
-
             // 説明
-            Text('ゴールの理由', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
             CustomTextField(
               label: 'ゴールの理由を入力してください（任意）',
               initialValue: state.goalId == goalId ? state.reason : goalReason,
@@ -197,21 +192,23 @@ class _GoalEditActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
       children: [
-        CustomButton(
-          text: '更新する',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: CustomButton(
+            text: '更新',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

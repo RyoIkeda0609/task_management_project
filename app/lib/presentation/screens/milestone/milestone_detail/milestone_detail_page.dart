@@ -5,8 +5,10 @@ import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/app_bar_common.dart';
+import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/milestone.dart';
 import 'milestone_detail_state.dart';
@@ -31,6 +33,28 @@ class MilestoneDetailPage extends ConsumerWidget {
         hasLeading: true,
         backgroundColor: AppColors.neutral100,
         onLeadingPressed: () => context.pop(),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => milestoneAsync.whenData((milestone) {
+              if (milestone != null) {
+                AppRouter.navigateToMilestoneEdit(
+                  context,
+                  milestone.goalId,
+                  milestoneId,
+                );
+              }
+            }),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => milestoneAsync.whenData((milestone) {
+              if (milestone != null) {
+                _showDeleteConfirmation(context, ref, milestone);
+              }
+            }),
+          ),
+        ],
       ),
       body: milestoneAsync.when(
         data: (milestone) => _Body(
@@ -54,13 +78,56 @@ class MilestoneDetailPage extends ConsumerWidget {
                   : null,
             )
             .value,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_comment),
       ),
     );
   }
 
   void _navigateToTaskCreate(BuildContext context, String goalId) {
     AppRouter.navigateToTaskCreate(context, milestoneId, goalId);
+  }
+
+  void _showDeleteConfirmation(
+    BuildContext context,
+    WidgetRef ref,
+    Milestone milestone,
+  ) async {
+    final confirmed = await DialogHelper.showDeleteConfirmDialog(
+      context,
+      title: '本当に削除しますか？',
+      message: 'マイルストーン「${milestone.title.value}」を削除します。配下のタスクもすべて削除されます。',
+    );
+
+    if (confirmed == true && context.mounted) {
+      try {
+        final deleteMilestoneUseCase = ref.read(deleteMilestoneUseCaseProvider);
+        await deleteMilestoneUseCase(milestoneId);
+
+        // Provider キャッシュを無効化
+        ref.invalidate(milestonsByGoalProvider(milestone.goalId));
+        ref.invalidate(milestoneDetailProvider(milestoneId));
+        ref.invalidate(goalsProvider);
+        ref.invalidate(goalProgressProvider);
+
+        if (context.mounted) {
+          await ValidationHelper.showSuccess(
+            context,
+            title: 'マイルストーン削除完了',
+            message: 'マイルストーン「${milestone.title.value}」を削除しました。',
+          );
+          context.pop();
+        }
+      } catch (e) {
+        if (context.mounted) {
+          await ValidationHelper.handleException(
+            context,
+            e,
+            customTitle: 'マイルストーン削除エラー',
+            customMessage: 'マイルストーンの削除に失敗しました。',
+          );
+        }
+      }
+    }
   }
 }
 
@@ -154,8 +221,6 @@ class _ContentView extends ConsumerWidget {
           _Header(milestone: milestone),
           SizedBox(height: Spacing.large),
           _Content(milestoneId: milestoneId, milestone: milestone),
-          SizedBox(height: Spacing.large),
-          _Action(milestone: milestone, milestoneId: milestoneId),
         ],
       ),
     );
@@ -186,95 +251,6 @@ class _Content extends StatelessWidget {
       child: MilestoneDetailTasksSection(
         milestoneId: milestoneId,
         milestone: milestone,
-      ),
-    );
-  }
-}
-
-class _Action extends ConsumerWidget {
-  final Milestone milestone;
-  final String milestoneId;
-
-  const _Action({required this.milestone, required this.milestoneId});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.edit),
-              label: const Text('編集'),
-              onPressed: () => AppRouter.navigateToMilestoneEdit(
-                context,
-                milestone.goalId,
-                milestoneId,
-              ),
-            ),
-          ),
-          SizedBox(width: Spacing.medium),
-          Expanded(
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.delete_outline),
-              label: const Text('削除'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () => _showDeleteDialog(context, ref),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showDeleteDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('マイルストーン削除'),
-        content: Text(
-          '「${milestone.title.value}」を削除してもよろしいですか？\n関連するタスクもすべて削除されます。',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(dialogContext).pop();
-              try {
-                final deleteMilestoneUseCase = ref.read(
-                  deleteMilestoneUseCaseProvider,
-                );
-                await deleteMilestoneUseCase(milestoneId);
-
-                ref.invalidate(milestonsByGoalProvider(milestone.goalId));
-                ref.invalidate(goalsProvider);
-                ref.invalidate(goalProgressProvider);
-                ref.invalidate(todayTasksProvider);
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('マイルストーンを削除しました')),
-                  );
-                  Navigator.of(context).pop();
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
-                }
-              }
-            },
-            child: const Text('削除', style: TextStyle(color: Colors.red)),
-          ),
-        ],
       ),
     );
   }
