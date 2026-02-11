@@ -12,6 +12,10 @@ import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 
 class FakeTaskRepository implements TaskRepository {
+  final Task? mockTask;
+
+  FakeTaskRepository({this.mockTask});
+
   @override
   Future<void> saveTask(Task task) async {}
 
@@ -19,7 +23,7 @@ class FakeTaskRepository implements TaskRepository {
   Future<List<Task>> getAllTasks() async => [];
 
   @override
-  Future<Task?> getTaskById(String id) async => null;
+  Future<Task?> getTaskById(String id) async => mockTask;
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async => [];
@@ -49,7 +53,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+            taskRepositoryProvider.overrideWithValue(
+              FakeTaskRepository(mockTask: testTask),
+            ),
             taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => testTask),
@@ -100,7 +106,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+            taskRepositoryProvider.overrideWithValue(
+              FakeTaskRepository(mockTask: testTask),
+            ),
             taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => testTask),
@@ -131,7 +139,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+            taskRepositoryProvider.overrideWithValue(
+              FakeTaskRepository(mockTask: todoTask),
+            ),
             taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => todoTask),
@@ -161,7 +171,9 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+            taskRepositoryProvider.overrideWithValue(
+              FakeTaskRepository(mockTask: testTask),
+            ),
             taskDetailProvider(
               'test-task-1',
             ).overrideWith((ref) async => testTask),

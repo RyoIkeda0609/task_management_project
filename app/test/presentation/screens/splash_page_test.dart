@@ -25,6 +25,9 @@ void main() {
 
       // ウィジェットが正常にマウント
       expect(find.byType(SplashPage), findsOneWidget);
+      
+      // タイマーの完了を待つ (2秒 + 余裕)
+      await tester.pump(const Duration(seconds: 3));
     });
 
     testWidgets('SplashContent が表示される', (WidgetTester tester) async {

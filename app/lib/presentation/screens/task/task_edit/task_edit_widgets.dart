@@ -33,6 +33,7 @@ class TaskEditFormWidget extends ConsumerWidget {
             Text('タスク名 *', style: AppTextStyles.labelLarge),
             SizedBox(height: Spacing.small),
             CustomTextField(
+              key: ValueKey('title_${state.title}'),
               label: 'タスク名を入力してください',
               initialValue: state.title,
               onChanged: viewModel.updateTitle,
@@ -48,6 +49,7 @@ class TaskEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.small),
             CustomTextField(
+              key: ValueKey('description_${state.description}'),
               label: 'タスクの詳細を入力してください',
               initialValue: state.description,
               onChanged: viewModel.updateDescription,

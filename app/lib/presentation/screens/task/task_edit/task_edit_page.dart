@@ -60,16 +60,18 @@ class TaskEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（初回のみ）
+    // ViewModelを初期化（遅延実行）
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
     final state = ref.watch(taskEditViewModelProvider);
 
     if (state.title.isEmpty) {
-      viewModel.initializeWithTask(
-        title: task.title.value,
-        description: task.description.value,
-        selectedDeadline: task.deadline.value,
-      );
+      Future.microtask(() {
+        viewModel.initializeWithTask(
+          title: task.title.value,
+          description: task.description.value,
+          selectedDeadline: task.deadline.value,
+        );
+      });
     }
 
     return Scaffold(

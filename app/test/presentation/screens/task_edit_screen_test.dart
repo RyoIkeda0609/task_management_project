@@ -66,6 +66,7 @@ void main() {
       );
 
       await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.text('タスクを編集'), findsWidgets);
       expect(find.text('テスト タスク'), findsOneWidget);

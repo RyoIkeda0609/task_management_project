@@ -16,7 +16,10 @@ void main() {
     testWidgets('HomeAppBar が表示される', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(appBar: const HomeAppBar(), body: const SizedBox()),
+          home: DefaultTabController(
+            length: 3,
+            child: Scaffold(appBar: const HomeAppBar(), body: const SizedBox()),
+          ),
         ),
       );
 
@@ -45,7 +48,7 @@ void main() {
         title: GoalTitle('テストゴール'),
         category: GoalCategory('学習'),
         reason: GoalReason('理由'),
-        deadline: DateTime.now().add(const Duration(days: 30)) as GoalDeadline,
+        deadline: GoalDeadline(DateTime.now().add(const Duration(days: 30))),
       );
 
       await tester.pumpWidget(
@@ -67,7 +70,10 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(body: GoalEmptyView(onCreatePressed: () {})),
+            home: DefaultTabController(
+              length: 3,
+              child: Scaffold(body: GoalEmptyView(onCreatePressed: () {})),
+            ),
           ),
         ),
       );

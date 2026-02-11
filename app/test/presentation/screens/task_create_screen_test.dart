@@ -145,6 +145,11 @@ void main() {
     testWidgets('closes screen when cancel button is tapped', (
       WidgetTester tester,
     ) async {
+      // テスト用の画面サイズを増大
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      tester.binding.window.physicalSizeTestValue = const Size(1600, 2400);
+      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
@@ -161,8 +166,16 @@ void main() {
 
       await tester.pumpAndSettle();
 
+      // キャンセルボタンを見つけてスクロール
+      final cancelFinder = find.text('キャンセル');
+      expect(cancelFinder, findsOneWidget);
+      
+      // ウィジェットがビューポート内にあることを確認
+      await tester.ensureVisible(cancelFinder);
+      await tester.pumpAndSettle();
+      
       // キャンセルボタンをタップ
-      await tester.tap(find.text('キャンセル'));
+      await tester.tap(cancelFinder);
       await tester.pumpAndSettle();
 
       // 画面がクローズされていることを確認
