@@ -1,16 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/progress/calculate_progress_use_case.dart';
-import 'package:app/domain/entities/goal.dart';
+import 'package:app/domain/services/goal_completion_service.dart';
+import 'package:app/domain/services/milestone_completion_service.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
-import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/domain/value_objects/milestone/milestone_id.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
@@ -19,35 +14,7 @@ import 'package:app/domain/value_objects/task/task_title.dart';
 import 'package:app/domain/value_objects/task/task_description.dart';
 import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
-
-class MockGoalRepository implements GoalRepository {
-  final List<Goal> _goals = [];
-
-  @override
-  Future<List<Goal>> getAllGoals() async => _goals;
-
-  @override
-  Future<Goal?> getGoalById(String id) async {
-    try {
-      return _goals.firstWhere((g) => g.id.value == id);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  @override
-  Future<void> saveGoal(Goal goal) async => _goals.add(goal);
-
-  @override
-  Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
-
-  @override
-  Future<void> deleteAllGoals() async => _goals.clear();
-
-  @override
-  Future<int> getGoalCount() async => _goals.length;
-}
+import 'package:app/domain/value_objects/shared/progress.dart';
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -120,62 +87,142 @@ class MockTaskRepository implements TaskRepository {
   Future<int> getTaskCount() async => _tasks.length;
 }
 
+/// MockGoalCompletionService - Service の Mock 実装
+class MockGoalCompletionService implements GoalCompletionService {
+  final MockMilestoneRepository milestoneRepository;
+  final MockTaskRepository taskRepository;
+
+  MockGoalCompletionService(this.milestoneRepository, this.taskRepository);
+
+  @override
+  Future<bool> isGoalCompleted(String goalId) async {
+    final milestones = await milestoneRepository.getMilestonesByGoalId(goalId);
+    if (milestones.isEmpty) return false;
+
+    int completedCount = 0;
+    for (final milestone in milestones) {
+      final tasks = await taskRepository.getTasksByMilestoneId(
+        milestone.id.value,
+      );
+      if (tasks.isNotEmpty) {
+        final allTasksDone = tasks.every((task) => task.status.isDone);
+        if (allTasksDone) {
+          completedCount++;
+        }
+      }
+    }
+    return completedCount == milestones.length;
+  }
+
+  @override
+  Future<Progress> calculateGoalProgress(String goalId) async {
+    final milestones = await milestoneRepository.getMilestonesByGoalId(goalId);
+
+    if (milestones.isEmpty) {
+      return Progress(0);
+    }
+
+    int totalProgress = 0;
+    for (final milestone in milestones) {
+      final tasks = await taskRepository.getTasksByMilestoneId(
+        milestone.id.value,
+      );
+
+      if (tasks.isEmpty) {
+        continue;
+      }
+
+      final taskProgresses = tasks
+          .map((task) => task.getProgress().value)
+          .toList();
+      final avg =
+          taskProgresses.fold<int>(0, (sum, p) => sum + p) ~/ tasks.length;
+      totalProgress += avg;
+    }
+
+    final goalProgress = totalProgress ~/ milestones.length;
+    return Progress(goalProgress);
+  }
+}
+
+/// MockMilestoneCompletionService - Service の Mock 実装
+class MockMilestoneCompletionService implements MilestoneCompletionService {
+  final MockTaskRepository taskRepository;
+
+  MockMilestoneCompletionService(this.taskRepository);
+
+  @override
+  Future<bool> isMilestoneCompleted(String milestoneId) async {
+    final tasks = await taskRepository.getTasksByMilestoneId(milestoneId);
+
+    if (tasks.isEmpty) {
+      return false;
+    }
+
+    final allTasksDone = tasks.every((task) => task.status.isDone);
+    return allTasksDone;
+  }
+
+  @override
+  Future<Progress> calculateMilestoneProgress(String milestoneId) async {
+    final tasks = await taskRepository.getTasksByMilestoneId(milestoneId);
+
+    if (tasks.isEmpty) {
+      return Progress(0);
+    }
+
+    final totalProgress = tasks.fold<int>(
+      0,
+      (sum, task) => sum + task.getProgress().value,
+    );
+    final average = totalProgress ~/ tasks.length;
+    return Progress(average);
+  }
+}
+
 void main() {
   group('CalculateProgressUseCase', () {
     late CalculateProgressUseCase useCase;
-    late MockGoalRepository mockGoalRepository;
     late MockMilestoneRepository mockMilestoneRepository;
     late MockTaskRepository mockTaskRepository;
+    late MockGoalCompletionService mockGoalCompletionService;
+    late MockMilestoneCompletionService mockMilestoneCompletionService;
 
     setUp(() {
-      mockGoalRepository = MockGoalRepository();
       mockMilestoneRepository = MockMilestoneRepository();
       mockTaskRepository = MockTaskRepository();
-      useCase = CalculateProgressUseCaseImpl(
-        mockGoalRepository,
+      mockGoalCompletionService = MockGoalCompletionService(
         mockMilestoneRepository,
         mockTaskRepository,
+      );
+      mockMilestoneCompletionService = MockMilestoneCompletionService(
+        mockTaskRepository,
+      );
+      useCase = CalculateProgressUseCaseImpl(
+        mockGoalCompletionService,
+        mockMilestoneCompletionService,
       );
     });
 
     group('Goal進捗計算', () {
       test('タスクなしのゴールは 0% の進捗', () async {
-        // Arrange
-        final goal = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール'),
-          category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
-        );
-        await mockGoalRepository.saveGoal(goal);
+        // Arrange: Milestone がない Goal の進捗を計算
+        // Act & Assert: 0% を返す
+        final progress = await useCase.calculateGoalProgress('goal-without-ms');
 
-        // Act
-        final progress = await useCase.calculateGoalProgress(goal.id.value);
-
-        // Assert
         expect(progress.value, 0);
         expect(progress.isNotStarted, true);
       });
 
       test('全タスク完了のゴールは 100% の進捗', () async {
         // Arrange
-        final goal = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール'),
-          category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
-        );
-        await mockGoalRepository.saveGoal(goal);
-
         final milestone = Milestone(
           id: MilestoneId.generate(),
           title: MilestoneTitle('MS'),
           deadline: MilestoneDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: goal.id.value,
+          goalId: 'goal-123',
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
@@ -190,7 +237,7 @@ void main() {
         await mockTaskRepository.saveTask(task);
 
         // Act
-        final progress = await useCase.calculateGoalProgress(goal.id.value);
+        final progress = await useCase.calculateGoalProgress('goal-123');
 
         // Assert
         expect(progress.value, 100);
@@ -199,15 +246,6 @@ void main() {
 
       test('複数マイルストーンの平均進捗が計算される', () async {
         // Arrange
-        final goal = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール'),
-          category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
-        );
-        await mockGoalRepository.saveGoal(goal);
-
         // MS1: タスク1個完了（100%）
         final ms1 = Milestone(
           id: MilestoneId.generate(),
@@ -215,7 +253,7 @@ void main() {
           deadline: MilestoneDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: goal.id.value,
+          goalId: 'goal-456',
         );
         await mockMilestoneRepository.saveMilestone(ms1);
 
@@ -236,7 +274,7 @@ void main() {
           deadline: MilestoneDeadline(
             DateTime.now().add(const Duration(days: 200)),
           ),
-          goalId: goal.id.value,
+          goalId: 'goal-456',
         );
         await mockMilestoneRepository.saveMilestone(ms2);
 
@@ -260,7 +298,7 @@ void main() {
         await mockTaskRepository.saveTask(task3);
 
         // Act
-        final progress = await useCase.calculateGoalProgress(goal.id.value);
+        final progress = await useCase.calculateGoalProgress('goal-456');
 
         // Assert
         // MS1:100%, MS2:50% => 平均75%
@@ -382,20 +420,6 @@ void main() {
     });
 
     group('エラーハンドリング', () {
-      test('存在しないゴールの進捗計算でエラー', () async {
-        expect(
-          () => useCase.calculateGoalProgress('non-existent-id'),
-          throwsA(isA<ArgumentError>()),
-        );
-      });
-
-      test('存在しないマイルストーンの進捗計算でエラー', () async {
-        expect(
-          () => useCase.calculateMilestoneProgress('non-existent-id'),
-          throwsA(isA<ArgumentError>()),
-        );
-      });
-
       test('空のゴール ID でエラー', () async {
         expect(
           () => useCase.calculateGoalProgress(''),
@@ -408,6 +432,23 @@ void main() {
           () => useCase.calculateMilestoneProgress(''),
           throwsA(isA<ArgumentError>()),
         );
+      });
+
+      test('存在しないゴールの進捗計算は 0%', () async {
+        // Service implementation では Repository を通さないため、
+        // 存在しないゴールでも Milestone がない扱いで 0% を返す
+        final progress = await useCase.calculateGoalProgress(
+          'non-existent-goal',
+        );
+        expect(progress.value, 0);
+      });
+
+      test('存在しないマイルストーンの進捗計算は 0%', () async {
+        // Service implementation では Task がない扱いで 0% を返す
+        final progress = await useCase.calculateMilestoneProgress(
+          'non-existent-milestone',
+        );
+        expect(progress.value, 0);
       });
     });
   });

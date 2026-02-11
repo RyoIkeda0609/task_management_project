@@ -1,4 +1,5 @@
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/value_objects/shared/progress.dart';
 
 /// MilestoneCompletionService - マイルストーン完了判定サービス
 ///
@@ -28,17 +29,18 @@ class MilestoneCompletionService {
   }
 
   /// マイルストーン進捗を計算（0-100）
-  Future<int> calculateMilestoneProgress(String milestoneId) async {
+  Future<Progress> calculateMilestoneProgress(String milestoneId) async {
     final tasks = await _taskRepository.getTasksByMilestoneId(milestoneId);
 
     if (tasks.isEmpty) {
-      return 0;
+      return Progress(0);
     }
 
     final totalProgress = tasks.fold<int>(
       0,
       (sum, task) => sum + task.getProgress().value,
     );
-    return totalProgress ~/ tasks.length;
+    final average = totalProgress ~/ tasks.length;
+    return Progress(average);
   }
 }

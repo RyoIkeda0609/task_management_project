@@ -1,5 +1,6 @@
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/domain/value_objects/shared/progress.dart';
 
 /// GoalCompletionService - ゴール完了判定サービス
 ///
@@ -49,8 +50,34 @@ class GoalCompletionService {
   }
 
   /// ゴール進捗を計算（0-100）
-  Future<int> calculateGoalProgress(String goalId) async {
-    final isCompleted = await isGoalCompleted(goalId);
-    return isCompleted ? 100 : 0;
+  Future<Progress> calculateGoalProgress(String goalId) async {
+    final milestones = await _milestoneRepository.getMilestonesByGoalId(goalId);
+
+    if (milestones.isEmpty) {
+      return Progress(0);
+    }
+
+    int totalProgress = 0;
+    for (final milestone in milestones) {
+      final tasks = await _taskRepository.getTasksByMilestoneId(
+        milestone.id.value,
+      );
+
+      if (tasks.isEmpty) {
+        // タスクなしのマイルストーンは 0%
+        continue;
+      }
+
+      // タスク進捗の平均を計算
+      final taskProgresses = tasks
+          .map((task) => task.getProgress().value)
+          .toList();
+      final avg =
+          taskProgresses.fold<int>(0, (sum, p) => sum + p) ~/ tasks.length;
+      totalProgress += avg;
+    }
+
+    final goalProgress = totalProgress ~/ milestones.length;
+    return Progress(goalProgress);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/update_milestone_use_case.dart';
 import 'package:app/domain/entities/milestone.dart';
@@ -52,8 +53,8 @@ class MockMilestoneCompletionService implements MilestoneCompletionService {
   }
 
   @override
-  Future<int> calculateMilestoneProgress(String milestoneId) async {
-    return 0;
+  Future<Progress> calculateMilestoneProgress(String milestoneId) async {
+    return Progress(0);
   }
 }
 

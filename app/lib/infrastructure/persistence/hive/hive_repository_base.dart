@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
 /// HiveRepositoryBase - Hive Repository の抽象基盤クラス
@@ -52,7 +53,7 @@ abstract class HiveRepositoryBase<T> {
           result.add(fromJson(json));
         } catch (e) {
           // 1つのエンティティのデコード失敗はスキップしてログにおさめる
-          print('Warning: Failed to decode entity in $boxName: $e');
+          debugPrint('Warning: Failed to decode entity in $boxName: $e');
           continue;
         }
       }
@@ -137,7 +138,7 @@ abstract class HiveRepositoryBase<T> {
             toDelete.add(getId(entity));
           }
         } catch (e) {
-          print('Warning: Failed to decode entity in $boxName: $e');
+          debugPrint('Warning: Failed to decode entity in $boxName: $e');
           continue;
         }
       }
@@ -184,7 +185,7 @@ abstract class HiveRepositoryBase<T> {
   /// エラーハンドリング：一貫性のあるエラーメッセージを生成
   Exception _handleError(String message, dynamic error) {
     final errorMessage = '$message. Details: ${error.toString()}';
-    print('❌ HiveRepositoryBase Error: $errorMessage');
+    debugPrint('❌ HiveRepositoryBase Error: $errorMessage');
     return Exception(errorMessage);
   }
 }

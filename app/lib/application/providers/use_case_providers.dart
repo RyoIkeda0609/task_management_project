@@ -169,9 +169,8 @@ final calculateProgressUseCaseProvider = Provider<CalculateProgressUseCase>((
   ref,
 ) {
   return CalculateProgressUseCaseImpl(
-    ref.watch(goalRepositoryProvider),
-    ref.watch(milestoneRepositoryProvider),
-    ref.watch(taskRepositoryProvider),
+    ref.watch(goalCompletionServiceProvider),
+    ref.watch(milestoneCompletionServiceProvider),
   );
 });
 
