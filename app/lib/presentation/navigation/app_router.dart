@@ -9,9 +9,9 @@ import '../screens/settings/settings_screen.dart';
 import '../screens/goal/goal_create/goal_create_page.dart';
 import '../screens/goal/goal_detail/goal_detail_page.dart';
 import '../screens/goal/goal_edit/goal_edit_page.dart';
-import '../screens/milestone/milestone_create_screen.dart';
-import '../screens/milestone/milestone_detail_screen.dart';
-import '../screens/milestone/milestone_edit_screen.dart';
+import '../screens/milestone/milestone_create/milestone_create_page.dart';
+import '../screens/milestone/milestone_detail/milestone_detail_page.dart';
+import '../screens/milestone/milestone_edit/milestone_edit_page.dart';
 import '../screens/task/task_detail_screen.dart';
 import '../screens/task/task_create_screen.dart';
 import '../screens/task/task_edit_screen.dart';
@@ -125,7 +125,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         path: 'milestone_create',
                         builder: (context, state) {
                           final goalId = state.pathParameters['goalId'] ?? '';
-                          return MilestoneCreateScreen(goalId: goalId);
+                          return MilestoneCreatePage(goalId: goalId);
                         },
                       ),
 
@@ -135,9 +135,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         builder: (context, state) {
                           final milestoneId =
                               state.pathParameters['milestoneId'] ?? '';
-                          return MilestoneDetailScreen(
-                            milestoneId: milestoneId,
-                          );
+                          return MilestoneDetailPage(milestoneId: milestoneId);
                         },
                         routes: [
                           /// マイルストーン編集画面
@@ -146,7 +144,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             builder: (context, state) {
                               final milestoneId =
                                   state.pathParameters['milestoneId'] ?? '';
-                              return MilestoneEditScreen(
+                              return MilestoneEditPage(
                                 milestoneId: milestoneId,
                               );
                             },

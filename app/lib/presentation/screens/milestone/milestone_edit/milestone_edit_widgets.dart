@@ -1,0 +1,145 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../theme/app_colors.dart';
+import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_theme.dart';
+import '../../../widgets/common/custom_button.dart';
+import '../../../widgets/common/custom_text_field.dart';
+import 'milestone_edit_view_model.dart';
+
+class MilestoneEditFormWidget extends ConsumerWidget {
+  final VoidCallback onSubmit;
+
+  const MilestoneEditFormWidget({super.key, required this.onSubmit});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(milestoneEditViewModelProvider);
+    final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(Spacing.medium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // マイルストーン名
+            Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
+            SizedBox(height: Spacing.small),
+            CustomTextField(
+              label: 'マイルストーン名を入力してください',
+              initialValue: state.title,
+              onChanged: viewModel.updateTitle,
+            ),
+            SizedBox(height: Spacing.medium),
+
+            // 目標日時
+            _MilestoneEditDeadlineField(
+              selectedTargetDate: state.targetDate,
+              onDeadlineSelected: viewModel.updateDeadline,
+            ),
+            SizedBox(height: Spacing.large),
+
+            // ボタン
+            _MilestoneEditActions(
+              onSubmit: onSubmit,
+              isLoading: state.isLoading,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MilestoneEditDeadlineField extends StatelessWidget {
+  final DateTime selectedTargetDate;
+  final Function(DateTime) onDeadlineSelected;
+
+  const _MilestoneEditDeadlineField({
+    required this.selectedTargetDate,
+    required this.onDeadlineSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('目標日時 *', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.small),
+        InkWell(
+          onTap: () => _selectTargetDate(context),
+          child: Container(
+            padding: EdgeInsets.all(Spacing.medium),
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.neutral300),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.calendar_today, color: AppColors.primary),
+                SizedBox(width: Spacing.small),
+                Expanded(
+                  child: Text(
+                    _formatDate(selectedTargetDate),
+                    style: AppTextStyles.bodyMedium,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _selectTargetDate(BuildContext context) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedTargetDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (picked != null) {
+      onDeadlineSelected(picked);
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.year}年${date.month}月${date.day}日';
+  }
+}
+
+class _MilestoneEditActions extends ConsumerWidget {
+  final VoidCallback onSubmit;
+  final bool isLoading;
+
+  const _MilestoneEditActions({
+    required this.onSubmit,
+    required this.isLoading,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        CustomButton(
+          text: '更新する',
+          onPressed: isLoading ? null : onSubmit,
+          width: double.infinity,
+          type: ButtonType.primary,
+          isLoading: isLoading,
+        ),
+        SizedBox(height: Spacing.small),
+        CustomButton(
+          text: 'キャンセル',
+          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+          width: double.infinity,
+          type: ButtonType.secondary,
+        ),
+      ],
+    );
+  }
+}
