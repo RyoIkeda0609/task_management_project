@@ -59,15 +59,17 @@ class MilestoneEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（初回のみ）
+    // ViewModelを初期化（遅延実行）
     final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
     final state = ref.watch(milestoneEditViewModelProvider);
 
     if (state.title.isEmpty) {
-      viewModel.initializeWithMilestone(
-        title: milestone.title.value,
-        targetDate: milestone.deadline.value,
-      );
+      Future.microtask(() {
+        viewModel.initializeWithMilestone(
+          title: milestone.title.value,
+          targetDate: milestone.deadline.value,
+        );
+      });
     }
 
     return Scaffold(

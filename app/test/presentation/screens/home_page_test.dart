@@ -85,14 +85,20 @@ void main() {
     testWidgets('エラービューが表示される', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: GoalErrorView(errorMessage: 'テストエラー', onCreatePressed: () {}),
+          home: DefaultTabController(
+            length: 3,
+            child: Scaffold(
+              body: GoalErrorView(
+                errorMessage: 'テストエラー',
+                onCreatePressed: () {},
+              ),
+            ),
           ),
         ),
       );
 
-      expect(find.text('テストエラー'), findsOneWidget);
-      expect(find.text('ゴールを作成'), findsOneWidget);
+      expect(find.text('テストエラー'), findsWidgets);
+      expect(find.text('ゴールを作成'), findsWidgets);
     });
 
     testWidgets('HomeContent がローディング状態を表示', (WidgetTester tester) async {
@@ -117,14 +123,17 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: HomeContent(state: state, onCreatePressed: () {}),
+            home: DefaultTabController(
+              length: 3,
+              child: Scaffold(
+                body: HomeContent(state: state, onCreatePressed: () {}),
+              ),
             ),
           ),
         ),
       );
 
-      expect(find.text('エラー'), findsOneWidget);
+      expect(find.text('エラー'), findsWidgets);
     });
 
     testWidgets('HomeContent が空の状態を表示', (WidgetTester tester) async {

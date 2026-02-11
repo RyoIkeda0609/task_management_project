@@ -59,17 +59,19 @@ class GoalEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（初回のみ）
+    // ViewModelを初機化（避延実行）
     final viewModel = ref.read(goalEditViewModelProvider.notifier);
     final state = ref.watch(goalEditViewModelProvider);
 
     if (state.title.isEmpty) {
-      viewModel.initializeWithGoal(
-        title: goal.title.value,
-        reason: goal.reason.value,
-        category: goal.category.value,
-        deadline: goal.deadline.value,
-      );
+      Future.microtask(() {
+        viewModel.initializeWithGoal(
+          title: goal.title.value,
+          reason: goal.reason.value,
+          category: goal.category.value,
+          deadline: goal.deadline.value,
+        );
+      });
     }
 
     return Scaffold(

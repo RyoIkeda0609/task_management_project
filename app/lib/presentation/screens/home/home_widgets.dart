@@ -95,6 +95,12 @@ class GoalErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return TabBarView(
+      children: [_buildErrorTab(), _buildErrorTab(), _buildErrorTab()],
+    );
+  }
+
+  Widget _buildErrorTab() {
     return EmptyState(
       icon: Icons.inbox_outlined,
       title: 'ゴールを読み込めませんでした',
@@ -135,15 +141,12 @@ class HomeContent extends ConsumerWidget {
       return GoalEmptyView(onCreatePressed: onCreatePressed);
     }
 
-    return DefaultTabController(
-      length: 3,
-      child: TabBarView(
-        children: [
-          GoalListView(goals: state.goals, onCreatePressed: onCreatePressed),
-          GoalPyramidView(goals: state.goals),
-          CalendarView(goals: state.goals),
-        ],
-      ),
+    return TabBarView(
+      children: [
+        GoalListView(goals: state.goals, onCreatePressed: onCreatePressed),
+        GoalPyramidView(goals: state.goals),
+        CalendarView(goals: state.goals),
+      ],
     );
   }
 }

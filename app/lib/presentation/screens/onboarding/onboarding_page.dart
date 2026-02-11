@@ -89,7 +89,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     if (newState.isCompleted) {
       // オンボーディング完了：ホーム画面へ遷移
       AppRouter.navigateToHome(context);
-    } else if (newState.currentPageIndex < state.currentPageIndex + 1) {
+    } else if (newState.currentPageIndex > state.currentPageIndex) {
       // 次のページへスクロール
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),

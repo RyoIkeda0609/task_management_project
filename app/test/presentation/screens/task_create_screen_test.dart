@@ -146,9 +146,9 @@ void main() {
       WidgetTester tester,
     ) async {
       // テスト用の画面サイズを増大
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
-      tester.binding.window.physicalSizeTestValue = const Size(1600, 2400);
-      addTearDown(tester.binding.window.clearPhysicalSizeTestValue);
+      addTearDown(tester.view.resetPhysicalSize);
+      tester.view.physicalSize = const Size(1600, 2400);
+      addTearDown(tester.view.resetPhysicalSize);
 
       await tester.pumpWidget(
         ProviderScope(

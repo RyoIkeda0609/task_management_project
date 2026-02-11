@@ -19,27 +19,48 @@ class PyramidGoalNode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: Spacing.medium),
-      padding: EdgeInsets.all(Spacing.medium),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.1),
         border: Border.all(color: AppColors.primary, width: 2),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'ゴール',
-            style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
+      child: InkWell(
+        onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: EdgeInsets.all(Spacing.medium),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'ゴール',
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        SizedBox(height: Spacing.xSmall),
+                        Text(
+                          goal.title.value,
+                          style: AppTextStyles.titleMedium,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(Icons.arrow_forward, color: AppColors.primary),
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: Spacing.xSmall),
-          Text(
-            goal.title.value,
-            style: AppTextStyles.titleMedium,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+        ),
       ),
     );
   }
