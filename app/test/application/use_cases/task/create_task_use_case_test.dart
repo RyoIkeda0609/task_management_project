@@ -47,9 +47,6 @@ class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
 
   @override
-  Future<bool> deleteAllMilestones() async => true;
-
-  @override
   Future<void> deleteMilestone(String id) async =>
       _milestones.removeWhere((m) => m.id.value == id);
 

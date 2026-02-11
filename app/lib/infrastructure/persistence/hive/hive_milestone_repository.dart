@@ -44,11 +44,5 @@ class HiveMilestoneRepository extends HiveRepositoryBase<Milestone>
       await deleteWhere((m) => m.goalId == goalId);
 
   @override
-  Future<bool> deleteAllMilestones() async {
-    await deleteAll();
-    return true;
-  }
-
-  @override
   Future<int> getMilestoneCount() async => await count();
 }

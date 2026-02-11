@@ -10,9 +10,6 @@ class MilestoneId {
     value = val;
   }
 
-  /// 空のIDを作成
-  factory MilestoneId.empty() => MilestoneId('');
-
   /// 新しい MilestoneId を自動生成する
   factory MilestoneId.generate() => MilestoneId(const Uuid().v4());
 

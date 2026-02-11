@@ -10,9 +10,6 @@ class GoalId {
     value = val;
   }
 
-  /// 空のIDを作成
-  factory GoalId.empty() => GoalId('');
-
   /// 新しい ID を自動生成
   factory GoalId.generate() => GoalId(const Uuid().v4());
 

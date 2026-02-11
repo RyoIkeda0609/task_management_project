@@ -2,6 +2,7 @@
 /// Application層のすべてのUseCaseへのアクセスを提供する単一のエントリーポイント
 /// Presentation層はこのファサードを通じてのみUseCase にアクセスすることで、
 /// 依存性を最小化し、Application層の構造変更の影響を局所化できる
+library;
 
 import 'package:app/application/use_cases/goal/create_goal_use_case.dart';
 import 'package:app/application/use_cases/goal/delete_goal_use_case.dart';

@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:app/application/use_cases/goal/update_goal_use_case.dart';
 import 'package:app/application/use_cases/milestone/update_milestone_use_case.dart';
-import 'package:app/application/use_cases/task/update_task_use_case.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
@@ -65,9 +63,6 @@ class MockGoalRepository implements GoalRepository {
 /// MockMilestoneRepository - マイルストーンを管理
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
-
-  @override
-  Future<bool> deleteAllMilestones() async => true;
 
   @override
   Future<void> deleteMilestone(String id) async =>
@@ -237,10 +232,7 @@ void main() {
     late MockMilestoneRepository milestoneRepository;
     late MockTaskRepository taskRepository;
     late MockMilestoneCompletionService milestoneCompletionService;
-    late MockTaskCompletionService taskCompletionService;
-    late UpdateGoalUseCase updateGoalUseCase;
     late UpdateMilestoneUseCase updateMilestoneUseCase;
-    late UpdateTaskUseCase updateTaskUseCase;
 
     setUp(() {
       goalRepository = MockGoalRepository();
@@ -249,23 +241,10 @@ void main() {
       milestoneCompletionService = MockMilestoneCompletionService(
         taskRepository,
       );
-      taskCompletionService = MockTaskCompletionService();
-      final goalCompletionService = MockGoalCompletionService(
-        milestoneRepository,
-        taskRepository,
-      );
 
-      updateGoalUseCase = UpdateGoalUseCaseImpl(
-        goalRepository,
-        goalCompletionService,
-      );
       updateMilestoneUseCase = UpdateMilestoneUseCaseImpl(
         milestoneRepository,
         milestoneCompletionService,
-      );
-      updateTaskUseCase = UpdateTaskUseCaseImpl(
-        taskRepository,
-        taskCompletionService,
       );
     });
 

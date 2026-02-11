@@ -10,9 +10,6 @@ class TaskId {
     value = val;
   }
 
-  /// 空のIDを作成
-  factory TaskId.empty() => TaskId('');
-
   /// 新しい TaskId を自動生成する
   factory TaskId.generate() => TaskId(const Uuid().v4());
 
