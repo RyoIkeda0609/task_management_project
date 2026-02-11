@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
-import '../home/home_screen.dart';
+import '../home/home_page.dart';
 import '../today_tasks/today_tasks_screen.dart';
 import '../settings/settings_screen.dart';
 
@@ -22,7 +22,7 @@ class _HomeNavigationShellState extends State<HomeNavigationShell> {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: const [HomeScreen(), TodayTasksScreen(), SettingsScreen()],
+        children: const [HomePage(), TodayTasksScreen(), SettingsScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

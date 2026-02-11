@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/splash/splash_page.dart';
 import '../screens/onboarding/onboarding_page.dart';
-import '../screens/home/home_screen.dart';
+import '../screens/home/home_page.dart';
 import '../screens/today_tasks/today_tasks_screen.dart';
 import '../screens/settings/settings_screen.dart';
 import '../screens/goal/goal_create_screen.dart';
@@ -101,7 +101,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: AppRoutePaths.home,
-                builder: (context, state) => const HomeScreen(),
+                builder: (context, state) => const HomePage(),
                 routes: [
                   /// ゴール詳細画面（ホーム配下）
                   GoRoute(
