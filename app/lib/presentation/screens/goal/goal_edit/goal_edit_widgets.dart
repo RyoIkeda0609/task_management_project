@@ -39,6 +39,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             CustomTextField(
               label: 'ゴールの理由を入力してください（任意）',
               initialValue: state.reason,
+              maxLength: 100,
               onChanged: viewModel.updateReason,
               multiline: true,
             ),

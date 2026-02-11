@@ -100,7 +100,7 @@ class GoalEditPage extends ConsumerWidget {
         state.reason,
         fieldName: 'ゴールの理由',
         minLength: 1,
-        maxLength: 500,
+        maxLength: 100,
       ),
     ];
 

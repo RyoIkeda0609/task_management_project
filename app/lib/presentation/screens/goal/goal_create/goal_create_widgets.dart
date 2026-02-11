@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -33,7 +34,7 @@ class GoalCreateFormWidget extends ConsumerWidget {
             CustomTextField(
               label: 'ゴールの理由',
               initialValue: state.reason,
-              maxLength: 500,
+              maxLength: 100,
               multiline: true,
               onChanged: viewModel.updateReason,
             ),
@@ -165,7 +166,7 @@ class _GoalCreateActions extends ConsumerWidget {
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => context.pop(),
             type: ButtonType.secondary,
           ),
         ),
