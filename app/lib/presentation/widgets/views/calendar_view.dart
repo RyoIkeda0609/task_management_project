@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../domain/entities/goal.dart';
-import '../../../state_management/providers/app_providers.dart';
-import 'calendar_view_model.dart';
-import 'calendar_widgets.dart';
+import '../../../domain/entities/goal.dart';
+import '../../state_management/providers/app_providers.dart';
+import 'calendar_view/calendar_view_model.dart';
+import 'calendar_view/calendar_widgets.dart';
 
 /// カレンダービュー
 ///

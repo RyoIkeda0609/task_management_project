@@ -77,6 +77,7 @@ final deleteGoalUseCaseProvider = Provider<DeleteGoalUseCase>((ref) {
   return DeleteGoalUseCaseImpl(
     ref.watch(goalRepositoryProvider),
     ref.watch(milestoneRepositoryProvider),
+    ref.watch(taskRepositoryProvider),
   );
 });
 

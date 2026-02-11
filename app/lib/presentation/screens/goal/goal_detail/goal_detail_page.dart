@@ -105,6 +105,8 @@ class GoalDetailPage extends ConsumerWidget {
 
                 // ゴール一覧をリフレッシュ
                 ref.invalidate(goalsProvider);
+                // 本日のタスク一覧もリフレッシュ（カスケード削除されたタスクを反映）
+                ref.invalidate(todayTasksProvider);
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(

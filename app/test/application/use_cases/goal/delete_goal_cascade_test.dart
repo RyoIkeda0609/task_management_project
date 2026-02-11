@@ -144,6 +144,7 @@ void main() {
       useCase = DeleteGoalUseCaseImpl(
         mockGoalRepository,
         mockMilestoneRepository,
+        mockTaskRepository,
       );
     });
 

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/goal/delete_goal_use_case.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
+import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/value_objects/goal/goal_id.dart';
 import 'package:app/domain/value_objects/goal/goal_title.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
@@ -9,6 +10,7 @@ import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/domain/repositories/task_repository.dart';
 
 class MockGoalRepository implements GoalRepository {
   final List<Goal> _goals = [];
@@ -69,16 +71,56 @@ class MockMilestoneRepository implements MilestoneRepository {
   Future<int> getMilestoneCount() async => _milestones.length;
 }
 
+class MockTaskRepository implements TaskRepository {
+  final List<Task> _tasks = [];
+
+  @override
+  Future<List<Task>> getAllTasks() async => _tasks;
+
+  @override
+  Future<Task?> getTaskById(String id) async {
+    try {
+      return _tasks.firstWhere((t) => t.id.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+
+  @override
+  Future<void> saveTask(Task task) async => _tasks.add(task);
+
+  @override
+  Future<void> deleteTask(String id) async =>
+      _tasks.removeWhere((t) => t.id.value == id);
+
+  @override
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+
+  @override
+  Future<int> getTaskCount() async => _tasks.length;
+}
+
 void main() {
   group('DeleteGoalUseCase', () {
     late DeleteGoalUseCase useCase;
     late MockGoalRepository goalRepository;
     late MockMilestoneRepository milestoneRepository;
+    late MockTaskRepository taskRepository;
 
     setUp(() {
       goalRepository = MockGoalRepository();
       milestoneRepository = MockMilestoneRepository();
-      useCase = DeleteGoalUseCaseImpl(goalRepository, milestoneRepository);
+      taskRepository = MockTaskRepository();
+      useCase = DeleteGoalUseCaseImpl(
+        goalRepository,
+        milestoneRepository,
+        taskRepository,
+      );
     });
 
     test('空のゴール ID でエラーが発生すること', () async {
