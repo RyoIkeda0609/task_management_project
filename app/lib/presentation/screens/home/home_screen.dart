@@ -1,11 +1,11 @@
+import 'package:app/presentation/widgets/views/pyramid_view/pyramid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/empty_state.dart';
-import '../../widgets/views/pyramid_view.dart';
-import '../../widgets/views/calendar_view.dart';
+import '../../widgets/views/calendar_view/calendar_view.dart';
 import '../../../domain/entities/goal.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';

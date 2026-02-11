@@ -5,7 +5,7 @@ import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../widgets/common/empty_state.dart';
-import '../../widgets/views/pyramid_view.dart';
+import '../../widgets/views/pyramid_view/pyramid_view.dart';
 import '../../../domain/entities/goal.dart';
 import '../../../domain/entities/milestone.dart';
 import '../../state_management/providers/app_providers.dart';
