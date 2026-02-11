@@ -1,7 +1,6 @@
 import '../value_objects/milestone/milestone_id.dart';
 import '../value_objects/milestone/milestone_title.dart';
 import '../value_objects/milestone/milestone_deadline.dart';
-import '../value_objects/shared/progress.dart';
 
 /// Milestone Entity - マイルストーン（中間目標）を表現する
 ///
@@ -20,19 +19,6 @@ class Milestone {
     required this.deadline,
     required this.goalId,
   });
-
-  /// Progress を計算する（タスクの進捗から自動算出）
-  ///
-  /// タスクが存在しない場合は Progress(0) を返す
-  Progress calculateProgress(List<Progress> taskProgresses) {
-    if (taskProgresses.isEmpty) {
-      return Progress(0);
-    }
-    final average =
-        taskProgresses.fold<int>(0, (sum, p) => sum + p.value) ~/
-        taskProgresses.length;
-    return Progress(average);
-  }
 
   @override
   bool operator ==(Object other) =>

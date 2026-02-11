@@ -3,7 +3,6 @@ import '../value_objects/goal/goal_title.dart';
 import '../value_objects/goal/goal_category.dart';
 import '../value_objects/goal/goal_reason.dart';
 import '../value_objects/goal/goal_deadline.dart';
-import '../value_objects/shared/progress.dart';
 
 /// Goal Entity - ゴール（目標）を表現する
 ///
@@ -24,19 +23,6 @@ class Goal {
     required this.reason,
     required this.deadline,
   });
-
-  /// Progress を計算する（マイルストーンの進捗から自動算出）
-  ///
-  /// マイルストーンが存在しない場合は Progress(0) を返す
-  Progress calculateProgress(List<Progress> milestoneProgresses) {
-    if (milestoneProgresses.isEmpty) {
-      return Progress(0);
-    }
-    final average =
-        milestoneProgresses.fold<int>(0, (sum, p) => sum + p.value) ~/
-        milestoneProgresses.length;
-    return Progress(average);
-  }
 
   @override
   bool operator ==(Object other) =>

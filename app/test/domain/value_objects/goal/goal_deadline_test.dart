@@ -13,21 +13,6 @@ void main() {
         expect(deadline.value.day, tomorrow.day);
       });
 
-      test('遠い将来の日付で GoalDeadline が生成できること', () {
-        final futureDate = DateTime(2030, 12, 31);
-        final deadline = GoalDeadline(futureDate);
-        expect(deadline.value.year, 2030);
-        expect(deadline.value.month, 12);
-        expect(deadline.value.day, 31);
-      });
-    });
-
-    group('バリデーション', () {
-      test('本日以前の日付でもコンストラクタが動作すること（システム日付が進むため）', () {
-        final yesterday = DateTime.now().subtract(const Duration(days: 1));
-        expect(() => GoalDeadline(yesterday), returnsNormally);
-      });
-
       test('本日の日付で GoalDeadline が生成できること', () {
         final today = DateTime.now();
         final deadline = GoalDeadline(today);
@@ -37,9 +22,9 @@ void main() {
         expect(deadline.value.day, today.day);
       });
 
-      test('過去の日付でもコンストラクタが動作すること（システム日付が進むため）', () {
-        final pastDate = DateTime(2020, 1, 1);
-        expect(() => GoalDeadline(pastDate), returnsNormally);
+      test('本日以前の日付でもコンストラクタが動作すること（システム日付が進むため）', () {
+        final yesterday = DateTime.now().subtract(const Duration(days: 1));
+        expect(() => GoalDeadline(yesterday), returnsNormally);
       });
     });
 

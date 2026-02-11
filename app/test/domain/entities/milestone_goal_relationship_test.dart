@@ -3,7 +3,6 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/value_objects/milestone/milestone_id.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/shared/progress.dart';
 
 void main() {
   group('Milestone - 親 Goal との関係検証テスト', () {
@@ -52,20 +51,6 @@ void main() {
       );
 
       expect(milestone1.goalId, isNot(equals(milestone2.goalId)));
-    });
-
-    test('Milestone の calculateProgress 値は 0-100 の範囲である', () {
-      final milestone = Milestone(
-        id: MilestoneId('milestone-1'),
-        title: MilestoneTitle('テストマイルストーン'),
-        deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-        goalId: 'goal-1',
-      );
-
-      final progresses = [Progress(30), Progress(70), Progress(50)];
-      final calculatedProgress = milestone.calculateProgress(progresses);
-      expect(calculatedProgress.value, greaterThanOrEqualTo(0));
-      expect(calculatedProgress.value, lessThanOrEqualTo(100));
     });
 
     test('複数の Milestone は同じ Goal に属することができる', () {

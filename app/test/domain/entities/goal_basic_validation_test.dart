@@ -5,7 +5,6 @@ import 'package:app/domain/value_objects/goal/goal_title.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
 import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/value_objects/goal/goal_deadline.dart';
-import 'package:app/domain/value_objects/shared/progress.dart';
 
 void main() {
   group('Goal - 基本的なバリデーションテスト', () {
@@ -32,34 +31,6 @@ void main() {
       );
 
       expect(goal.id.value, isNotEmpty);
-    });
-
-    test('Goal の calculateProgress は 0 から始まる', () {
-      final goal = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('テストゴール'),
-        category: GoalCategory('personal'),
-        reason: GoalReason('重要だから'),
-        deadline: GoalDeadline(DateTime(2026, 12, 31)),
-      );
-
-      final progress = goal.calculateProgress([]);
-      expect(progress.value, 0);
-    });
-
-    test('Goal の calculateProgress は 0-100 の範囲である', () {
-      final goal = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('テストゴール'),
-        category: GoalCategory('personal'),
-        reason: GoalReason('重要だから'),
-        deadline: GoalDeadline(DateTime(2026, 12, 31)),
-      );
-
-      final progresses = [Progress(30), Progress(70), Progress(50)];
-      final averageProgress = goal.calculateProgress(progresses);
-      expect(averageProgress.value, greaterThanOrEqualTo(0));
-      expect(averageProgress.value, lessThanOrEqualTo(100));
     });
 
     test('複数の Goal インスタンスは異なるオブジェクトである', () {
@@ -94,7 +65,6 @@ void main() {
 
       final originalTitle = goal.title;
       final originalCategory = goal.category;
-
       expect(goal.title, originalTitle);
       expect(goal.category, originalCategory);
     });

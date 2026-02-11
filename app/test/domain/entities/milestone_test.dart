@@ -3,7 +3,6 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/value_objects/milestone/milestone_id.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/shared/progress.dart';
 
 void main() {
   group('Milestone Entity', () {
@@ -28,38 +27,6 @@ void main() {
 
       test('goalIdが正しく設定されること', () {
         expect(milestone.goalId, 'goal-1');
-      });
-    });
-
-    group('calculateProgress', () {
-      test('タスクが存在しない場合、Progress(0)を返すこと', () {
-        final progress = milestone.calculateProgress([]);
-        expect(progress.value, 0);
-      });
-
-      test('1つのタスク進捗から計算できること', () {
-        final progress = milestone.calculateProgress([Progress(50)]);
-        expect(progress.value, 50);
-      });
-
-      test('複数のタスク進捗の平均を計算できること', () {
-        final progresses = [Progress(25), Progress(50), Progress(75)];
-        final progress = milestone.calculateProgress(progresses);
-        expect(progress.value, 50); // (25+50+75)/3 = 50
-      });
-
-      test('進捗の平均が小数の場合、切り捨てられること', () {
-        final progresses = [Progress(10), Progress(20), Progress(30)];
-        final progress = milestone.calculateProgress(progresses);
-        expect(progress.value, 20); // (10+20+30)/3 = 20
-      });
-
-      test('すべてのタスク進捗が100の場合、Progress(100)を返すこと', () {
-        final progress = milestone.calculateProgress([
-          Progress(100),
-          Progress(100),
-        ]);
-        expect(progress.value, 100);
       });
     });
 
