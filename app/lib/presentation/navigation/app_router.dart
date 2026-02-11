@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../screens/splash/splash_screen.dart';
-import '../screens/onboarding/onboarding_screen.dart';
+import '../screens/splash/splash_page.dart';
+import '../screens/onboarding/onboarding_page.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/today_tasks/today_tasks_screen.dart';
 import '../screens/settings/settings_screen.dart';
@@ -75,13 +75,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       /// スプラッシュ画面ルート
       GoRoute(
         path: AppRoutePaths.splash,
-        builder: (context, state) => const SplashScreen(),
+        builder: (context, state) => const SplashPage(),
       ),
 
       /// オンボーディング画面ルート
       GoRoute(
         path: AppRoutePaths.onboarding,
-        builder: (context, state) => const OnboardingScreen(),
+        builder: (context, state) => const OnboardingPage(),
       ),
 
       /// ゴール作成画面ルート
