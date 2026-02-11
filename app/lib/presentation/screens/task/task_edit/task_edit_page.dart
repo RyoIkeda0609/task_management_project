@@ -60,13 +60,14 @@ class TaskEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（遅延実行）
+    // ViewModelを初期化（遅延実行）- ID が変わった場合のみ
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
     final state = ref.watch(taskEditViewModelProvider);
 
-    if (state.title.isEmpty) {
+    if (state.taskId != taskId) {
       Future.microtask(() {
         viewModel.initializeWithTask(
+          taskId: taskId,
           title: task.title.value,
           description: task.description.value,
           selectedDeadline: task.deadline.value,
@@ -83,6 +84,9 @@ class TaskEditPage extends ConsumerWidget {
       body: TaskEditFormWidget(
         taskId: taskId,
         onSubmit: () => _submitForm(context, ref, task),
+        taskTitle: task.title.value,
+        taskDescription: task.description.value,
+        taskDeadline: task.deadline.value,
       ),
     );
   }

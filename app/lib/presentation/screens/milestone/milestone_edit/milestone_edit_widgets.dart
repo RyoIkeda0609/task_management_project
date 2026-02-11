@@ -9,8 +9,17 @@ import 'milestone_edit_view_model.dart';
 
 class MilestoneEditFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
+  final String milestoneId;
+  final String milestoneTitle;
+  final DateTime milestoneTargetDate;
 
-  const MilestoneEditFormWidget({super.key, required this.onSubmit});
+  const MilestoneEditFormWidget({
+    super.key,
+    required this.onSubmit,
+    required this.milestoneId,
+    required this.milestoneTitle,
+    required this.milestoneTargetDate,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,14 +37,18 @@ class MilestoneEditFormWidget extends ConsumerWidget {
             SizedBox(height: Spacing.small),
             CustomTextField(
               label: 'マイルストーン名を入力してください',
-              initialValue: state.title,
+              initialValue: state.milestoneId == milestoneId
+                  ? state.title
+                  : milestoneTitle,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
 
             // 目標日時
             _MilestoneEditDeadlineField(
-              selectedTargetDate: state.targetDate,
+              selectedTargetDate: state.milestoneId == milestoneId
+                  ? state.targetDate
+                  : milestoneTargetDate,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),

@@ -9,8 +9,21 @@ import 'goal_edit_view_model.dart';
 
 class GoalEditFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
+  final String goalId;
+  final String goalTitle;
+  final String goalReason;
+  final String goalCategory;
+  final DateTime goalDeadline;
 
-  const GoalEditFormWidget({super.key, required this.onSubmit});
+  const GoalEditFormWidget({
+    super.key,
+    required this.onSubmit,
+    required this.goalId,
+    required this.goalTitle,
+    required this.goalReason,
+    required this.goalCategory,
+    required this.goalDeadline,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +41,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             SizedBox(height: Spacing.small),
             CustomTextField(
               label: 'ゴール名を入力してください',
-              initialValue: state.title,
+              initialValue: state.goalId == goalId ? state.title : goalTitle,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
@@ -38,7 +51,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             SizedBox(height: Spacing.small),
             CustomTextField(
               label: 'ゴールの理由を入力してください（任意）',
-              initialValue: state.reason,
+              initialValue: state.goalId == goalId ? state.reason : goalReason,
               maxLength: 100,
               onChanged: viewModel.updateReason,
               multiline: true,
@@ -47,14 +60,18 @@ class GoalEditFormWidget extends ConsumerWidget {
 
             // カテゴリー
             _GoalEditCategoryDropdown(
-              selectedCategory: state.category,
+              selectedCategory: state.goalId == goalId
+                  ? state.category
+                  : goalCategory,
               onChanged: viewModel.updateCategory,
             ),
             SizedBox(height: Spacing.medium),
 
             // 期限
             _GoalEditDeadlineSelector(
-              selectedDeadline: state.deadline,
+              selectedDeadline: state.goalId == goalId
+                  ? state.deadline
+                  : goalDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),

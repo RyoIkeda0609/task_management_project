@@ -11,12 +11,14 @@ class GoalEditViewModel extends StateNotifier<GoalEditPageState> {
 
   /// ゴール情報で状態を初期化
   void initializeWithGoal({
+    required String goalId,
     required String title,
     required String reason,
     required String category,
     required DateTime deadline,
   }) {
     state = GoalEditPageState(
+      goalId: goalId,
       title: title,
       reason: reason,
       category: category,

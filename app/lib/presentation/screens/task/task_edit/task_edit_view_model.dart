@@ -7,11 +7,13 @@ class TaskEditViewModel extends StateNotifier<TaskEditPageState> {
 
   /// タスク情報で状態を初期化
   void initializeWithTask({
+    required String taskId,
     required String title,
     required String description,
     required DateTime selectedDeadline,
   }) {
     state = TaskEditPageState(
+      taskId: taskId,
       title: title,
       description: description,
       selectedDeadline: selectedDeadline,

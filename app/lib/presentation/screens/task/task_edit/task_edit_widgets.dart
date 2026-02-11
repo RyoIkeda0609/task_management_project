@@ -11,11 +11,17 @@ import 'task_edit_view_model.dart';
 class TaskEditFormWidget extends ConsumerWidget {
   final String taskId;
   final VoidCallback onSubmit;
+  final String taskTitle;
+  final String taskDescription;
+  final DateTime taskDeadline;
 
   const TaskEditFormWidget({
     super.key,
     required this.taskId,
     required this.onSubmit,
+    required this.taskTitle,
+    required this.taskDescription,
+    required this.taskDeadline,
   });
 
   @override
@@ -35,7 +41,7 @@ class TaskEditFormWidget extends ConsumerWidget {
             CustomTextField(
               key: ValueKey('title_${state.title}'),
               label: 'タスク名を入力してください',
-              initialValue: state.title,
+              initialValue: state.taskId == taskId ? state.title : taskTitle,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
@@ -51,7 +57,9 @@ class TaskEditFormWidget extends ConsumerWidget {
             CustomTextField(
               key: ValueKey('description_${state.description}'),
               label: 'タスクの詳細を入力してください',
-              initialValue: state.description,
+              initialValue: state.taskId == taskId
+                  ? state.description
+                  : taskDescription,
               onChanged: viewModel.updateDescription,
               multiline: true,
             ),
@@ -59,7 +67,9 @@ class TaskEditFormWidget extends ConsumerWidget {
 
             // 期限選択
             _TaskEditDeadlineField(
-              selectedDeadline: state.selectedDeadline,
+              selectedDeadline: state.taskId == taskId
+                  ? state.selectedDeadline
+                  : taskDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),

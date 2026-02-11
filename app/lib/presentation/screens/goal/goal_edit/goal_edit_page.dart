@@ -59,13 +59,14 @@ class GoalEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初機化（避延実行）
+    // ViewModelを初期化（遅延実行）- ID が変わった場合のみ
     final viewModel = ref.read(goalEditViewModelProvider.notifier);
     final state = ref.watch(goalEditViewModelProvider);
 
-    if (state.title.isEmpty) {
+    if (state.goalId != goalId) {
       Future.microtask(() {
         viewModel.initializeWithGoal(
+          goalId: goalId,
           title: goal.title.value,
           reason: goal.reason.value,
           category: goal.category.value,
@@ -80,7 +81,14 @@ class GoalEditPage extends ConsumerWidget {
         hasLeading: true,
         onLeadingPressed: () => context.pop(),
       ),
-      body: GoalEditFormWidget(onSubmit: () => _submitForm(context, ref)),
+      body: GoalEditFormWidget(
+        onSubmit: () => _submitForm(context, ref),
+        goalId: goalId,
+        goalTitle: goal.title.value,
+        goalReason: goal.reason.value,
+        goalCategory: goal.category.value,
+        goalDeadline: goal.deadline.value,
+      ),
     );
   }
 

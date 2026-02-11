@@ -11,10 +11,12 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
 
   /// マイルストーン情報で状態を初期化
   void initializeWithMilestone({
+    required String milestoneId,
     required String title,
     required DateTime targetDate,
   }) {
     state = MilestoneEditPageState(
+      milestoneId: milestoneId,
       title: title,
       targetDate: targetDate,
       isLoading: false,

@@ -59,13 +59,14 @@ class MilestoneEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（遅延実行）
+    // ViewModelを初期化（遅延実行）- ID が変わった場合のみ
     final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
     final state = ref.watch(milestoneEditViewModelProvider);
 
-    if (state.title.isEmpty) {
+    if (state.milestoneId != milestoneId) {
       Future.microtask(() {
         viewModel.initializeWithMilestone(
+          milestoneId: milestoneId,
           title: milestone.title.value,
           targetDate: milestone.deadline.value,
         );
@@ -78,7 +79,12 @@ class MilestoneEditPage extends ConsumerWidget {
         hasLeading: true,
         onLeadingPressed: () => Navigator.of(context).pop(),
       ),
-      body: MilestoneEditFormWidget(onSubmit: () => _submitForm(context, ref)),
+      body: MilestoneEditFormWidget(
+        onSubmit: () => _submitForm(context, ref),
+        milestoneId: milestoneId,
+        milestoneTitle: milestone.title.value,
+        milestoneTargetDate: milestone.deadline.value,
+      ),
     );
   }
 

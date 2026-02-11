@@ -1,4 +1,5 @@
 class GoalEditPageState {
+  final String goalId; // 編集中のゴールID
   final String title;
   final String reason;
   final String category;
@@ -6,6 +7,7 @@ class GoalEditPageState {
   final bool isLoading;
 
   const GoalEditPageState({
+    this.goalId = '',
     this.title = '',
     this.reason = '',
     this.category = 'キャリア',
@@ -14,6 +16,7 @@ class GoalEditPageState {
   });
 
   GoalEditPageState copyWith({
+    String? goalId,
     String? title,
     String? reason,
     String? category,
@@ -21,6 +24,7 @@ class GoalEditPageState {
     bool? isLoading,
   }) {
     return GoalEditPageState(
+      goalId: goalId ?? this.goalId,
       title: title ?? this.title,
       reason: reason ?? this.reason,
       category: category ?? this.category,
