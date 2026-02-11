@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/presentation/screens/task/task_detail_screen.dart';
+import 'package:app/presentation/screens/task/task_detail/task_detail_page.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/value_objects/task/task_id.dart';
 import 'package:app/domain/value_objects/task/task_title.dart';
@@ -35,7 +35,7 @@ class FakeTaskRepository implements TaskRepository {
 }
 
 void main() {
-  group('TaskDetailScreen', () {
+  group('TaskDetailPage', () {
     testWidgets('displays task details properly', (WidgetTester tester) async {
       final testTask = Task(
         id: TaskId('test-task-1'),
@@ -54,7 +54,9 @@ void main() {
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],
-          child: MaterialApp(home: TaskDetailScreen(taskId: 'test-task-1')),
+          child: const MaterialApp(
+            home: TaskDetailPage(taskId: 'test-task-1', source: 'milestone'),
+          ),
         ),
       );
 
@@ -74,7 +76,9 @@ void main() {
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
             taskDetailProvider('invalid-id').overrideWith((ref) async => null),
           ],
-          child: MaterialApp(home: TaskDetailScreen(taskId: 'invalid-id')),
+          child: const MaterialApp(
+            home: TaskDetailPage(taskId: 'invalid-id', source: 'milestone'),
+          ),
         ),
       );
 
@@ -101,7 +105,9 @@ void main() {
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],
-          child: MaterialApp(home: TaskDetailScreen(taskId: 'test-task-1')),
+          child: const MaterialApp(
+            home: TaskDetailPage(taskId: 'test-task-1', source: 'milestone'),
+          ),
         ),
       );
 
@@ -130,7 +136,9 @@ void main() {
               'test-task-1',
             ).overrideWith((ref) async => todoTask),
           ],
-          child: MaterialApp(home: TaskDetailScreen(taskId: 'test-task-1')),
+          child: const MaterialApp(
+            home: TaskDetailPage(taskId: 'test-task-1', source: 'milestone'),
+          ),
         ),
       );
 
@@ -158,7 +166,9 @@ void main() {
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],
-          child: MaterialApp(home: TaskDetailScreen(taskId: 'test-task-1')),
+          child: const MaterialApp(
+            home: TaskDetailPage(taskId: 'test-task-1', source: 'milestone'),
+          ),
         ),
       );
 

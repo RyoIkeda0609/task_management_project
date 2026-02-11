@@ -12,9 +12,9 @@ import '../screens/goal/goal_edit/goal_edit_page.dart';
 import '../screens/milestone/milestone_create/milestone_create_page.dart';
 import '../screens/milestone/milestone_detail/milestone_detail_page.dart';
 import '../screens/milestone/milestone_edit/milestone_edit_page.dart';
-import '../screens/task/task_detail_screen.dart';
-import '../screens/task/task_create_screen.dart';
-import '../screens/task/task_edit_screen.dart';
+import '../screens/task/task_create/task_create_page.dart';
+import '../screens/task/task_detail/task_detail_page.dart';
+import '../screens/task/task_edit/task_edit_page.dart';
 
 /// go_router を使用したアプリケーションのルーティング管理
 ///
@@ -158,11 +158,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                                   state.pathParameters['milestoneId'] ?? '';
                               final goalId =
                                   state.pathParameters['goalId'] ?? '';
-                              return TaskCreateScreen(
-                                arguments: {
-                                  'milestoneId': milestoneId,
-                                  'goalId': goalId,
-                                },
+                              return TaskCreatePage(
+                                milestoneId: milestoneId,
+                                goalId: goalId,
                               );
                             },
                           ),
@@ -173,7 +171,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             builder: (context, state) {
                               final taskId =
                                   state.pathParameters['taskId'] ?? '';
-                              return TaskDetailScreen(
+                              return TaskDetailPage(
                                 taskId: taskId,
                                 source: 'milestone',
                               );
@@ -185,7 +183,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                                 builder: (context, state) {
                                   final taskId =
                                       state.pathParameters['taskId'] ?? '';
-                                  return TaskEditScreen(taskId: taskId);
+                                  return TaskEditPage(taskId: taskId);
                                 },
                               ),
                             ],
@@ -211,7 +209,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     path: 'task/:taskId',
                     builder: (context, state) {
                       final taskId = state.pathParameters['taskId'] ?? '';
-                      return TaskDetailScreen(
+                      return TaskDetailPage(
                         taskId: taskId,
                         source: 'today_tasks',
                       );
@@ -222,7 +220,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         path: 'edit',
                         builder: (context, state) {
                           final taskId = state.pathParameters['taskId'] ?? '';
-                          return TaskEditScreen(taskId: taskId);
+                          return TaskEditPage(taskId: taskId);
                         },
                       ),
                     ],

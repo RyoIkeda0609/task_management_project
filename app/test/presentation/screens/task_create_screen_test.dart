@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/presentation/screens/task/task_create_screen.dart';
+import 'package:app/presentation/screens/task/task_create/task_create_page.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
@@ -68,7 +68,7 @@ class FakeMilestoneRepository implements MilestoneRepository {
 }
 
 void main() {
-  group('TaskCreateScreen', () {
+  group('TaskCreatePage', () {
     testWidgets('displays all required form fields', (
       WidgetTester tester,
     ) async {
@@ -77,7 +77,12 @@ void main() {
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
           ],
-          child: MaterialApp(home: TaskCreateScreen()),
+          child: const MaterialApp(
+            home: TaskCreatePage(
+              milestoneId: 'test-milestone-id',
+              goalId: 'test-goal-id',
+            ),
+          ),
         ),
       );
 
@@ -96,7 +101,12 @@ void main() {
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
           ],
-          child: MaterialApp(home: TaskCreateScreen()),
+          child: const MaterialApp(
+            home: TaskCreatePage(
+              milestoneId: 'test-milestone-id',
+              goalId: 'test-goal-id',
+            ),
+          ),
         ),
       );
 
@@ -117,8 +127,11 @@ void main() {
               FakeMilestoneRepository(),
             ),
           ],
-          child: MaterialApp(
-            home: TaskCreateScreen(arguments: {'milestoneId': 'milestone-123'}),
+          child: const MaterialApp(
+            home: TaskCreatePage(
+              milestoneId: 'milestone-123',
+              goalId: 'goal-123',
+            ),
           ),
         ),
       );
@@ -137,7 +150,12 @@ void main() {
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
           ],
-          child: MaterialApp(home: TaskCreateScreen()),
+          child: const MaterialApp(
+            home: TaskCreatePage(
+              milestoneId: 'test-milestone-id',
+              goalId: 'test-goal-id',
+            ),
+          ),
         ),
       );
 
@@ -148,7 +166,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // 画面がクローズされていることを確認
-      expect(find.byType(TaskCreateScreen), findsNothing);
+      expect(find.byType(TaskCreatePage), findsNothing);
     });
   });
 }

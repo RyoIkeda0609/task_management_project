@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:app/presentation/screens/task/task_edit_screen.dart';
+import 'package:app/presentation/screens/task/task_edit/task_edit_page.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/value_objects/task/task_id.dart';
 import 'package:app/domain/value_objects/task/task_title.dart';
@@ -42,7 +42,7 @@ class FakeTaskRepository implements TaskRepository {
 }
 
 void main() {
-  group('TaskEditScreen Tests', () {
+  group('TaskEditPage Tests', () {
     testWidgets('displays task edit form', (WidgetTester tester) async {
       final testTask = Task(
         id: TaskId('test-task-1'),
@@ -61,7 +61,7 @@ void main() {
               'test-task-1',
             ).overrideWith((ref) async => testTask),
           ],
-          child: const MaterialApp(home: TaskEditScreen(taskId: 'test-task-1')),
+          child: const MaterialApp(home: TaskEditPage(taskId: 'test-task-1')),
         ),
       );
 
@@ -82,7 +82,7 @@ void main() {
             ).overrideWith((ref) async => null),
           ],
           child: const MaterialApp(
-            home: TaskEditScreen(taskId: 'nonexistent-task'),
+            home: TaskEditPage(taskId: 'nonexistent-task'),
           ),
         ),
       );
@@ -111,7 +111,7 @@ void main() {
               ),
             ),
           ],
-          child: const MaterialApp(home: TaskEditScreen(taskId: 'test-task-1')),
+          child: const MaterialApp(home: TaskEditPage(taskId: 'test-task-1')),
         ),
       );
 
