@@ -38,8 +38,9 @@ class TaskEditFormWidget extends ConsumerWidget {
             // タイトル入力
             CustomTextField(
               key: ValueKey('title_$taskId'),
-              label: 'タスク名を入力してください',
+              hintText: 'タスク名を入力（100文字以内）',
               initialValue: state.taskId == taskId ? state.title : taskTitle,
+              maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
@@ -47,10 +48,11 @@ class TaskEditFormWidget extends ConsumerWidget {
             // 説明入力
             CustomTextField(
               key: ValueKey('description_$taskId'),
-              label: 'タスクの詳細を入力してください',
+              hintText: 'タスクの詳細を入力（500文字以内、任意）',
               initialValue: state.taskId == taskId
                   ? state.description
                   : taskDescription,
+              maxLength: 500,
               onChanged: viewModel.updateDescription,
               multiline: true,
             ),

@@ -34,10 +34,11 @@ class MilestoneEditFormWidget extends ConsumerWidget {
           children: [
             // マイルストーン名
             CustomTextField(
-              label: 'マイルストーン名を入力してください',
+              hintText: 'マイルストーン名を入力（100文字以内）',
               initialValue: state.milestoneId == milestoneId
                   ? state.title
                   : milestoneTitle,
+              maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),

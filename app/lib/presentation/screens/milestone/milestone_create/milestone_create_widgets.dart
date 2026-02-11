@@ -63,15 +63,11 @@ class _MilestoneCreateTitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextField(
-          label: 'マイルストーン名を入力してください',
-          initialValue: title,
-          onChanged: onChanged,
-        ),
-      ],
+    return CustomTextField(
+      hintText: 'マイルストーン名を入力（100文字以内）',
+      initialValue: title,
+      maxLength: 100,
+      onChanged: onChanged,
     );
   }
 }

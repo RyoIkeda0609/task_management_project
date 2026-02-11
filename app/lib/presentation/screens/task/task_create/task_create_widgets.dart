@@ -72,15 +72,11 @@ class _TaskCreateTitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextField(
-          label: 'タスク名を入力してください',
-          initialValue: title,
-          onChanged: onChanged,
-        ),
-      ],
+    return CustomTextField(
+      hintText: 'タスク名を入力（100文字以内）',
+      initialValue: title,
+      maxLength: 100,
+      onChanged: onChanged,
     );
   }
 }
@@ -96,16 +92,12 @@ class _TaskCreateDescriptionField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextField(
-          label: 'タスクの詳細を入力してください',
-          initialValue: description,
-          onChanged: onChanged,
-          multiline: true,
-        ),
-      ],
+    return CustomTextField(
+      hintText: 'タスクの詳細を入力（500文字以内、任意）',
+      initialValue: description,
+      maxLength: 500,
+      onChanged: onChanged,
+      multiline: true,
     );
   }
 }

@@ -38,14 +38,15 @@ class GoalEditFormWidget extends ConsumerWidget {
           children: [
             // ゴール名
             CustomTextField(
-              label: 'ゴール名を入力してください',
+              hintText: 'ゴール名を入力（100文字以内）',
               initialValue: state.goalId == goalId ? state.title : goalTitle,
+              maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
             // 説明
             CustomTextField(
-              label: 'ゴールの理由を入力してください（任意）',
+              hintText: 'ゴールの理由を入力（100文字以内、任意）',
               initialValue: state.goalId == goalId ? state.reason : goalReason,
               maxLength: 100,
               onChanged: viewModel.updateReason,

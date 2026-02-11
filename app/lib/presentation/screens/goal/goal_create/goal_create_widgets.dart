@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../navigation/app_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -25,14 +24,14 @@ class GoalCreateFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextField(
-              label: 'ゴールのタイトル',
+              hintText: 'ゴールのタイトルを入力（100文字以内）',
               initialValue: state.title,
               maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.large),
             CustomTextField(
-              label: 'ゴールの理由',
+              hintText: 'ゴールの理由を入力（100文字以内、任意）',
               initialValue: state.reason,
               maxLength: 100,
               multiline: true,
@@ -166,11 +165,7 @@ class _GoalCreateActions extends ConsumerWidget {
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: () {
-              if (context.mounted) {
-                AppRouter.navigateToHome(context);
-              }
-            },
+            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
             type: ButtonType.secondary,
           ),
         ),
