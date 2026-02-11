@@ -6,7 +6,7 @@ import '../../theme/app_text_styles.dart';
 ///
 /// アプリケーション全体で統一されたAppBarを提供します。
 /// タイトル、戻るボタン、アクションボタンをカスタマイズ可能です。
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// ボタンのテキスト
   final String title;
 
@@ -32,22 +32,54 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: Text(title, style: AppTextStyles.headlineLarge),
-      backgroundColor: backgroundColor,
-      elevation: 0,
-      leading: hasLeading
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: onLeadingPressed ?? () => Navigator.of(context).pop(),
-            )
-          : null,
-      actions: actions ?? [],
-      surfaceTintColor: Colors.transparent,
-    );
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  bool _isNavigating = false;
+
+  Future<void> _onBackPressed() async {
+    // 連打防止: 既にナビゲーション中の場合は処理をスキップ
+    if (_isNavigating) {
+      return;
+    }
+
+    _isNavigating = true;
+
+    try {
+      if (widget.onLeadingPressed != null) {
+        widget.onLeadingPressed!();
+      } else if (mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      // ナビゲーション失敗時はログ出力のみ（ユーザーには影響なし）
+      debugPrint('Back button navigation error: $e');
+    } finally {
+      // ナビゲーション完了後、フラグをリセット
+      if (mounted) {
+        _isNavigating = false;
+      }
+    }
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(widget.title, style: AppTextStyles.headlineLarge),
+      backgroundColor: widget.backgroundColor,
+      elevation: 0,
+      leading: widget.hasLeading
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: _onBackPressed,
+            )
+          : null,
+      actions: widget.actions ?? [],
+      surfaceTintColor: Colors.transparent,
+    );
+  }
 }

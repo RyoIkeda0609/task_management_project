@@ -38,6 +38,23 @@ class ValidationHelper {
     return null;
   }
 
+  /// テキストの長さを検証（任意フィールド向け）
+  ///
+  /// 空文字列を許可し、入力されている場合は最大文字数をチェック
+  static String? validateLengthOptional(
+    String? value, {
+    required String fieldName,
+    required int maxLength,
+  }) {
+    if (value == null || value.isEmpty) {
+      return null; // 空を許可（任意フィールド）
+    }
+    if (value.length > maxLength) {
+      return '$fieldName は$maxLength文字以内で入力してください。';
+    }
+    return null;
+  }
+
   /// テキストが整数かどうかを検証
   static String? validateInteger(String? value, {required String fieldName}) {
     if (value == null || value.isEmpty) {
@@ -77,6 +94,25 @@ class ValidationHelper {
     final todayOnly = DateTime(today.year, today.month, today.day);
     if (dateOnly.isBefore(todayOnly)) {
       return '$fieldName は今日以降の日付を選択してください。';
+    }
+    return null;
+  }
+
+  /// 日付が明日以降かを検証（Goal/Milestone向け）
+  ///
+  /// 本日より後の日付のみを許可（本日は不可）
+  static String? validateDateAfterToday(
+    DateTime? date, {
+    required String fieldName,
+  }) {
+    if (date == null) {
+      return '$fieldName を選択してください。';
+    }
+    final today = DateTime.now();
+    final dateOnly = DateTime(date.year, date.month, date.day);
+    final todayOnly = DateTime(today.year, today.month, today.day);
+    if (dateOnly.isBefore(todayOnly) || dateOnly.isAtSameMomentAs(todayOnly)) {
+      return '$fieldName は本日より後の日付を選択してください。';
     }
     return null;
   }

@@ -39,8 +39,13 @@ class MilestoneCreatePage extends ConsumerWidget {
 
     // バリデーション
     final validationErrors = [
-      ValidationHelper.validateNotEmpty(state.title, fieldName: 'マイルストーン名'),
-      ValidationHelper.validateDateNotInPast(
+      ValidationHelper.validateLength(
+        state.title,
+        fieldName: 'マイルストーン名',
+        minLength: 1,
+        maxLength: 100,
+      ),
+      ValidationHelper.validateDateAfterToday(
         state.selectedTargetDate,
         fieldName: '目標日時',
       ),

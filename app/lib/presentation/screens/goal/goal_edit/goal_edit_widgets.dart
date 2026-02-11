@@ -171,7 +171,7 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
     final picked = await showDatePicker(
       context: context,
       initialDate: selectedDeadline,
-      firstDate: DateTime.now(),
+      firstDate: DateTime.now().add(const Duration(days: 1)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 

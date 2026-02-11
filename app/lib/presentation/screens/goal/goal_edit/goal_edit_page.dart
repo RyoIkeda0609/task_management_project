@@ -104,12 +104,12 @@ class GoalEditPage extends ConsumerWidget {
         minLength: 1,
         maxLength: 100,
       ),
-      ValidationHelper.validateLength(
+      ValidationHelper.validateLengthOptional(
         state.reason,
         fieldName: 'ゴールの理由',
-        minLength: 1,
         maxLength: 100,
       ),
+      ValidationHelper.validateDateAfterToday(state.deadline, fieldName: '期限'),
     ];
 
     if (!ValidationHelper.validateAll(context, validationErrors)) {
