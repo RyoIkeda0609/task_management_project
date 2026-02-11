@@ -223,7 +223,10 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
           },
         ),
         PopupMenuItem(
-          child: const Text('削除', style: TextStyle(color: Colors.red)),
+          child: Text(
+            '削除',
+            style: AppTextStyles.labelLarge.copyWith(color: AppColors.error),
+          ),
           onTap: () {
             _showDeleteTaskDialog(context, ref, task);
           },
@@ -332,7 +335,10 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
                 }
               }
             },
-            child: const Text('削除', style: TextStyle(color: Colors.red)),
+            child: Text(
+              '削除',
+              style: AppTextStyles.labelLarge.copyWith(color: AppColors.error),
+            ),
           ),
         ],
       ),
@@ -344,7 +350,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const Icon(Icons.error_outline, size: 64, color: AppColors.error),
           SizedBox(height: Spacing.medium),
           Text('エラーが発生しました', style: AppTextStyles.titleMedium),
         ],

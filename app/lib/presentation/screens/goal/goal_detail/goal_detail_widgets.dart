@@ -39,7 +39,7 @@ class GoalDetailHeaderWidget extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: Spacing.medium),
             Text(
               '期限: ${_formatDate(goal.deadline)}',
               style: AppTextStyles.bodyMedium,
@@ -122,7 +122,7 @@ class GoalDetailErrorWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const Icon(Icons.error_outline, size: 64, color: AppColors.error),
           SizedBox(height: Spacing.medium),
           Text('エラーが発生しました', style: AppTextStyles.titleMedium),
         ],

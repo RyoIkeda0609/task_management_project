@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
@@ -100,7 +101,7 @@ class _ContentView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _Header(grouped: grouped),
-        SizedBox(height: 16),
+        SizedBox(height: Spacing.medium),
         _Content(grouped: grouped),
       ],
     );
@@ -135,14 +136,14 @@ class _Content extends StatelessWidget {
               tasks: grouped.todoTasks,
               color: AppColors.neutral400,
             ),
-          if (grouped.todoTasks.isNotEmpty) SizedBox(height: 16),
+          if (grouped.todoTasks.isNotEmpty) SizedBox(height: Spacing.medium),
           if (grouped.doingTasks.isNotEmpty)
             TodayTasksSectionWidget(
               title: '進行中',
               tasks: grouped.doingTasks,
               color: AppColors.warning,
             ),
-          if (grouped.doingTasks.isNotEmpty) SizedBox(height: 16),
+          if (grouped.doingTasks.isNotEmpty) SizedBox(height: Spacing.medium),
           if (grouped.doneTasks.isNotEmpty)
             TodayTasksSectionWidget(
               title: '完了',

@@ -274,7 +274,10 @@ class SettingsOtherSectionWidget extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.of(context).pop();
             },
-            child: Text('ログアウト', style: TextStyle(color: AppColors.error)),
+            child: Text(
+              'ログアウト',
+              style: AppTextStyles.labelLarge.copyWith(color: AppColors.error),
+            ),
           ),
         ],
       ),

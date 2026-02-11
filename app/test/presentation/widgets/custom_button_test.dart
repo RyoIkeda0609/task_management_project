@@ -175,7 +175,7 @@ void main() {
         ),
       );
 
-      expect(find.byIcon(Icons.add), findsOneWidget);
+      expect(find.byIcon(Icons.add_comment), findsOneWidget);
     });
 
     testWidgets('button respects custom width', (WidgetTester tester) async {

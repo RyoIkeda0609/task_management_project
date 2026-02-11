@@ -97,12 +97,13 @@ class ValidationHelper {
   }
 
   // ========================================
-  // エラー表示メソッド
+  // エラー表示メッセージ（統一）
   // ========================================
 
   /// バリデーション失敗時にエラーダイアログを表示
   ///
   /// バリデーションエラーが複数ある場合は最初のエラーのみを表示します
+  /// メッセージは自動的に「入力エラー」ダイアログで表示されます
   static Future<void> showValidationErrors(
     BuildContext context,
     List<String?> errors,
@@ -113,17 +114,17 @@ class ValidationHelper {
     );
 
     if (firstError != null) {
-      await DialogHelper.showErrorDialog(
+      await DialogHelper.showValidationErrorDialog(
         context,
-        title: '入力エラー',
         message: firstError,
       );
     }
   }
 
-  /// 複数のバリデーション結果を確認
+  /// 複数のバリデーション結果を確認（統一のエラーUI）
   ///
   /// 返り値: すべてのバリデーションが成功した場合true、失敗した場合false
+  /// エラーがある場合は自動的に「入力エラー」ダイアログを表示
   static bool validateAll(BuildContext context, List<String?> errors) {
     final firstError = errors.firstWhere(
       (error) => error != null,
@@ -131,30 +132,26 @@ class ValidationHelper {
     );
 
     if (firstError != null) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: '入力エラー',
-        message: firstError,
-      );
+      DialogHelper.showValidationErrorDialog(context, message: firstError);
       return false;
     }
     return true;
   }
 
   // ========================================
-  // 例外処理メソッド
+  // 例外処理メソッド（統一UI）
   // ========================================
 
-  /// 例外をハンドルしてエラーダイアログを表示
+  /// 例外をハンドルしてエラーダイアログを表示（統一UI）
   ///
   /// 既知の例外タイプ別にカスタムメッセージを表示します
+  /// すべてのエラーダイアログは「エラーが発生しました」のタイトルで統一
   static Future<void> handleException(
     BuildContext context,
     dynamic exception, {
     String? customTitle,
     String? customMessage,
   }) async {
-    String title = customTitle ?? 'エラーが発生しました';
     String message = customMessage ?? '予期しないエラーが発生しました。';
 
     // 既知の例外をハンドル
@@ -167,15 +164,21 @@ class ValidationHelper {
     }
 
     if (context.mounted) {
-      await DialogHelper.showErrorDialog(
-        context,
-        title: title,
-        message: message,
-      );
+      // customTitle がある場合は showErrorDialog を使用
+      // ない場合は統一されたメッセージで showErrorDialog を使用
+      if (customTitle != null) {
+        await DialogHelper.showErrorDialog(
+          context,
+          title: customTitle,
+          message: message,
+        );
+      } else {
+        await DialogHelper.showErrorDialog(context, message: message);
+      }
     }
   }
 
-  /// 成功メッセージを表示
+  /// 成功メッセージを表示（統一UI）
   static Future<void> showSuccess(
     BuildContext context, {
     required String title,

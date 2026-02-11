@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_theme.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
@@ -205,12 +206,12 @@ class _ContentView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _Header(task: task),
-            const SizedBox(height: 24),
+            SizedBox(height: Spacing.large),
             _Content(task: task, source: source),
           ],
         ),
@@ -242,9 +243,9 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TaskDetailDeadlineWidget(task: task),
-        const SizedBox(height: 16),
+        SizedBox(height: Spacing.medium),
         TaskDetailStatusWidget(task: task, source: source),
-        const SizedBox(height: 16),
+        SizedBox(height: Spacing.medium),
         TaskDetailInfoWidget(task: task),
       ],
     );
