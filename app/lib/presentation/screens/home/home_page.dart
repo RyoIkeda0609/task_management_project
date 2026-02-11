@@ -64,27 +64,70 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.isLoading) {
-      return TabBarView(
-        children: [_buildLoadingTab(), _buildLoadingTab(), _buildLoadingTab()],
-      );
-    }
-
-    if (state.isError) {
-      return GoalErrorView(
+    return switch (state.viewState) {
+      HomeViewState.loading => const _LoadingView(),
+      HomeViewState.error => _ErrorView(
         errorMessage: state.errorMessage ?? 'Unknown error',
         onCreatePressed: onCreatePressed,
-      );
-    }
-
-    if (state.isEmpty) {
-      return GoalEmptyView(onCreatePressed: onCreatePressed);
-    }
-
-    return HomeContent(state: state, onCreatePressed: onCreatePressed);
+      ),
+      HomeViewState.empty => _EmptyView(onCreatePressed: onCreatePressed),
+      HomeViewState.data => _ContentView(
+        state: state,
+        onCreatePressed: onCreatePressed,
+      ),
+    };
   }
+}
 
-  Widget _buildLoadingTab() {
-    return const Center(child: CircularProgressIndicator());
+class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
+  @override
+  Widget build(BuildContext context) {
+    return TabBarView(
+      children: [
+        const Center(child: CircularProgressIndicator()),
+        const Center(child: CircularProgressIndicator()),
+        const Center(child: CircularProgressIndicator()),
+      ],
+    );
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String errorMessage;
+  final VoidCallback onCreatePressed;
+
+  const _ErrorView({required this.errorMessage, required this.onCreatePressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GoalErrorView(
+      errorMessage: errorMessage,
+      onCreatePressed: onCreatePressed,
+    );
+  }
+}
+
+class _EmptyView extends StatelessWidget {
+  final VoidCallback onCreatePressed;
+
+  const _EmptyView({required this.onCreatePressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GoalEmptyView(onCreatePressed: onCreatePressed);
+  }
+}
+
+class _ContentView extends StatelessWidget {
+  final HomePageState state;
+  final VoidCallback onCreatePressed;
+
+  const _ContentView({required this.state, required this.onCreatePressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return HomeContent(state: state, onCreatePressed: onCreatePressed);
   }
 }

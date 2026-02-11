@@ -4,6 +4,7 @@ import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../../../domain/entities/task.dart';
 import 'task_detail_state.dart';
 import 'task_detail_widgets.dart';
 
@@ -70,35 +71,68 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (state.isNotFound) {
-      return Center(
-        child: Text('タスクが見つかりません', style: AppTextStyles.titleMedium),
-      );
-    }
-
-    if (state.isError) {
-      return TaskDetailErrorWidget(
+    return switch (state.viewState) {
+      TaskDetailViewState.loading => const _LoadingView(),
+      TaskDetailViewState.notFound => _NotFoundView(),
+      TaskDetailViewState.error => _ErrorView(
         error: state.errorMessage ?? 'Unknown error',
-      );
-    }
+      ),
+      TaskDetailViewState.data => _ContentView(
+        task: state.task!,
+        source: source,
+      ),
+    };
+  }
+}
 
+class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+}
+
+class _NotFoundView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('タスクが見つかりません', style: AppTextStyles.titleMedium));
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String error;
+
+  const _ErrorView({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return TaskDetailErrorWidget(error: error);
+  }
+}
+
+class _ContentView extends StatelessWidget {
+  final Task task;
+  final String source;
+
+  const _ContentView({required this.task, required this.source});
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TaskDetailHeaderWidget(task: state.task!),
+            TaskDetailHeaderWidget(task: task),
             const SizedBox(height: 16),
-            TaskDetailDeadlineWidget(task: state.task!),
+            TaskDetailDeadlineWidget(task: task),
             const SizedBox(height: 16),
-            TaskDetailStatusWidget(task: state.task!, source: source),
+            TaskDetailStatusWidget(task: task, source: source),
             const SizedBox(height: 16),
-            TaskDetailInfoWidget(task: state.task!),
+            TaskDetailInfoWidget(task: task),
           ],
         ),
       ),

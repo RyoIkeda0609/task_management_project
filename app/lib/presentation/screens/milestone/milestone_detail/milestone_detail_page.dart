@@ -72,34 +72,32 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.isLoading) {
-      return _LoadingView();
-    }
-
-    if (state.isNotFound) {
-      return _NotFoundView();
-    }
-
-    if (state.isError) {
-      return _ErrorView(error: state.errorMessage ?? 'Unknown error');
-    }
-
-    return _ContentView(milestone: state.milestone!, milestoneId: milestoneId);
+    return switch (state.viewState) {
+      MilestoneDetailViewState.loading => const _LoadingView(),
+      MilestoneDetailViewState.notFound => _NotFoundView(),
+      MilestoneDetailViewState.error => _ErrorView(
+        error: state.errorMessage ?? 'Unknown error',
+      ),
+      MilestoneDetailViewState.data => _ContentView(
+        milestone: state.milestone!,
+        milestoneId: milestoneId,
+      ),
+    };
   }
 }
 
-// ============ Loading View ============
-
 class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
   @override
   Widget build(BuildContext context) {
     return const Center(child: CircularProgressIndicator());
   }
 }
 
-// ============ Not Found View ============
-
 class _NotFoundView extends StatelessWidget {
+  const _NotFoundView();
+
   @override
   Widget build(BuildContext context) {
     return Center(

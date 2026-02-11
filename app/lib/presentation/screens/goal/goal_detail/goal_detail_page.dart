@@ -75,43 +75,47 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.isLoading) {
-      return _LoadingView();
-    }
-
-    if (state.isNotFound) {
-      return _NotFoundView();
-    }
-
-    if (state.isError) {
-      return GoalDetailErrorWidget(
+    return switch (state.viewState) {
+      GoalDetailViewState.loading => const _LoadingView(),
+      GoalDetailViewState.notFound => _NotFoundView(),
+      GoalDetailViewState.error => _ErrorView(
         error: state.errorMessage ?? 'Unknown error',
-      );
-    }
-
-    return _ContentView(
-      goal: state.goal!,
-      goalId: goalId,
-      milestonesAsync: milestonesAsync,
-    );
+      ),
+      GoalDetailViewState.data => _ContentView(
+        goal: state.goal!,
+        goalId: goalId,
+        milestonesAsync: milestonesAsync,
+      ),
+    };
   }
 }
 
-// ============ Loading View ============
-
 class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
   @override
   Widget build(BuildContext context) {
     return const Center(child: CircularProgressIndicator());
   }
 }
 
-// ============ Not Found View ============
-
 class _NotFoundView extends StatelessWidget {
+  const _NotFoundView();
+
   @override
   Widget build(BuildContext context) {
     return Center(child: Text('ゴールが見つかりません', style: AppTextStyles.titleMedium));
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String error;
+
+  const _ErrorView({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return GoalDetailErrorWidget(error: error);
   }
 }
 

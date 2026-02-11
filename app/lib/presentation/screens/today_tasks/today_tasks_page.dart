@@ -43,27 +43,49 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (state.isError) {
-      return TodayTasksErrorWidget(
+    return switch (state.viewState) {
+      TodayTasksViewState.loading => const _LoadingView(),
+      TodayTasksViewState.error => _ErrorView(
         error: state.errorMessage ?? 'Unknown error',
-      );
-    }
+      ),
+      TodayTasksViewState.empty => _EmptyView(),
+      TodayTasksViewState.data => _ContentView(grouped: state.groupedTasks!),
+    };
+  }
+}
 
-    if (state.isEmpty) {
-      return EmptyState(
-        icon: Icons.check_circle_outline,
-        title: '今日のタスクはありません',
-        message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
-        actionText: 'ホームに戻る',
-        onActionPressed: () => AppRouter.navigateToHome(context),
-      );
-    }
+class _LoadingView extends StatelessWidget {
+  const _LoadingView();
 
-    return _ContentView(grouped: state.groupedTasks!);
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  final String error;
+
+  const _ErrorView({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return TodayTasksErrorWidget(error: error);
+  }
+}
+
+class _EmptyView extends StatelessWidget {
+  const _EmptyView();
+
+  @override
+  Widget build(BuildContext context) {
+    return EmptyState(
+      icon: Icons.check_circle_outline,
+      title: '今日のタスクはありません',
+      message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
+      actionText: 'ホームに戻る',
+      onActionPressed: () => AppRouter.navigateToHome(context),
+    );
   }
 }
 
