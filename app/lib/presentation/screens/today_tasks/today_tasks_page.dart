@@ -27,15 +27,10 @@ class TodayTasksPage extends ConsumerWidget {
         backgroundColor: AppColors.neutral100,
       ),
       body: groupedAsync.when(
-        data: (grouped) => _Body(
-          state: TodayTasksPageState.withData(grouped),
-        ),
-        loading: () => _Body(
-          state: TodayTasksPageState.loading(),
-        ),
-        error: (error, stackTrace) => _Body(
-          state: TodayTasksPageState.withError(error.toString()),
-        ),
+        data: (grouped) => _Body(state: TodayTasksPageState.withData(grouped)),
+        loading: () => _Body(state: TodayTasksPageState.loading()),
+        error: (error, stackTrace) =>
+            _Body(state: TodayTasksPageState.withError(error.toString())),
       ),
     );
   }
@@ -53,7 +48,9 @@ class _Body extends StatelessWidget {
     }
 
     if (state.isError) {
-      return TodayTasksErrorWidget(error: state.errorMessage ?? 'Unknown error');
+      return TodayTasksErrorWidget(
+        error: state.errorMessage ?? 'Unknown error',
+      );
     }
 
     if (state.isEmpty) {

@@ -18,13 +18,17 @@ class MilestoneDetailPageState {
 
   /// ローディング状態
   factory MilestoneDetailPageState.loading() {
-    return const MilestoneDetailPageState(viewState: MilestoneDetailViewState.loading);
+    return const MilestoneDetailPageState(
+      viewState: MilestoneDetailViewState.loading,
+    );
   }
 
   /// データロード成功
   factory MilestoneDetailPageState.withData(Milestone? milestone) {
     if (milestone == null) {
-      return const MilestoneDetailPageState(viewState: MilestoneDetailViewState.notFound);
+      return const MilestoneDetailPageState(
+        viewState: MilestoneDetailViewState.notFound,
+      );
     }
     return MilestoneDetailPageState(
       viewState: MilestoneDetailViewState.data,
@@ -54,6 +58,7 @@ class MilestoneDetailPageState {
 
   bool get isLoading => viewState == MilestoneDetailViewState.loading;
   bool get isNotFound => viewState == MilestoneDetailViewState.notFound;
-  bool get hasData => viewState == MilestoneDetailViewState.data && milestone != null;
+  bool get hasData =>
+      viewState == MilestoneDetailViewState.data && milestone != null;
   bool get isError => viewState == MilestoneDetailViewState.error;
 }

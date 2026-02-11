@@ -107,7 +107,7 @@ class TodayTasksSummaryWidget extends StatelessWidget {
   double _calculateProgressPercentage() {
     if (grouped.total == 0) return 0.0;
     return ((grouped.doingTasks.length * 50 + grouped.doneTasks.length * 100) /
-        (grouped.total * 100)) *
+            (grouped.total * 100)) *
         100;
   }
 
@@ -209,11 +209,7 @@ class TodayTaskItemWidget extends ConsumerWidget {
         onTap: () => _toggleTaskStatus(context, ref),
         child: Container(
           padding: EdgeInsets.all(Spacing.medium),
-          child: Icon(
-            _getStatusIcon(),
-            color: _getStatusColor(),
-            size: 24,
-          ),
+          child: Icon(_getStatusIcon(), color: _getStatusColor(), size: 24),
         ),
       ),
     );
@@ -295,8 +291,7 @@ class TodayTaskItemWidget extends ConsumerWidget {
 
   Future<void> _toggleTaskStatus(BuildContext context, WidgetRef ref) async {
     try {
-      final changeTaskStatusUseCase =
-          ref.read(changeTaskStatusUseCaseProvider);
+      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
       await changeTaskStatusUseCase(task.id.value);
 
       ref.invalidate(todayTasksProvider);

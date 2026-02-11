@@ -26,10 +26,7 @@ class TaskDetailPageState {
     if (task == null) {
       return const TaskDetailPageState(viewState: TaskDetailViewState.notFound);
     }
-    return TaskDetailPageState(
-      viewState: TaskDetailViewState.data,
-      task: task,
-    );
+    return TaskDetailPageState(viewState: TaskDetailViewState.data, task: task);
   }
 
   /// エラー

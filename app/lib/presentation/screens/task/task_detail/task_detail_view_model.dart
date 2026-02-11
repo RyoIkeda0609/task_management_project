@@ -2,8 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'task_detail_state.dart';
 
 class TaskDetailViewModel extends StateNotifier<TaskDetailPageState> {
-  TaskDetailViewModel()
-    : super(TaskDetailPageState.loading());
+  TaskDetailViewModel() : super(TaskDetailPageState.loading());
 }
 
 /// StateNotifierProvider (Family)

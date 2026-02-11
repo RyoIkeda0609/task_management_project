@@ -66,11 +66,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     if (state.isLoading) {
       return TabBarView(
-        children: [
-          _buildLoadingTab(),
-          _buildLoadingTab(),
-          _buildLoadingTab(),
-        ],
+        children: [_buildLoadingTab(), _buildLoadingTab(), _buildLoadingTab()],
       );
     }
 
@@ -85,10 +81,7 @@ class _Body extends StatelessWidget {
       return GoalEmptyView(onCreatePressed: onCreatePressed);
     }
 
-    return HomeContent(
-      state: state,
-      onCreatePressed: onCreatePressed,
-    );
+    return HomeContent(state: state, onCreatePressed: onCreatePressed);
   }
 
   Widget _buildLoadingTab() {

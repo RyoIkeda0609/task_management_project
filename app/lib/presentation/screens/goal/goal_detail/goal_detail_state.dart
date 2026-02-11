@@ -26,10 +26,7 @@ class GoalDetailPageState {
     if (goal == null) {
       return const GoalDetailPageState(viewState: GoalDetailViewState.notFound);
     }
-    return GoalDetailPageState(
-      viewState: GoalDetailViewState.data,
-      goal: goal,
-    );
+    return GoalDetailPageState(viewState: GoalDetailViewState.data, goal: goal);
   }
 
   /// エラー

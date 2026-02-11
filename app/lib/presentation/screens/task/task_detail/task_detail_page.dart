@@ -81,7 +81,9 @@ class _Body extends StatelessWidget {
     }
 
     if (state.isError) {
-      return TaskDetailErrorWidget(error: state.errorMessage ?? 'Unknown error');
+      return TaskDetailErrorWidget(
+        error: state.errorMessage ?? 'Unknown error',
+      );
     }
 
     return SingleChildScrollView(

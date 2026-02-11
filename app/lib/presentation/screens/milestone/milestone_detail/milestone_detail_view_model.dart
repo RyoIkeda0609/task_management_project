@@ -2,8 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'milestone_detail_state.dart';
 
 class MilestoneDetailViewModel extends StateNotifier<MilestoneDetailPageState> {
-  MilestoneDetailViewModel()
-    : super(MilestoneDetailPageState.loading());
+  MilestoneDetailViewModel() : super(MilestoneDetailPageState.loading());
 }
 
 /// StateNotifierProvider (Family)

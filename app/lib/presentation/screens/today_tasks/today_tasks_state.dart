@@ -58,7 +58,8 @@ class TodayTasksPageState {
 
   bool get isError => viewState == TodayTasksViewState.error;
 
-  bool get hasData => viewState == TodayTasksViewState.data &&
+  bool get hasData =>
+      viewState == TodayTasksViewState.data &&
       groupedTasks != null &&
       groupedTasks!.total > 0;
 }

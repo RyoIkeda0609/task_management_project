@@ -68,10 +68,7 @@ class _Body extends StatelessWidget {
   final MilestoneDetailPageState state;
   final String milestoneId;
 
-  const _Body({
-    required this.state,
-    required this.milestoneId,
-  });
+  const _Body({required this.state, required this.milestoneId});
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +84,7 @@ class _Body extends StatelessWidget {
       return _ErrorView(error: state.errorMessage ?? 'Unknown error');
     }
 
-    return _ContentView(
-      milestone: state.milestone!,
-      milestoneId: milestoneId,
-    );
+    return _ContentView(milestone: state.milestone!, milestoneId: milestoneId);
   }
 }
 
@@ -109,10 +103,7 @@ class _NotFoundView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        'マイルストーンが見つかりません',
-        style: AppTextStyles.titleMedium,
-      ),
+      child: Text('マイルストーンが見つかりません', style: AppTextStyles.titleMedium),
     );
   }
 }
@@ -154,10 +145,7 @@ class _ContentView extends ConsumerWidget {
   final Milestone milestone;
   final String milestoneId;
 
-  const _ContentView({
-    required this.milestone,
-    required this.milestoneId,
-  });
+  const _ContentView({required this.milestone, required this.milestoneId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -228,8 +216,9 @@ class _ContentView extends ConsumerWidget {
             onPressed: () async {
               Navigator.of(dialogContext).pop();
               try {
-                final deleteMilestoneUseCase =
-                    ref.read(deleteMilestoneUseCaseProvider);
+                final deleteMilestoneUseCase = ref.read(
+                  deleteMilestoneUseCaseProvider,
+                );
                 await deleteMilestoneUseCase(milestoneId);
 
                 // リフレッシュ：カスケード削除を反映
@@ -246,9 +235,9 @@ class _ContentView extends ConsumerWidget {
                 }
               } catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('削除に失敗しました: $e')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
                 }
               }
             },
