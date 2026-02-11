@@ -147,7 +147,12 @@ class PyramidMilestoneNode extends ConsumerWidget {
                   },
                   loading: () => Padding(
                     padding: EdgeInsets.symmetric(vertical: Spacing.small),
-                    child: const CircularProgressIndicator(strokeWidth: 2),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.primary,
+                      ),
+                    ),
                   ),
                   error: (error, stackTrace) => Text(
                     'タスク取得エラー',

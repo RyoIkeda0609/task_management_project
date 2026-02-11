@@ -131,7 +131,12 @@ class _GoalCardFooter extends ConsumerWidget {
       },
       loading: () => SizedBox(
         height: 20,
-        child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        child: Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
       ),
       error: (error, _) => Text(
         '進捗読み込みエラー',

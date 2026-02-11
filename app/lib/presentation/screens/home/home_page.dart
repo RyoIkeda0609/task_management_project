@@ -3,6 +3,7 @@ import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../navigation/app_router.dart';
+import '../../theme/app_colors.dart';
 import 'home_widgets.dart';
 
 /// ホーム画面
@@ -86,9 +87,21 @@ class _LoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBarView(
       children: [
-        const Center(child: CircularProgressIndicator()),
-        const Center(child: CircularProgressIndicator()),
-        const Center(child: CircularProgressIndicator()),
+        Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
+        Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
+        Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
       ],
     );
   }

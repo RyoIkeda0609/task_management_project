@@ -224,7 +224,11 @@ class _TaskCreateMilestoneInfo extends ConsumerWidget {
           children: [
             Icon(Icons.flag, color: AppColors.primary, size: 20),
             SizedBox(width: Spacing.small),
-            const Expanded(child: CircularProgressIndicator()),
+            Expanded(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+              ),
+            ),
           ],
         ),
       ),

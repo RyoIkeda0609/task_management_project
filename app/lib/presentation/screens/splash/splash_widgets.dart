@@ -1,3 +1,4 @@
+import 'package:app/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
@@ -47,8 +48,8 @@ class SplashLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+    return CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
     );
   }
 }

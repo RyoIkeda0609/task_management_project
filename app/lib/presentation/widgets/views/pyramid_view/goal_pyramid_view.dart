@@ -44,7 +44,11 @@ class GoalPyramidView extends ConsumerWidget {
               ),
             ],
           ),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+            ),
+          ),
           error: (error, _) => _buildErrorView('ピラミッドビュー読み込みエラー'),
         );
       },
