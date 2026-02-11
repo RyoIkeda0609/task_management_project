@@ -1,49 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../domain/entities/goal.dart';
-import '../../../domain/entities/milestone.dart';
-import '../../../domain/entities/task.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
-import '../../theme/app_theme.dart';
-import '../../state_management/providers/app_providers.dart';
-import '../../navigation/app_router.dart';
+import '../../../../domain/entities/goal.dart';
+import '../../../../domain/entities/milestone.dart';
+import '../../../../domain/entities/task.dart';
+import '../../../theme/app_colors.dart';
+import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_theme.dart';
+import '../../../navigation/app_router.dart';
+import 'pyramid_view_model.dart';
 
-/// ピラミッドビュー
-///
-/// ゴール → マイルストーン → タスクの階層構造を展開可能なリスト形式で表示します。
-class PyramidView extends ConsumerWidget {
+/// ピラミッドのゴールノード
+class PyramidGoalNode extends StatelessWidget {
   final Goal goal;
-  final List<Milestone> milestones;
 
-  const PyramidView({super.key, required this.goal, required this.milestones});
+  const PyramidGoalNode({super.key, required this.goal});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildGoalNode(context, ref, goal),
-        if (milestones.isNotEmpty)
-          Padding(
-            padding: EdgeInsets.only(left: Spacing.medium),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: milestones.length,
-              itemBuilder: (context, index) => _buildMilestoneNode(
-                context,
-                ref,
-                goal.id.value,
-                milestones[index],
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildGoalNode(BuildContext context, WidgetRef ref, Goal goal) {
+  Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: Spacing.medium),
       padding: EdgeInsets.all(Spacing.medium),
@@ -70,42 +43,28 @@ class PyramidView extends ConsumerWidget {
       ),
     );
   }
-
-  Widget _buildMilestoneNode(
-    BuildContext context,
-    WidgetRef ref,
-    String goalId,
-    Milestone milestone,
-  ) {
-    return _MilestoneExpansionTile(
-      milestone: milestone,
-      goalId: goalId,
-      milestoneTasks: ref.watch(tasksByMilestoneProvider(milestone.id.value)),
-      onNavigateToMilestoneDetail: () => AppRouter.navigateToMilestoneDetail(
-        context,
-        goalId,
-        milestone.id.value,
-      ),
-    );
-  }
 }
 
-/// マイルストーンの展開可能なノード
-class _MilestoneExpansionTile extends ConsumerWidget {
+/// ピラミッドのマイルストーンノード
+class PyramidMilestoneNode extends ConsumerWidget {
   final Milestone milestone;
   final String goalId;
   final AsyncValue<List<Task>> milestoneTasks;
-  final VoidCallback onNavigateToMilestoneDetail;
 
-  const _MilestoneExpansionTile({
+  const PyramidMilestoneNode({
+    super.key,
     required this.milestone,
     required this.goalId,
     required this.milestoneTasks,
-    required this.onNavigateToMilestoneDetail,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModelState = ref.watch(pyramidViewModelProvider);
+    final viewModel = ref.read(pyramidViewModelProvider.notifier);
+    final isExpanded =
+        viewModelState.expandedMilestones[milestone.id.value] ?? false;
+
     return Column(
       children: [
         Container(
@@ -118,6 +77,10 @@ class _MilestoneExpansionTile extends ConsumerWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           child: ExpansionTile(
+            initiallyExpanded: isExpanded,
+            onExpansionChanged: (_) {
+              viewModel.toggleMilestoneExpansion(milestone.id.value);
+            },
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -137,7 +100,11 @@ class _MilestoneExpansionTile extends ConsumerWidget {
               ],
             ),
             trailing: GestureDetector(
-              onTap: onNavigateToMilestoneDetail,
+              onTap: () => AppRouter.navigateToMilestoneDetail(
+                context,
+                goalId,
+                milestone.id.value,
+              ),
               child: Container(
                 padding: EdgeInsets.all(Spacing.xSmall),
                 decoration: BoxDecoration(
@@ -174,7 +141,7 @@ class _MilestoneExpansionTile extends ConsumerWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: tasks.length,
                       itemBuilder: (context, index) =>
-                          _buildTaskNode(context, tasks[index]),
+                          PyramidTaskNode(task: tasks[index]),
                     );
                   },
                   loading: () => Padding(
@@ -194,7 +161,19 @@ class _MilestoneExpansionTile extends ConsumerWidget {
     );
   }
 
-  Widget _buildTaskNode(BuildContext context, Task task) {
+  String _formatDate(DateTime date) {
+    return '${date.year}年${date.month}月${date.day}日';
+  }
+}
+
+/// ピラミッドのタスクノード
+class PyramidTaskNode extends StatelessWidget {
+  final Task task;
+
+  const PyramidTaskNode({super.key, required this.task});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: Spacing.small),
       padding: EdgeInsets.all(Spacing.medium),
@@ -206,12 +185,10 @@ class _MilestoneExpansionTile extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ステータスアイコン
           Container(
             margin: EdgeInsets.only(right: Spacing.small),
             child: _getStatusIcon(task.status.value),
           ),
-          // タスク情報
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

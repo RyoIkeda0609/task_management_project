@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/screens/home/home_widgets.dart';
 import 'package:app/presentation/screens/home/home_state.dart';
+import 'package:app/presentation/widgets/views/list_view/list_view_widgets.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/value_objects/goal/goal_id.dart';
 import 'package:app/domain/value_objects/goal/goal_title.dart';
