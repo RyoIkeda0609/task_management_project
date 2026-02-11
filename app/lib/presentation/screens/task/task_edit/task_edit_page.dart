@@ -129,6 +129,8 @@ class TaskEditPage extends ConsumerWidget {
         ref.invalidate(taskDetailProvider(taskId));
         ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
         ref.invalidate(todayTasksProvider);
+        ref.invalidate(goalsProvider);
+        ref.invalidate(goalProgressProvider);
       }
 
       if (context.mounted) {
@@ -150,8 +152,9 @@ class TaskEditPage extends ConsumerWidget {
           customTitle: 'タスク更新エラー',
           customMessage: 'タスクの保存に失敗しました。',
         );
-        viewModel.setLoading(false);
       }
+    } finally {
+      viewModel.setLoading(false);
     }
   }
 }

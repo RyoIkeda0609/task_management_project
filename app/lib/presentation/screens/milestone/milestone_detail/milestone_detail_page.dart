@@ -127,6 +127,8 @@ class MilestoneDetailPage extends ConsumerWidget {
 
                 // マイルストーン一覧をリフレッシュ
                 ref.invalidate(milestonsByGoalProvider(milestone.goalId));
+                ref.invalidate(goalsProvider);
+                ref.invalidate(goalProgressProvider);
 
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(

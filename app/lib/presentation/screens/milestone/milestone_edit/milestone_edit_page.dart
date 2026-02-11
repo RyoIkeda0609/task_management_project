@@ -130,6 +130,8 @@ class MilestoneEditPage extends ConsumerWidget {
       if (context.mounted) {
         ref.invalidate(milestoneDetailProvider(milestoneId));
         ref.invalidate(milestonsByGoalProvider(currentMilestone.goalId));
+        ref.invalidate(goalsProvider);
+        ref.invalidate(goalProgressProvider);
       }
 
       if (context.mounted) {
@@ -151,8 +153,9 @@ class MilestoneEditPage extends ConsumerWidget {
           customTitle: 'マイルストーン更新エラー',
           customMessage: 'マイルストーンの保存に失敗しました。',
         );
-        viewModel.setLoading(false);
       }
+    } finally {
+      viewModel.setLoading(false);
     }
   }
 }

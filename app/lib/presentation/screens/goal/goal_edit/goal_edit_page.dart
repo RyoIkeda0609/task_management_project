@@ -134,6 +134,7 @@ class GoalEditPage extends ConsumerWidget {
       if (context.mounted) {
         ref.invalidate(goalsProvider);
         ref.invalidate(goalDetailProvider(goalId));
+        ref.invalidate(goalProgressProvider);
       }
 
       if (context.mounted) {
@@ -155,8 +156,9 @@ class GoalEditPage extends ConsumerWidget {
           customTitle: 'ゴール更新エラー',
           customMessage: 'ゴールの保存に失敗しました。',
         );
-        viewModel.setLoading(false);
       }
+    } finally {
+      viewModel.setLoading(false);
     }
   }
 }

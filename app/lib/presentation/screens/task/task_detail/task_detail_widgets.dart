@@ -112,9 +112,12 @@ class TaskDetailStatusWidget extends ConsumerWidget {
       final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
       await changeTaskStatusUseCase(task.id.value);
 
-      // State を再取得
+      // State を再取得 - すべての Task Provider と進捗 Provider を invalidate
       ref.invalidate(taskDetailProvider(task.id.value));
       ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+      ref.invalidate(todayTasksProvider);
+      ref.invalidate(goalsProvider);
+      ref.invalidate(goalProgressProvider);
 
       onStatusChanged();
     } catch (e) {

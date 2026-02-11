@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../navigation/app_router.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../utils/validation_helper.dart';
@@ -28,7 +29,8 @@ class TaskCreatePage extends ConsumerWidget {
       appBar: CustomAppBar(
         title: 'タスクを作成',
         hasLeading: true,
-        onLeadingPressed: () => context.pop(),
+        onLeadingPressed: () =>
+            AppRouter.navigateToMilestoneDetail(context, goalId, milestoneId),
       ),
       body: TaskCreateFormWidget(
         milestoneId: milestoneId,
