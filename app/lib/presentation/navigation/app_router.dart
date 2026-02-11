@@ -6,9 +6,9 @@ import '../screens/onboarding/onboarding_page.dart';
 import '../screens/home/home_page.dart';
 import '../screens/today_tasks/today_tasks_screen.dart';
 import '../screens/settings/settings_screen.dart';
-import '../screens/goal/goal_create_screen.dart';
-import '../screens/goal/goal_detail_screen.dart';
-import '../screens/goal/goal_edit_screen.dart';
+import '../screens/goal/goal_create/goal_create_page.dart';
+import '../screens/goal/goal_detail/goal_detail_page.dart';
+import '../screens/goal/goal_edit/goal_edit_page.dart';
 import '../screens/milestone/milestone_create_screen.dart';
 import '../screens/milestone/milestone_detail_screen.dart';
 import '../screens/milestone/milestone_edit_screen.dart';
@@ -87,7 +87,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       /// ゴール作成画面ルート
       GoRoute(
         path: AppRoutePaths.goalCreate,
-        builder: (context, state) => const GoalCreateScreen(),
+        builder: (context, state) => const GoalCreatePage(),
       ),
 
       /// ボトムナビゲーション タブ化されたルート
@@ -108,7 +108,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     path: 'goal/:goalId',
                     builder: (context, state) {
                       final goalId = state.pathParameters['goalId'] ?? '';
-                      return GoalDetailScreen(goalId: goalId);
+                      return GoalDetailPage(goalId: goalId);
                     },
                     routes: [
                       /// ゴール編集画面
@@ -116,7 +116,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         path: 'edit',
                         builder: (context, state) {
                           final goalId = state.pathParameters['goalId'] ?? '';
-                          return GoalEditScreen(goalId: goalId);
+                          return GoalEditPage(goalId: goalId);
                         },
                       ),
 
