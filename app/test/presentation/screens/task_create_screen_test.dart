@@ -169,11 +169,11 @@ void main() {
       // キャンセルボタンを見つけてスクロール
       final cancelFinder = find.text('キャンセル');
       expect(cancelFinder, findsOneWidget);
-      
+
       // ウィジェットがビューポート内にあることを確認
       await tester.ensureVisible(cancelFinder);
       await tester.pumpAndSettle();
-      
+
       // キャンセルボタンをタップ
       await tester.tap(cancelFinder);
       await tester.pumpAndSettle();

@@ -23,21 +23,22 @@ class HomeViewModel extends StateNotifier<HomePageState> {
   /// ゴール一覧を読み込む
   Future<void> loadGoals() async {
     try {
+      // goalsProvider をロードする
       await _ref.read(goalsProvider.notifier).loadGoals();
-      // goalsProvider の state を監視
-      _ref.listen(goalsProvider, (previous, next) {
-        next.when(
-          data: (loadedGoals) {
-            state = HomePageState.withData(loadedGoals);
-          },
-          loading: () {
-            state = HomePageState.initial();
-          },
-          error: (error, _) {
-            state = HomePageState.withError(error.toString());
-          },
-        );
-      });
+
+      // ロード後、現在の状態を取得して更新
+      final goalsAsync = _ref.read(goalsProvider);
+      goalsAsync.when(
+        data: (loadedGoals) {
+          state = HomePageState.withData(loadedGoals);
+        },
+        loading: () {
+          state = HomePageState.initial();
+        },
+        error: (error, _) {
+          state = HomePageState.withError(error.toString());
+        },
+      );
     } catch (e) {
       state = HomePageState.withError(e.toString());
     }

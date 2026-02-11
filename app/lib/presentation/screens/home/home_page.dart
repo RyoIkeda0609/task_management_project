@@ -1,7 +1,8 @@
+import 'package:app/presentation/screens/home/home_state.dart';
+import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../navigation/app_router.dart';
-import 'home_view_model.dart';
 import 'home_widgets.dart';
 
 /// ホーム画面
@@ -23,15 +24,35 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeViewModelProvider);
+    // goalsProvider を直接監視
+    final goalsAsync = ref.watch(goalsProvider);
 
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: const HomeAppBar(),
-        body: HomeContent(
-          state: state,
-          onCreatePressed: () => _onCreateGoalPressed(context),
+        body: goalsAsync.when(
+          data: (goals) {
+            final state = HomePageState.withData(goals);
+            return HomeContent(
+              state: state,
+              onCreatePressed: () => _onCreateGoalPressed(context),
+            );
+          },
+          loading: () {
+            final state = HomePageState.initial();
+            return HomeContent(
+              state: state,
+              onCreatePressed: () => _onCreateGoalPressed(context),
+            );
+          },
+          error: (error, stackTrace) {
+            final state = HomePageState.withError(error.toString());
+            return HomeContent(
+              state: state,
+              onCreatePressed: () => _onCreateGoalPressed(context),
+            );
+          },
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => _onCreateGoalPressed(context),
