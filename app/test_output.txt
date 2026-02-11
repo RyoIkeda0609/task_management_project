@@ -1,0 +1,17 @@
+00:00 +0: loading C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/home_page_test.dart
+test/presentation/screens/home_page_test.dart:112:42: Error: Undefined name 'HomePageViewState'.
+                body: state.viewState == HomePageViewState.loading
+                                         ^^^^^^^^^^^^^^^^^
+test/presentation/screens/home_page_test.dart:133:42: Error: Undefined name 'HomePageViewState'.
+                body: state.viewState == HomePageViewState.error
+                                         ^^^^^^^^^^^^^^^^^
+00:00 +0 -1: loading C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/home_page_test.dart [E]
+  Failed to load "C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/home_page_test.dart":
+  Compilation failed for testPath=C:/Users/ikeda/dev/app/task_management_project/app/test/presentation/screens/home_page_test.dart: test/presentation/screens/home_page_test.dart:112:42: Error: Undefined name 'HomePageViewState'.
+                  body: state.viewState == HomePageViewState.loading
+                                           ^^^^^^^^^^^^^^^^^
+  test/presentation/screens/home_page_test.dart:133:42: Error: Undefined name 'HomePageViewState'.
+                  body: state.viewState == HomePageViewState.error
+                                           ^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.

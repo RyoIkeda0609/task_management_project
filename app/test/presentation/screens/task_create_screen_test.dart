@@ -88,7 +88,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('タスク名 *'), findsOneWidget);
+      expect(find.text('タスク名を入力してください'), findsOneWidget);
       expect(find.text('期限 *'), findsOneWidget);
       expect(find.text('キャンセル'), findsOneWidget);
     });
@@ -113,7 +113,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // 画面にタスク名フィールドが表示されていることを確認
-      expect(find.text('タスク名 *'), findsOneWidget);
+      expect(find.text('タスク名を入力してください'), findsOneWidget);
     });
 
     testWidgets('displays milestone information when provided', (
