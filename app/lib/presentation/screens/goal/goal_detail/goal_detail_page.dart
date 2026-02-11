@@ -140,29 +140,69 @@ class _ContentView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GoalDetailHeaderWidget(goal: goal),
+            _Header(goal: goal),
             SizedBox(height: Spacing.large),
-            GoalDetailMilestoneSection(
+            _Content(
               goal: goal,
               goalId: goalId,
               milestonesAsync: milestonesAsync,
             ),
             SizedBox(height: Spacing.large),
-            _buildActionButtons(context, ref),
+            _Action(goal: goal),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
+class _Header extends StatelessWidget {
+  final Goal goal;
+
+  const _Header({required this.goal});
+
+  @override
+  Widget build(BuildContext context) {
+    return GoalDetailHeaderWidget(goal: goal);
+  }
+}
+
+class _Content extends StatelessWidget {
+  final Goal goal;
+  final String goalId;
+  final AsyncValue<List<Milestone>> milestonesAsync;
+
+  const _Content({
+    required this.goal,
+    required this.goalId,
+    required this.milestonesAsync,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GoalDetailMilestoneSection(
+      goal: goal,
+      goalId: goalId,
+      milestonesAsync: milestonesAsync,
+    );
+  }
+}
+
+class _Action extends ConsumerWidget {
+  final Goal goal;
+
+  const _Action({required this.goal});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         Expanded(
           child: ElevatedButton.icon(
             icon: const Icon(Icons.edit),
             label: const Text('編集'),
-            onPressed: () => AppRouter.navigateToGoalEdit(context, goalId),
+            onPressed: () =>
+                AppRouter.navigateToGoalEdit(context, goal.id.value),
           ),
         ),
         SizedBox(width: Spacing.medium),
@@ -201,7 +241,6 @@ class _ContentView extends ConsumerWidget {
                 final deleteGoalUseCase = ref.read(deleteGoalUseCaseProvider);
                 await deleteGoalUseCase(goal.id.value);
 
-                // リフレッシュ：カスケード削除を反映
                 ref.invalidate(goalsProvider);
                 ref.invalidate(goalProgressProvider);
                 ref.invalidate(todayTasksProvider);

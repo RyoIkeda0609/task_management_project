@@ -126,16 +126,57 @@ class _ContentView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TaskDetailHeaderWidget(task: task),
-            const SizedBox(height: 16),
-            TaskDetailDeadlineWidget(task: task),
-            const SizedBox(height: 16),
-            TaskDetailStatusWidget(task: task, source: source),
-            const SizedBox(height: 16),
-            TaskDetailInfoWidget(task: task),
+            _Header(task: task),
+            const SizedBox(height: 24),
+            _Content(task: task, source: source),
+            const SizedBox(height: 24),
+            _Action(task: task),
           ],
         ),
       ),
     );
+  }
+}
+
+class _Header extends StatelessWidget {
+  final Task task;
+
+  const _Header({required this.task});
+
+  @override
+  Widget build(BuildContext context) {
+    return TaskDetailHeaderWidget(task: task);
+  }
+}
+
+class _Content extends StatelessWidget {
+  final Task task;
+  final String source;
+
+  const _Content({required this.task, required this.source});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TaskDetailDeadlineWidget(task: task),
+        const SizedBox(height: 16),
+        TaskDetailStatusWidget(task: task, source: source),
+        const SizedBox(height: 16),
+        TaskDetailInfoWidget(task: task),
+      ],
+    );
+  }
+}
+
+class _Action extends StatelessWidget {
+  final Task task;
+
+  const _Action({required this.task});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox.shrink();
   }
 }

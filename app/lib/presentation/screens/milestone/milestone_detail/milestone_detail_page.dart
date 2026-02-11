@@ -151,49 +151,83 @@ class _ContentView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MilestoneDetailHeaderWidget(milestone: milestone),
+          _Header(milestone: milestone),
           SizedBox(height: Spacing.large),
-          MilestoneDetailTasksSection(
-            milestoneId: milestoneId,
-            milestone: milestone,
-          ),
+          _Content(milestoneId: milestoneId, milestone: milestone),
           SizedBox(height: Spacing.large),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
-            child: _buildActionButtons(context, ref),
-          ),
+          _Action(milestone: milestone, milestoneId: milestoneId),
         ],
       ),
     );
   }
+}
 
-  Widget _buildActionButtons(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: [
-        Expanded(
-          child: ElevatedButton.icon(
-            icon: const Icon(Icons.edit),
-            label: const Text('編集'),
-            onPressed: () => AppRouter.navigateToMilestoneEdit(
-              context,
-              milestone.goalId,
-              milestoneId,
+class _Header extends StatelessWidget {
+  final Milestone milestone;
+
+  const _Header({required this.milestone});
+
+  @override
+  Widget build(BuildContext context) {
+    return MilestoneDetailHeaderWidget(milestone: milestone);
+  }
+}
+
+class _Content extends StatelessWidget {
+  final String milestoneId;
+  final Milestone milestone;
+
+  const _Content({required this.milestoneId, required this.milestone});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
+      child: MilestoneDetailTasksSection(
+        milestoneId: milestoneId,
+        milestone: milestone,
+      ),
+    );
+  }
+}
+
+class _Action extends ConsumerWidget {
+  final Milestone milestone;
+  final String milestoneId;
+
+  const _Action({required this.milestone, required this.milestoneId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.edit),
+              label: const Text('編集'),
+              onPressed: () => AppRouter.navigateToMilestoneEdit(
+                context,
+                milestone.goalId,
+                milestoneId,
+              ),
             ),
           ),
-        ),
-        SizedBox(width: Spacing.medium),
-        Expanded(
-          child: ElevatedButton.icon(
-            icon: const Icon(Icons.delete_outline),
-            label: const Text('削除'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+          SizedBox(width: Spacing.medium),
+          Expanded(
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.delete_outline),
+              label: const Text('削除'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => _showDeleteDialog(context, ref),
             ),
-            onPressed: () => _showDeleteDialog(context, ref),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -219,7 +253,6 @@ class _ContentView extends ConsumerWidget {
                 );
                 await deleteMilestoneUseCase(milestoneId);
 
-                // リフレッシュ：カスケード削除を反映
                 ref.invalidate(milestonsByGoalProvider(milestone.goalId));
                 ref.invalidate(goalsProvider);
                 ref.invalidate(goalProgressProvider);

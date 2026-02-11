@@ -96,12 +96,39 @@ class _ContentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _Header(grouped: grouped),
+        SizedBox(height: 16),
+        _Content(grouped: grouped),
+      ],
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  final GroupedTasks grouped;
+
+  const _Header({required this.grouped});
+
+  @override
+  Widget build(BuildContext context) {
+    return TodayTasksSummaryWidget(grouped: grouped);
+  }
+}
+
+class _Content extends StatelessWidget {
+  final GroupedTasks grouped;
+
+  const _Content({required this.grouped});
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TodayTasksSummaryWidget(grouped: grouped),
-          SizedBox(height: 16),
           if (grouped.todoTasks.isNotEmpty)
             TodayTasksSectionWidget(
               title: '未完了',
