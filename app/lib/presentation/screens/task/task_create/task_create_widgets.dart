@@ -38,16 +38,23 @@ class TaskCreateFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // タスク名
+            Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
             _TaskCreateTitleField(
               title: state.title,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
+
+            // タスクの詳細
+            Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
             _TaskCreateDescriptionField(
               description: state.description,
               onChanged: viewModel.updateDescription,
             ),
             SizedBox(height: Spacing.medium),
+
+            // 期限
             _TaskCreateDeadlineField(
               selectedDeadline: state.selectedDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
@@ -72,17 +79,11 @@ class _TaskCreateTitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('タスク名 *', style: AppTextStyles.labelLarge),
-        SizedBox(height: Spacing.small),
-        CustomTextField(
-          label: 'タスク名を入力してください',
-          initialValue: title,
-          onChanged: onChanged,
-        ),
-      ],
+    return CustomTextField(
+      hintText: '過去問を10周する、週に3回ジムに行くなど',
+      initialValue: title,
+      maxLength: 100,
+      onChanged: onChanged,
     );
   }
 }
@@ -98,23 +99,12 @@ class _TaskCreateDescriptionField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'タスクの説明 （任意）',
-          style: AppTextStyles.labelMedium.copyWith(
-            color: AppColors.neutral600,
-          ),
-        ),
-        SizedBox(height: Spacing.small),
-        CustomTextField(
-          label: 'タスクの詳細を入力してください',
-          initialValue: description,
-          onChanged: onChanged,
-          multiline: true,
-        ),
-      ],
+    return CustomTextField(
+      hintText: '・タスクの具体的な内容\n・タスクの完了条件\n・注意点やポイントなど',
+      initialValue: description,
+      maxLength: 500,
+      onChanged: onChanged,
+      multiline: true,
     );
   }
 }
@@ -133,7 +123,7 @@ class _TaskCreateDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限 *', style: AppTextStyles.labelLarge),
+        Text('期限', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),
@@ -233,7 +223,11 @@ class _TaskCreateMilestoneInfo extends ConsumerWidget {
           children: [
             Icon(Icons.flag, color: AppColors.primary, size: 20),
             SizedBox(width: Spacing.small),
-            const Expanded(child: CircularProgressIndicator()),
+            Expanded(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+              ),
+            ),
           ],
         ),
       ),
@@ -264,21 +258,23 @@ class _TaskCreateActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
       children: [
-        CustomButton(
-          text: 'タスクを作成',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: CustomButton(
+            text: '作成',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

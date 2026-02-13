@@ -28,7 +28,7 @@ class MilestoneEditPage extends ConsumerWidget {
         appBar: CustomAppBar(
           title: 'マイルストーンを編集',
           hasLeading: true,
-          onLeadingPressed: () => Navigator.of(context).pop(),
+          onLeadingPressed: () => context.pop(),
         ),
         body: const Center(child: CircularProgressIndicator()),
       ),
@@ -36,7 +36,7 @@ class MilestoneEditPage extends ConsumerWidget {
         appBar: CustomAppBar(
           title: 'マイルストーンを編集',
           hasLeading: true,
-          onLeadingPressed: () => Navigator.of(context).pop(),
+          onLeadingPressed: () => context.pop(),
         ),
         body: Center(
           child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
@@ -51,7 +51,7 @@ class MilestoneEditPage extends ConsumerWidget {
         appBar: CustomAppBar(
           title: 'マイルストーンを編集',
           hasLeading: true,
-          onLeadingPressed: () => Navigator.of(context).pop(),
+          onLeadingPressed: () => context.pop(),
         ),
         body: Center(
           child: Text('マイルストーンが見つかりません', style: AppTextStyles.titleMedium),
@@ -77,7 +77,7 @@ class MilestoneEditPage extends ConsumerWidget {
       appBar: CustomAppBar(
         title: 'マイルストーンを編集',
         hasLeading: true,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
       ),
       body: MilestoneEditFormWidget(
         onSubmit: () => _submitForm(context, ref),
@@ -94,8 +94,13 @@ class MilestoneEditPage extends ConsumerWidget {
 
     // バリデーション
     final validationErrors = [
-      ValidationHelper.validateNotEmpty(state.title, fieldName: 'マイルストーン名'),
-      ValidationHelper.validateDateNotInPast(
+      ValidationHelper.validateLength(
+        state.title,
+        fieldName: 'マイルストーン名',
+        minLength: 1,
+        maxLength: 100,
+      ),
+      ValidationHelper.validateDateAfterToday(
         state.targetDate,
         fieldName: '目標日時',
       ),
@@ -126,9 +131,9 @@ class MilestoneEditPage extends ConsumerWidget {
         deadline: state.targetDate,
       );
 
-      // プロバイダーキャッシュを無効化
+      // プロバイダーキャッシュを再取得
       if (context.mounted) {
-        ref.invalidate(milestoneDetailProvider(milestoneId));
+        await ref.refresh(milestoneDetailProvider(milestoneId));
         ref.invalidate(milestonsByGoalProvider(currentMilestone.goalId));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -29,18 +30,26 @@ class MilestoneCreateFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // マイルストーン名
+            Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
             _MilestoneCreateTitleField(
               title: state.title,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.large),
+
+            // 目標日時
             _MilestoneCreateDeadlineField(
               selectedDeadline: state.selectedTargetDate,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),
+
+            // ゴール情報
             _MilestoneCreateGoalInfo(goalId: goalId),
             SizedBox(height: Spacing.large),
+
+            // アクションボタン
             _MilestoneCreateActions(
               onSubmit: onSubmit,
               isLoading: state.isLoading,
@@ -63,17 +72,11 @@ class _MilestoneCreateTitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
-        SizedBox(height: Spacing.small),
-        CustomTextField(
-          label: 'マイルストーン名を入力してください',
-          initialValue: title,
-          onChanged: onChanged,
-        ),
-      ],
+    return CustomTextField(
+      hintText: '模試で偏差値70を取る、資格試験に合格するなど',
+      initialValue: title,
+      maxLength: 100,
+      onChanged: onChanged,
     );
   }
 }
@@ -92,7 +95,7 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('目標日時 *', style: AppTextStyles.labelLarge),
+        Text('目標日時', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectTargetDate(context),
@@ -121,11 +124,17 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
   }
 
   Future<void> _selectTargetDate(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedDeadline.isBefore(firstDate)
+        ? firstDate
+        : selectedDeadline;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDeadline,
-      firstDate: DateTime.now(),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
     if (picked != null) {
       onDeadlineSelected(picked);
@@ -226,21 +235,30 @@ class _MilestoneCreateActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    final viewModel = ref.read(milestoneCreateViewModelProvider.notifier);
+
+    return Row(
       children: [
-        CustomButton(
-          text: 'マイルストーンを作成',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading
+                ? null
+                : () {
+                    viewModel.resetForm();
+                    context.pop();
+                  },
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: CustomButton(
+            text: '作成',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

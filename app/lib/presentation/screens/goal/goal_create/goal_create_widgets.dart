@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../navigation/app_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
+import '../../../navigation/app_router.dart';
 import 'goal_create_view_model.dart';
 
 class GoalCreateFormWidget extends ConsumerWidget {
@@ -24,32 +24,44 @@ class GoalCreateFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ゴール名
+            Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
-              label: 'ゴールのタイトル',
+              hintText: '○○大学に合格する、会社を辞めて独立するなど',
               initialValue: state.title,
               maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.large),
+
+            // 説明・理由
+            Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
-              label: 'ゴールの理由',
+              hintText:
+                  '・なぜこのゴールを達成したいのか\n・ゴールを達成するモチベーションは何か\n・達成したらどんな良いことがあるかなど',
               initialValue: state.reason,
               maxLength: 100,
               multiline: true,
               onChanged: viewModel.updateReason,
             ),
             SizedBox(height: Spacing.large),
+
+            // カテゴリー
             _GoalCategoryDropdown(
               selectedCategory: state.selectedCategory,
               categories: state.categories,
               onChanged: viewModel.updateCategory,
             ),
             SizedBox(height: Spacing.large),
+
+            // 達成予定日
             _GoalDeadlineSelector(
               selectedDeadline: state.selectedDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.xxxLarge),
+
+            // アクションボタン
             _GoalCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
           ],
         ),
@@ -81,8 +93,10 @@ class _GoalCategoryDropdown extends StatelessWidget {
           isExpanded: true,
           items: categories
               .map(
-                (category) =>
-                    DropdownMenuItem(value: category, child: Text(category)),
+                (category) => DropdownMenuItem(
+                  value: category,
+                  child: Text(category, style: AppTextStyles.bodySmall),
+                ),
               )
               .toList(),
           onChanged: (value) {
@@ -110,7 +124,7 @@ class _GoalDeadlineSelector extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限', style: AppTextStyles.labelLarge),
+        Text('達成予定日', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),
@@ -137,11 +151,17 @@ class _GoalDeadlineSelector extends StatelessWidget {
   }
 
   Future<void> _selectDeadline(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedDeadline.isBefore(firstDate)
+        ? firstDate
+        : selectedDeadline;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDeadline,
-      firstDate: DateTime.now(),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
     if (picked != null) {
       onDeadlineSelected(picked);
@@ -161,16 +181,19 @@ class _GoalCreateActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.read(goalCreateViewModelProvider.notifier);
+
     return Row(
       children: [
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: () {
-              if (context.mounted) {
-                AppRouter.navigateToHome(context);
-              }
-            },
+            onPressed: isLoading
+                ? null
+                : () {
+                    viewModel.resetForm();
+                    AppRouter.navigateToHome(context);
+                  },
             type: ButtonType.secondary,
           ),
         ),

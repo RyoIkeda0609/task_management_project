@@ -39,11 +39,14 @@ class GoalCreatePage extends ConsumerWidget {
         minLength: 1,
         maxLength: 100,
       ),
-      ValidationHelper.validateLength(
+      ValidationHelper.validateLengthOptional(
         state.reason,
         fieldName: 'ゴールの理由',
-        minLength: 1,
         maxLength: 100,
+      ),
+      ValidationHelper.validateDateAfterToday(
+        state.selectedDeadline,
+        fieldName: '期限',
       ),
     ];
 

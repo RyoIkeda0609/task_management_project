@@ -169,13 +169,13 @@ void main() {
             body: CustomButton(
               text: 'With Icon',
               onPressed: () {},
-              icon: Icons.add,
+              icon: Icons.add_comment,
             ),
           ),
         ),
       );
 
-      expect(find.byIcon(Icons.add), findsOneWidget);
+      expect(find.byIcon(Icons.add_comment), findsOneWidget);
     });
 
     testWidgets('button respects custom width', (WidgetTester tester) async {

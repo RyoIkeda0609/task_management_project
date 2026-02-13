@@ -1,3 +1,4 @@
+import 'package:app/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/entities/goal.dart';
@@ -53,7 +54,11 @@ class CalendarView extends ConsumerWidget {
           ],
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+        ),
+      ),
       error: (error, stackTrace) => Center(child: Text('エラー: $error')),
     );
   }

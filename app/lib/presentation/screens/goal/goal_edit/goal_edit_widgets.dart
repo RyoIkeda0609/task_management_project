@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -37,20 +38,19 @@ class GoalEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ゴール名
-            Text('ゴール名 *', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
+            Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
-              label: 'ゴール名を入力してください',
+              hintText: 'ゴール名を入力（100文字以内）',
               initialValue: state.goalId == goalId ? state.title : goalTitle,
+              maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
 
-            // 説明
-            Text('ゴールの理由', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
+            // 説明・理由
+            Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
-              label: 'ゴールの理由を入力してください（任意）',
+              hintText: '説明・理由を入力（100文字以内）',
               initialValue: state.goalId == goalId ? state.reason : goalReason,
               maxLength: 100,
               onChanged: viewModel.updateReason,
@@ -67,7 +67,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.medium),
 
-            // 期限
+            // 達成予定日
             _GoalEditDeadlineSelector(
               selectedDeadline: state.goalId == goalId
                   ? state.deadline
@@ -76,7 +76,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.large),
 
-            // ボタン
+            // アクションボタン
             _GoalEditActions(onSubmit: onSubmit, isLoading: state.isLoading),
           ],
         ),
@@ -120,7 +120,10 @@ class _GoalEditCategoryDropdown extends StatelessWidget {
             underline: const SizedBox(),
             onChanged: (value) => onChanged(value ?? selectedCategory),
             items: categories.map((cat) {
-              return DropdownMenuItem<String>(value: cat, child: Text(cat));
+              return DropdownMenuItem<String>(
+                value: cat,
+                child: Text(cat, style: AppTextStyles.bodySmall),
+              );
             }).toList(),
           ),
         ),
@@ -143,7 +146,7 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限 *', style: AppTextStyles.labelLarge),
+        Text('達成予定日', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),
@@ -172,11 +175,17 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
   }
 
   Future<void> _selectDeadline(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedDeadline.isBefore(firstDate)
+        ? firstDate
+        : selectedDeadline;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDeadline,
-      firstDate: DateTime.now(),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
 
     if (picked != null) {
@@ -197,21 +206,23 @@ class _GoalEditActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
       children: [
-        CustomButton(
-          text: '更新する',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading ? null : () => context.pop(),
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: CustomButton(
+            text: '更新',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

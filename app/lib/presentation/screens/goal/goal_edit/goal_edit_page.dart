@@ -104,12 +104,12 @@ class GoalEditPage extends ConsumerWidget {
         minLength: 1,
         maxLength: 100,
       ),
-      ValidationHelper.validateLength(
+      ValidationHelper.validateLengthOptional(
         state.reason,
         fieldName: 'ゴールの理由',
-        minLength: 1,
         maxLength: 100,
       ),
+      ValidationHelper.validateDateAfterToday(state.deadline, fieldName: '期限'),
     ];
 
     if (!ValidationHelper.validateAll(context, validationErrors)) {
@@ -130,10 +130,12 @@ class GoalEditPage extends ConsumerWidget {
         deadline: state.deadline,
       );
 
-      // プロバイダーキャッシュを無効化
+      // プロバイダーキャッシュを再取得
       if (context.mounted) {
-        ref.invalidate(goalsProvider);
+        // 詳細画面用の詳細 provider と関連キャッシュを強制的にクリア
         ref.invalidate(goalDetailProvider(goalId));
+        ref.invalidate(milestonsByGoalProvider(goalId));
+        ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
       }
 
@@ -145,6 +147,9 @@ class GoalEditPage extends ConsumerWidget {
         );
 
         if (context.mounted) {
+          // 詳細画面に戻る前に、キャッシュを強制的にクリアして新しいデータを fetch させる
+          ref.invalidate(goalDetailProvider(goalId));
+          ref.invalidate(milestonsByGoalProvider(goalId));
           context.pop();
         }
       }

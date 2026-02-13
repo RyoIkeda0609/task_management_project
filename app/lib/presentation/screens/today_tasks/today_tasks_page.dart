@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
@@ -59,7 +60,11 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+      ),
+    );
   }
 }
 
@@ -96,13 +101,15 @@ class _ContentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _Header(grouped: grouped),
-        SizedBox(height: 16),
-        _Content(grouped: grouped),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Header(grouped: grouped),
+          SizedBox(height: Spacing.medium),
+          _Content(grouped: grouped),
+        ],
+      ),
     );
   }
 }
@@ -125,32 +132,30 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (grouped.todoTasks.isNotEmpty)
-            TodayTasksSectionWidget(
-              title: '未完了',
-              tasks: grouped.todoTasks,
-              color: AppColors.neutral400,
-            ),
-          if (grouped.todoTasks.isNotEmpty) SizedBox(height: 16),
-          if (grouped.doingTasks.isNotEmpty)
-            TodayTasksSectionWidget(
-              title: '進行中',
-              tasks: grouped.doingTasks,
-              color: AppColors.warning,
-            ),
-          if (grouped.doingTasks.isNotEmpty) SizedBox(height: 16),
-          if (grouped.doneTasks.isNotEmpty)
-            TodayTasksSectionWidget(
-              title: '完了',
-              tasks: grouped.doneTasks,
-              color: AppColors.success,
-            ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (grouped.todoTasks.isNotEmpty)
+          TodayTasksSectionWidget(
+            title: '未完了',
+            tasks: grouped.todoTasks,
+            color: AppColors.neutral400,
+          ),
+        if (grouped.todoTasks.isNotEmpty) SizedBox(height: Spacing.medium),
+        if (grouped.doingTasks.isNotEmpty)
+          TodayTasksSectionWidget(
+            title: '進行中',
+            tasks: grouped.doingTasks,
+            color: AppColors.warning,
+          ),
+        if (grouped.doingTasks.isNotEmpty) SizedBox(height: Spacing.medium),
+        if (grouped.doneTasks.isNotEmpty)
+          TodayTasksSectionWidget(
+            title: '完了',
+            tasks: grouped.doneTasks,
+            color: AppColors.success,
+          ),
+      ],
     );
   }
 }

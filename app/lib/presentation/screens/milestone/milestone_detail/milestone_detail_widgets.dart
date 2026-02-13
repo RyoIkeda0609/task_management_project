@@ -32,20 +32,13 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
 
   Widget _buildMilestoneInfo(Milestone milestone) {
     return Container(
-      padding: EdgeInsets.all(Spacing.medium),
       decoration: BoxDecoration(
         color: AppColors.neutral50,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        children: [
-          Icon(Icons.calendar_today, color: AppColors.neutral600, size: 16),
-          SizedBox(width: Spacing.small),
-          Text(
-            '期限: ${_formatDate(milestone.deadline.value)}',
-            style: AppTextStyles.bodySmall,
-          ),
-        ],
+      child: Text(
+        '目標日時: ${_formatDate(milestone.deadline.value)}',
+        style: AppTextStyles.bodyMedium,
       ),
     );
   }
@@ -223,7 +216,10 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
           },
         ),
         PopupMenuItem(
-          child: const Text('削除', style: TextStyle(color: Colors.red)),
+          child: Text(
+            '削除',
+            style: AppTextStyles.labelLarge.copyWith(color: AppColors.error),
+          ),
           onTap: () {
             _showDeleteTaskDialog(context, ref, task);
           },
@@ -332,7 +328,10 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
                 }
               }
             },
-            child: const Text('削除', style: TextStyle(color: Colors.red)),
+            child: Text(
+              '削除',
+              style: AppTextStyles.labelLarge.copyWith(color: AppColors.error),
+            ),
           ),
         ],
       ),
@@ -344,7 +343,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, size: 64, color: Colors.red),
+          const Icon(Icons.error_outline, size: 64, color: AppColors.error),
           SizedBox(height: Spacing.medium),
           Text('エラーが発生しました', style: AppTextStyles.titleMedium),
         ],

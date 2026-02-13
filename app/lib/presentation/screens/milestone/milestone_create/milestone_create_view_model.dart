@@ -25,8 +25,9 @@ class MilestoneCreateViewModel extends StateNotifier<MilestoneCreatePageState> {
 
 /// StateNotifierProvider
 final milestoneCreateViewModelProvider =
-    StateNotifierProvider<MilestoneCreateViewModel, MilestoneCreatePageState>((
-      ref,
-    ) {
+    StateNotifierProvider.autoDispose<
+      MilestoneCreateViewModel,
+      MilestoneCreatePageState
+    >((ref) {
       return MilestoneCreateViewModel();
     });

@@ -53,7 +53,17 @@ class TaskCreatePage extends ConsumerWidget {
 
     // バリデーション
     final validationErrors = [
-      ValidationHelper.validateNotEmpty(state.title, fieldName: 'タスク名'),
+      ValidationHelper.validateLength(
+        state.title,
+        fieldName: 'タスク名',
+        minLength: 1,
+        maxLength: 100,
+      ),
+      ValidationHelper.validateLengthOptional(
+        state.description,
+        fieldName: 'タスク説明',
+        maxLength: 500,
+      ),
       ValidationHelper.validateDateNotInPast(
         state.selectedDeadline,
         fieldName: '期限',

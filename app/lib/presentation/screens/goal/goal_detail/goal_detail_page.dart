@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../theme/app_colors.dart';
 import '../../../widgets/common/app_bar_common.dart';
+import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import 'goal_detail_state.dart';
 import 'goal_detail_widgets.dart';
@@ -36,13 +38,33 @@ class GoalDetailPage extends ConsumerWidget {
         hasLeading: true,
         backgroundColor: AppColors.neutral100,
         onLeadingPressed: () => Navigator.of(context).pop(),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => goalAsync.whenData((goal) {
+              if (goal != null) {
+                AppRouter.navigateToGoalEdit(context, goalId);
+              }
+            }),
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => goalAsync.whenData((goal) {
+              if (goal != null) {
+                _showDeleteConfirmation(context, ref, goal);
+              }
+            }),
+          ),
+        ],
       ),
       body: goalAsync.when(
-        data: (goal) => _Body(
-          state: GoalDetailPageState.withData(goal),
-          goalId: goalId,
-          milestonesAsync: milestonesAsync,
-        ),
+        data: (goal) {
+          return _Body(
+            state: GoalDetailPageState.withData(goal),
+            goalId: goalId,
+            milestonesAsync: milestonesAsync,
+          );
+        },
         loading: () => _Body(
           state: GoalDetailPageState.loading(),
           goalId: goalId,
@@ -56,9 +78,50 @@ class GoalDetailPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => AppRouter.navigateToMilestoneCreate(context, goalId),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_comment),
       ),
     );
+  }
+
+  void _showDeleteConfirmation(
+    BuildContext context,
+    WidgetRef ref,
+    Goal goal,
+  ) async {
+    final confirmed = await DialogHelper.showDeleteConfirmDialog(
+      context,
+      title: '本当に削除しますか？',
+      message: 'ゴール「${goal.title.value}」を削除します。配下のマイルストーンとタスクもすべて削除されます。',
+    );
+
+    if (confirmed == true && context.mounted) {
+      try {
+        final deleteGoalUseCase = ref.read(deleteGoalUseCaseProvider);
+        await deleteGoalUseCase(goalId);
+
+        // Provider キャッシュを無効化
+        ref.invalidate(goalsProvider);
+        ref.invalidate(goalDetailProvider(goalId));
+
+        if (context.mounted) {
+          await ValidationHelper.showSuccess(
+            context,
+            title: 'ゴール削除完了',
+            message: 'ゴール「${goal.title.value}」を削除しました。',
+          );
+          AppRouter.navigateToHome(context);
+        }
+      } catch (e) {
+        if (context.mounted) {
+          await ValidationHelper.handleException(
+            context,
+            e,
+            customTitle: 'ゴール削除エラー',
+            customMessage: 'ゴールの削除に失敗しました。',
+          );
+        }
+      }
+    }
   }
 }
 
@@ -147,8 +210,6 @@ class _ContentView extends ConsumerWidget {
               goalId: goalId,
               milestonesAsync: milestonesAsync,
             ),
-            SizedBox(height: Spacing.large),
-            _Action(goal: goal),
           ],
         ),
       ),
@@ -184,85 +245,6 @@ class _Content extends StatelessWidget {
       goal: goal,
       goalId: goalId,
       milestonesAsync: milestonesAsync,
-    );
-  }
-}
-
-class _Action extends ConsumerWidget {
-  final Goal goal;
-
-  const _Action({required this.goal});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: [
-        Expanded(
-          child: ElevatedButton.icon(
-            icon: const Icon(Icons.edit),
-            label: const Text('編集'),
-            onPressed: () =>
-                AppRouter.navigateToGoalEdit(context, goal.id.value),
-          ),
-        ),
-        SizedBox(width: Spacing.medium),
-        Expanded(
-          child: ElevatedButton.icon(
-            icon: const Icon(Icons.delete_outline),
-            label: const Text('削除'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () => _showDeleteDialog(context, ref),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showDeleteDialog(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('ゴール削除'),
-        content: Text(
-          '「${goal.title.value}」を削除してもよろしいですか？\n関連するマイルストーンとタスクもすべて削除されます。',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('キャンセル'),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.of(dialogContext).pop();
-              try {
-                final deleteGoalUseCase = ref.read(deleteGoalUseCaseProvider);
-                await deleteGoalUseCase(goal.id.value);
-
-                ref.invalidate(goalsProvider);
-                ref.invalidate(goalProgressProvider);
-                ref.invalidate(todayTasksProvider);
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('ゴールを削除しました')));
-                  AppRouter.navigateToHome(context);
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
-                }
-              }
-            },
-            child: const Text('削除', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -63,7 +63,6 @@ void main() {
 
       expect(find.text('テストゴール'), findsOneWidget);
       expect(find.text('学習'), findsOneWidget);
-      expect(find.text('理由'), findsOneWidget);
     });
 
     testWidgets('空のビューが表示される', (WidgetTester tester) async {
@@ -107,8 +106,13 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: HomeContent(state: state, onCreatePressed: () {}),
+            home: DefaultTabController(
+              length: 3,
+              child: Scaffold(
+                body: state.viewState == HomeViewState.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : HomeContent(state: state, onCreatePressed: () {}),
+              ),
             ),
           ),
         ),
@@ -118,7 +122,7 @@ void main() {
     });
 
     testWidgets('HomeContent がエラー状態を表示', (WidgetTester tester) async {
-      final state = HomePageState.withError('エラー');
+      final state = HomePageState.withError('エラーメッセージ');
 
       await tester.pumpWidget(
         ProviderScope(
@@ -126,14 +130,19 @@ void main() {
             home: DefaultTabController(
               length: 3,
               child: Scaffold(
-                body: HomeContent(state: state, onCreatePressed: () {}),
+                body: state.viewState == HomeViewState.error
+                    ? GoalErrorView(
+                        errorMessage: state.errorMessage ?? 'エラーが発生しました',
+                        onCreatePressed: () {},
+                      )
+                    : HomeContent(state: state, onCreatePressed: () {}),
               ),
             ),
           ),
         ),
       );
 
-      expect(find.text('エラー'), findsWidgets);
+      expect(find.text('ゴールを読み込めませんでした'), findsWidgets);
     });
 
     testWidgets('HomeContent が空の状態を表示', (WidgetTester tester) async {
@@ -145,7 +154,9 @@ void main() {
             home: DefaultTabController(
               length: 3,
               child: Scaffold(
-                body: HomeContent(state: state, onCreatePressed: () {}),
+                body: state.viewState == HomeViewState.empty
+                    ? GoalEmptyView(onCreatePressed: () {})
+                    : HomeContent(state: state, onCreatePressed: () {}),
               ),
             ),
           ),

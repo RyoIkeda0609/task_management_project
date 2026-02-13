@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -33,13 +34,13 @@ class MilestoneEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // マイルストーン名
-            Text('マイルストーン名 *', style: AppTextStyles.labelLarge),
-            SizedBox(height: Spacing.small),
+            Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
-              label: 'マイルストーン名を入力してください',
+              hintText: 'マイルストーン名を入力（100文字以内）',
               initialValue: state.milestoneId == milestoneId
                   ? state.title
                   : milestoneTitle,
+              maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
@@ -53,7 +54,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.large),
 
-            // ボタン
+            // アクションボタン
             _MilestoneEditActions(
               onSubmit: onSubmit,
               isLoading: state.isLoading,
@@ -79,7 +80,7 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('目標日時 *', style: AppTextStyles.labelLarge),
+        Text('目標日時', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectTargetDate(context),
@@ -108,11 +109,17 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
   }
 
   Future<void> _selectTargetDate(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedTargetDate.isBefore(firstDate)
+        ? firstDate
+        : selectedTargetDate;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedTargetDate,
-      firstDate: DateTime.now(),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
 
     if (picked != null) {
@@ -136,21 +143,23 @@ class _MilestoneEditActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
+    return Row(
       children: [
-        CustomButton(
-          text: '更新する',
-          onPressed: isLoading ? null : onSubmit,
-          width: double.infinity,
-          type: ButtonType.primary,
-          isLoading: isLoading,
+        Expanded(
+          child: CustomButton(
+            text: 'キャンセル',
+            onPressed: isLoading ? null : () => context.pop(),
+            type: ButtonType.secondary,
+          ),
         ),
-        SizedBox(height: Spacing.small),
-        CustomButton(
-          text: 'キャンセル',
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(),
-          width: double.infinity,
-          type: ButtonType.secondary,
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: CustomButton(
+            text: '更新する',
+            onPressed: isLoading ? null : onSubmit,
+            type: ButtonType.primary,
+            isLoading: isLoading,
+          ),
         ),
       ],
     );

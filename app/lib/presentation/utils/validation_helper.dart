@@ -38,6 +38,23 @@ class ValidationHelper {
     return null;
   }
 
+  /// テキストの長さを検証（任意フィールド向け）
+  ///
+  /// 空文字列を許可し、入力されている場合は最大文字数をチェック
+  static String? validateLengthOptional(
+    String? value, {
+    required String fieldName,
+    required int maxLength,
+  }) {
+    if (value == null || value.isEmpty) {
+      return null; // 空を許可（任意フィールド）
+    }
+    if (value.length > maxLength) {
+      return '$fieldName は$maxLength文字以内で入力してください。';
+    }
+    return null;
+  }
+
   /// テキストが整数かどうかを検証
   static String? validateInteger(String? value, {required String fieldName}) {
     if (value == null || value.isEmpty) {
@@ -81,6 +98,25 @@ class ValidationHelper {
     return null;
   }
 
+  /// 日付が明日以降かを検証（Goal/Milestone向け）
+  ///
+  /// 本日より後の日付のみを許可（本日は不可）
+  static String? validateDateAfterToday(
+    DateTime? date, {
+    required String fieldName,
+  }) {
+    if (date == null) {
+      return '$fieldName を選択してください。';
+    }
+    final today = DateTime.now();
+    final dateOnly = DateTime(date.year, date.month, date.day);
+    final todayOnly = DateTime(today.year, today.month, today.day);
+    if (dateOnly.isBefore(todayOnly) || dateOnly.isAtSameMomentAs(todayOnly)) {
+      return '$fieldName は本日より後の日付を選択してください。';
+    }
+    return null;
+  }
+
   // ========================================
   // リスト検証メソッド
   // ========================================
@@ -97,12 +133,13 @@ class ValidationHelper {
   }
 
   // ========================================
-  // エラー表示メソッド
+  // エラー表示メッセージ（統一）
   // ========================================
 
   /// バリデーション失敗時にエラーダイアログを表示
   ///
   /// バリデーションエラーが複数ある場合は最初のエラーのみを表示します
+  /// メッセージは自動的に「入力エラー」ダイアログで表示されます
   static Future<void> showValidationErrors(
     BuildContext context,
     List<String?> errors,
@@ -113,17 +150,17 @@ class ValidationHelper {
     );
 
     if (firstError != null) {
-      await DialogHelper.showErrorDialog(
+      await DialogHelper.showValidationErrorDialog(
         context,
-        title: '入力エラー',
         message: firstError,
       );
     }
   }
 
-  /// 複数のバリデーション結果を確認
+  /// 複数のバリデーション結果を確認（統一のエラーUI）
   ///
   /// 返り値: すべてのバリデーションが成功した場合true、失敗した場合false
+  /// エラーがある場合は自動的に「入力エラー」ダイアログを表示
   static bool validateAll(BuildContext context, List<String?> errors) {
     final firstError = errors.firstWhere(
       (error) => error != null,
@@ -131,30 +168,26 @@ class ValidationHelper {
     );
 
     if (firstError != null) {
-      DialogHelper.showErrorDialog(
-        context,
-        title: '入力エラー',
-        message: firstError,
-      );
+      DialogHelper.showValidationErrorDialog(context, message: firstError);
       return false;
     }
     return true;
   }
 
   // ========================================
-  // 例外処理メソッド
+  // 例外処理メソッド（統一UI）
   // ========================================
 
-  /// 例外をハンドルしてエラーダイアログを表示
+  /// 例外をハンドルしてエラーダイアログを表示（統一UI）
   ///
   /// 既知の例外タイプ別にカスタムメッセージを表示します
+  /// すべてのエラーダイアログは「エラーが発生しました」のタイトルで統一
   static Future<void> handleException(
     BuildContext context,
     dynamic exception, {
     String? customTitle,
     String? customMessage,
   }) async {
-    String title = customTitle ?? 'エラーが発生しました';
     String message = customMessage ?? '予期しないエラーが発生しました。';
 
     // 既知の例外をハンドル
@@ -167,15 +200,21 @@ class ValidationHelper {
     }
 
     if (context.mounted) {
-      await DialogHelper.showErrorDialog(
-        context,
-        title: title,
-        message: message,
-      );
+      // customTitle がある場合は showErrorDialog を使用
+      // ない場合は統一されたメッセージで showErrorDialog を使用
+      if (customTitle != null) {
+        await DialogHelper.showErrorDialog(
+          context,
+          title: customTitle,
+          message: message,
+        );
+      } else {
+        await DialogHelper.showErrorDialog(context, message: message);
+      }
     }
   }
 
-  /// 成功メッセージを表示
+  /// 成功メッセージを表示（統一UI）
   static Future<void> showSuccess(
     BuildContext context, {
     required String title,

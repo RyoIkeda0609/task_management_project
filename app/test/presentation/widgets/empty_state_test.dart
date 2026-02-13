@@ -62,7 +62,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: EmptyState(
-              icon: Icons.add,
+              icon: Icons.add_comment,
               title: 'No Goals',
               message: 'Create your first goal',
               actionText: 'Create Goal',
@@ -84,7 +84,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: EmptyState(
-              icon: Icons.add,
+              icon: Icons.add_comment,
               title: 'No Items',
               message: 'Add new item',
               actionText: 'Add',
