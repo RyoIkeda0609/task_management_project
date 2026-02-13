@@ -1,3 +1,4 @@
+import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../widgets/common/app_bar_common.dart';
@@ -31,26 +32,14 @@ class GoalCreatePage extends ConsumerWidget {
     final state = ref.read(goalCreateViewModelProvider);
     final viewModel = ref.read(goalCreateViewModelProvider.notifier);
 
-    // フォーム検証
-    final validationErrors = [
-      ValidationHelper.validateLength(
-        state.title,
-        fieldName: 'ゴール名',
-        minLength: 1,
-        maxLength: 100,
-      ),
-      ValidationHelper.validateLengthOptional(
-        state.reason,
-        fieldName: 'ゴールの理由',
-        maxLength: 100,
-      ),
-      ValidationHelper.validateDateAfterToday(
-        state.selectedDeadline,
-        fieldName: '期限',
-      ),
-    ];
+    // フォーム検証（日付のみ - Domain層でテキスト長は検証済み）
+    final dateError = ValidationHelper.validateDateAfterToday(
+      state.selectedDeadline,
+      fieldName: '期限',
+    );
 
-    if (!ValidationHelper.validateAll(context, validationErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 

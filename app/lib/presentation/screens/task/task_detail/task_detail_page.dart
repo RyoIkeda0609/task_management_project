@@ -126,6 +126,8 @@ class TaskDetailPage extends ConsumerWidget {
             title: 'タスク削除完了',
             message: 'タスク「${task.title.value}」を削除しました。',
           );
+        }
+        if (context.mounted) {
           Navigator.of(context).pop();
         }
       } catch (e) {

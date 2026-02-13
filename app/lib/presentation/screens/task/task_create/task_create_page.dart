@@ -1,3 +1,4 @@
+import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -51,26 +52,14 @@ class TaskCreatePage extends ConsumerWidget {
       )).notifier,
     );
 
-    // バリデーション
-    final validationErrors = [
-      ValidationHelper.validateLength(
-        state.title,
-        fieldName: 'タスク名',
-        minLength: 1,
-        maxLength: 100,
-      ),
-      ValidationHelper.validateLengthOptional(
-        state.description,
-        fieldName: 'タスク説明',
-        maxLength: 500,
-      ),
-      ValidationHelper.validateDateNotInPast(
-        state.selectedDeadline,
-        fieldName: '期限',
-      ),
-    ];
+    // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
+    final dateError = ValidationHelper.validateDateNotInPast(
+      state.selectedDeadline,
+      fieldName: '期限',
+    );
 
-    if (!ValidationHelper.validateAll(context, validationErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 

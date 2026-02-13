@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -104,26 +105,23 @@ class TaskEditPage extends ConsumerWidget {
     final state = ref.read(taskEditViewModelProvider);
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
-    // バリデーション
-    final validationErrors = [
-      ValidationHelper.validateLength(
-        state.title,
-        fieldName: 'タスク名',
-        minLength: 1,
-        maxLength: 100,
-      ),
-      ValidationHelper.validateLengthOptional(
-        state.description,
-        fieldName: 'タスク説明',
-        maxLength: 500,
-      ),
+    // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
+    final dateErrors = [
       ValidationHelper.validateDateNotInPast(
         state.selectedDeadline,
         fieldName: '期限',
       ),
     ];
 
-    if (!ValidationHelper.validateAll(context, validationErrors)) {
+    if (dateErrors.any((error) => error != null)) {
+      await DialogHelper.showValidationErrorDialog(
+        context,
+        message: dateErrors.firstWhere((error) => error != null)!,
+      );
+      return;
+    }
+
+    if (!ValidationHelper.validateAll(context, dateErrors)) {
       return;
     }
 

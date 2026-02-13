@@ -109,6 +109,8 @@ class GoalDetailPage extends ConsumerWidget {
             title: 'ゴール削除完了',
             message: 'ゴール「${goal.title.value}」を削除しました。',
           );
+        }
+        if (context.mounted) {
           AppRouter.navigateToHome(context);
         }
       } catch (e) {
