@@ -2,8 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'goal_create_state.dart';
 
 class GoalCreateViewModel extends StateNotifier<GoalCreatePageState> {
-  GoalCreateViewModel()
-    : super(GoalCreatePageState(selectedDeadline: DateTime.now()));
+  GoalCreateViewModel() : super(GoalCreatePageState(deadline: DateTime.now()));
 
   void updateTitle(String title) {
     state = state.copyWith(title: title);
@@ -18,7 +17,7 @@ class GoalCreateViewModel extends StateNotifier<GoalCreatePageState> {
   }
 
   void updateDeadline(DateTime deadline) {
-    state = state.copyWith(selectedDeadline: deadline);
+    state = state.copyWith(deadline: deadline);
   }
 
   void setLoading(bool isLoading) {
@@ -27,7 +26,7 @@ class GoalCreateViewModel extends StateNotifier<GoalCreatePageState> {
 
   /// フォーム入力値をリセット
   void resetForm() {
-    state = GoalCreatePageState(selectedDeadline: DateTime.now());
+    state = GoalCreatePageState(deadline: DateTime.now());
   }
 }
 

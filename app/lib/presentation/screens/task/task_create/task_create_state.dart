@@ -3,7 +3,7 @@ class TaskCreatePageState {
   final String goalId;
   final String title;
   final String description;
-  final DateTime selectedDeadline;
+  final DateTime deadline;
   final bool isLoading;
 
   const TaskCreatePageState({
@@ -11,7 +11,7 @@ class TaskCreatePageState {
     this.goalId = '',
     this.title = '',
     this.description = '',
-    required this.selectedDeadline,
+    required this.deadline,
     this.isLoading = false,
   });
 
@@ -20,7 +20,7 @@ class TaskCreatePageState {
     String? goalId,
     String? title,
     String? description,
-    DateTime? selectedDeadline,
+    DateTime? deadline,
     bool? isLoading,
   }) {
     return TaskCreatePageState(
@@ -28,7 +28,7 @@ class TaskCreatePageState {
       goalId: goalId ?? this.goalId,
       title: title ?? this.title,
       description: description ?? this.description,
-      selectedDeadline: selectedDeadline ?? this.selectedDeadline,
+      deadline: deadline ?? this.deadline,
       isLoading: isLoading ?? this.isLoading,
     );
   }

@@ -62,7 +62,7 @@ class TaskEditFormWidget extends ConsumerWidget {
             // 期限
             _TaskEditDeadlineField(
               selectedDeadline: state.taskId == taskId
-                  ? state.selectedDeadline
+                  ? state.deadline
                   : taskDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),

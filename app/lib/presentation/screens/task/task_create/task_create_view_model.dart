@@ -7,7 +7,7 @@ class TaskCreateViewModel extends StateNotifier<TaskCreatePageState> {
         TaskCreatePageState(
           milestoneId: milestoneId,
           goalId: goalId,
-          selectedDeadline: DateTime.now(),
+          deadline: DateTime.now(),
         ),
       );
 
@@ -20,7 +20,7 @@ class TaskCreateViewModel extends StateNotifier<TaskCreatePageState> {
   }
 
   void updateDeadline(DateTime deadline) {
-    state = state.copyWith(selectedDeadline: deadline);
+    state = state.copyWith(deadline: deadline);
   }
 
   void setLoading(bool isLoading) {
@@ -32,7 +32,7 @@ class TaskCreateViewModel extends StateNotifier<TaskCreatePageState> {
     state = TaskCreatePageState(
       milestoneId: state.milestoneId,
       goalId: state.goalId,
-      selectedDeadline: DateTime.now(),
+      deadline: DateTime.now(),
     );
   }
 }

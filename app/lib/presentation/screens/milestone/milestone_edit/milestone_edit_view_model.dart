@@ -5,7 +5,7 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
   MilestoneEditViewModel()
     : super(
         MilestoneEditPageState(
-          targetDate: DateTime.now().add(const Duration(days: 30)),
+          deadline: DateTime.now().add(const Duration(days: 30)),
         ),
       );
 
@@ -13,12 +13,12 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
   void initializeWithMilestone({
     required String milestoneId,
     required String title,
-    required DateTime targetDate,
+    required DateTime deadline,
   }) {
     state = MilestoneEditPageState(
       milestoneId: milestoneId,
       title: title,
-      targetDate: targetDate,
+      deadline: deadline,
       isLoading: false,
     );
   }
@@ -28,7 +28,7 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
   }
 
   void updateDeadline(DateTime deadline) {
-    state = state.copyWith(targetDate: deadline);
+    state = state.copyWith(deadline: deadline);
   }
 
   void setLoading(bool isLoading) {

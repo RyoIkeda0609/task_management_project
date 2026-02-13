@@ -1,7 +1,7 @@
 class GoalCreatePageState {
   final String title;
   final String reason;
-  final DateTime selectedDeadline;
+  final DateTime deadline;
   final String selectedCategory;
   final bool isLoading;
   final List<String> categories;
@@ -9,7 +9,7 @@ class GoalCreatePageState {
   const GoalCreatePageState({
     this.title = '',
     this.reason = '',
-    required this.selectedDeadline,
+    required this.deadline,
     this.selectedCategory = '健康',
     this.isLoading = false,
     this.categories = const ['健康', '仕事', '学習', '趣味'],
@@ -18,7 +18,7 @@ class GoalCreatePageState {
   GoalCreatePageState copyWith({
     String? title,
     String? reason,
-    DateTime? selectedDeadline,
+    DateTime? deadline,
     String? selectedCategory,
     bool? isLoading,
     List<String>? categories,
@@ -26,7 +26,7 @@ class GoalCreatePageState {
     return GoalCreatePageState(
       title: title ?? this.title,
       reason: reason ?? this.reason,
-      selectedDeadline: selectedDeadline ?? this.selectedDeadline,
+      deadline: deadline ?? this.deadline,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       isLoading: isLoading ?? this.isLoading,
       categories: categories ?? this.categories,

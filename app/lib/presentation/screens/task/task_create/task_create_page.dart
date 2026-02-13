@@ -54,7 +54,7 @@ class TaskCreatePage extends ConsumerWidget {
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
     final dateError = ValidationHelper.validateDateNotInPast(
-      state.selectedDeadline,
+      state.deadline,
       fieldName: '期限',
     );
 
@@ -70,8 +70,8 @@ class TaskCreatePage extends ConsumerWidget {
 
       await createTaskUseCase(
         title: state.title,
-        description: state.description.isNotEmpty ? state.description : '',
-        deadline: state.selectedDeadline,
+        description: state.description,
+        deadline: state.deadline,
         milestoneId: milestoneId,
       );
 

@@ -34,7 +34,7 @@ class GoalCreatePage extends ConsumerWidget {
 
     // フォーム検証（日付のみ - Domain層でテキスト長は検証済み）
     final dateError = ValidationHelper.validateDateAfterToday(
-      state.selectedDeadline,
+      state.deadline,
       fieldName: '期限',
     );
 
@@ -53,7 +53,7 @@ class GoalCreatePage extends ConsumerWidget {
         title: state.title,
         category: state.selectedCategory,
         reason: state.reason,
-        deadline: state.selectedDeadline,
+        deadline: state.deadline,
       );
 
       // goalsNotifier に新しいゴールを読み込ませる

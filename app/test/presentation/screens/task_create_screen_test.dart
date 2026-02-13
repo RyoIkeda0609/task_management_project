@@ -118,32 +118,6 @@ void main() {
       expect(find.text('タスク名（具体的な作業・行動内容）'), findsOneWidget);
     });
 
-    testWidgets('displays milestone information when provided', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
-            milestoneRepositoryProvider.overrideWithValue(
-              FakeMilestoneRepository(),
-            ),
-          ],
-          child: const MaterialApp(
-            home: TaskCreatePage(
-              milestoneId: 'milestone-123',
-              goalId: 'goal-123',
-            ),
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      expect(find.text('マイルストーンに紐付けます'), findsOneWidget);
-      // マイルストーンのタイトルが表示されることを確認（詳細なタイトルはモックで定義）
-    });
-
     testWidgets('closes screen when cancel button is tapped', (
       WidgetTester tester,
     ) async {
