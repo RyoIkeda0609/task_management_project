@@ -115,6 +115,8 @@ class MilestoneDetailPage extends ConsumerWidget {
             title: 'マイルストーン削除完了',
             message: 'マイルストーン「${milestone.title.value}」を削除しました。',
           );
+        }
+        if (context.mounted) {
           context.pop();
         }
       } catch (e) {

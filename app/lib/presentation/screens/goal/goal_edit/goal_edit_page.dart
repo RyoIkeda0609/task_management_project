@@ -1,3 +1,4 @@
+import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,20 +60,18 @@ class GoalEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（遅延実行）- ID が変わった場合のみ
+    // ViewModelを初期化 - ID が変わった場合のみ
     final viewModel = ref.read(goalEditViewModelProvider.notifier);
     final state = ref.watch(goalEditViewModelProvider);
 
     if (state.goalId != goalId) {
-      Future.microtask(() {
-        viewModel.initializeWithGoal(
-          goalId: goalId,
-          title: goal.title.value,
-          reason: goal.reason.value,
-          category: goal.category.value,
-          deadline: goal.deadline.value,
-        );
-      });
+      viewModel.initializeWithGoal(
+        goalId: goalId,
+        title: goal.title.value,
+        reason: goal.reason.value,
+        category: goal.category.value,
+        deadline: goal.deadline.value,
+      );
     }
 
     return Scaffold(
@@ -96,23 +95,14 @@ class GoalEditPage extends ConsumerWidget {
     final state = ref.read(goalEditViewModelProvider);
     final viewModel = ref.read(goalEditViewModelProvider.notifier);
 
-    // バリデーション
-    final validationErrors = [
-      ValidationHelper.validateLength(
-        state.title,
-        fieldName: 'ゴール名',
-        minLength: 1,
-        maxLength: 100,
-      ),
-      ValidationHelper.validateLengthOptional(
-        state.reason,
-        fieldName: 'ゴールの理由',
-        maxLength: 100,
-      ),
-      ValidationHelper.validateDateAfterToday(state.deadline, fieldName: '期限'),
-    ];
+    // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
+    final dateError = ValidationHelper.validateDateAfterToday(
+      state.deadline,
+      fieldName: '期限',
+    );
 
-    if (!ValidationHelper.validateAll(context, validationErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 

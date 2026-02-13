@@ -30,8 +30,6 @@ void main() {
 
   group('GoalCreateFormWidget - Date Picker Validation', () {
     testWidgets('displays deadline picker field', (WidgetTester tester) async {
-      final tomorrowDate = DateTime.now().add(const Duration(days: 1));
-
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(

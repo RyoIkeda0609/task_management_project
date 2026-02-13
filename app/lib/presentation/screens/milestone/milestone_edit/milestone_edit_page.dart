@@ -1,3 +1,4 @@
+import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,18 +60,16 @@ class MilestoneEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（遅延実行）- ID が変わった場合のみ
+    // ViewModelを初期化 - ID が変わった場合のみ
     final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
     final state = ref.watch(milestoneEditViewModelProvider);
 
     if (state.milestoneId != milestoneId) {
-      Future.microtask(() {
-        viewModel.initializeWithMilestone(
-          milestoneId: milestoneId,
-          title: milestone.title.value,
-          targetDate: milestone.deadline.value,
-        );
-      });
+      viewModel.initializeWithMilestone(
+        milestoneId: milestoneId,
+        title: milestone.title.value,
+        targetDate: milestone.deadline.value,
+      );
     }
 
     return Scaffold(
@@ -92,21 +91,14 @@ class MilestoneEditPage extends ConsumerWidget {
     final state = ref.read(milestoneEditViewModelProvider);
     final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
 
-    // バリデーション
-    final validationErrors = [
-      ValidationHelper.validateLength(
-        state.title,
-        fieldName: 'マイルストーン名',
-        minLength: 1,
-        maxLength: 100,
-      ),
-      ValidationHelper.validateDateAfterToday(
-        state.targetDate,
-        fieldName: '目標日時',
-      ),
-    ];
+    // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
+    final dateError = ValidationHelper.validateDateAfterToday(
+      state.targetDate,
+      fieldName: '目標日時',
+    );
 
-    if (!ValidationHelper.validateAll(context, validationErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 
@@ -133,7 +125,8 @@ class MilestoneEditPage extends ConsumerWidget {
 
       // プロバイダーキャッシュを再取得
       if (context.mounted) {
-        await ref.refresh(milestoneDetailProvider(milestoneId));
+        // ignore: unused_result
+        ref.refresh(milestoneDetailProvider(milestoneId));
         ref.invalidate(milestonesByGoalProvider(currentMilestone.goalId));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

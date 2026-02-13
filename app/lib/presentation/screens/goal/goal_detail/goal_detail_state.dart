@@ -8,12 +8,12 @@ enum GoalDetailViewState { loading, notFound, data, error }
 class GoalDetailPageState {
   final GoalDetailViewState viewState;
   final Goal? goal;
-  final String? errorMessage;
+  final String errorMessage;
 
   const GoalDetailPageState({
     required this.viewState,
     this.goal,
-    this.errorMessage,
+    this.errorMessage = '',
   });
 
   /// ローディング状態

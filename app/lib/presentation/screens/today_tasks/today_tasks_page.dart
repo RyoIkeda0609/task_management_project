@@ -46,9 +46,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (state.viewState) {
       TodayTasksViewState.loading => const _LoadingView(),
-      TodayTasksViewState.error => _ErrorView(
-        error: state.errorMessage ?? 'Unknown error',
-      ),
+      TodayTasksViewState.error => _ErrorView(error: state.errorMessage),
       TodayTasksViewState.empty => _EmptyView(),
       TodayTasksViewState.data => _ContentView(grouped: state.groupedTasks!),
     };

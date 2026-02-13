@@ -1,3 +1,4 @@
+import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,21 +38,14 @@ class MilestoneCreatePage extends ConsumerWidget {
     final state = ref.read(milestoneCreateViewModelProvider);
     final viewModel = ref.read(milestoneCreateViewModelProvider.notifier);
 
-    // バリデーション
-    final validationErrors = [
-      ValidationHelper.validateLength(
-        state.title,
-        fieldName: 'マイルストーン名',
-        minLength: 1,
-        maxLength: 100,
-      ),
-      ValidationHelper.validateDateAfterToday(
-        state.selectedTargetDate,
-        fieldName: '目標日時',
-      ),
-    ];
+    // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
+    final dateError = ValidationHelper.validateDateAfterToday(
+      state.selectedTargetDate,
+      fieldName: '目標日時',
+    );
 
-    if (!ValidationHelper.validateAll(context, validationErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 
