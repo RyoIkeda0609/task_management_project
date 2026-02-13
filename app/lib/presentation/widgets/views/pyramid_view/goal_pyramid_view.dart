@@ -26,23 +26,9 @@ class GoalPyramidView extends ConsumerWidget {
         );
 
         return milestonesAsync.when(
-          data: (milestones) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: Spacing.medium),
-                child: Text(
-                  goal.title.value,
-                  style: AppTextStyles.titleMedium,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: Spacing.large),
-                child: PyramidView(goal: goal, milestones: milestones),
-              ),
-            ],
+          data: (milestones) => Padding(
+            padding: EdgeInsets.only(bottom: Spacing.large),
+            child: PyramidView(goal: goal, milestones: milestones),
           ),
           loading: () => Center(
             child: CircularProgressIndicator(
