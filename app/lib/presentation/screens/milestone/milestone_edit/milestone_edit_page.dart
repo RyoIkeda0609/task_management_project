@@ -68,7 +68,7 @@ class MilestoneEditPage extends ConsumerWidget {
       viewModel.initializeWithMilestone(
         milestoneId: milestoneId,
         title: milestone.title.value,
-        targetDate: milestone.deadline.value,
+        deadline: milestone.deadline.value,
       );
     }
 
@@ -93,7 +93,7 @@ class MilestoneEditPage extends ConsumerWidget {
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
     final dateError = ValidationHelper.validateDateAfterToday(
-      state.targetDate,
+      state.deadline,
       fieldName: '目標日時',
     );
 
@@ -120,7 +120,7 @@ class MilestoneEditPage extends ConsumerWidget {
       await updateMilestoneUseCase(
         milestoneId: milestoneId,
         title: state.title,
-        deadline: state.targetDate,
+        deadline: state.deadline,
       );
 
       // プロバイダーキャッシュを再取得

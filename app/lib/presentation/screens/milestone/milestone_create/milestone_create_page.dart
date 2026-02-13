@@ -40,7 +40,7 @@ class MilestoneCreatePage extends ConsumerWidget {
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
     final dateError = ValidationHelper.validateDateAfterToday(
-      state.selectedTargetDate,
+      state.deadline,
       fieldName: '目標日時',
     );
 
@@ -56,7 +56,7 @@ class MilestoneCreatePage extends ConsumerWidget {
 
       await createMilestoneUseCase(
         title: state.title,
-        deadline: state.selectedTargetDate,
+        deadline: state.deadline,
         goalId: goalId,
       );
 

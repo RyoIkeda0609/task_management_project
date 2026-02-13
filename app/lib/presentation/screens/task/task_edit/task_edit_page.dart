@@ -76,7 +76,7 @@ class TaskEditPage extends ConsumerWidget {
           taskId: taskId,
           title: task.title.value,
           description: task.description.value,
-          selectedDeadline: task.deadline.value,
+          deadline: task.deadline.value,
         );
       });
     }
@@ -107,10 +107,7 @@ class TaskEditPage extends ConsumerWidget {
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
     final dateErrors = [
-      ValidationHelper.validateDateNotInPast(
-        state.selectedDeadline,
-        fieldName: '期限',
-      ),
+      ValidationHelper.validateDateNotInPast(state.deadline, fieldName: '期限'),
     ];
 
     if (dateErrors.any((error) => error != null)) {
@@ -134,7 +131,7 @@ class TaskEditPage extends ConsumerWidget {
         taskId: taskId,
         title: state.title,
         description: state.description,
-        deadline: state.selectedDeadline,
+        deadline: state.deadline,
       );
 
       // キャッシュを無効化

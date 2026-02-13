@@ -2,14 +2,14 @@ class TaskEditPageState {
   final String taskId; // 編集中のタスクID
   final String title;
   final String description;
-  final DateTime selectedDeadline;
+  final DateTime deadline;
   final bool isLoading;
 
   const TaskEditPageState({
     this.taskId = '',
     this.title = '',
     this.description = '',
-    required this.selectedDeadline,
+    required this.deadline,
     this.isLoading = false,
   });
 
@@ -17,14 +17,14 @@ class TaskEditPageState {
     String? taskId,
     String? title,
     String? description,
-    DateTime? selectedDeadline,
+    DateTime? deadline,
     bool? isLoading,
   }) {
     return TaskEditPageState(
       taskId: taskId ?? this.taskId,
       title: title ?? this.title,
       description: description ?? this.description,
-      selectedDeadline: selectedDeadline ?? this.selectedDeadline,
+      deadline: deadline ?? this.deadline,
       isLoading: isLoading ?? this.isLoading,
     );
   }

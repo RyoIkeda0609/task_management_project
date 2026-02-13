@@ -56,7 +56,7 @@ class GoalCreateFormWidget extends ConsumerWidget {
 
             // 達成予定日
             _GoalDeadlineSelector(
-              selectedDeadline: state.selectedDeadline,
+              selectedDeadline: state.deadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.xxxLarge),
@@ -100,9 +100,7 @@ class _GoalCategoryDropdown extends StatelessWidget {
               )
               .toList(),
           onChanged: (value) {
-            if (value != null) {
-              onChanged(value);
-            }
+            if (value != null) onChanged(value);
           },
         ),
       ],

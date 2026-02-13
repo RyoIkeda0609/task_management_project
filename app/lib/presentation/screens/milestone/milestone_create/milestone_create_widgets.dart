@@ -40,14 +40,10 @@ class MilestoneCreateFormWidget extends ConsumerWidget {
 
             // 目標日時
             _MilestoneCreateDeadlineField(
-              selectedDeadline: state.selectedTargetDate,
+              selectedDeadline: state.deadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
-            SizedBox(height: Spacing.large),
-
-            // ゴール情報
-            _MilestoneCreateGoalInfo(goalId: goalId),
-            SizedBox(height: Spacing.large),
+            SizedBox(height: Spacing.xxxLarge),
 
             // アクションボタン
             _MilestoneCreateActions(
@@ -143,84 +139,6 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     return '${date.year}年${date.month}月${date.day}日';
-  }
-}
-
-class _MilestoneCreateGoalInfo extends ConsumerWidget {
-  final String goalId;
-
-  const _MilestoneCreateGoalInfo({required this.goalId});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final goalAsync = ref.watch(goalDetailProvider(goalId));
-
-    return goalAsync.when(
-      data: (goal) {
-        if (goal == null) return SizedBox.shrink();
-        return Container(
-          padding: EdgeInsets.all(Spacing.medium),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-          ),
-          child: Row(
-            children: [
-              Icon(Icons.flag, color: AppColors.primary, size: 20),
-              SizedBox(width: Spacing.small),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('このゴールに紐付けます', style: AppTextStyles.labelSmall),
-                    SizedBox(height: Spacing.xSmall),
-                    Text(
-                      goal.title.value,
-                      style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.neutral600,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-      loading: () => Container(
-        padding: EdgeInsets.all(Spacing.medium),
-        decoration: BoxDecoration(
-          color: AppColors.primary.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.flag, color: AppColors.primary, size: 20),
-            SizedBox(width: Spacing.small),
-            const Expanded(child: CircularProgressIndicator()),
-          ],
-        ),
-      ),
-      error: (error, stackTrace) => Container(
-        padding: EdgeInsets.all(Spacing.medium),
-        decoration: BoxDecoration(
-          color: AppColors.error.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
-        ),
-        child: Row(
-          children: [
-            Icon(Icons.error, color: AppColors.error, size: 20),
-            SizedBox(width: Spacing.small),
-            const Expanded(child: Text('ゴール情報を読み込めません')),
-          ],
-        ),
-      ),
-    );
   }
 }
 

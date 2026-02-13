@@ -48,7 +48,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
             // 目標日時
             _MilestoneEditDeadlineField(
               selectedTargetDate: state.milestoneId == milestoneId
-                  ? state.targetDate
+                  ? state.deadline
                   : milestoneTargetDate,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
