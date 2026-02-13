@@ -88,9 +88,11 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('タスク名を入力してください'), findsOneWidget);
-      expect(find.text('期限 *'), findsOneWidget);
+      expect(find.text('タスク名（具体的な作業・行動内容）'), findsOneWidget);
+      expect(find.text('タスクの詳細（任意）'), findsOneWidget);
+      expect(find.text('期限'), findsOneWidget);
       expect(find.text('キャンセル'), findsOneWidget);
+      expect(find.text('作成'), findsOneWidget);
     });
 
     testWidgets('should not create task when title is empty', (
@@ -113,7 +115,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // 画面にタスク名フィールドが表示されていることを確認
-      expect(find.text('タスク名を入力してください'), findsOneWidget);
+      expect(find.text('タスク名（具体的な作業・行動内容）'), findsOneWidget);
     });
 
     testWidgets('displays milestone information when provided', (
