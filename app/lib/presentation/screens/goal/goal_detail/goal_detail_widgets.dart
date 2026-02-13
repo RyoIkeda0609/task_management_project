@@ -6,7 +6,6 @@ import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/empty_state.dart';
-import '../../../widgets/views/pyramid_view/pyramid_view.dart';
 import '../../../navigation/app_router.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../../domain/entities/milestone.dart';
@@ -26,7 +25,7 @@ class GoalDetailHeaderWidget extends StatelessWidget {
         Row(
           children: [
             Text(
-              '達成予定日: ${_formatDate(goal.deadline)}',
+              '達成予定日: ${_formatDate(goal.deadline.value)}',
               style: AppTextStyles.bodyMedium,
             ),
             SizedBox(width: Spacing.medium),
@@ -58,7 +57,15 @@ class GoalDetailHeaderWidget extends StatelessWidget {
 
   String _formatDate(dynamic deadline) {
     try {
-      final dt = deadline is DateTime ? deadline : DateTime.now();
+      late final DateTime dt;
+
+      // deadline が DateTime の場合
+      if (deadline is DateTime) {
+        dt = deadline;
+      } else {
+        return '達成予定日未設定';
+      }
+
       return '${dt.year}年${dt.month}月${dt.day}日';
     } catch (e) {
       return '達成予定日未設定';

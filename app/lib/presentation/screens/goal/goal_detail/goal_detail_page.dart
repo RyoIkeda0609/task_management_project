@@ -58,11 +58,13 @@ class GoalDetailPage extends ConsumerWidget {
         ],
       ),
       body: goalAsync.when(
-        data: (goal) => _Body(
-          state: GoalDetailPageState.withData(goal),
-          goalId: goalId,
-          milestonesAsync: milestonesAsync,
-        ),
+        data: (goal) {
+          return _Body(
+            state: GoalDetailPageState.withData(goal),
+            goalId: goalId,
+            milestonesAsync: milestonesAsync,
+          );
+        },
         loading: () => _Body(
           state: GoalDetailPageState.loading(),
           goalId: goalId,

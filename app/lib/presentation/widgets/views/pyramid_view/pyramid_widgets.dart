@@ -74,7 +74,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: Spacing.small),
+          margin: EdgeInsets.only(bottom: Spacing.xxSmall),
           decoration: BoxDecoration(
             color: AppColors.neutral50,
             border: Border(
@@ -83,6 +83,15 @@ class PyramidMilestoneNode extends ConsumerWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           child: ExpansionTile(
+            tilePadding: EdgeInsets.symmetric(
+              horizontal: Spacing.small,
+              vertical: Spacing.xxSmall,
+            ),
+            childrenPadding: EdgeInsets.only(
+              left: Spacing.small,
+              right: Spacing.small,
+              bottom: Spacing.xxSmall,
+            ),
             initiallyExpanded: isExpanded,
             onExpansionChanged: (_) {
               viewModel.toggleMilestoneExpansion(milestone.id.value);
@@ -121,12 +130,17 @@ class PyramidMilestoneNode extends ConsumerWidget {
             ),
             children: [
               Padding(
-                padding: EdgeInsets.all(Spacing.small),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Spacing.small,
+                  vertical: Spacing.xxSmall,
+                ),
                 child: milestoneTasks.when(
                   data: (tasks) {
                     if (tasks.isEmpty) {
                       return Padding(
-                        padding: EdgeInsets.symmetric(vertical: Spacing.small),
+                        padding: EdgeInsets.symmetric(
+                          vertical: Spacing.xxSmall,
+                        ),
                         child: Text(
                           'タスクなし',
                           style: AppTextStyles.bodySmall.copyWith(
@@ -146,7 +160,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
                     );
                   },
                   loading: () => Padding(
-                    padding: EdgeInsets.symmetric(vertical: Spacing.small),
+                    padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor: AlwaysStoppedAnimation<Color>(
@@ -182,7 +196,10 @@ class PyramidTaskNode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: Spacing.xSmall),
-      padding: EdgeInsets.all(Spacing.small),
+      padding: EdgeInsets.symmetric(
+        horizontal: Spacing.small,
+        vertical: Spacing.xxSmall,
+      ),
       decoration: BoxDecoration(
         color: _getTaskStatusColor(task.status.value),
         borderRadius: BorderRadius.circular(4),
