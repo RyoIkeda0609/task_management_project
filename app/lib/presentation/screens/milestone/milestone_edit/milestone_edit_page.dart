@@ -82,7 +82,7 @@ class MilestoneEditPage extends ConsumerWidget {
         onSubmit: () => _submitForm(context, ref),
         milestoneId: milestoneId,
         milestoneTitle: milestone.title.value,
-        milestoneTargetDate: milestone.deadline.value,
+        milestoneDeadline: milestone.deadline.value,
       ),
     );
   }

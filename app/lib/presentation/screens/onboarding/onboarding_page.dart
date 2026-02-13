@@ -5,8 +5,6 @@ import '../../navigation/app_router.dart';
 import 'onboarding_view_model.dart';
 import 'onboarding_widgets.dart';
 
-// ignore_for_file: use_build_context_synchronously
-
 /// オンボーディング画面
 ///
 /// アプリケーション初回起動時に、ゴール設定やタスク完了の説明など、
@@ -82,7 +80,7 @@ class _OnboardingPageState extends ConsumerState<OnboardingPage> {
     await viewModel.nextPageOrComplete();
 
     // 次のフレームで実行（状態更新後）
-    if (!mounted) return;
+    if (!mounted || !context.mounted) return;
 
     final newState = ref.read(onboardingViewModelProvider);
 

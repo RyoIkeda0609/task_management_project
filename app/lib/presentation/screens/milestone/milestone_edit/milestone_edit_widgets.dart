@@ -12,14 +12,14 @@ class MilestoneEditFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
   final String milestoneId;
   final String milestoneTitle;
-  final DateTime milestoneTargetDate;
+  final DateTime milestoneDeadline;
 
   const MilestoneEditFormWidget({
     super.key,
     required this.onSubmit,
     required this.milestoneId,
     required this.milestoneTitle,
-    required this.milestoneTargetDate,
+    required this.milestoneDeadline,
   });
 
   @override
@@ -47,9 +47,9 @@ class MilestoneEditFormWidget extends ConsumerWidget {
 
             // 目標日時
             _MilestoneEditDeadlineField(
-              selectedTargetDate: state.milestoneId == milestoneId
+              selectedDeadline: state.milestoneId == milestoneId
                   ? state.deadline
-                  : milestoneTargetDate,
+                  : milestoneDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),
@@ -67,11 +67,11 @@ class MilestoneEditFormWidget extends ConsumerWidget {
 }
 
 class _MilestoneEditDeadlineField extends StatelessWidget {
-  final DateTime selectedTargetDate;
+  final DateTime selectedDeadline;
   final Function(DateTime) onDeadlineSelected;
 
   const _MilestoneEditDeadlineField({
-    required this.selectedTargetDate,
+    required this.selectedDeadline,
     required this.onDeadlineSelected,
   });
 
@@ -83,7 +83,7 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
         Text('目標日時', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
-          onTap: () => _selectTargetDate(context),
+          onTap: () => _selectDeadline(context),
           child: Container(
             padding: EdgeInsets.all(Spacing.medium),
             decoration: BoxDecoration(
@@ -96,7 +96,7 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
                 SizedBox(width: Spacing.small),
                 Expanded(
                   child: Text(
-                    _formatDate(selectedTargetDate),
+                    _formatDate(selectedDeadline),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ),
@@ -108,11 +108,11 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
     );
   }
 
-  Future<void> _selectTargetDate(BuildContext context) async {
+  Future<void> _selectDeadline(BuildContext context) async {
     final firstDate = DateTime.now().add(const Duration(days: 1));
-    final initialDate = selectedTargetDate.isBefore(firstDate)
+    final initialDate = selectedDeadline.isBefore(firstDate)
         ? firstDate
-        : selectedTargetDate;
+        : selectedDeadline;
 
     final picked = await showDatePicker(
       context: context,

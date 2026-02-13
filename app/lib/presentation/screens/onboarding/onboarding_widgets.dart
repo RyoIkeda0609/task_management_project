@@ -5,8 +5,6 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/custom_button.dart';
 import 'onboarding_state.dart';
 
-// ignore_for_file: avoid_redundant_argument_values
-
 /// オンボーディング ページ1：ゴール設定
 class OnboardingPage1 extends StatelessWidget {
   const OnboardingPage1({super.key});

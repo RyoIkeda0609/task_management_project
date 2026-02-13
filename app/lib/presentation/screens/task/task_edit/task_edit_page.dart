@@ -1,9 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
@@ -33,11 +31,7 @@ class TaskEditPage extends ConsumerWidget {
           hasLeading: true,
           onLeadingPressed: () => context.pop(),
         ),
-        body: Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-          ),
-        ),
+        body: Center(child: CircularProgressIndicator()),
       ),
       error: (error, stackTrace) => Scaffold(
         appBar: CustomAppBar(
@@ -66,7 +60,7 @@ class TaskEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化（遅延実行）- ID が変わった場合のみ
+    // ViewModelを初期化 - ID が変わった場合のみ
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
     final state = ref.watch(taskEditViewModelProvider);
 
