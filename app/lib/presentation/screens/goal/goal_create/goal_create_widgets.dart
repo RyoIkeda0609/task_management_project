@@ -23,32 +23,44 @@ class GoalCreateFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ゴール名
+            Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
-              hintText: 'ゴールのタイトルを入力（100文字以内）',
+              hintText: '○○大学に合格する、会社を辞めて独立するなど',
               initialValue: state.title,
               maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.large),
+
+            // 説明・理由
+            Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
-              hintText: 'ゴールの理由を入力（100文字以内、任意）',
+              hintText:
+                  '・なぜこのゴールを達成したいのか\n・ゴールを達成するモチベーションは何か\n・達成したらどんな良いことがあるかなど',
               initialValue: state.reason,
               maxLength: 100,
               multiline: true,
               onChanged: viewModel.updateReason,
             ),
             SizedBox(height: Spacing.large),
+
+            // カテゴリー
             _GoalCategoryDropdown(
               selectedCategory: state.selectedCategory,
               categories: state.categories,
               onChanged: viewModel.updateCategory,
             ),
             SizedBox(height: Spacing.large),
+
+            // 達成予定日
             _GoalDeadlineSelector(
               selectedDeadline: state.selectedDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.xxxLarge),
+
+            // アクションボタン
             _GoalCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
           ],
         ),
@@ -109,7 +121,7 @@ class _GoalDeadlineSelector extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限', style: AppTextStyles.labelLarge),
+        Text('達成予定日', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),

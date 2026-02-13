@@ -38,16 +38,23 @@ class TaskCreateFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // タスク名
+            Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
             _TaskCreateTitleField(
               title: state.title,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
+
+            // タスクの詳細
+            Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
             _TaskCreateDescriptionField(
               description: state.description,
               onChanged: viewModel.updateDescription,
             ),
             SizedBox(height: Spacing.medium),
+
+            // 期限
             _TaskCreateDeadlineField(
               selectedDeadline: state.selectedDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
@@ -73,7 +80,7 @@ class _TaskCreateTitleField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextField(
-      hintText: 'タスク名を入力（100文字以内）',
+      hintText: '過去問を10周する、週に3回ジムに行くなど',
       initialValue: title,
       maxLength: 100,
       onChanged: onChanged,
@@ -93,7 +100,7 @@ class _TaskCreateDescriptionField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextField(
-      hintText: 'タスクの詳細を入力（500文字以内、任意）',
+      hintText: '・タスクの具体的な内容\n・タスクの完了条件\n・注意点やポイントなど',
       initialValue: description,
       maxLength: 500,
       onChanged: onChanged,
@@ -116,7 +123,7 @@ class _TaskCreateDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限 *', style: AppTextStyles.labelLarge),
+        Text('期限', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),

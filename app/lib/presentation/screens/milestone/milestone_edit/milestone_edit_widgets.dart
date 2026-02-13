@@ -33,6 +33,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // マイルストーン名
+            Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: 'マイルストーン名を入力（100文字以内）',
               initialValue: state.milestoneId == milestoneId
@@ -52,7 +53,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.large),
 
-            // ボタン
+            // アクションボタン
             _MilestoneEditActions(
               onSubmit: onSubmit,
               isLoading: state.isLoading,
@@ -78,7 +79,7 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('目標日時 *', style: AppTextStyles.labelLarge),
+        Text('目標日時', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectTargetDate(context),

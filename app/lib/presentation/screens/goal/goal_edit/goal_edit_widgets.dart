@@ -37,6 +37,7 @@ class GoalEditFormWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ゴール名
+            Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: 'ゴール名を入力（100文字以内）',
               initialValue: state.goalId == goalId ? state.title : goalTitle,
@@ -44,9 +45,11 @@ class GoalEditFormWidget extends ConsumerWidget {
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
-            // 説明
+
+            // 説明・理由
+            Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
-              hintText: 'ゴールの理由を入力（100文字以内、任意）',
+              hintText: '説明・理由を入力（100文字以内）',
               initialValue: state.goalId == goalId ? state.reason : goalReason,
               maxLength: 100,
               onChanged: viewModel.updateReason,
@@ -63,7 +66,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.medium),
 
-            // 期限
+            // 達成予定日
             _GoalEditDeadlineSelector(
               selectedDeadline: state.goalId == goalId
                   ? state.deadline
@@ -72,7 +75,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.large),
 
-            // ボタン
+            // アクションボタン
             _GoalEditActions(onSubmit: onSubmit, isLoading: state.isLoading),
           ],
         ),
@@ -139,7 +142,7 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限 *', style: AppTextStyles.labelLarge),
+        Text('達成予定日', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),

@@ -23,6 +23,11 @@ class GoalDetailHeaderWidget extends StatelessWidget {
         SizedBox(height: Spacing.small),
         Row(
           children: [
+            Text(
+              '達成予定日: ${_formatDate(goal.deadline)}',
+              style: AppTextStyles.bodyMedium,
+            ),
+            SizedBox(width: Spacing.medium),
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: Spacing.small,
@@ -39,15 +44,10 @@ class GoalDetailHeaderWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: Spacing.medium),
-            Text(
-              '期限: ${_formatDate(goal.deadline)}',
-              style: AppTextStyles.bodyMedium,
-            ),
           ],
         ),
         SizedBox(height: Spacing.medium),
-        Text('ゴールの理由', style: AppTextStyles.labelLarge),
+        Text('説明・理由', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.xSmall),
         Text(goal.reason.value, style: AppTextStyles.bodyMedium),
       ],
@@ -59,7 +59,7 @@ class GoalDetailHeaderWidget extends StatelessWidget {
       final dt = deadline is DateTime ? deadline : DateTime.now();
       return '${dt.year}年${dt.month}月${dt.day}日';
     } catch (e) {
-      return '期限未設定';
+      return '達成予定日未設定';
     }
   }
 }

@@ -249,8 +249,6 @@ class _Content extends StatelessWidget {
         TaskDetailDeadlineWidget(task: task),
         SizedBox(height: Spacing.medium),
         TaskDetailStatusWidget(task: task, source: source),
-        SizedBox(height: Spacing.medium),
-        TaskDetailInfoWidget(task: task),
       ],
     );
   }

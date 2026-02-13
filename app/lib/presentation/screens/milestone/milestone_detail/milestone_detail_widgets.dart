@@ -32,20 +32,13 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
 
   Widget _buildMilestoneInfo(Milestone milestone) {
     return Container(
-      padding: EdgeInsets.all(Spacing.medium),
       decoration: BoxDecoration(
         color: AppColors.neutral50,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        children: [
-          Icon(Icons.calendar_today, color: AppColors.neutral600, size: 16),
-          SizedBox(width: Spacing.small),
-          Text(
-            '期限: ${_formatDate(milestone.deadline.value)}',
-            style: AppTextStyles.bodySmall,
-          ),
-        ],
+      child: Text(
+        '目標日時: ${_formatDate(milestone.deadline.value)}',
+        style: AppTextStyles.bodyMedium,
       ),
     );
   }

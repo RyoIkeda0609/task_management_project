@@ -29,18 +29,26 @@ class MilestoneCreateFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // マイルストーン名
+            Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
             _MilestoneCreateTitleField(
               title: state.title,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.large),
+
+            // 目標日時
             _MilestoneCreateDeadlineField(
               selectedDeadline: state.selectedTargetDate,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),
+
+            // ゴール情報
             _MilestoneCreateGoalInfo(goalId: goalId),
             SizedBox(height: Spacing.large),
+
+            // アクションボタン
             _MilestoneCreateActions(
               onSubmit: onSubmit,
               isLoading: state.isLoading,
@@ -64,7 +72,7 @@ class _MilestoneCreateTitleField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextField(
-      hintText: 'マイルストーン名を入力（100文字以内）',
+      hintText: '模試で偏差値70を取る、資格試験に合格するなど',
       initialValue: title,
       maxLength: 100,
       onChanged: onChanged,
@@ -86,7 +94,7 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('目標日時 *', style: AppTextStyles.labelLarge),
+        Text('目標日時', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectTargetDate(context),

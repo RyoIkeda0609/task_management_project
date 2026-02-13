@@ -5,7 +5,6 @@ import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
-import '../../../state_management/providers/app_providers.dart';
 import 'task_edit_view_model.dart';
 
 class TaskEditFormWidget extends ConsumerWidget {
@@ -35,7 +34,8 @@ class TaskEditFormWidget extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // タイトル入力
+            // タイトル
+            Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
             CustomTextField(
               key: ValueKey('title_$taskId'),
               hintText: 'タスク名を入力（100文字以内）',
@@ -45,7 +45,8 @@ class TaskEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.medium),
 
-            // 説明入力
+            // 説明
+            Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
             CustomTextField(
               key: ValueKey('description_$taskId'),
               hintText: 'タスクの詳細を入力（500文字以内、任意）',
@@ -58,17 +59,13 @@ class TaskEditFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.medium),
 
-            // 期限選択
+            // 期限
             _TaskEditDeadlineField(
               selectedDeadline: state.taskId == taskId
                   ? state.selectedDeadline
                   : taskDeadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
-            SizedBox(height: Spacing.large),
-
-            // マイルストーン情報（読み取り専用）
-            _TaskEditMilestoneInfo(taskId: taskId),
             SizedBox(height: Spacing.large),
 
             // ボタン
@@ -94,7 +91,7 @@ class _TaskEditDeadlineField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('期限 *', style: AppTextStyles.labelLarge),
+        Text('期限', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _selectDeadline(context),
@@ -136,108 +133,6 @@ class _TaskEditDeadlineField extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     return '${date.year}年${date.month}月${date.day}日';
-  }
-}
-
-class _TaskEditMilestoneInfo extends ConsumerWidget {
-  final String taskId;
-
-  const _TaskEditMilestoneInfo({required this.taskId});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final taskAsync = ref.watch(taskDetailProvider(taskId));
-
-    return taskAsync.when(
-      data: (task) {
-        if (task == null || task.milestoneId.isEmpty) return SizedBox.shrink();
-
-        final milestoneAsync = ref.watch(
-          milestoneDetailProvider(task.milestoneId),
-        );
-        return milestoneAsync.when(
-          data: (milestone) {
-            if (milestone == null) return SizedBox.shrink();
-            return Container(
-              padding: EdgeInsets.all(Spacing.medium),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.2),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.flag, color: AppColors.primary, size: 20),
-                  SizedBox(width: Spacing.small),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'マイルストーンに紐付けられています',
-                          style: AppTextStyles.labelSmall,
-                        ),
-                        SizedBox(height: Spacing.xSmall),
-                        Text(
-                          milestone.title.value,
-                          style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.neutral600,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          loading: () => Container(
-            padding: EdgeInsets.all(Spacing.medium),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: AppColors.primary.withValues(alpha: 0.2),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.flag, color: AppColors.primary, size: 20),
-                SizedBox(width: Spacing.small),
-                Expanded(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.primary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          error: (error, stackTrace) => Container(
-            padding: EdgeInsets.all(Spacing.medium),
-            decoration: BoxDecoration(
-              color: AppColors.error.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.error, color: AppColors.error, size: 20),
-                SizedBox(width: Spacing.small),
-                const Expanded(child: Text('マイルストーン情報を読み込めません')),
-              ],
-            ),
-          ),
-        );
-      },
-      loading: () => SizedBox.shrink(),
-      error: (error, stackTrace) => SizedBox.shrink(),
-    );
   }
 }
 

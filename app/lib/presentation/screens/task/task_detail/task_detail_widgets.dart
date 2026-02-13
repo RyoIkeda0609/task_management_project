@@ -170,51 +170,6 @@ class TaskDetailStatusWidget extends ConsumerWidget {
   }
 }
 
-class TaskDetailInfoWidget extends StatelessWidget {
-  final Task task;
-
-  const TaskDetailInfoWidget({super.key, required this.task});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(Spacing.medium),
-      decoration: BoxDecoration(
-        color: AppColors.neutral50,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('タスク情報', style: AppTextStyles.labelLarge),
-          SizedBox(height: Spacing.small),
-          _buildInfoRow('タスクID', task.id.value),
-          SizedBox(height: Spacing.xSmall),
-          _buildInfoRow('マイルストーン', task.milestoneId),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(String label, String value) {
-    return Row(
-      children: [
-        Text(
-          '$label: ',
-          style: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral600),
-        ),
-        Expanded(
-          child: Text(
-            value,
-            style: AppTextStyles.bodySmall,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class TaskDetailErrorWidget extends StatelessWidget {
   final Object error;
 

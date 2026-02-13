@@ -246,12 +246,9 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
-      child: MilestoneDetailTasksSection(
-        milestoneId: milestoneId,
-        milestone: milestone,
-      ),
+    return MilestoneDetailTasksSection(
+      milestoneId: milestoneId,
+      milestone: milestone,
     );
   }
 }
