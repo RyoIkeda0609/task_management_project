@@ -30,7 +30,7 @@ class GoalDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goalAsync = ref.watch(goalDetailProvider(goalId));
-    final milestonesAsync = ref.watch(milestonsByGoalProvider(goalId));
+    final milestonesAsync = ref.watch(milestonesByGoalProvider(goalId));
 
     return Scaffold(
       appBar: CustomAppBar(

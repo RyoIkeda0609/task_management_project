@@ -13,7 +13,7 @@ export 'state_notifier_providers.dart'
     show
         goalsProvider,
         goalDetailProvider,
-        milestonsByGoalProvider,
+        milestonesByGoalProvider,
         milestoneDetailProvider,
         tasksByMilestoneProvider,
         todayTasksProvider,

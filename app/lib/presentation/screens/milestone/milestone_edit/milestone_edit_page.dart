@@ -134,7 +134,7 @@ class MilestoneEditPage extends ConsumerWidget {
       // プロバイダーキャッシュを再取得
       if (context.mounted) {
         await ref.refresh(milestoneDetailProvider(milestoneId));
-        ref.invalidate(milestonsByGoalProvider(currentMilestone.goalId));
+        ref.invalidate(milestonesByGoalProvider(currentMilestone.goalId));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
       }

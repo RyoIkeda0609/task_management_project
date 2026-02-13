@@ -55,21 +55,8 @@ class GoalDetailHeaderWidget extends StatelessWidget {
     );
   }
 
-  String _formatDate(dynamic deadline) {
-    try {
-      late final DateTime dt;
-
-      // deadline が DateTime の場合
-      if (deadline is DateTime) {
-        dt = deadline;
-      } else {
-        return '達成予定日未設定';
-      }
-
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '達成予定日未設定';
-    }
+  String _formatDate(DateTime deadline) {
+    return '${deadline.year}年${deadline.month}月${deadline.day}日';
   }
 }
 

@@ -22,7 +22,7 @@ class GoalPyramidView extends ConsumerWidget {
       itemBuilder: (context, index) {
         final goal = goals[index];
         final milestonesAsync = ref.watch(
-          milestonsByGoalProvider(goal.id.value),
+          milestonesByGoalProvider(goal.id.value),
         );
 
         return milestonesAsync.when(

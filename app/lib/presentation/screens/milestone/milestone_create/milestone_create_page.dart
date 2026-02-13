@@ -66,8 +66,8 @@ class MilestoneCreatePage extends ConsumerWidget {
         goalId: goalId,
       );
 
-      // milestonsByGoalProvider のキャッシュを無効化
-      ref.invalidate(milestonsByGoalProvider(goalId));
+      // milestonesByGoalProvider のキャッシュを無効化
+      ref.invalidate(milestonesByGoalProvider(goalId));
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(
