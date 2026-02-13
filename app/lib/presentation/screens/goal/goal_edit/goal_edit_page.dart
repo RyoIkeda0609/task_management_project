@@ -130,10 +130,10 @@ class GoalEditPage extends ConsumerWidget {
         deadline: state.deadline,
       );
 
-      // プロバイダーキャッシュを無効化
+      // プロバイダーキャッシュを再取得
       if (context.mounted) {
+        await ref.refresh(goalDetailProvider(goalId));
         ref.invalidate(goalsProvider);
-        ref.invalidate(goalDetailProvider(goalId));
         ref.invalidate(goalProgressProvider);
       }
 

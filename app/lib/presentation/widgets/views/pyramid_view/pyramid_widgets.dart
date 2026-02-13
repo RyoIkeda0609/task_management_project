@@ -121,7 +121,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
             ),
             children: [
               Padding(
-                padding: EdgeInsets.all(Spacing.medium),
+                padding: EdgeInsets.all(Spacing.small),
                 child: milestoneTasks.when(
                   data: (tasks) {
                     if (tasks.isEmpty) {

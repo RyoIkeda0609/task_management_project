@@ -38,8 +38,9 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
 
 /// StateNotifierProvider
 final milestoneEditViewModelProvider =
-    StateNotifierProvider<MilestoneEditViewModel, MilestoneEditPageState>((
-      ref,
-    ) {
+    StateNotifierProvider.autoDispose<
+      MilestoneEditViewModel,
+      MilestoneEditPageState
+    >((ref) {
       return MilestoneEditViewModel();
     });

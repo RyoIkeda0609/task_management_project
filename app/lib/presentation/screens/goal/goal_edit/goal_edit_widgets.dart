@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -119,7 +120,10 @@ class _GoalEditCategoryDropdown extends StatelessWidget {
             underline: const SizedBox(),
             onChanged: (value) => onChanged(value ?? selectedCategory),
             items: categories.map((cat) {
-              return DropdownMenuItem<String>(value: cat, child: Text(cat));
+              return DropdownMenuItem<String>(
+                value: cat,
+                child: Text(cat, style: AppTextStyles.bodySmall),
+              );
             }).toList(),
           ),
         ),
@@ -171,11 +175,17 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
   }
 
   Future<void> _selectDeadline(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedDeadline.isBefore(firstDate)
+        ? firstDate
+        : selectedDeadline;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDeadline,
-      firstDate: DateTime.now().add(const Duration(days: 1)),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
 
     if (picked != null) {
@@ -201,7 +211,7 @@ class _GoalEditActions extends ConsumerWidget {
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            onPressed: isLoading ? null : () => context.pop(),
             type: ButtonType.secondary,
           ),
         ),

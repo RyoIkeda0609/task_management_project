@@ -50,6 +50,8 @@ class GoalEditViewModel extends StateNotifier<GoalEditPageState> {
 
 /// StateNotifierProvider
 final goalEditViewModelProvider =
-    StateNotifierProvider<GoalEditViewModel, GoalEditPageState>((ref) {
+    StateNotifierProvider.autoDispose<GoalEditViewModel, GoalEditPageState>((
+      ref,
+    ) {
       return GoalEditViewModel();
     });

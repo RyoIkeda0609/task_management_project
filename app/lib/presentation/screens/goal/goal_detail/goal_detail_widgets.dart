@@ -1,3 +1,5 @@
+import 'package:app/presentation/state_management/providers/app_providers.dart';
+import 'package:app/presentation/widgets/views/pyramid_view/pyramid_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../theme/app_colors.dart';
@@ -84,8 +86,8 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
         SizedBox(height: Spacing.medium),
         milestonesAsync.when(
           data: (milestones) => milestones.isEmpty
-              ? _buildMilestonesEmpty(context, goal, goalId)
-              : PyramidView(goal: goal, milestones: milestones),
+              ? _buildMilestonesEmpty(context, goalId)
+              : _buildMilestonesList(context, ref, milestones),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
         ),
@@ -93,10 +95,40 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildMilestonesEmpty(BuildContext context, Goal goal, String goalId) {
+  Widget _buildMilestonesList(
+    BuildContext context,
+    WidgetRef ref,
+    List<Milestone> milestones,
+  ) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PyramidView(goal: goal, milestones: []),
+        Text('マイルストーン', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.medium),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: milestones.length,
+          itemBuilder: (context, index) {
+            final milestone = milestones[index];
+            return PyramidMilestoneNode(
+              milestone: milestone,
+              goalId: goalId,
+              milestoneTasks: ref.watch(
+                tasksByMilestoneProvider(milestone.id.value),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMilestonesEmpty(BuildContext context, String goalId) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('マイルストーン', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.medium),
         EmptyState(
           icon: Icons.flag_outlined,

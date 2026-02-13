@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -108,11 +109,17 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
   }
 
   Future<void> _selectTargetDate(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedTargetDate.isBefore(firstDate)
+        ? firstDate
+        : selectedTargetDate;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedTargetDate,
-      firstDate: DateTime.now().add(const Duration(days: 1)),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
 
     if (picked != null) {
@@ -141,7 +148,7 @@ class _MilestoneEditActions extends ConsumerWidget {
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            onPressed: isLoading ? null : () => context.pop(),
             type: ButtonType.secondary,
           ),
         ),

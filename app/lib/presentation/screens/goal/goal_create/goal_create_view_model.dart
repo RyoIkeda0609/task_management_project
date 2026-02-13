@@ -33,6 +33,8 @@ class GoalCreateViewModel extends StateNotifier<GoalCreatePageState> {
 
 /// StateNotifierProvider
 final goalCreateViewModelProvider =
-    StateNotifierProvider<GoalCreateViewModel, GoalCreatePageState>((ref) {
-      return GoalCreateViewModel();
-    });
+    StateNotifierProvider.autoDispose<GoalCreateViewModel, GoalCreatePageState>(
+      (ref) {
+        return GoalCreateViewModel();
+      },
+    );

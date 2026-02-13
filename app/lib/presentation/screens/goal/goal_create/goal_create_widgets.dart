@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
+import '../../../navigation/app_router.dart';
 import 'goal_create_view_model.dart';
 
 class GoalCreateFormWidget extends ConsumerWidget {
@@ -92,8 +94,10 @@ class _GoalCategoryDropdown extends StatelessWidget {
           isExpanded: true,
           items: categories
               .map(
-                (category) =>
-                    DropdownMenuItem(value: category, child: Text(category)),
+                (category) => DropdownMenuItem(
+                  value: category,
+                  child: Text(category, style: AppTextStyles.bodySmall),
+                ),
               )
               .toList(),
           onChanged: (value) {
@@ -148,11 +152,17 @@ class _GoalDeadlineSelector extends StatelessWidget {
   }
 
   Future<void> _selectDeadline(BuildContext context) async {
+    final firstDate = DateTime.now().add(const Duration(days: 1));
+    final initialDate = selectedDeadline.isBefore(firstDate)
+        ? firstDate
+        : selectedDeadline;
+
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDeadline,
-      firstDate: DateTime.now().add(const Duration(days: 1)),
+      initialDate: initialDate,
+      firstDate: firstDate,
       lastDate: DateTime.now().add(const Duration(days: 365)),
+      useRootNavigator: true,
     );
     if (picked != null) {
       onDeadlineSelected(picked);
@@ -172,12 +182,19 @@ class _GoalCreateActions extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.read(goalCreateViewModelProvider.notifier);
+
     return Row(
       children: [
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            onPressed: isLoading
+                ? null
+                : () {
+                    viewModel.resetForm();
+                    AppRouter.navigateToHome(context);
+                  },
             type: ButtonType.secondary,
           ),
         ),
