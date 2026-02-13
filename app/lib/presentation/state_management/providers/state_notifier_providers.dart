@@ -49,9 +49,9 @@ final goalDetailProvider = FutureProvider.family<Goal?, String>((
 ///
 /// 使用方法:
 /// ```dart
-/// final milestonesAsync = ref.watch(milestonsByGoalProvider(goalId));
+/// final milestonesAsync = ref.watch(milestonesByGoalProvider(goalId));
 /// ```
-final milestonsByGoalProvider =
+final milestonesByGoalProvider =
     StateNotifierProvider.family<
       MilestonesNotifier,
       AsyncValue<List<Milestone>>,

@@ -29,7 +29,7 @@ class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
 
   /// 新しいマイルストーンを作成
   ///
-  /// 注意: UI側で ref.invalidate(milestonsByGoalProvider) を呼び出して一覧を更新してください
+  /// 注意: UI側で ref.invalidate(milestonesByGoalProvider) を呼び出して一覧を更新してください
   Future<void> createMilestone({
     required String goalId,
     required MilestoneTitle title,
@@ -47,7 +47,7 @@ class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
 
   /// マイルストーンを更新
   ///
-  /// 注意: UI側で ref.invalidate(milestonsByGoalProvider) を呼び出して一覧を更新してください
+  /// 注意: UI側で ref.invalidate(milestonesByGoalProvider) を呼び出して一覧を更新してください
   Future<void> updateMilestone({
     required String milestoneId,
     required String goalId,
@@ -71,7 +71,7 @@ class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
 
   /// マイルストーンを削除（カスケード削除: 配下のタスクも削除）
   ///
-  /// 注意: UI側で ref.invalidate(milestonsByGoalProvider) を呼び出して一覧を更新してください
+  /// 注意: UI側で ref.invalidate(milestonesByGoalProvider) を呼び出して一覧を更新してください
   Future<void> deleteMilestone(String milestoneId, String goalId) async {
     await _repository.deleteMilestone(milestoneId);
   }

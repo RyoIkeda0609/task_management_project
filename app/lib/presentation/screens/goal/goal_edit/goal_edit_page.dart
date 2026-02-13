@@ -130,14 +130,9 @@ class GoalEditPage extends ConsumerWidget {
         deadline: state.deadline,
       );
 
-      // プロバイダーキャッシュを再取得
-      if (context.mounted) {
-        // 詳細画面用の詳細 provider と関連キャッシュを強制的にクリア
-        ref.invalidate(goalDetailProvider(goalId));
-        ref.invalidate(milestonsByGoalProvider(goalId));
-        ref.invalidate(goalsProvider);
-        ref.invalidate(goalProgressProvider);
-      }
+      // プロバイダーキャッシュを無効化して新しいデータを取得させる
+      ref.invalidate(goalDetailProvider(goalId));
+      ref.invalidate(milestonesByGoalProvider(goalId));
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(
@@ -147,9 +142,6 @@ class GoalEditPage extends ConsumerWidget {
         );
 
         if (context.mounted) {
-          // 詳細画面に戻る前に、キャッシュを強制的にクリアして新しいデータを fetch させる
-          ref.invalidate(goalDetailProvider(goalId));
-          ref.invalidate(milestonsByGoalProvider(goalId));
           context.pop();
         }
       }

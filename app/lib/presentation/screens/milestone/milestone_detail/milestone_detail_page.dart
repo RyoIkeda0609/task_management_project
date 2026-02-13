@@ -104,7 +104,7 @@ class MilestoneDetailPage extends ConsumerWidget {
         await deleteMilestoneUseCase(milestoneId);
 
         // Provider キャッシュを無効化
-        ref.invalidate(milestonsByGoalProvider(milestone.goalId));
+        ref.invalidate(milestonesByGoalProvider(milestone.goalId));
         ref.invalidate(milestoneDetailProvider(milestoneId));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
