@@ -135,7 +135,7 @@ class TaskEditPage extends ConsumerWidget {
       await updateTaskUseCase(
         taskId: taskId,
         title: state.title,
-        description: state.description.isNotEmpty ? state.description : '',
+        description: state.description,
         deadline: state.selectedDeadline,
       );
 

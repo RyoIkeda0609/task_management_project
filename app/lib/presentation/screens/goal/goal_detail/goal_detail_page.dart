@@ -141,9 +141,7 @@ class _Body extends StatelessWidget {
     return switch (state.viewState) {
       GoalDetailViewState.loading => const _LoadingView(),
       GoalDetailViewState.notFound => _NotFoundView(),
-      GoalDetailViewState.error => _ErrorView(
-        error: state.errorMessage ?? 'Unknown error',
-      ),
+      GoalDetailViewState.error => _ErrorView(error: state.errorMessage),
       GoalDetailViewState.data => _ContentView(
         goal: state.goal!,
         goalId: goalId,

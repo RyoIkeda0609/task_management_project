@@ -8,12 +8,12 @@ enum TodayTasksViewState { loading, empty, data, error }
 class TodayTasksPageState {
   final TodayTasksViewState viewState;
   final GroupedTasks? groupedTasks;
-  final String? errorMessage;
+  final String errorMessage;
 
   const TodayTasksPageState({
     required this.viewState,
     this.groupedTasks,
-    this.errorMessage,
+    this.errorMessage = '',
   });
 
   /// ローディング状態
