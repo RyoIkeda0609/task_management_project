@@ -1,6 +1,12 @@
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/presentation/screens/goal/goal_edit/goal_edit_widgets.dart';
+import 'package:app/presentation/screens/goal/goal_edit/goal_edit_view_model.dart';
+import 'package:app/presentation/screens/goal/goal_edit/goal_edit_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,22 +41,35 @@ void main() {
     ) async {
       final testDateTime = DateTime(2026, 2, 20);
       final goal = Goal(
-        id: GoalId('test-goal-1'),
-        title: GoalTitle('Test Goal'),
-        reason: GoalReason('Test Reason'),
+        itemId: ItemId('test-goal-1'),
+        title: ItemTitle('Test Goal'),
+        description: ItemDescription('Test Reason'),
         category: GoalCategory('キャリア'),
-        deadline: GoalDeadline(testDateTime),
+        deadline: ItemDeadline(testDateTime),
       );
 
       await tester.pumpWidget(
         ProviderScope(
+          overrides: [
+            goalEditViewModelProvider.overrideWith(
+              (ref) => GoalEditViewModel(
+                GoalEditPageState(
+                  goalId: 'test-goal-1',
+                  title: 'Test Goal',
+                  description: 'Test Reason',
+                  category: 'キャリア',
+                  deadline: testDateTime,
+                ),
+              ),
+            ),
+          ],
           child: MaterialApp(
             home: Scaffold(
               body: GoalEditFormWidget(
                 onSubmit: () {},
-                goalId: ItemId('test-goal-1'),
+                goalId: 'test-goal-1',
                 goalTitle: goal.title.value,
-                goalReason: goal.reason.value,
+                goalReason: goal.description.value,
                 goalCategory: goal.category.value,
                 goalDeadline: goal.deadline.value,
               ),
@@ -73,7 +92,7 @@ void main() {
             home: Scaffold(
               body: GoalEditFormWidget(
                 onSubmit: () {},
-                goalId: ItemId('test-goal-2'),
+                goalId: 'test-goal-1',
                 goalTitle: 'Test',
                 goalReason: 'Reason',
                 goalCategory: 'カテゴリー',
@@ -100,7 +119,7 @@ void main() {
             home: Scaffold(
               body: GoalEditFormWidget(
                 onSubmit: () {},
-                goalId: ItemId('test-goal-3'),
+                goalId: 'test-goal-1',
                 goalTitle: 'Test Goal',
                 goalReason: 'Test Reason',
                 goalCategory: '学習',

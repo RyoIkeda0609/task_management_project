@@ -131,7 +131,7 @@ class TaskEditPage extends ConsumerWidget {
       // キャッシュを無効化
       if (context.mounted) {
         ref.invalidate(taskDetailProvider(taskId));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

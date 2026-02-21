@@ -26,10 +26,6 @@ void main() {
         expect(milestone.title.value, '基本文法習得');
         expect(milestone.goalId.value, 'goal-1');
       });
-
-      test('goalIdが正しく設定されること', () {
-        expect(milestone.goalId.value, 'goal-1');
-      });
     });
 
     group('等号演算子とhashCode', () {

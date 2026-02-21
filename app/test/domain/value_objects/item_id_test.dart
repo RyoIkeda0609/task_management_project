@@ -2,24 +2,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/domain/value_objects/item/item_id.dart';
 
 void main() {
-  group('ItemId ValueObject', () {
-    group('initialization', () {
-      test('ItemId should be initialized with a string value', () {
+  group('ItemId', () {
+    group('初期化', () {
+      test('任意の文字列でItemIdが生成できること', () {
         const id = 'test-id-123';
         final itemId = ItemId(id);
         expect(itemId.value, id);
       });
 
-      test('ItemId.generate() should create a new ItemId with UUID', () {
+      test('ItemId.generate()でUUID形式のItemIdが生成できること', () {
         final itemId1 = ItemId.generate();
         final itemId2 = ItemId.generate();
-
         expect(itemId1.value, isNotEmpty);
         expect(itemId2.value, isNotEmpty);
         expect(itemId1.value, isNot(itemId2.value));
       });
 
-      test('generated ItemId should be valid UUID format', () {
+      test('生成されたItemIdはUUID v4形式であること', () {
         final itemId = ItemId.generate();
         // UUID v4 は 36文字のパターン（8-4-4-4-12）
         expect(
@@ -34,40 +33,36 @@ void main() {
       });
     });
 
-    group('equality and hashCode', () {
-      test('ItemIds with the same value should be equal', () {
+    group('等価性とハッシュコード', () {
+      test('同じ値のItemIdは等しいこと', () {
         final itemId1 = ItemId('same-id');
         final itemId2 = ItemId('same-id');
-
         expect(itemId1, itemId2);
       });
 
-      test('ItemIds with different values should not be equal', () {
+      test('異なる値のItemIdは等しくないこと', () {
         final itemId1 = ItemId('id-1');
         final itemId2 = ItemId('id-2');
-
         expect(itemId1, isNot(itemId2));
       });
 
-      test('equal ItemIds should have the same hashCode', () {
+      test('等しいItemIdは同じハッシュコードを持つこと', () {
         final itemId1 = ItemId('same-id');
         final itemId2 = ItemId('same-id');
-
         expect(itemId1.hashCode, itemId2.hashCode);
       });
 
-      test('ItemId should work correctly in Set', () {
+      test('Setの中で正しく重複排除されること', () {
         final itemId1 = ItemId('id-1');
         final itemId2 = ItemId('id-1');
         final itemId3 = ItemId('id-2');
-
         final set = {itemId1, itemId2, itemId3};
         expect(set.length, 2);
       });
     });
 
     group('toString', () {
-      test('toString should return proper format', () {
+      test('toStringがItemIdと値を含む文字列を返すこと', () {
         final itemId = ItemId('test-id');
         expect(itemId.toString(), contains('ItemId'));
         expect(itemId.toString(), contains('test-id'));

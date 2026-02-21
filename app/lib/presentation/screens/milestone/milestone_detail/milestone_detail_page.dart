@@ -40,7 +40,7 @@ class MilestoneDetailPage extends ConsumerWidget {
               if (milestone != null) {
                 AppRouter.navigateToMilestoneEdit(
                   context,
-                  milestone.goalId,
+                  milestone.goalId.value,
                   milestoneId,
                 );
               }
@@ -74,7 +74,7 @@ class MilestoneDetailPage extends ConsumerWidget {
         onPressed: () => milestoneAsync
             .whenData(
               (milestone) => milestone != null
-                  ? _navigateToTaskCreate(context, milestone.goalId)
+                  ? _navigateToTaskCreate(context, milestone.goalId.value)
                   : null,
             )
             .value,
@@ -104,7 +104,7 @@ class MilestoneDetailPage extends ConsumerWidget {
         await deleteMilestoneUseCase(milestoneId);
 
         // Provider キャッシュを無効化
-        ref.invalidate(milestonesByGoalProvider(milestone.goalId));
+        ref.invalidate(milestonesByGoalProvider(milestone.goalId.value));
         ref.invalidate(milestoneDetailProvider(milestoneId));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

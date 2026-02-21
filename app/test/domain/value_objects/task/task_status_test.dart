@@ -109,5 +109,12 @@ void main() {
         expect(status.progress, 100);
       });
     });
+
+    group('不正なステータス値', () {
+      test('不正なステータス値でnextStatusを呼ぶとArgumentErrorが発生すること', () {
+        final invalidStatus = TaskStatus('invalid_value');
+        expect(() => invalidStatus.nextStatus(), throwsArgumentError);
+      });
+    });
   });
 }

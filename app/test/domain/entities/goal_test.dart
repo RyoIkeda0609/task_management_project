@@ -29,16 +29,29 @@ void main() {
         expect(goal.description.value, 'キャリアアップのため');
       });
 
-      test('必須フィールドなしでは初期化できないこと', () {
+      test('タイトルが空文字列の場合はArgumentErrorが発生すること', () {
+        expect(
+          () => Goal(
+            itemId: ItemId('goal-2'),
+            title: ItemTitle(''),
+            description: ItemDescription('テスト'),
+            deadline: ItemDeadline(tomorrow),
+            category: GoalCategory('スキル'),
+          ),
+          throwsArgumentError,
+        );
+      });
+
+      test('カテゴリが空文字列の場合はArgumentErrorが発生すること', () {
         expect(
           () => Goal(
             itemId: ItemId('goal-2'),
             title: ItemTitle('テスト'),
             description: ItemDescription('テスト'),
             deadline: ItemDeadline(tomorrow),
-            category: GoalCategory('テスト'),
+            category: GoalCategory(''),
           ),
-          returnsNormally,
+          throwsArgumentError,
         );
       });
     });

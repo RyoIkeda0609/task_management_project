@@ -22,8 +22,8 @@ void main() {
       );
     });
 
-    group('initialization', () {
-      test('Task should be initialized with all fields', () {
+    group('初期化', () {
+      test('全フィールドが正しく設定されること', () {
         expect(task.itemId.value, 'task-1');
         expect(task.title.value, 'ウィジェット学習');
         expect(
@@ -34,7 +34,7 @@ void main() {
         expect(task.milestoneId.value, 'milestone-1');
       });
 
-      test('Task can use ItemId.generate()', () {
+      test('ItemId.generate()でTaskが生成できること', () {
         final taskWithGeneratedId = Task(
           itemId: ItemId.generate(),
           title: ItemTitle('New Task'),
@@ -46,7 +46,7 @@ void main() {
         expect(taskWithGeneratedId.itemId.value.isNotEmpty, true);
       });
 
-      test('Task can accept empty description', () {
+      test('空の説明文でTaskが生成できること', () {
         final taskEmptyDesc = Task(
           itemId: ItemId('task-2'),
           title: ItemTitle('Task'),
@@ -60,7 +60,7 @@ void main() {
     });
 
     group('getProgress', () {
-      test('getProgress should return 0% for Todo status', () {
+      test('Todoステータスの場合0%を返すこと', () {
         final todoTask = Task(
           itemId: ItemId('task-1'),
           title: ItemTitle('Test'),
@@ -73,7 +73,7 @@ void main() {
         expect(progress.value, 0);
       });
 
-      test('getProgress should return 50% for Doing status', () {
+      test('Doingステータスの場合50%を返すこと', () {
         final doingTask = Task(
           itemId: ItemId('task-1'),
           title: ItemTitle('Test'),
@@ -86,7 +86,7 @@ void main() {
         expect(progress.value, 50);
       });
 
-      test('getProgress should return 100% for Done status', () {
+      test('Doneステータスの場合100%を返すこと', () {
         final doneTask = Task(
           itemId: ItemId('task-1'),
           title: ItemTitle('Test'),
@@ -101,25 +101,25 @@ void main() {
     });
 
     group('cycleStatus', () {
-      test('cycleStatus should transition Todo -> Doing', () {
+      test('Todo → Doingに遷移できること', () {
         final updated = task.cycleStatus();
         expect(updated.status.isDoing, true);
       });
 
-      test('cycleStatus should transition Doing -> Done', () {
+      test('Doing → Doneに遷移できること', () {
         final doingTask = task.cycleStatus();
         final updated = doingTask.cycleStatus();
         expect(updated.status.isDone, true);
       });
 
-      test('cycleStatus should transition Done -> Todo (循環)', () {
+      test('Done → Todoに遷移できること（循環）', () {
         final doingTask = task.cycleStatus();
         final doneTask = doingTask.cycleStatus();
         final cycledTask = doneTask.cycleStatus();
         expect(cycledTask.status.isTodo, true);
       });
 
-      test('cycleStatus should preserve other fields', () {
+      test('cycleStatusは他のフィールドを保持すること', () {
         final updated = task.cycleStatus();
         expect(updated.itemId, task.itemId);
         expect(updated.title, task.title);
@@ -129,8 +129,8 @@ void main() {
       });
     });
 
-    group('equality and hashCode', () {
-      test('Tasks with same fields should be equal', () {
+    group('等価性とハッシュコード', () {
+      test('同じフィールドを持つTaskは等しいこと', () {
         final task2 = Task(
           itemId: ItemId('task-1'),
           title: ItemTitle('ウィジェット学習'),
@@ -144,7 +144,7 @@ void main() {
         expect(task, task2);
       });
 
-      test('Tasks with different itemId should not be equal', () {
+      test('異なるitemIdを持つTaskは等しくないこと', () {
         final task2 = Task(
           itemId: ItemId('task-2'),
           title: ItemTitle('ウィジェット学習'),
@@ -158,7 +158,7 @@ void main() {
         expect(task, isNot(task2));
       });
 
-      test('equal Tasks should have same hashCode', () {
+      test('等しいTaskは同じハッシュコードを持つこと', () {
         final task2 = Task(
           itemId: ItemId('task-1'),
           title: ItemTitle('ウィジェット学習'),
@@ -173,8 +173,8 @@ void main() {
       });
     });
 
-    group('JSON serialization', () {
-      test('toJson should include all fields', () {
+    group('JSONシリアライズ', () {
+      test('toJsonで全フィールドが含まれること', () {
         final json = task.toJson();
         expect(json['itemId'], 'task-1');
         expect(json['title'], 'ウィジェット学習');
@@ -184,32 +184,32 @@ void main() {
         expect(json['deadline'], isNotNull);
       });
 
-      test('fromJson should restore Task correctly', () {
+      test('fromJsonでTaskが正しく復元できること', () {
         final json = task.toJson();
         final restored = Task.fromJson(json);
         expect(restored, task);
       });
 
-      test('fromJson should handle all fields', () {
+      test('fromJsonで全フィールドが正しく復元できること', () {
         final json = {
           'itemId': 'task-123',
-          'title': 'Test Task',
-          'description': 'Test Description',
+          'title': 'テストタスク',
+          'description': 'テスト説明',
           'deadline': tomorrow.toIso8601String(),
           'status': 'doing',
           'milestoneId': 'milestone-123',
         };
         final restored = Task.fromJson(json);
         expect(restored.itemId.value, 'task-123');
-        expect(restored.title.value, 'Test Task');
-        expect(restored.description.value, 'Test Description');
+        expect(restored.title.value, 'テストタスク');
+        expect(restored.description.value, 'テスト説明');
         expect(restored.status.isDoing, true);
         expect(restored.milestoneId.value, 'milestone-123');
       });
     });
 
     group('toString', () {
-      test('toString should include itemId and title', () {
+      test('toStringがTaskとitemIdとtitleを含む文字列を返すこと', () {
         final str = task.toString();
         expect(str, contains('Task'));
         expect(str, contains('task-1'));

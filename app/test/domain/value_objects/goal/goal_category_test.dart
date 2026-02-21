@@ -9,6 +9,17 @@ void main() {
         expect(category.value, '勉強');
       });
 
+      test('1文字のカテゴリは有効であること（最小境界値）', () {
+        final category = GoalCategory('A');
+        expect(category.value, 'A');
+      });
+
+      test('100文字のカテゴリは有効であること（最大境界値）', () {
+        final longCategory = 'a' * 100;
+        final category = GoalCategory(longCategory);
+        expect(category.value, longCategory);
+      });
+
       test('複数の異なるカテゴリで GoalCategory が生成できること', () {
         final categories = ['仕事', '健康', '趣味', '家族'];
         for (final cat in categories) {

@@ -49,14 +49,14 @@ class TaskDetailPage extends ConsumerWidget {
                 if (source == 'milestone') {
                   // milestone から起動された場合は milestoneId から goalId を取得
                   final milestoneDetailAsync = ref.read(
-                    milestoneDetailProvider(task.milestoneId),
+                    milestoneDetailProvider(task.milestoneId.value),
                   );
                   milestoneDetailAsync.whenData((milestone) {
                     if (milestone != null) {
                       AppRouter.navigateToTaskEditFromMilestone(
                         context,
-                        milestone.goalId,
-                        task.milestoneId,
+                        milestone.goalId.value,
+                        task.milestoneId.value,
                         taskId,
                       );
                     }
@@ -115,7 +115,7 @@ class TaskDetailPage extends ConsumerWidget {
 
         // Provider キャッシュを無効化
         ref.invalidate(taskDetailProvider(taskId));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

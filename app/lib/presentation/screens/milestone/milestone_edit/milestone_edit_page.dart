@@ -125,7 +125,7 @@ class MilestoneEditPage extends ConsumerWidget {
       if (context.mounted) {
         // ignore: unused_result
         ref.refresh(milestoneDetailProvider(milestoneId));
-        ref.invalidate(milestonesByGoalProvider(milestone.goalId));
+        ref.invalidate(milestonesByGoalProvider(milestone.goalId.value));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
       }

@@ -272,7 +272,7 @@ class CalendarTaskItem extends StatelessWidget {
     return Card(
       margin: EdgeInsets.only(bottom: Spacing.small),
       child: InkWell(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.id.value),
+        onTap: () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
         borderRadius: BorderRadius.circular(4),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),

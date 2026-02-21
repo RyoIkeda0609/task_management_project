@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// マイルストーン一覧の状態を管理する Notifier
@@ -32,15 +33,17 @@ class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
   /// 注意: UI側で ref.invalidate(milestonesByGoalProvider) を呼び出して一覧を更新してください
   Future<void> createMilestone({
     required String goalId,
-    required MilestoneTitle title,
-    required MilestoneDeadline deadline,
+    required ItemTitle title,
+    required ItemDeadline deadline,
+    ItemDescription? description,
   }) async {
     // Notifier は単に保存処理を実行するのみ
     final milestone = Milestone(
-      id: MilestoneId.generate(),
+      itemId: ItemId.generate(),
       title: title,
+      description: description ?? ItemDescription(''),
       deadline: deadline,
-      goalId: goalId,
+      goalId: ItemId(goalId),
     );
     await _repository.saveMilestone(milestone);
   }
@@ -51,17 +54,19 @@ class MilestonesNotifier extends StateNotifier<AsyncValue<List<Milestone>>> {
   Future<void> updateMilestone({
     required String milestoneId,
     required String goalId,
-    MilestoneTitle? newTitle,
-    MilestoneDeadline? newDeadline,
+    ItemTitle? newTitle,
+    ItemDeadline? newDeadline,
+    ItemDescription? newDescription,
   }) async {
     final milestone = await _repository.getMilestoneById(milestoneId);
     if (milestone != null) {
       // 新しいMilestoneインスタンスを作成（変更部分のみ上書き）
       final updatedMilestone = Milestone(
-        id: milestone.id,
+        itemId: milestone.itemId,
         title: newTitle ?? milestone.title,
+        description: newDescription ?? milestone.description,
         deadline: newDeadline ?? milestone.deadline,
-        goalId: goalId,
+        goalId: ItemId(goalId),
       );
       await _repository.saveMilestone(updatedMilestone);
     } else {

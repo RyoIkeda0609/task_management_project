@@ -6,6 +6,10 @@ import 'package:app/presentation/screens/home/home_state.dart';
 import 'package:app/presentation/widgets/views/list_view/list_view_widgets.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
   group('Home Screen Widgets', () {
@@ -40,11 +44,11 @@ void main() {
 
     testWidgets('ゴールカードが表示される', (WidgetTester tester) async {
       final goal = Goal(
-        id: GoalId.generate(),
-        title: GoalTitle('テストゴール'),
+        itemId: ItemId.generate(),
+        title: ItemTitle('テストゴール'),
         category: GoalCategory('学習'),
-        reason: GoalReason('理由'),
-        deadline: GoalDeadline(DateTime.now().add(const Duration(days: 30))),
+        description: ItemDescription('理由'),
+        deadline: ItemDeadline(DateTime.now().add(const Duration(days: 30))),
       );
 
       await tester.pumpWidget(

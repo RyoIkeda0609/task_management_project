@@ -2,119 +2,104 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 
 void main() {
-  group('ItemDescription ValueObject', () {
-    group('initialization', () {
-      test('ItemDescription should accept non-empty string', () {
-        const description = 'This is a description';
+  group('ItemDescription', () {
+    group('初期化', () {
+      test('通常の文字列でItemDescriptionが生成できること', () {
+        const description = 'これは説明文です';
         final itemDesc = ItemDescription(description);
         expect(itemDesc.value, description);
       });
 
-      test('ItemDescription should accept empty string', () {
-        const description = '';
-        final itemDesc = ItemDescription(description);
-        expect(itemDesc.value, description);
+      test('空文字列は有効であること', () {
+        final itemDesc = ItemDescription('');
+        expect(itemDesc.value, '');
       });
 
-      test('ItemDescription should accept 500 character string', () {
+      test('500文字の説明文は有効であること（最大境界値）', () {
         final description = 'a' * 500;
         final itemDesc = ItemDescription(description);
         expect(itemDesc.value, description);
       });
 
-      test(
-        'ItemDescription should reject string longer than 500 characters',
-        () {
-          final description = 'a' * 501;
-          expect(() => ItemDescription(description), throwsArgumentError);
-        },
-      );
-
-      test('ItemDescription should accept whitespace-only string', () {
-        const description = '   ';
-        final itemDesc = ItemDescription(description);
-        expect(itemDesc.value, description);
+      test('501文字の説明文ではArgumentErrorが発生すること', () {
+        final description = 'a' * 501;
+        expect(() => ItemDescription(description), throwsArgumentError);
       });
 
-      test('ItemDescription should accept newlines and special characters', () {
-        const description = 'Line 1\nLine 2\n\nLine 4\t with\ttabs';
+      test('空白のみの文字列は有効であること', () {
+        final itemDesc = ItemDescription('   ');
+        expect(itemDesc.value, '   ');
+      });
+
+      test('改行やタブを含む文字列は有効であること', () {
+        const description = '行1\n行2\n\n行4\t タブ\tあり';
         final itemDesc = ItemDescription(description);
         expect(itemDesc.value, description);
       });
     });
 
-    group('isNotEmpty helper', () {
-      test('isNotEmpty should return true for non-empty description', () {
-        final itemDesc = ItemDescription('Some description');
+    group('isNotEmptyヘルパー', () {
+      test('内容がある説明文ではtrueを返すこと', () {
+        final itemDesc = ItemDescription('説明文あり');
         expect(itemDesc.isNotEmpty, true);
       });
 
-      test('isNotEmpty should return false for empty description', () {
+      test('空文字列ではfalseを返すこと', () {
         final itemDesc = ItemDescription('');
         expect(itemDesc.isNotEmpty, false);
       });
 
-      test(
-        'isNotEmpty should return false for whitespace-only description',
-        () {
-          final itemDesc = ItemDescription('   ');
-          expect(itemDesc.isNotEmpty, false);
-        },
-      );
+      test('空白のみの文字列ではfalseを返すこと', () {
+        final itemDesc = ItemDescription('   ');
+        expect(itemDesc.isNotEmpty, false);
+      });
 
-      test(
-        'isNotEmpty should return true for description with content after whitespace',
-        () {
-          final itemDesc = ItemDescription('   content   ');
-          expect(itemDesc.isNotEmpty, true);
-        },
-      );
+      test('空白を除くと内容がある文字列ではtrueを返すこと', () {
+        final itemDesc = ItemDescription('   内容あり   ');
+        expect(itemDesc.isNotEmpty, true);
+      });
     });
 
-    group('equality and hashCode', () {
-      test('ItemDescriptions with the same value should be equal', () {
-        const descValue = 'Same description';
+    group('等価性とハッシュコード', () {
+      test('同じ値のItemDescriptionは等しいこと', () {
+        const descValue = '同じ説明文';
         final desc1 = ItemDescription(descValue);
         final desc2 = ItemDescription(descValue);
-
         expect(desc1, desc2);
       });
 
-      test('ItemDescriptions with different values should not be equal', () {
-        final desc1 = ItemDescription('Description 1');
-        final desc2 = ItemDescription('Description 2');
-
+      test('異なる値のItemDescriptionは等しくないこと', () {
+        final desc1 = ItemDescription('説明1');
+        final desc2 = ItemDescription('説明2');
         expect(desc1, isNot(desc2));
       });
 
-      test('equal ItemDescriptions should have the same hashCode', () {
-        const descValue = 'Same description';
+      test('等しいItemDescriptionは同じハッシュコードを持つこと', () {
+        const descValue = '同じ説明文';
         final desc1 = ItemDescription(descValue);
         final desc2 = ItemDescription(descValue);
-
         expect(desc1.hashCode, desc2.hashCode);
       });
 
-      test('should work correctly in Set', () {
-        final desc1 = ItemDescription('Description 1');
-        final desc2 = ItemDescription('Description 1');
-        final desc3 = ItemDescription('Description 2');
-
+      test('Setの中で正しく重複排除されること', () {
+        final desc1 = ItemDescription('説明1');
+        final desc2 = ItemDescription('説明1');
+        final desc3 = ItemDescription('説明2');
         final set = {desc1, desc2, desc3};
         expect(set.length, 2);
       });
     });
 
     group('toString', () {
-      test('toString should return proper format', () {
-        final desc = ItemDescription('Test Description');
+      test('toStringがItemDescriptionと値を含む文字列を返すこと', () {
+        final desc = ItemDescription('テスト説明');
         expect(desc.toString(), contains('ItemDescription'));
-        expect(desc.toString(), contains('Test Description'));
+        expect(desc.toString(), contains('テスト説明'));
       });
     });
 
-    group('maxLength constant', () {
-      test('maxLength should be 500', () {
+    group('maxLength定数', () {
+      test('maxLengthが500であること', () {
         expect(ItemDescription.maxLength, 500);
       });
     });

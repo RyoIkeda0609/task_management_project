@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 
@@ -40,18 +40,18 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
   /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
   Future<void> createTask({
     required String milestoneId,
-    required TaskTitle title,
-    TaskDescription? description,
-    required TaskDeadline deadline,
+    required ItemTitle title,
+    ItemDescription? description,
+    required ItemDeadline deadline,
   }) async {
     // Notifier は単に保存処理を実行するのみ
     final task = Task(
-      id: TaskId.generate(),
+      itemId: ItemId.generate(),
       title: title,
-      description: description ?? TaskDescription(''),
+      description: description ?? ItemDescription(''),
       deadline: deadline,
-      status: TaskStatus.todo(), // 小文字の'todo'を使用
-      milestoneId: milestoneId,
+      status: TaskStatus.todo(),
+      milestoneId: ItemId(milestoneId),
     );
     await _repository.saveTask(task);
   }
@@ -62,20 +62,20 @@ class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
   Future<void> updateTask({
     required String taskId,
     required String milestoneId,
-    TaskTitle? newTitle,
-    TaskDescription? newDescription,
-    TaskDeadline? newDeadline,
+    ItemTitle? newTitle,
+    ItemDescription? newDescription,
+    ItemDeadline? newDeadline,
   }) async {
     final task = await _repository.getTaskById(taskId);
     if (task != null) {
       // 新しいTaskインスタンスを作成（変更部分のみ上書き）
       final updatedTask = Task(
-        id: task.id,
+        itemId: task.itemId,
         title: newTitle ?? task.title,
         description: newDescription ?? task.description,
         deadline: newDeadline ?? task.deadline,
         status: task.status,
-        milestoneId: milestoneId,
+        milestoneId: ItemId(milestoneId),
       );
       await _repository.saveTask(updatedTask);
     } else {

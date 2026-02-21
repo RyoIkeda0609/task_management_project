@@ -6,28 +6,28 @@ import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
-  group('Item Parent Entity', () {
+  group('Item 親エンティティ', () {
     late Item item;
     final tomorrow = DateTime.now().add(const Duration(days: 1));
 
     setUp(() {
       item = Item(
         itemId: ItemId('item-1'),
-        title: ItemTitle('Test Item'),
-        description: ItemDescription('This is a test item'),
+        title: ItemTitle('テストアイテム'),
+        description: ItemDescription('これはテスト用のアイテムです'),
         deadline: ItemDeadline(tomorrow),
       );
     });
 
-    group('initialization', () {
-      test('Item should be initialized with required fields', () {
+    group('初期化', () {
+      test('全フィールドが正しく設定されること', () {
         expect(item.itemId.value, 'item-1');
-        expect(item.title.value, 'Test Item');
-        expect(item.description.value, 'This is a test item');
+        expect(item.title.value, 'テストアイテム');
+        expect(item.description.value, 'これはテスト用のアイテムです');
         expect(item.deadline.value.day, tomorrow.day);
       });
 
-      test('Item should accept empty description', () {
+      test('空の説明文でItemが生成できること', () {
         final itemEmptyDesc = Item(
           itemId: ItemId('item-2'),
           title: ItemTitle('Test'),
@@ -37,7 +37,7 @@ void main() {
         expect(itemEmptyDesc.description.value, '');
       });
 
-      test('Item can be created with generated ID', () {
+      test('ItemId.generate()でItemが生成できること', () {
         final itemWithGeneratedId = Item(
           itemId: ItemId.generate(),
           title: ItemTitle('Test'),
@@ -48,52 +48,52 @@ void main() {
       });
     });
 
-    group('equality and hashCode', () {
-      test('Items with the same field values should be equal', () {
+    group('等価性とハッシュコード', () {
+      test('同じフィールドを持つItemは等しいこと', () {
         final item2 = Item(
           itemId: ItemId('item-1'),
-          title: ItemTitle('Test Item'),
-          description: ItemDescription('This is a test item'),
+          title: ItemTitle('テストアイテム'),
+          description: ItemDescription('これはテスト用のアイテムです'),
           deadline: ItemDeadline(tomorrow),
         );
         expect(item, item2);
       });
 
-      test('Items with different itemId should not be equal', () {
+      test('異なるitemIdを持つItemは等しくないこと', () {
         final item2 = Item(
           itemId: ItemId('item-2'),
-          title: ItemTitle('Test Item'),
-          description: ItemDescription('This is a test item'),
+          title: ItemTitle('テストアイテム'),
+          description: ItemDescription('これはテスト用のアイテムです'),
           deadline: ItemDeadline(tomorrow),
         );
         expect(item, isNot(item2));
       });
 
-      test('Items with different title should not be equal', () {
+      test('異なるタイトルを持つItemは等しくないこと', () {
         final item2 = Item(
           itemId: ItemId('item-1'),
-          title: ItemTitle('Different Title'),
-          description: ItemDescription('This is a test item'),
+          title: ItemTitle('別のタイトル'),
+          description: ItemDescription('これはテスト用のアイテムです'),
           deadline: ItemDeadline(tomorrow),
         );
         expect(item, isNot(item2));
       });
 
-      test('Items with different description should not be equal', () {
+      test('異なる説明文を持つItemは等しくないこと', () {
         final item2 = Item(
           itemId: ItemId('item-1'),
-          title: ItemTitle('Test Item'),
-          description: ItemDescription('Different description'),
+          title: ItemTitle('テストアイテム'),
+          description: ItemDescription('別の説明文'),
           deadline: ItemDeadline(tomorrow),
         );
         expect(item, isNot(item2));
       });
 
-      test('equal Items should have the same hashCode', () {
+      test('等しいItemは同じハッシュコードを持つこと', () {
         final item2 = Item(
           itemId: ItemId('item-1'),
-          title: ItemTitle('Test Item'),
-          description: ItemDescription('This is a test item'),
+          title: ItemTitle('テストアイテム'),
+          description: ItemDescription('これはテスト用のアイテムです'),
           deadline: ItemDeadline(tomorrow),
         );
         expect(item.hashCode, item2.hashCode);
@@ -101,40 +101,40 @@ void main() {
     });
 
     group('toString', () {
-      test('toString should return proper format', () {
+      test('toStringがItemとitemIdとtitleを含む文字列を返すこと', () {
         final str = item.toString();
         expect(str, contains('Item'));
         expect(str, contains('item-1'));
-        expect(str, contains('Test Item'));
+        expect(str, contains('テストアイテム'));
       });
     });
 
-    group('JSON serialization', () {
-      test('toJson should convert Item to JSON', () {
+    group('JSONシリアライズ', () {
+      test('toJsonで全フィールドが含まれること', () {
         final json = item.toJson();
         expect(json['itemId'], 'item-1');
-        expect(json['title'], 'Test Item');
-        expect(json['description'], 'This is a test item');
+        expect(json['title'], 'テストアイテム');
+        expect(json['description'], 'これはテスト用のアイテムです');
         expect(json['deadline'], isNotNull);
       });
 
-      test('fromJson should restore Item from JSON', () {
+      test('fromJsonでItemが正しく復元できること', () {
         final json = item.toJson();
         final restored = Item.fromJson(json);
         expect(restored, item);
       });
 
-      test('fromJson should restore all fields correctly', () {
+      test('fromJsonで全フィールドが正しく復元できること', () {
         final json = {
           'itemId': 'item-123',
-          'title': 'Sample Item',
-          'description': 'Sample description',
+          'title': 'サンプルアイテム',
+          'description': 'サンプル説明文',
           'deadline': tomorrow.toIso8601String(),
         };
         final restored = Item.fromJson(json);
         expect(restored.itemId.value, 'item-123');
-        expect(restored.title.value, 'Sample Item');
-        expect(restored.description.value, 'Sample description');
+        expect(restored.title.value, 'サンプルアイテム');
+        expect(restored.description.value, 'サンプル説明文');
       });
     });
   });

@@ -21,15 +21,15 @@ void main() {
       );
     });
 
-    group('initialization', () {
-      test('Goal should be initialized with all fields', () {
+    group('初期化', () {
+      test('全フィールドが正しく設定されること', () {
         expect(goal.itemId.value, 'goal-1');
         expect(goal.title.value, 'プログラミング習得');
         expect(goal.description.value, 'Flutterを深く学ぶため');
         expect(goal.category.value, 'スキル');
       });
 
-      test('Goal can use ItemId.generate()', () {
+      test('ItemId.generate()でGoalが生成できること', () {
         final goalWithGeneratedId = Goal(
           itemId: ItemId.generate(),
           title: ItemTitle('New Goal'),
@@ -40,7 +40,7 @@ void main() {
         expect(goalWithGeneratedId.itemId.value.isNotEmpty, true);
       });
 
-      test('Goal can accept empty description', () {
+      test('空の説明文でGoalが生成できること', () {
         final goalEmptyDesc = Goal(
           itemId: ItemId('goal-2'),
           title: ItemTitle('Goal'),
@@ -52,8 +52,8 @@ void main() {
       });
     });
 
-    group('equality and hashCode', () {
-      test('Goals with same fields should be equal', () {
+    group('等価性とハッシュコード', () {
+      test('同じフィールドを持つGoalは等しいこと', () {
         final goal2 = Goal(
           itemId: ItemId('goal-1'),
           title: ItemTitle('プログラミング習得'),
@@ -64,7 +64,7 @@ void main() {
         expect(goal, goal2);
       });
 
-      test('Goals with different itemId should not be equal', () {
+      test('異なるitemIdを持つGoalは等しくないこと', () {
         final goal2 = Goal(
           itemId: ItemId('goal-2'),
           title: ItemTitle('プログラミング習得'),
@@ -75,7 +75,7 @@ void main() {
         expect(goal, isNot(goal2));
       });
 
-      test('equal Goals should have same hashCode', () {
+      test('等しいGoalは同じハッシュコードを持つこと', () {
         final goal2 = Goal(
           itemId: ItemId('goal-1'),
           title: ItemTitle('プログラミング習得'),
@@ -87,8 +87,8 @@ void main() {
       });
     });
 
-    group('JSON serialization', () {
-      test('toJson should include all fields', () {
+    group('JSONシリアライズ', () {
+      test('toJsonで全フィールドが含まれること', () {
         final json = goal.toJson();
         expect(json['itemId'], 'goal-1');
         expect(json['title'], 'プログラミング習得');
@@ -97,30 +97,30 @@ void main() {
         expect(json['deadline'], isNotNull);
       });
 
-      test('fromJson should restore Goal correctly', () {
+      test('fromJsonでGoalが正しく復元できること', () {
         final json = goal.toJson();
         final restored = Goal.fromJson(json);
         expect(restored, goal);
       });
 
-      test('fromJson should handle all fields', () {
+      test('fromJsonで全フィールドが正しく復元できること', () {
         final json = {
           'itemId': 'goal-123',
-          'title': 'Test Goal',
-          'description': 'Test Description',
+          'title': 'テストゴール',
+          'description': 'テスト説明',
           'deadline': tomorrow.toIso8601String(),
-          'category': 'Test Category',
+          'category': 'テストカテゴリ',
         };
         final restored = Goal.fromJson(json);
         expect(restored.itemId.value, 'goal-123');
-        expect(restored.title.value, 'Test Goal');
-        expect(restored.description.value, 'Test Description');
-        expect(restored.category.value, 'Test Category');
+        expect(restored.title.value, 'テストゴール');
+        expect(restored.description.value, 'テスト説明');
+        expect(restored.category.value, 'テストカテゴリ');
       });
     });
 
     group('toString', () {
-      test('toString should include itemId and title', () {
+      test('toStringがGoalとitemIdとtitleを含む文字列を返すこと', () {
         final str = goal.toString();
         expect(str, contains('Goal'));
         expect(str, contains('goal-1'));

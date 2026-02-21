@@ -30,10 +30,6 @@ void main() {
         expect(task.status.value, 'todo');
         expect(task.milestoneId.value, 'milestone-1');
       });
-
-      test('milestoneIdが正しく設定されること', () {
-        expect(task.milestoneId.value, 'milestone-1');
-      });
     });
 
     group('getProgress', () {

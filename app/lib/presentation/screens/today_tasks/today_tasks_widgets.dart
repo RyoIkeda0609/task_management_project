@@ -218,7 +218,7 @@ class TodayTaskItemWidget extends ConsumerWidget {
   Widget _buildTaskInfo(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.id.value),
+        onTap: () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: Spacing.medium),
           child: Text(
@@ -292,11 +292,11 @@ class TodayTaskItemWidget extends ConsumerWidget {
   Future<void> _toggleTaskStatus(BuildContext context, WidgetRef ref) async {
     try {
       final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
-      await changeTaskStatusUseCase(task.id.value);
+      await changeTaskStatusUseCase(task.itemId.value);
 
       ref.invalidate(todayTasksProvider);
-      ref.invalidate(taskDetailProvider(task.id.value));
-      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+      ref.invalidate(taskDetailProvider(task.itemId.value));
+      ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(

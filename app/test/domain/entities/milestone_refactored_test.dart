@@ -20,15 +20,15 @@ void main() {
       );
     });
 
-    group('initialization', () {
-      test('Milestone should be initialized with all fields', () {
+    group('初期化', () {
+      test('全フィールドが正しく設定されること', () {
         expect(milestone.itemId.value, 'milestone-1');
         expect(milestone.title.value, '基本文法習得');
         expect(milestone.description.value, 'Dart文法を完全に習得');
         expect(milestone.goalId.value, 'goal-1');
       });
 
-      test('Milestone can use ItemId.generate()', () {
+      test('ItemId.generate()でMilestoneが生成できること', () {
         final milestoneWithGeneratedId = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('New Milestone'),
@@ -39,7 +39,7 @@ void main() {
         expect(milestoneWithGeneratedId.itemId.value.isNotEmpty, true);
       });
 
-      test('Milestone can accept empty description', () {
+      test('空の説明文でMilestoneが生成できること', () {
         final milestoneEmptyDesc = Milestone(
           itemId: ItemId('milestone-2'),
           title: ItemTitle('Milestone'),
@@ -51,8 +51,8 @@ void main() {
       });
     });
 
-    group('equality and hashCode', () {
-      test('Milestones with same fields should be equal', () {
+    group('等価性とハッシュコード', () {
+      test('同じフィールドを持つMilestoneは等しいこと', () {
         final milestone2 = Milestone(
           itemId: ItemId('milestone-1'),
           title: ItemTitle('基本文法習得'),
@@ -63,7 +63,7 @@ void main() {
         expect(milestone, milestone2);
       });
 
-      test('Milestones with different itemId should not be equal', () {
+      test('異なるitemIdを持つMilestoneは等しくないこと', () {
         final milestone2 = Milestone(
           itemId: ItemId('milestone-2'),
           title: ItemTitle('基本文法習得'),
@@ -74,7 +74,7 @@ void main() {
         expect(milestone, isNot(milestone2));
       });
 
-      test('equal Milestones should have same hashCode', () {
+      test('等しいMilestoneは同じハッシュコードを持つこと', () {
         final milestone2 = Milestone(
           itemId: ItemId('milestone-1'),
           title: ItemTitle('基本文法習得'),
@@ -86,8 +86,8 @@ void main() {
       });
     });
 
-    group('JSON serialization', () {
-      test('toJson should include all fields', () {
+    group('JSONシリアライズ', () {
+      test('toJsonで全フィールドが含まれること', () {
         final json = milestone.toJson();
         expect(json['itemId'], 'milestone-1');
         expect(json['title'], '基本文法習得');
@@ -96,30 +96,30 @@ void main() {
         expect(json['deadline'], isNotNull);
       });
 
-      test('fromJson should restore Milestone correctly', () {
+      test('fromJsonでMilestoneが正しく復元できること', () {
         final json = milestone.toJson();
         final restored = Milestone.fromJson(json);
         expect(restored, milestone);
       });
 
-      test('fromJson should handle all fields', () {
+      test('fromJsonで全フィールドが正しく復元できること', () {
         final json = {
           'itemId': 'milestone-123',
-          'title': 'Test Milestone',
-          'description': 'Test Description',
+          'title': 'テストマイルストーン',
+          'description': 'テスト説明',
           'deadline': tomorrow.toIso8601String(),
           'goalId': 'goal-123',
         };
         final restored = Milestone.fromJson(json);
         expect(restored.itemId.value, 'milestone-123');
-        expect(restored.title.value, 'Test Milestone');
-        expect(restored.description.value, 'Test Description');
+        expect(restored.title.value, 'テストマイルストーン');
+        expect(restored.description.value, 'テスト説明');
         expect(restored.goalId.value, 'goal-123');
       });
     });
 
     group('toString', () {
-      test('toString should include itemId and title', () {
+      test('toStringがMilestoneとitemIdとtitleを含む文字列を返すこと', () {
         final str = milestone.toString();
         expect(str, contains('Milestone'));
         expect(str, contains('milestone-1'));
