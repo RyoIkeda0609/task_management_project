@@ -21,7 +21,7 @@ import 'package:app/application/use_cases/progress/calculate_progress_use_case.d
 import 'package:app/domain/services/goal_completion_service.dart';
 import 'package:app/domain/services/milestone_completion_service.dart';
 import 'package:app/domain/services/task_completion_service.dart';
-import 'package:app/presentation/state_management/providers/repository_providers.dart';
+import 'package:app/application/providers/repository_providers.dart';
 
 import 'package:app/application/app_service_facade.dart';
 

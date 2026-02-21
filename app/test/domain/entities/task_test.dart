@@ -7,15 +7,15 @@ import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 
 void main() {
-  group('Task Entity', () {
+  group('Task Entity (Refactored with Item)', () {
     late Task task;
     final tomorrow = DateTime.now().add(const Duration(days: 1));
 
     setUp(() {
       task = Task(
         itemId: ItemId('task-1'),
-        title: ItemTitle('変数を学ぶ'),
-        description: ItemDescription('Dartの変数の型と使い方を学ぶ'),
+        title: ItemTitle('ウィジェット学習'),
+        description: ItemDescription('StatefulWidget と StatelessWidget の差を学ぶ'),
         deadline: ItemDeadline(tomorrow),
         status: TaskStatus.todo(),
         milestoneId: ItemId('milestone-1'),
@@ -23,21 +23,48 @@ void main() {
     });
 
     group('初期化', () {
-      test('タスクが正しく初期化できること', () {
+      test('全フィールドが正しく設定されること', () {
         expect(task.itemId.value, 'task-1');
-        expect(task.title.value, '変数を学ぶ');
-        expect(task.description.value, 'Dartの変数の型と使い方を学ぶ');
-        expect(task.status.value, 'todo');
+        expect(task.title.value, 'ウィジェット学習');
+        expect(
+          task.description.value,
+          'StatefulWidget と StatelessWidget の差を学ぶ',
+        );
+        expect(task.status.isTodo, true);
         expect(task.milestoneId.value, 'milestone-1');
+      });
+
+      test('ItemId.generate()でTaskが生成できること', () {
+        final taskWithGeneratedId = Task(
+          itemId: ItemId.generate(),
+          title: ItemTitle('New Task'),
+          description: ItemDescription('Description'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.doing(),
+          milestoneId: ItemId('milestone-x'),
+        );
+        expect(taskWithGeneratedId.itemId.value.isNotEmpty, true);
+      });
+
+      test('空の説明文でTaskが生成できること', () {
+        final taskEmptyDesc = Task(
+          itemId: ItemId('task-2'),
+          title: ItemTitle('Task'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.done(),
+          milestoneId: ItemId('milestone-1'),
+        );
+        expect(taskEmptyDesc.description.value, '');
       });
     });
 
     group('getProgress', () {
-      test('ステータスがTodoの場合、Progress(0)を返すこと', () {
+      test('Todoステータスの場合0%を返すこと', () {
         final todoTask = Task(
           itemId: ItemId('task-1'),
-          title: ItemTitle('テスト'),
-          description: ItemDescription('テスト'),
+          title: ItemTitle('Test'),
+          description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
           milestoneId: ItemId('milestone-1'),
@@ -46,11 +73,11 @@ void main() {
         expect(progress.value, 0);
       });
 
-      test('ステータスがDoingの場合、Progress(50)を返すこと', () {
+      test('Doingステータスの場合50%を返すこと', () {
         final doingTask = Task(
           itemId: ItemId('task-1'),
-          title: ItemTitle('テスト'),
-          description: ItemDescription('テスト'),
+          title: ItemTitle('Test'),
+          description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.doing(),
           milestoneId: ItemId('milestone-1'),
@@ -59,11 +86,11 @@ void main() {
         expect(progress.value, 50);
       });
 
-      test('ステータスがDoneの場合、Progress(100)を返すこと', () {
+      test('Doneステータスの場合100%を返すこと', () {
         final doneTask = Task(
           itemId: ItemId('task-1'),
-          title: ItemTitle('テスト'),
-          description: ItemDescription('テスト'),
+          title: ItemTitle('Test'),
+          description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.done(),
           milestoneId: ItemId('milestone-1'),
@@ -74,53 +101,42 @@ void main() {
     });
 
     group('cycleStatus', () {
-      test('TodoからDoingに遷移できること', () {
-        final cycled = task.cycleStatus();
-        expect(cycled.status.value, 'doing');
+      test('Todo → Doingに遷移できること', () {
+        final updated = task.cycleStatus();
+        expect(updated.status.isDoing, true);
       });
 
-      test('DoingからDoneに遷移できること', () {
-        final doingTask = Task(
-          itemId: ItemId('task-1'),
-          title: ItemTitle('テスト'),
-          description: ItemDescription('テスト'),
-          deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
-          milestoneId: ItemId('milestone-1'),
-        );
-        final cycled = doingTask.cycleStatus();
-        expect(cycled.status.value, 'done');
+      test('Doing → Doneに遷移できること', () {
+        final doingTask = task.cycleStatus();
+        final updated = doingTask.cycleStatus();
+        expect(updated.status.isDone, true);
       });
 
-      test('DoneからTodoに遷移できること（循環）', () {
-        final doneTask = Task(
-          itemId: ItemId('task-1'),
-          title: ItemTitle('テスト'),
-          description: ItemDescription('テスト'),
-          deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.done(),
-          milestoneId: ItemId('milestone-1'),
-        );
-        final cycled = doneTask.cycleStatus();
-        expect(cycled.status.value, 'todo');
+      test('Done → Todoに遷移できること（循環）', () {
+        final doingTask = task.cycleStatus();
+        final doneTask = doingTask.cycleStatus();
+        final cycledTask = doneTask.cycleStatus();
+        expect(cycledTask.status.isTodo, true);
       });
 
-      test('cycleStatusは他のプロパティを保持すること', () {
-        final cycled = task.cycleStatus();
-        expect(cycled.itemId, task.itemId);
-        expect(cycled.title, task.title);
-        expect(cycled.description, task.description);
-        expect(cycled.deadline, task.deadline);
-        expect(cycled.milestoneId, task.milestoneId);
+      test('cycleStatusは他のフィールドを保持すること', () {
+        final updated = task.cycleStatus();
+        expect(updated.itemId, task.itemId);
+        expect(updated.title, task.title);
+        expect(updated.description, task.description);
+        expect(updated.deadline, task.deadline);
+        expect(updated.milestoneId, task.milestoneId);
       });
     });
 
-    group('等号演算子とhashCode', () {
-      test('同じフィールドを持つTaskは等価であること', () {
+    group('等価性とハッシュコード', () {
+      test('同じフィールドを持つTaskは等しいこと', () {
         final task2 = Task(
           itemId: ItemId('task-1'),
-          title: ItemTitle('変数を学ぶ'),
-          description: ItemDescription('Dartの変数の型と使い方を学ぶ'),
+          title: ItemTitle('ウィジェット学習'),
+          description: ItemDescription(
+            'StatefulWidget と StatelessWidget の差を学ぶ',
+          ),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
           milestoneId: ItemId('milestone-1'),
@@ -128,11 +144,13 @@ void main() {
         expect(task, task2);
       });
 
-      test('異なるIDを持つTaskは等価でないこと', () {
+      test('異なるitemIdを持つTaskは等しくないこと', () {
         final task2 = Task(
           itemId: ItemId('task-2'),
-          title: ItemTitle('変数を学ぶ'),
-          description: ItemDescription('Dartの変数の型と使い方を学ぶ'),
+          title: ItemTitle('ウィジェット学習'),
+          description: ItemDescription(
+            'StatefulWidget と StatelessWidget の差を学ぶ',
+          ),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
           milestoneId: ItemId('milestone-1'),
@@ -140,23 +158,13 @@ void main() {
         expect(task, isNot(task2));
       });
 
-      test('異なるステータスを持つTaskは等価でないこと', () {
+      test('等しいTaskは同じハッシュコードを持つこと', () {
         final task2 = Task(
           itemId: ItemId('task-1'),
-          title: ItemTitle('変数を学ぶ'),
-          description: ItemDescription('Dartの変数の型と使い方を学ぶ'),
-          deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
-          milestoneId: ItemId('milestone-1'),
-        );
-        expect(task, isNot(task2));
-      });
-
-      test('同じTaskはHashCodeが同じであること', () {
-        final task2 = Task(
-          itemId: ItemId('task-1'),
-          title: ItemTitle('変数を学ぶ'),
-          description: ItemDescription('Dartの変数の型と使い方を学ぶ'),
+          title: ItemTitle('ウィジェット学習'),
+          description: ItemDescription(
+            'StatefulWidget と StatelessWidget の差を学ぶ',
+          ),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
           milestoneId: ItemId('milestone-1'),
@@ -165,12 +173,47 @@ void main() {
       });
     });
 
+    group('JSONシリアライズ', () {
+      test('toJsonで全フィールドが含まれること', () {
+        final json = task.toJson();
+        expect(json['itemId'], 'task-1');
+        expect(json['title'], 'ウィジェット学習');
+        expect(json['description'], 'StatefulWidget と StatelessWidget の差を学ぶ');
+        expect(json['status'], 'todo');
+        expect(json['milestoneId'], 'milestone-1');
+        expect(json['deadline'], isNotNull);
+      });
+
+      test('fromJsonでTaskが正しく復元できること', () {
+        final json = task.toJson();
+        final restored = Task.fromJson(json);
+        expect(restored, task);
+      });
+
+      test('fromJsonで全フィールドが正しく復元できること', () {
+        final json = {
+          'itemId': 'task-123',
+          'title': 'テストタスク',
+          'description': 'テスト説明',
+          'deadline': tomorrow.toIso8601String(),
+          'status': 'doing',
+          'milestoneId': 'milestone-123',
+        };
+        final restored = Task.fromJson(json);
+        expect(restored.itemId.value, 'task-123');
+        expect(restored.title.value, 'テストタスク');
+        expect(restored.description.value, 'テスト説明');
+        expect(restored.status.isDoing, true);
+        expect(restored.milestoneId.value, 'milestone-123');
+      });
+    });
+
     group('toString', () {
-      test('toStringが適切な文字列を返すこと', () {
-        final string = task.toString();
-        expect(string, contains('Task'));
-        expect(string, contains('task-1'));
-        expect(string, contains('変数を学ぶ'));
+      test('toStringがTaskとitemIdとtitleを含む文字列を返すこと', () {
+        final str = task.toString();
+        expect(str, contains('Task'));
+        expect(str, contains('task-1'));
+        expect(str, contains('ウィジェット学習'));
       });
     });
   });

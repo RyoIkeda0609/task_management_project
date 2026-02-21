@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 import 'package:hive/hive.dart';
 
 /// HiveRepositoryBase - Hive Repository の抽象基盤クラス
@@ -43,19 +43,34 @@ abstract class HiveRepositoryBase<T> {
   }
 
   /// すべてのエンティティを取得
+  ///
+  /// デコードに失敗したエンティティはスキップし、正常なエンティティのみ返す。
+  /// 破損データがある場合は log に記録する。
   Future<List<T>> getAll() async {
     _ensureInitialized();
     try {
       final result = <T>[];
+      var corruptedCount = 0;
       for (final jsonString in _box.values) {
         try {
           final json = jsonDecode(jsonString) as Map<String, dynamic>;
           result.add(fromJson(json));
         } catch (e) {
-          // 1つのエンティティのデコード失敗はスキップしてログにおさめる
-          debugPrint('Warning: Failed to decode entity in $boxName: $e');
+          corruptedCount++;
+          log(
+            'Failed to decode entity in $boxName: $e',
+            name: 'HiveRepositoryBase',
+            level: 900, // WARNING level
+          );
           continue;
         }
+      }
+      if (corruptedCount > 0) {
+        log(
+          '$corruptedCount corrupted entities skipped in $boxName',
+          name: 'HiveRepositoryBase',
+          level: 900,
+        );
       }
       return result;
     } catch (e) {
@@ -138,7 +153,11 @@ abstract class HiveRepositoryBase<T> {
             toDelete.add(getId(entity));
           }
         } catch (e) {
-          debugPrint('Warning: Failed to decode entity in $boxName: $e');
+          log(
+            'Failed to decode entity in $boxName: $e',
+            name: 'HiveRepositoryBase',
+            level: 900,
+          );
           continue;
         }
       }
@@ -185,7 +204,11 @@ abstract class HiveRepositoryBase<T> {
   /// エラーハンドリング：一貫性のあるエラーメッセージを生成
   Exception _handleError(String message, dynamic error) {
     final errorMessage = '$message. Details: ${error.toString()}';
-    debugPrint('❌ HiveRepositoryBase Error: $errorMessage');
+    log(
+      errorMessage,
+      name: 'HiveRepositoryBase',
+      level: 1000, // SEVERE level
+    );
     return Exception(errorMessage);
   }
 }

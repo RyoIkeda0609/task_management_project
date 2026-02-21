@@ -31,13 +31,8 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     required DateTime deadline,
     required String milestoneId,
   }) async {
-    // Validate
+    // Validate (ValueObjectのコンストラクタでバリデーション実行)
     final itemTitle = ItemTitle(title);
-
-    // Description: 任意フィールド、空文字許容、ただし500文字制限
-    if (description.trim().isNotEmpty && description.length > 500) {
-      throw ArgumentError('説明は500文字以下で入力してください');
-    }
     final itemDescription = ItemDescription(description);
 
     final itemDeadline = ItemDeadline(deadline);

@@ -1,7 +1,6 @@
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:flutter/foundation.dart';
 
 /// DeleteGoalUseCase - ゴールを削除する
 abstract class DeleteGoalUseCase {
@@ -37,28 +36,16 @@ class DeleteGoalUseCaseImpl implements DeleteGoalUseCase {
     final milestonesToDelete = await _milestoneRepository.getMilestonesByGoalId(
       goalId,
     );
-    debugPrint(
-      '[DeleteGoalUseCase] Goal ID: $goalId, Milestones to delete: ${milestonesToDelete.length}',
-    );
 
     // 2. 各MilestoneのIDでTaskをすべて削除
     for (final milestone in milestonesToDelete) {
-      debugPrint(
-        '[DeleteGoalUseCase] Deleting tasks for Milestone ID: ${milestone.itemId.value}',
-      );
       await _taskRepository.deleteTasksByMilestoneId(milestone.itemId.value);
     }
 
     // 3. MilestoneをすべてGoalIDで削除
-    debugPrint('[DeleteGoalUseCase] Deleting milestones for Goal ID: $goalId');
     await _milestoneRepository.deleteMilestonesByGoalId(goalId);
 
     // 4. Goalを削除
-    debugPrint('[DeleteGoalUseCase] Deleting goal ID: $goalId');
     await _goalRepository.deleteGoal(goalId);
-
-    debugPrint(
-      '[DeleteGoalUseCase] Cascade deletion completed for Goal ID: $goalId',
-    );
   }
 }

@@ -16,10 +16,13 @@ class MockTaskRepository implements TaskRepository {
   Future<List<Task>> getAllTasks() async => _tasks;
 
   @override
-  Future<Task?> getTaskById(String id) async => _tasks.firstWhere(
-    (t) => t.itemId.value == id,
-    orElse: () => throw Exception(),
-  );
+  Future<Task?> getTaskById(String id) async {
+    try {
+      return _tasks.firstWhere((t) => t.itemId.value == id);
+    } catch (_) {
+      return null;
+    }
+  }
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
@@ -105,6 +108,17 @@ void main() {
       final updatedTask = await useCase.call('task-3');
 
       expect(updatedTask.status.isTodo, true);
+    });
+
+    test('空のタスクIDでArgumentErrorが発生すること', () async {
+      expect(() => useCase.call(''), throwsA(isA<ArgumentError>()));
+    });
+
+    test('存在しないタスクIDでArgumentErrorが発生すること', () async {
+      expect(
+        () => useCase.call('non-existent-id'),
+        throwsA(isA<ArgumentError>()),
+      );
     });
   });
 }

@@ -67,9 +67,8 @@ class TaskDetailPageState {
 
   String get statusLabel {
     if (task == null) return 'Unknown';
-    final statusStr = task!.status.toString();
-    if (statusStr.contains('done')) return '完了';
-    if (statusStr.contains('doing')) return '進行中';
+    if (task!.status.isDone) return '完了';
+    if (task!.status.isDoing) return '進行中';
     return '未完了';
   }
 }

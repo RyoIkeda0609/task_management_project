@@ -60,12 +60,13 @@ class TaskEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化 - ID が変わった場合のみ
-    final viewModel = ref.read(taskEditViewModelProvider.notifier);
+    // ref.listen を使って初期化（ref.read の代わりに）
     final state = ref.watch(taskEditViewModelProvider);
+    final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
+    // 初回のみ初期化（taskId が変わる場合）
     if (state.taskId != taskId) {
-      Future.microtask(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.initializeWithTask(
           taskId: taskId,
           title: task.title.value,
