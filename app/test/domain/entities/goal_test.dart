@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 
 void main() {
   group('Goal Entity', () {
@@ -13,30 +13,30 @@ void main() {
 
     setUp(() {
       goal = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('プログラミング習得'),
+        itemId: ItemId('goal-1'),
+        title: ItemTitle('プログラミング習得'),
+        description: ItemDescription('キャリアアップのため'),
+        deadline: ItemDeadline(tomorrow),
         category: GoalCategory('スキル'),
-        reason: GoalReason('キャリアアップのため'),
-        deadline: GoalDeadline(tomorrow),
       );
     });
 
     group('初期化', () {
       test('ゴールが正しく初期化できること', () {
-        expect(goal.id.value, 'goal-1');
+        expect(goal.itemId.value, 'goal-1');
         expect(goal.title.value, 'プログラミング習得');
         expect(goal.category.value, 'スキル');
-        expect(goal.reason.value, 'キャリアアップのため');
+        expect(goal.description.value, 'キャリアアップのため');
       });
 
       test('必須フィールドなしでは初期化できないこと', () {
         expect(
           () => Goal(
-            id: GoalId('goal-2'),
-            title: GoalTitle('テスト'),
+            itemId: ItemId('goal-2'),
+            title: ItemTitle('テスト'),
+            description: ItemDescription('テスト'),
+            deadline: ItemDeadline(tomorrow),
             category: GoalCategory('テスト'),
-            reason: GoalReason('テスト'),
-            deadline: GoalDeadline(tomorrow),
           ),
           returnsNormally,
         );
@@ -46,44 +46,44 @@ void main() {
     group('等号演算子とhashCode', () {
       test('同じフィールドを持つGoalは等価であること', () {
         final goal2 = Goal(
-          id: GoalId('goal-1'),
-          title: GoalTitle('プログラミング習得'),
+          itemId: ItemId('goal-1'),
+          title: ItemTitle('プログラミング習得'),
+          description: ItemDescription('キャリアアップのため'),
+          deadline: ItemDeadline(tomorrow),
           category: GoalCategory('スキル'),
-          reason: GoalReason('キャリアアップのため'),
-          deadline: GoalDeadline(tomorrow),
         );
         expect(goal, goal2);
       });
 
       test('異なるIDを持つGoalは等価でないこと', () {
         final goal2 = Goal(
-          id: GoalId('goal-2'),
-          title: GoalTitle('プログラミング習得'),
+          itemId: ItemId('goal-2'),
+          title: ItemTitle('プログラミング習得'),
+          description: ItemDescription('キャリアアップのため'),
+          deadline: ItemDeadline(tomorrow),
           category: GoalCategory('スキル'),
-          reason: GoalReason('キャリアアップのため'),
-          deadline: GoalDeadline(tomorrow),
         );
         expect(goal, isNot(goal2));
       });
 
       test('異なるタイトルを持つGoalは等価でないこと', () {
         final goal2 = Goal(
-          id: GoalId('goal-1'),
-          title: GoalTitle('Flutterマスター'),
+          itemId: ItemId('goal-1'),
+          title: ItemTitle('Flutterマスター'),
+          description: ItemDescription('キャリアアップのため'),
+          deadline: ItemDeadline(tomorrow),
           category: GoalCategory('スキル'),
-          reason: GoalReason('キャリアアップのため'),
-          deadline: GoalDeadline(tomorrow),
         );
         expect(goal, isNot(goal2));
       });
 
       test('同じGoalはHashCodeが同じであること', () {
         final goal2 = Goal(
-          id: GoalId('goal-1'),
-          title: GoalTitle('プログラミング習得'),
+          itemId: ItemId('goal-1'),
+          title: ItemTitle('プログラミング習得'),
+          description: ItemDescription('キャリアアップのため'),
+          deadline: ItemDeadline(tomorrow),
           category: GoalCategory('スキル'),
-          reason: GoalReason('キャリアアップのため'),
-          deadline: GoalDeadline(tomorrow),
         );
         expect(goal.hashCode, goal2.hashCode);
       });

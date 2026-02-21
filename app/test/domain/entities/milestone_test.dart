@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
   group('Milestone Entity', () {
@@ -11,62 +12,67 @@ void main() {
 
     setUp(() {
       milestone = Milestone(
-        id: MilestoneId('milestone-1'),
-        title: MilestoneTitle('基本文法習得'),
-        deadline: MilestoneDeadline(tomorrow),
-        goalId: 'goal-1',
+        itemId: ItemId('milestone-1'),
+        title: ItemTitle('基本文法習得'),
+        description: ItemDescription('Dart文法を学ぶ'),
+        deadline: ItemDeadline(tomorrow),
+        goalId: ItemId('goal-1'),
       );
     });
 
     group('初期化', () {
       test('マイルストーンが正しく初期化できること', () {
-        expect(milestone.id.value, 'milestone-1');
+        expect(milestone.itemId.value, 'milestone-1');
         expect(milestone.title.value, '基本文法習得');
-        expect(milestone.goalId, 'goal-1');
+        expect(milestone.goalId.value, 'goal-1');
       });
 
       test('goalIdが正しく設定されること', () {
-        expect(milestone.goalId, 'goal-1');
+        expect(milestone.goalId.value, 'goal-1');
       });
     });
 
     group('等号演算子とhashCode', () {
       test('同じフィールドを持つMilestoneは等価であること', () {
         final milestone2 = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('基本文法習得'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('基本文法習得'),
+          description: ItemDescription('Dart文法を学ぶ'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-1'),
         );
         expect(milestone, milestone2);
       });
 
       test('異なるIDを持つMilestoneは等価でないこと', () {
         final milestone2 = Milestone(
-          id: MilestoneId('milestone-2'),
-          title: MilestoneTitle('基本文法習得'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-2'),
+          title: ItemTitle('基本文法習得'),
+          description: ItemDescription('Dart文法を学ぶ'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-1'),
         );
         expect(milestone, isNot(milestone2));
       });
 
       test('異なるgoalIdを持つMilestoneは等価でないこと', () {
         final milestone2 = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('基本文法習得'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-2',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('基本文法習得'),
+          description: ItemDescription('Dart文法を学ぶ'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-2'),
         );
         expect(milestone, isNot(milestone2));
       });
 
       test('同じMilestoneはHashCodeが同じであること', () {
         final milestone2 = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('基本文法習得'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('基本文法習得'),
+          description: ItemDescription('Dart文法を学ぶ'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-1'),
         );
         expect(milestone.hashCode, milestone2.hashCode);
       });

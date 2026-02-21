@@ -4,13 +4,9 @@ import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/services/goal_completion_service.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 
 /// シンプルな Fake MilestoneRepository 実装
@@ -18,7 +14,7 @@ class FakeMilestoneRepository implements MilestoneRepository {
   final Map<String, Milestone> _milestones = {};
 
   void addMilestone(Milestone milestone) {
-    _milestones[milestone.id.value] = milestone;
+    _milestones[milestone.itemId.value] = milestone;
   }
 
   @override
@@ -33,12 +29,12 @@ class FakeMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async {
-    return _milestones.values.where((m) => m.goalId == goalId).toList();
+    return _milestones.values.where((m) => m.goalId.value == goalId).toList();
   }
 
   @override
   Future<void> saveMilestone(Milestone milestone) async {
-    _milestones[milestone.id.value] = milestone;
+    _milestones[milestone.itemId.value] = milestone;
   }
 
   @override
@@ -48,7 +44,7 @@ class FakeMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async {
-    _milestones.removeWhere((_, m) => m.goalId == goalId);
+    _milestones.removeWhere((_, m) => m.goalId.value == goalId);
   }
 
   @override
@@ -62,7 +58,7 @@ class FakeTaskRepository implements TaskRepository {
   final Map<String, Task> _tasks = {};
 
   void addTask(Task task) {
-    _tasks[task.id.value] = task;
+    _tasks[task.itemId.value] = task;
   }
 
   @override
@@ -77,12 +73,14 @@ class FakeTaskRepository implements TaskRepository {
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async {
-    return _tasks.values.where((t) => t.milestoneId == milestoneId).toList();
+    return _tasks.values
+        .where((t) => t.milestoneId.value == milestoneId)
+        .toList();
   }
 
   @override
   Future<void> saveTask(Task task) async {
-    _tasks[task.id.value] = task;
+    _tasks[task.itemId.value] = task;
   }
 
   @override
@@ -135,34 +133,36 @@ void main() {
         const milestone2Id = 'milestone-2';
 
         final milestone1 = Milestone(
-          id: MilestoneId(milestone1Id),
-          goalId: goalId,
-          title: MilestoneTitle('マイルストーン1'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone1Id),
+          goalId: ItemId(goalId),
+          title: ItemTitle('マイルストーン1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         final milestone2 = Milestone(
-          id: MilestoneId(milestone2Id),
-          goalId: goalId,
-          title: MilestoneTitle('マイルストーン2'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone2Id),
+          goalId: ItemId(goalId),
+          title: ItemTitle('マイルストーン2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         fakeMilestoneRepository.addMilestone(milestone1);
         fakeMilestoneRepository.addMilestone(milestone2);
 
         final task1 = Task(
-          id: TaskId('task-1'),
-          milestoneId: milestone1Id,
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId('task-1'),
+          milestoneId: ItemId(milestone1Id),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
           status: TaskStatus(TaskStatus.statusDone),
         );
         final task2 = Task(
-          id: TaskId('task-2'),
-          milestoneId: milestone2Id,
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId('task-2'),
+          milestoneId: ItemId(milestone2Id),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
           status: TaskStatus(TaskStatus.statusDone),
         );
         fakeTaskRepository.addTask(task1);
@@ -182,34 +182,36 @@ void main() {
         const milestone2Id = 'milestone-2';
 
         final milestone1 = Milestone(
-          id: MilestoneId(milestone1Id),
-          goalId: goalId,
-          title: MilestoneTitle('マイルストーン1'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone1Id),
+          goalId: ItemId(goalId),
+          title: ItemTitle('マイルストーン1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         final milestone2 = Milestone(
-          id: MilestoneId(milestone2Id),
-          goalId: goalId,
-          title: MilestoneTitle('マイルストーン2'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone2Id),
+          goalId: ItemId(goalId),
+          title: ItemTitle('マイルストーン2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         fakeMilestoneRepository.addMilestone(milestone1);
         fakeMilestoneRepository.addMilestone(milestone2);
 
         final task1 = Task(
-          id: TaskId('task-1'),
-          milestoneId: milestone1Id,
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId('task-1'),
+          milestoneId: ItemId(milestone1Id),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
           status: TaskStatus(TaskStatus.statusDone),
         );
         final task2 = Task(
-          id: TaskId('task-2'),
-          milestoneId: milestone2Id,
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId('task-2'),
+          milestoneId: ItemId(milestone2Id),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
           status: TaskStatus(TaskStatus.statusDoing),
         );
         fakeTaskRepository.addTask(task1);
@@ -228,10 +230,11 @@ void main() {
         const milestone1Id = 'milestone-1';
 
         final milestone1 = Milestone(
-          id: MilestoneId(milestone1Id),
-          goalId: goalId,
-          title: MilestoneTitle('マイルストーン1'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone1Id),
+          goalId: ItemId(goalId),
+          title: ItemTitle('マイルストーン1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         fakeMilestoneRepository.addMilestone(milestone1);
 
@@ -250,26 +253,28 @@ void main() {
         const milestone2Id = 'milestone-2';
 
         final milestone1 = Milestone(
-          id: MilestoneId(milestone1Id),
-          goalId: goal1Id,
-          title: MilestoneTitle('マイルストーン1'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone1Id),
+          goalId: ItemId(goal1Id),
+          title: ItemTitle('マイルストーン1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         final milestone2 = Milestone(
-          id: MilestoneId(milestone2Id),
-          goalId: goal2Id,
-          title: MilestoneTitle('マイルストーン2'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId(milestone2Id),
+          goalId: ItemId(goal2Id),
+          title: ItemTitle('マイルストーン2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         );
         fakeMilestoneRepository.addMilestone(milestone1);
         fakeMilestoneRepository.addMilestone(milestone2);
 
         final task1 = Task(
-          id: TaskId('task-1'),
-          milestoneId: milestone1Id,
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime(2026, 12, 31)),
+          itemId: ItemId('task-1'),
+          milestoneId: ItemId(milestone1Id),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
           status: TaskStatus(TaskStatus.statusDone),
         );
         fakeTaskRepository.addTask(task1);

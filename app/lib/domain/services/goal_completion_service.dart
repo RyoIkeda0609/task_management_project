@@ -30,7 +30,7 @@ class GoalCompletionService {
 
     for (final milestone in milestones) {
       final tasks = await _taskRepository.getTasksByMilestoneId(
-        milestone.id.value,
+        milestone.itemId.value,
       );
 
       if (tasks.isEmpty) {
@@ -60,7 +60,7 @@ class GoalCompletionService {
     int totalProgress = 0;
     for (final milestone in milestones) {
       final tasks = await _taskRepository.getTasksByMilestoneId(
-        milestone.id.value,
+        milestone.itemId.value,
       );
 
       if (tasks.isEmpty) {

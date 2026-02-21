@@ -1,7 +1,8 @@
-import '../value_objects/task/task_id.dart';
-import '../value_objects/task/task_title.dart';
-import '../value_objects/task/task_description.dart';
-import '../value_objects/task/task_deadline.dart';
+import '../entities/item.dart';
+import '../value_objects/item/item_id.dart';
+import '../value_objects/item/item_title.dart';
+import '../value_objects/item/item_description.dart';
+import '../value_objects/item/item_deadline.dart';
 import '../value_objects/task/task_status.dart';
 import '../value_objects/shared/progress.dart';
 
@@ -9,22 +10,25 @@ import '../value_objects/shared/progress.dart';
 ///
 /// 3 段階の階層構造の最下位：Goal > Milestone > Task
 /// ステータス（Todo/Doing/Done）により Progress が決定される
-class Task {
-  final TaskId id;
-  final TaskTitle title;
-  final TaskDescription description;
-  final TaskDeadline deadline;
+/// Item を継承し、共通のバリデーション機構を利用する
+class Task extends Item {
   final TaskStatus status;
-  final String milestoneId;
+  final ItemId milestoneId;
 
+  /// コンストラクタ
   Task({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.deadline,
+    required ItemId itemId,
+    required ItemTitle title,
+    required ItemDescription description,
+    required ItemDeadline deadline,
     required this.status,
     required this.milestoneId,
-  });
+  }) : super(
+         itemId: itemId,
+         title: title,
+         description: description,
+         deadline: deadline,
+       );
 
   /// タスクの Progress を取得する
   ///
@@ -39,7 +43,7 @@ class Task {
   /// Todo → Doing → Done → Todo（循環）
   Task cycleStatus() {
     return Task(
-      id: id,
+      itemId: itemId,
       title: title,
       description: description,
       deadline: deadline,
@@ -51,44 +55,35 @@ class Task {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Task &&
+      super == other &&
+          other is Task &&
           runtimeType == other.runtimeType &&
-          id == other.id &&
-          title == other.title &&
-          description == other.description &&
-          deadline == other.deadline &&
           status == other.status &&
           milestoneId == other.milestoneId;
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      title.hashCode ^
-      description.hashCode ^
-      deadline.hashCode ^
-      status.hashCode ^
-      milestoneId.hashCode;
+  int get hashCode => super.hashCode ^ status.hashCode ^ milestoneId.hashCode;
 
   @override
-  String toString() => 'Task(id: $id, title: $title, status: ${status.value})';
+  String toString() =>
+      'Task(itemId: $itemId, title: $title, status: ${status.value})';
 
   /// JSON に変換
-  Map<String, dynamic> toJson() => {
-    'id': id.value,
-    'title': title.value,
-    'description': description.value,
-    'deadline': deadline.value.toIso8601String(),
-    'status': status.value,
-    'milestoneId': milestoneId,
-  };
+  @override
+  Map<String, dynamic> toJson() {
+    final baseJson = super.toJson();
+    baseJson['status'] = status.value;
+    baseJson['milestoneId'] = milestoneId.value;
+    return baseJson;
+  }
 
   /// JSON から復元
   factory Task.fromJson(Map<String, dynamic> json) => Task(
-    id: TaskId(json['id'] as String),
-    title: TaskTitle(json['title'] as String),
-    description: TaskDescription(json['description'] as String),
-    deadline: TaskDeadline(DateTime.parse(json['deadline'] as String)),
+    itemId: ItemId(json['itemId'] as String),
+    title: ItemTitle(json['title'] as String),
+    description: ItemDescription(json['description'] as String),
+    deadline: ItemDeadline(DateTime.parse(json['deadline'] as String)),
     status: TaskStatus(json['status'] as String),
-    milestoneId: json['milestoneId'] as String,
+    milestoneId: ItemId(json['milestoneId'] as String),
   );
 }
