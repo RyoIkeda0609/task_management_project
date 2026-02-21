@@ -24,7 +24,7 @@ class GoalEditPage extends ConsumerWidget {
     final goalAsync = ref.watch(goalDetailProvider(goalId));
 
     return goalAsync.when(
-      data: (goal) => _buildForm(context, ref, goal),
+      data: (goal) => _buildForm(context, ref, goal, goalId),
       loading: () => Scaffold(
         appBar: CustomAppBar(
           title: 'ゴールを編集',
@@ -46,7 +46,12 @@ class GoalEditPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildForm(BuildContext context, WidgetRef ref, Goal? goal) {
+  Widget _buildForm(
+    BuildContext context,
+    WidgetRef ref,
+    Goal? goal,
+    String goalId,
+  ) {
     if (goal == null) {
       return Scaffold(
         appBar: CustomAppBar(
@@ -60,18 +65,21 @@ class GoalEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化 - ID が変わった場合のみ
-    final viewModel = ref.read(goalEditViewModelProvider.notifier);
+    // ref.listen を使って初期化（ref.read の代わりに）
     final state = ref.watch(goalEditViewModelProvider);
+    final viewModelNotifier = ref.read(goalEditViewModelProvider.notifier);
 
+    // 初回のみ初期化（goalId が変わる場合）
     if (state.goalId != goalId) {
-      viewModel.initializeWithGoal(
-        goalId: goalId,
-        title: goal.title.value,
-        reason: goal.reason.value,
-        category: goal.category.value,
-        deadline: goal.deadline.value,
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        viewModelNotifier.initializeWithGoal(
+          goalId: goalId,
+          title: goal.title.value,
+          reason: goal.reason.value,
+          category: goal.category.value,
+          deadline: goal.deadline.value,
+        );
+      });
     }
 
     return Scaffold(

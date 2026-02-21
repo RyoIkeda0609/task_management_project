@@ -41,7 +41,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: 'ゴール名を入力（100文字以内）',
-              initialValue: state.goalId == goalId ? state.title : goalTitle,
+              initialValue: state.title,
               maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
@@ -51,7 +51,7 @@ class GoalEditFormWidget extends ConsumerWidget {
             Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: '説明・理由を入力（100文字以内）',
-              initialValue: state.goalId == goalId ? state.reason : goalReason,
+              initialValue: state.reason,
               maxLength: 100,
               onChanged: viewModel.updateReason,
               multiline: true,
@@ -60,18 +60,14 @@ class GoalEditFormWidget extends ConsumerWidget {
 
             // カテゴリー
             _GoalEditCategoryDropdown(
-              selectedCategory: state.goalId == goalId
-                  ? state.category
-                  : goalCategory,
+              selectedCategory: state.category,
               onChanged: viewModel.updateCategory,
             ),
             SizedBox(height: Spacing.medium),
 
             // 達成予定日
             _GoalEditDeadlineSelector(
-              selectedDeadline: state.goalId == goalId
-                  ? state.deadline
-                  : goalDeadline,
+              selectedDeadline: state.deadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),

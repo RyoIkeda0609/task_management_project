@@ -199,7 +199,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
         ),
         SizedBox(height: Spacing.xSmall),
         Text(
-          _formatDate(task.deadline),
+          _formatDate(task.deadline.value),
           style: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral500),
         ),
       ],
@@ -267,8 +267,11 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
 
   String _formatDate(dynamic date) {
     try {
-      final dt = date is DateTime ? date : DateTime.now();
-      return '${dt.year}年${dt.month}月${dt.day}日';
+      if (date is DateTime) {
+        return '${date.year}年${date.month}月${date.day}日';
+      }
+      // 予期しない型の場合は未設定を返す
+      return '未設定';
     } catch (e) {
       return '未設定';
     }

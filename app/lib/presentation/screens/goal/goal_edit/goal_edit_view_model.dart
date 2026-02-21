@@ -2,14 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'goal_edit_state.dart';
 
 class GoalEditViewModel extends StateNotifier<GoalEditPageState> {
-  GoalEditViewModel()
+  GoalEditViewModel([GoalEditPageState? initialState])
     : super(
-        GoalEditPageState(
-          deadline: DateTime.now().add(const Duration(days: 90)),
-        ),
+        initialState ??
+            GoalEditPageState(
+              deadline: DateTime.now().add(const Duration(days: 90)),
+            ),
       );
 
-  /// ゴール情報で状態を初期化
   void initializeWithGoal({
     required String goalId,
     required String title,

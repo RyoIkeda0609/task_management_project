@@ -37,9 +37,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
             Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: 'マイルストーン名を入力（100文字以内）',
-              initialValue: state.milestoneId == milestoneId
-                  ? state.title
-                  : milestoneTitle,
+              initialValue: state.title,
               maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
@@ -47,9 +45,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
 
             // 目標日時
             _MilestoneEditDeadlineField(
-              selectedDeadline: state.milestoneId == milestoneId
-                  ? state.deadline
-                  : milestoneDeadline,
+              selectedDeadline: state.deadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),
