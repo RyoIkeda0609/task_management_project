@@ -5,11 +5,7 @@ import 'package:app/presentation/screens/home/home_widgets.dart';
 import 'package:app/presentation/screens/home/home_state.dart';
 import 'package:app/presentation/widgets/views/list_view/list_view_widgets.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
 
 void main() {
   group('Home Screen Widgets', () {

@@ -1,12 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/application/use_cases/task/create_task_use_case.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 
 class MockTaskRepository implements TaskRepository {
   final List<Task> _tasks = [];
@@ -24,8 +25,8 @@ class MockTaskRepository implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async => _tasks.add(task);
@@ -35,8 +36,8 @@ class MockTaskRepository implements TaskRepository {
       _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByItemId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -51,8 +52,8 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByItemId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<List<Milestone>> getAllMilestones() async => _milestones;
@@ -67,8 +68,8 @@ class MockMilestoneRepository implements MilestoneRepository {
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -98,8 +99,8 @@ void main() {
           itemId: ItemId('milestone-1'),
           title: ItemTitle('テストマイルストーン1'),
           description: ItemDescription(''),
-deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
+          goalId: ItemId('goal-1'),
         ),
       );
       mockMilestoneRepository.saveMilestone(
@@ -107,8 +108,8 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
           itemId: ItemId('milestone-123'),
           title: ItemTitle('テストマイルストーン123'),
           description: ItemDescription(''),
-deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
+          goalId: ItemId('goal-1'),
         ),
       );
     });
@@ -129,7 +130,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
         expect(task.description.value, 'RESTful APIの実装とテスト');
         expect(task.deadline.value.day, tomorrow.day);
         expect(task.status.isTodo, true);
-        expect(expect(task.milestoneId,.value, milestoneId);
+        expect(task.milestoneId.value, milestoneId);
       });
 
       test('ID は一意に生成されること', () async {
@@ -150,7 +151,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
           milestoneId: milestoneId,
         );
 
-        expect(task1.itemId$1 isNot(equals(task2.itemId$1));
+        expect(task1.itemId, isNot(equals(task2.itemId)));
       });
 
       test('作成時のステータスは常に Todo であること', () async {
@@ -330,7 +331,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
 
         final saved = await mockTaskRepository.getTaskById(task.itemId.value);
         expect(saved, isNotNull);
-        expect(saved!.itemId$1 task.itemId$1;
+        expect(saved!.itemId, task.itemId);
         expect(saved.title.value, task.title.value);
         expect(saved.description.value, task.description.value);
       });
@@ -342,7 +343,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
             title: 'タスク',
             description: '説明',
             deadline: DateTime(2026, 12, 31),
-            milestoneId: ItemId('\'),
+            milestoneId: 'nonexistent-milestone',
           ),
           throwsA(isA<ArgumentError>()),
         );
@@ -350,7 +351,3 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
     });
   });
 }
-
-
-
-

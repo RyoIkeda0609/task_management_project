@@ -5,11 +5,6 @@ import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
-import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/item/item_id.dart';
-import 'package:app/domain/value_objects/item/item_title.dart';
-import 'package:app/domain/value_objects/item/item_description.dart';
-import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 
 class MockMilestoneRepository implements MilestoneRepository {
@@ -66,14 +61,14 @@ void main() {
           title: ItemTitle('Q1計画'),
           description: ItemDescription(''),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
-          goalId: goalId,
+          goalId: ItemId(goalId),
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('Q2\u8a08\u753b'),
           description: ItemDescription(''),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
-          goalId: goalId,
+          goalId: ItemId(goalId),
         );
         await mockRepository.saveMilestone(ms1);
         await mockRepository.saveMilestone(ms2);
@@ -111,14 +106,14 @@ void main() {
           title: ItemTitle('Goal1-MS'),
           description: ItemDescription(''),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
-          goalId: goalId1,
+          goalId: ItemId(goalId1),
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('Goal2-MS'),
           description: ItemDescription(''),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
-          goalId: goalId2,
+          goalId: ItemId(goalId2),
         );
         await mockRepository.saveMilestone(ms1);
         await mockRepository.saveMilestone(ms2);
@@ -147,7 +142,7 @@ void main() {
               deadline: ItemDeadline(
                 DateTime.now().add(Duration(days: 30 * i)),
               ),
-              goalId: goalId,
+              goalId: ItemId(goalId),
             ),
           );
         }

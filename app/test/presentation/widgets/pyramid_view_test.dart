@@ -1,12 +1,5 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 import 'package:app/presentation/widgets/views/pyramid_view/pyramid_widgets.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +13,7 @@ void main() {
     ) async {
       final milestone = Milestone(
         id: MilestoneId('milestone-1'),
-        goalId: 'goal-1',
+        goalId: ItemId('goal-1'),
         title: MilestoneTitle('Phase 1'),
         deadline: MilestoneDeadline(DateTime(2026, 3, 1)),
       );
@@ -33,7 +26,7 @@ void main() {
             home: Scaffold(
               body: PyramidMilestoneNode(
                 milestone: milestone,
-                goalId: 'goal-1',
+                goalId: ItemId('goal-1'),
                 milestoneTasks: emptyTasksAsync,
               ),
             ),
@@ -51,7 +44,7 @@ void main() {
     testWidgets('displays tasks when provided', (WidgetTester tester) async {
       final milestone = Milestone(
         id: MilestoneId('milestone-2'),
-        goalId: 'goal-1',
+        goalId: ItemId('goal-1'),
         title: MilestoneTitle('Phase 2'),
         deadline: MilestoneDeadline(DateTime(2026, 4, 1)),
       );
@@ -83,7 +76,7 @@ void main() {
             home: Scaffold(
               body: PyramidMilestoneNode(
                 milestone: milestone,
-                goalId: 'goal-1',
+                goalId: ItemId('goal-1'),
                 milestoneTasks: tasksAsync,
               ),
             ),
@@ -103,7 +96,7 @@ void main() {
     ) async {
       final milestone = Milestone(
         id: MilestoneId('milestone-3'),
-        goalId: 'goal-1',
+        goalId: ItemId('goal-1'),
         title: MilestoneTitle('Phase 3'),
         deadline: MilestoneDeadline(DateTime(2026, 5, 1)),
       );
@@ -116,7 +109,7 @@ void main() {
             home: Scaffold(
               body: PyramidMilestoneNode(
                 milestone: milestone,
-                goalId: 'goal-1',
+                goalId: ItemId('goal-1'),
                 milestoneTasks: emptyTasksAsync,
               ),
             ),

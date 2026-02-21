@@ -125,9 +125,9 @@ void main() {
         );
       });
 
-      test('無効な説明（101文字以上）でエラーが発生すること', () async {
+      test('無効な説明（501文字以上）でエラーが発生すること', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
-        final invalidDescription = 'a' * 101;
+        final invalidDescription = 'a' * 501;
 
         expect(
           () => useCase.call(
@@ -182,7 +182,7 @@ void main() {
         );
       });
 
-      test('空白のみの説明でエラーが発生すること', () async {
+      test('空白のみの説明でもゴールが作成できること（ItemDescriptionは空白を許可）', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
 
         expect(
@@ -192,7 +192,7 @@ void main() {
             description: '   ',
             deadline: tomorrow,
           ),
-          throwsArgumentError,
+          returnsNormally,
         );
       });
 
@@ -305,4 +305,3 @@ void main() {
     });
   });
 }
-

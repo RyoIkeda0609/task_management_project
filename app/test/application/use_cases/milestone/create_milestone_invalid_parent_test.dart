@@ -8,16 +8,7 @@ import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/item/item_id.dart';
-import 'package:app/domain/value_objects/item/item_title.dart';
-import 'package:app/domain/value_objects/item/item_description.dart';
-import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
-
-
-
-
-
 
 /// MockGoalRepository - ゴールを管理
 class MockGoalRepository implements GoalRepository {
@@ -72,8 +63,8 @@ class MockMilestoneRepository implements MilestoneRepository {
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async =>
@@ -84,8 +75,8 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByItemId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -121,7 +112,7 @@ void main() {
       final milestone = await useCase.call(
         title: 'テストマイルストーン',
         deadline: DateTime(2026, 12, 31),
-        goalId: ItemId('\'),
+        goalId: 'goal-1',
       );
 
       expect(milestone.title.value, 'テストマイルストーン');
@@ -144,7 +135,7 @@ void main() {
         () async => await useCase.call(
           title: 'マイルストーン',
           deadline: DateTime(2020, 1, 1),
-          goalId: ItemId('\'),
+          goalId: 'goal-1',
         ),
         returnsNormally,
       );
@@ -158,15 +149,10 @@ void main() {
         () async => await useCase.call(
           title: 'マイルストーン',
           deadline: DateTime(2026, 12, 31),
-          goalId: ItemId('\'),
+          goalId: 'nonexistent-goal',
         ),
         throwsA(isA<ArgumentError>()),
       );
     });
   });
 }
-
-
-
-
-

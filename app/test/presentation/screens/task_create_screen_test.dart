@@ -7,9 +7,6 @@ import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 
 class FakeTaskRepository implements TaskRepository {
   @override
@@ -46,7 +43,7 @@ class FakeMilestoneRepository implements MilestoneRepository {
     if (id == 'milestone-123') {
       return Milestone(
         id: MilestoneId('milestone-123'),
-        goalId: 'goal-123',
+        goalId: ItemId('goal-123'),
         title: MilestoneTitle('Test Milestone'),
         deadline: MilestoneDeadline(DateTime.now().add(Duration(days: 7))),
       );
@@ -80,7 +77,7 @@ void main() {
           child: const MaterialApp(
             home: TaskCreatePage(
               milestoneId: 'test-milestone-id',
-              goalId: 'test-goal-id',
+              goalId: ItemId('test-goal-id'),
             ),
           ),
         ),
@@ -106,7 +103,7 @@ void main() {
           child: const MaterialApp(
             home: TaskCreatePage(
               milestoneId: 'test-milestone-id',
-              goalId: 'test-goal-id',
+              goalId: ItemId('test-goal-id'),
             ),
           ),
         ),
@@ -134,7 +131,7 @@ void main() {
           child: const MaterialApp(
             home: TaskCreatePage(
               milestoneId: 'test-milestone-id',
-              goalId: 'test-goal-id',
+              goalId: ItemId('test-goal-id'),
             ),
           ),
         ),

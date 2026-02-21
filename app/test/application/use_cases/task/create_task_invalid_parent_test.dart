@@ -4,9 +4,6 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
 import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
@@ -29,8 +26,8 @@ class MockTaskRepository implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async => _tasks.add(task);
@@ -40,8 +37,8 @@ class MockTaskRepository implements TaskRepository {
       _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByItemId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -56,8 +53,8 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByItemId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<List<Milestone>> getAllMilestones() async => _milestones;
@@ -72,8 +69,8 @@ class MockMilestoneRepository implements MilestoneRepository {
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -103,8 +100,8 @@ void main() {
           itemId: ItemId('milestone-1'),
           title: ItemTitle('テストマイルストーン'),
           description: ItemDescription(''),
-deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
+          goalId: ItemId('goal-1'),
         ),
       );
     });
@@ -114,12 +111,12 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
         title: 'テストタスク',
         description: 'テストタスクの説明',
         deadline: DateTime(2026, 12, 31),
-        milestoneId: ItemId('\'),
+        milestoneId: 'milestone-1',
       );
 
       expect(task.title.value, 'テストタスク');
       expect(task.description.value, 'テストタスクの説明');
-      expect(expect(task.milestoneId,.value, 'milestone-1');
+      expect(task.milestoneId.value, 'milestone-1');
       expect(task.status.value, TaskStatus.statusTodo);
     });
 
@@ -141,7 +138,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
           title: 'タスク',
           description: 'タスクの説明',
           deadline: DateTime(2020, 1, 1),
-          milestoneId: ItemId('\'),
+          milestoneId: 'milestone-1',
         ),
         returnsNormally,
       );
@@ -152,7 +149,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
         title: '新規タスク',
         description: '新規タスクの説明',
         deadline: DateTime(2026, 12, 31),
-        milestoneId: ItemId('\'),
+        milestoneId: 'milestone-1',
       );
 
       expect(task.status.value, TaskStatus.statusTodo);
@@ -165,7 +162,7 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
           title: 'タスク',
           description: longDescription,
           deadline: DateTime(2026, 12, 31),
-          milestoneId: ItemId('\'),
+          milestoneId: 'milestone-1',
         ),
         throwsA(isA<ArgumentError>()),
       );
@@ -180,14 +177,10 @@ deadline: ItemDeadline(DateTime(2026, 12, 31)),
           title: 'タスク',
           description: '説明',
           deadline: DateTime(2026, 12, 31),
-          milestoneId: ItemId('\'),
+          milestoneId: 'nonexistent-milestone',
         ),
         throwsA(isA<ArgumentError>()),
       );
     });
   });
 }
-
-
-
-

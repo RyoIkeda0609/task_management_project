@@ -2,9 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/task/change_task_status_use_case.dart';
 import 'package:app/domain/entities/task.dart';
 
-
-
-
 import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
@@ -25,8 +22,8 @@ class MockTaskRepository implements TaskRepository {
   );
 
   @override
-  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
-      _tasks.where((t) => t.itemId.value.startsWith(milestoneId)).toList();
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async {
@@ -39,8 +36,8 @@ class MockTaskRepository implements TaskRepository {
       _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByItemId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.itemId.value.startsWith(milestoneId));
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -64,7 +61,7 @@ void main() {
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
         status: TaskStatus.todo(),
-        milestoneId: ItemId('\'),
+        milestoneId: ItemId('milestone-1'),
       );
 
       await repository.saveTask(task);
@@ -82,7 +79,7 @@ void main() {
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
         status: TaskStatus.doing(),
-        milestoneId: ItemId('\'),
+        milestoneId: ItemId('milestone-1'),
       );
 
       await repository.saveTask(task);
@@ -100,7 +97,7 @@ void main() {
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
         status: TaskStatus.done(),
-        milestoneId: ItemId('\'),
+        milestoneId: ItemId('milestone-1'),
       );
 
       await repository.saveTask(task);
@@ -111,7 +108,3 @@ void main() {
     });
   });
 }
-
-
-
-

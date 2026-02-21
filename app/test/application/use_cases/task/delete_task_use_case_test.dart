@@ -3,9 +3,6 @@ import 'package:app/application/use_cases/task/delete_task_use_case.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 
-
-
-
 import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
@@ -28,8 +25,8 @@ class MockTaskRepository implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async {
@@ -42,8 +39,8 @@ class MockTaskRepository implements TaskRepository {
       _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByItemId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -68,7 +65,7 @@ void main() {
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
 
@@ -88,7 +85,7 @@ void main() {
           description: ItemDescription('説明1'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
           itemId: ItemId.generate(),
@@ -96,7 +93,7 @@ void main() {
           description: ItemDescription('説明2'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
           status: TaskStatus.doing(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         final task3 = Task(
           itemId: ItemId.generate(),
@@ -104,7 +101,7 @@ void main() {
           description: ItemDescription('説明3'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 21))),
           status: TaskStatus.done(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task1);
         await mockRepository.saveTask(task2);
@@ -127,7 +124,7 @@ void main() {
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
 
@@ -146,7 +143,7 @@ void main() {
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.doing(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
 
@@ -165,7 +162,7 @@ void main() {
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.done(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
 
@@ -184,7 +181,7 @@ void main() {
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
           itemId: ItemId.generate(),
@@ -192,7 +189,7 @@ void main() {
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task1);
         await mockRepository.saveTask(task2);
@@ -222,7 +219,3 @@ void main() {
     });
   });
 }
-
-
-
-

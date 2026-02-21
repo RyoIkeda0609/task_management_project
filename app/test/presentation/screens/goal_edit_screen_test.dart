@@ -1,9 +1,5 @@
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/presentation/screens/goal/goal_edit/goal_edit_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +48,7 @@ void main() {
             home: Scaffold(
               body: GoalEditFormWidget(
                 onSubmit: () {},
-                goalId: 'test-goal-1',
+                goalId: ItemId('test-goal-1'),
                 goalTitle: goal.title.value,
                 goalReason: goal.reason.value,
                 goalCategory: goal.category.value,
@@ -77,7 +73,7 @@ void main() {
             home: Scaffold(
               body: GoalEditFormWidget(
                 onSubmit: () {},
-                goalId: 'test-goal-2',
+                goalId: ItemId('test-goal-2'),
                 goalTitle: 'Test',
                 goalReason: 'Reason',
                 goalCategory: 'カテゴリー',
@@ -104,7 +100,7 @@ void main() {
             home: Scaffold(
               body: GoalEditFormWidget(
                 onSubmit: () {},
-                goalId: 'test-goal-3',
+                goalId: ItemId('test-goal-3'),
                 goalTitle: 'Test Goal',
                 goalReason: 'Test Reason',
                 goalCategory: '学習',

@@ -4,17 +4,11 @@ import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/entities/milestone.dart';
 
-
-
-
 import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -32,8 +26,8 @@ class MockMilestoneRepository implements MilestoneRepository {
   Future<List<Milestone>> getAllMilestones() async => _milestones;
 
   @override
-  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async {
@@ -46,8 +40,8 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByItemId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -69,8 +63,8 @@ class MockTaskRepository implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async {
@@ -83,8 +77,8 @@ class MockTaskRepository implements TaskRepository {
       _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByItemId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -109,8 +103,8 @@ void main() {
           itemId: ItemId('milestone-1'),
           title: ItemTitle('Goal1のマイルストーン'),
           description: ItemDescription(''),
-deadline: ItemDeadline(tomorrow),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-1'),
         );
 
         // Goal2 配下の Milestone2
@@ -118,8 +112,8 @@ deadline: ItemDeadline(tomorrow),
           itemId: ItemId('milestone-2'),
           title: ItemTitle('Goal2のマイルストーン'),
           description: ItemDescription(''),
-deadline: ItemDeadline(tomorrow),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-2'),
         );
 
         await milestoneRepository.saveMilestone(milestone1);
@@ -131,7 +125,7 @@ deadline: ItemDeadline(tomorrow),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await taskRepository.saveTask(task);
 
@@ -144,12 +138,15 @@ deadline: ItemDeadline(tomorrow),
         );
 
         // Assert - 親 Goal が異なる場合、操作は無効でなければならない
-        expect(expect(parentMilestone1!.goalId,.value, 'goal-1');
-        expect(expect(parentMilestone2!.goalId,.value, 'goal-2');
-        expect(expect(parentMilestone1.goalId,.value, isNot(equals(parentMilestone2.goalId)));
+        expect(parentMilestone1!.goalId.value, 'goal-1');
+        expect(parentMilestone2!.goalId.value, 'goal-2');
+        expect(
+          parentMilestone1.goalId.value,
+          isNot(equals(parentMilestone2.goalId)),
+        );
 
         // Task が milestone-1 に属していることを確認
-        final tasksInMs1 = await taskRepository.getTasksByItemId(
+        final tasksInMs1 = await taskRepository.getTasksByMilestoneId(
           'milestone-1',
         );
         expect(
@@ -162,7 +159,7 @@ deadline: ItemDeadline(tomorrow),
         // ここではドメインの不変条件が保証されていることを確認
         final taskInMs1 = await taskRepository.getTaskById('task-1');
         expect(
-          taskInMs1!.milestoneId,
+          taskInMs1!.milestoneId.value,
           'milestone-1', // まだ元の milestone-1 に属している
         );
       });
@@ -176,7 +173,7 @@ deadline: ItemDeadline(tomorrow),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('nonexistent-milestone'),
         );
 
         // Assert - マイルストーン存在チェック
@@ -187,7 +184,7 @@ deadline: ItemDeadline(tomorrow),
 
         // タスクはドメインレイヤーでは作成できるが、
         // リポジトリ保存時にアプリケーション層で検証されるべき
-        expect(expect(task.milestoneId,.value, 'nonexistent-milestone');
+        expect(task.milestoneId.value, 'nonexistent-milestone');
       });
 
       test('should_reject_task_creation_with_empty_parent_milestone_id - '
@@ -200,7 +197,7 @@ deadline: ItemDeadline(tomorrow),
             description: ItemDescription('説明'),
             deadline: ItemDeadline(tomorrow),
             status: TaskStatus.todo(),
-            milestoneId: '',
+            milestoneId: ItemId(''),
           ),
           returnsNormally, // ドメインレイヤーでは作成できるがアプリケーション層で検証
         );
@@ -215,8 +212,8 @@ deadline: ItemDeadline(tomorrow),
           itemId: ItemId('milestone-1'),
           title: ItemTitle('マイルストーン'),
           description: ItemDescription(''),
-deadline: ItemDeadline(tomorrow),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-1'),
         );
         await milestoneRepository.saveMilestone(milestone);
 
@@ -226,27 +223,27 @@ deadline: ItemDeadline(tomorrow),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
         await taskRepository.saveTask(task);
 
         // Act & Assert - 親子関係の確認
         final retrievedTask = await taskRepository.getTaskById('task-1');
         final parentMilestone = await milestoneRepository.getMilestoneById(
-          retrievedTask!.milestoneId,
+          retrievedTask!.milestoneId.value,
         );
 
-        expect(expect(retrievedTask.milestoneId,.value, 'milestone-1');
-        expect(expect(parentMilestone!.goalId,.value, 'goal-1');
+        expect(retrievedTask.milestoneId.value, 'milestone-1');
+        expect(parentMilestone!.goalId.value, 'goal-1');
 
         // Task → Milestone → Goal の参照チェーンが保証されている
         expect(
-          retrievedTask.milestoneId == parentMilestone.itemId.value,
+          retrievedTask.milestoneId == parentMilestone.itemId,
           true,
           reason: 'Task は正しい Milestone を参照している',
         );
         expect(
-          parentMilestone.goalId == 'goal-1',
+          parentMilestone.goalId.value == 'goal-1',
           true,
           reason: 'Milestone は正しい Goal を参照している',
         );
@@ -259,8 +256,8 @@ deadline: ItemDeadline(tomorrow),
           itemId: ItemId('milestone-1'),
           title: ItemTitle('マイルストーン'),
           description: ItemDescription(''),
-deadline: ItemDeadline(tomorrow),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('goal-1'),
         );
         await milestoneRepository.saveMilestone(milestone);
 
@@ -270,7 +267,7 @@ deadline: ItemDeadline(tomorrow),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.todo(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
 
         final task2 = Task(
@@ -279,21 +276,21 @@ deadline: ItemDeadline(tomorrow),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
           status: TaskStatus.doing(),
-          milestoneId: ItemId('\'),
+          milestoneId: ItemId('milestone-1'),
         );
 
         await taskRepository.saveTask(task1);
         await taskRepository.saveTask(task2);
 
         // Act
-        final tasksInMs = await taskRepository.getTasksByItemId(
+        final tasksInMs = await taskRepository.getTasksByMilestoneId(
           'milestone-1',
         );
 
         // Assert - すべてのタスクが同じ milestone に属している
         expect(tasksInMs.length, 2);
         expect(
-          tasksInMs.every((t) => t.milestoneId == 'milestone-1'),
+          tasksInMs.every((t) => t.milestoneId.value == 'milestone-1'),
           true,
           reason: '確認：すべてのタスクが同じマイルストーンに属している',
         );
@@ -301,7 +298,3 @@ deadline: ItemDeadline(tomorrow),
     });
   });
 }
-
-
-
-

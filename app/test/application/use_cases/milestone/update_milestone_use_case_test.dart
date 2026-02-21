@@ -6,16 +6,8 @@ import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
-import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/item/item_id.dart';
-import 'package:app/domain/value_objects/item/item_title.dart';
-import 'package:app/domain/value_objects/item/item_description.dart';
-import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/services/milestone_completion_service.dart';
-
-
-
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -89,10 +81,8 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('元のタイトル'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(original);
 
@@ -117,10 +107,8 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('元のタイトル'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(original);
 
@@ -141,10 +129,8 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('タイトル'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(original);
 
@@ -168,19 +154,15 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('MS1'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('MS2'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(ms1);
         await mockRepository.saveMilestone(ms2);
@@ -193,7 +175,9 @@ void main() {
         );
 
         // Assert
-        final unchanged = await mockRepository.getMilestoneById(ms2.itemId.value);
+        final unchanged = await mockRepository.getMilestoneById(
+          ms2.itemId.value,
+        );
         expect(unchanged?.title.value, 'MS2');
       });
     });
@@ -205,10 +189,8 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('タイトル'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(milestone);
 
@@ -229,10 +211,8 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('タイトル'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(milestone);
 
@@ -253,10 +233,8 @@ void main() {
           itemId: ItemId.generate(),
           title: ItemTitle('タイトル'),
           description: ItemDescription(''),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: ItemId('\'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('milestone-1'),
         );
         await mockRepository.saveMilestone(milestone);
 
@@ -301,8 +279,3 @@ void main() {
     });
   });
 }
-
-
-
-
-

@@ -184,8 +184,14 @@ void main() {
         await useCase(goal1.itemId.value);
 
         // Assert
-        expect(await mockGoalRepository.getGoalById(goal1.itemId.value), isNull);
-        expect(await mockGoalRepository.getGoalById(goal2.itemId.value), isNotNull);
+        expect(
+          await mockGoalRepository.getGoalById(goal1.itemId.value),
+          isNull,
+        );
+        expect(
+          await mockGoalRepository.getGoalById(goal2.itemId.value),
+          isNotNull,
+        );
         expect(await mockGoalRepository.getGoalCount(), 1);
       });
     });
@@ -204,16 +210,16 @@ void main() {
 
         final ms1 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('MS1'), description: ItemDescription(''''), deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 100)),
-          ),
+          title: ItemTitle('MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 100))),
           goalId: ItemId(goal.itemId.value),
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('MS2'), description: ItemDescription(''''), deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 200)),
-          ),
+          title: ItemTitle('MS2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 200))),
           goalId: ItemId(goal.itemId.value),
         );
         await mockMilestoneRepository.saveMilestone(ms1);
@@ -224,7 +230,9 @@ void main() {
 
         // Assert
         expect(
-          await mockMilestoneRepository.getMilestonesByGoalId(goal.itemId.value),
+          await mockMilestoneRepository.getMilestonesByGoalId(
+            goal.itemId.value,
+          ),
           isEmpty,
         );
         expect(await mockMilestoneRepository.getMilestoneCount(), 0);
@@ -244,9 +252,9 @@ void main() {
         // MS1 -> Task1, Task2
         final ms1 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('MS1'), description: ItemDescription(''''), deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 100)),
-          ),
+          title: ItemTitle('MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 100))),
           goalId: ItemId(goal.itemId.value),
         );
         await mockMilestoneRepository.saveMilestone(ms1);
@@ -273,9 +281,9 @@ void main() {
         // MS2 -> Task3
         final ms2 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('MS2'), description: ItemDescription(''''), deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 200)),
-          ),
+          title: ItemTitle('MS2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 200))),
           goalId: ItemId(goal.itemId.value),
         );
         await mockMilestoneRepository.saveMilestone(ms2);
@@ -320,9 +328,9 @@ void main() {
         for (int i = 1; i <= 3; i++) {
           final ms = Milestone(
             itemId: ItemId.generate(),
-            title: ItemTitle('MS$i'), description: ItemDescription(''''), deadline: ItemDeadline(
-              DateTime.now().add(Duration(days: 100 * i)),
-            ),
+            title: ItemTitle('MS$i'),
+            description: ItemDescription(''),
+            deadline: ItemDeadline(DateTime.now().add(Duration(days: 100 * i))),
             goalId: ItemId(goal.itemId.value),
           );
           await mockMilestoneRepository.saveMilestone(ms);
@@ -336,7 +344,7 @@ void main() {
                 DateTime.now().add(Duration(days: 50 * i)),
               ),
               status: TaskStatus.todo(),
-              milestoneId: ms.id.value,
+              milestoneId: ms.itemId,
             );
             await mockTaskRepository.saveTask(task);
           }
@@ -374,16 +382,16 @@ void main() {
 
         final ms1 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('Goal1MS'), description: ItemDescription(''''), deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 100)),
-          ),
+          title: ItemTitle('Goal1MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 100))),
           goalId: ItemId(goal1.itemId.value),
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('Goal2MS'), description: ItemDescription(''''), deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 100)),
-          ),
+          title: ItemTitle('Goal2MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 100))),
           goalId: ItemId(goal2.itemId.value),
         );
         await mockMilestoneRepository.saveMilestone(ms1);
@@ -412,12 +420,18 @@ void main() {
         await useCase(goal1.itemId.value);
 
         // Assert
-        expect(await mockGoalRepository.getGoalById(goal2.itemId.value), isNotNull);
+        expect(
+          await mockGoalRepository.getGoalById(goal2.itemId.value),
+          isNotNull,
+        );
         expect(
           await mockMilestoneRepository.getMilestoneById(ms2.itemId.value),
           isNotNull,
         );
-        expect(await mockTaskRepository.getTaskById(task2.itemId.value), isNotNull);
+        expect(
+          await mockTaskRepository.getTaskById(task2.itemId.value),
+          isNotNull,
+        );
         expect(await mockGoalRepository.getGoalCount(), 1);
         expect(await mockMilestoneRepository.getMilestoneCount(), 1);
         expect(await mockTaskRepository.getTaskCount(), 1);
@@ -439,14 +453,3 @@ void main() {
     });
   });
 }
-
-
-
-
-
-
-
-
-
-
-
