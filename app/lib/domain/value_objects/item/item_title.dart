@@ -1,12 +1,12 @@
-/// MilestoneTitle - マイルストーン名を表現する ValueObject
+/// ItemTitle - アイテム名を表現する ValueObject
 ///
 /// バリデーション：1～100文字、空白のみ不可
-class MilestoneTitle {
+/// Goal、Milestone、Task で共通利用される
+class ItemTitle {
   static const int maxLength = 100;
-  late String value;
+  final String value;
 
-  MilestoneTitle(String val) {
-    value = val;
+  ItemTitle(String val) : value = val {
     _validate();
   }
 
@@ -14,7 +14,7 @@ class MilestoneTitle {
     final trimmed = value.trim();
     if (trimmed.isEmpty || trimmed.length > maxLength) {
       throw ArgumentError(
-        'MilestoneTitle must be between 1 and $maxLength characters (trimmed), got: "${value.length}"',
+        'ItemTitle must be between 1 and $maxLength characters (trimmed), got: "${value.length}"',
       );
     }
   }
@@ -22,7 +22,7 @@ class MilestoneTitle {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MilestoneTitle &&
+      other is ItemTitle &&
           runtimeType == other.runtimeType &&
           value == other.value;
 
@@ -30,5 +30,5 @@ class MilestoneTitle {
   int get hashCode => value.hashCode;
 
   @override
-  String toString() => 'MilestoneTitle($value)';
+  String toString() => 'ItemTitle($value)';
 }

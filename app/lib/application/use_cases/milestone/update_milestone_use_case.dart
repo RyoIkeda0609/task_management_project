@@ -1,14 +1,16 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/services/milestone_completion_service.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// UpdateMilestoneUseCase - マイルストーンを更新する
 abstract class UpdateMilestoneUseCase {
   Future<Milestone> call({
     required String milestoneId,
     required String title,
+    required String description,
     required DateTime deadline,
   });
 }
@@ -27,6 +29,7 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
   Future<Milestone> call({
     required String milestoneId,
     required String title,
+    required String description,
     required DateTime deadline,
   }) async {
     // Load
@@ -43,14 +46,16 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
     }
 
     // Validate
-    final milestoneTitle = MilestoneTitle(title);
-    final milestoneDeadline = MilestoneDeadline(deadline);
+    final itemTitle = ItemTitle(title);
+    final itemDescription = ItemDescription(description);
+    final itemDeadline = ItemDeadline(deadline);
 
     // Execute
     final updatedMilestone = Milestone(
-      id: existingMilestone.id,
-      title: milestoneTitle,
-      deadline: milestoneDeadline,
+      itemId: existingMilestone.itemId,
+      title: itemTitle,
+      description: itemDescription,
+      deadline: itemDeadline,
       goalId: existingMilestone.goalId,
     );
 

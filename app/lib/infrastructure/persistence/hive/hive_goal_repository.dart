@@ -18,7 +18,7 @@ class HiveGoalRepository extends HiveRepositoryBase<Goal>
   Map<String, dynamic> toJson(Goal entity) => entity.toJson();
 
   @override
-  String getId(Goal entity) => entity.id.value;
+  String getId(Goal entity) => entity.itemId.value;
 
   @override
   Future<List<Goal>> getAllGoals() async => await getAll();

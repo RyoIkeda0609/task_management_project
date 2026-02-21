@@ -1,9 +1,9 @@
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/services/task_completion_service.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// UpdateTaskUseCase - タスクを更新する
 abstract class UpdateTaskUseCase {
@@ -40,23 +40,18 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
       throw ArgumentError('完了したタスクは更新できません');
     }
 
-    // Validate
-    final taskTitle = TaskTitle(title);
+    // Validate (ValueObjectのコンストラクタでバリデーション実行)
+    final itemTitle = ItemTitle(title);
+    final itemDescription = ItemDescription(description);
 
-    // Description: 任意フィールド、空文字許容、ただし500文字制限
-    if (description.trim().isNotEmpty && description.length > 500) {
-      throw ArgumentError('説明は500文字以下で入力してください');
-    }
-    final taskDescription = TaskDescription(description);
-
-    final taskDeadline = TaskDeadline(deadline);
+    final itemDeadline = ItemDeadline(deadline);
 
     // Execute
     final updatedTask = Task(
-      id: existingTask.id,
-      title: taskTitle,
-      description: taskDescription,
-      deadline: taskDeadline,
+      itemId: existingTask.itemId,
+      title: itemTitle,
+      description: itemDescription,
+      deadline: itemDeadline,
       status: existingTask.status,
       milestoneId: existingTask.milestoneId,
     );

@@ -12,7 +12,7 @@ class MockGoalRepository implements GoalRepository {
   @override
   Future<Goal?> getGoalById(String id) async {
     try {
-      return _goals.firstWhere((g) => g.id.value == id);
+      return _goals.firstWhere((g) => g.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -23,7 +23,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
+      _goals.removeWhere((g) => g.itemId.value == id);
 
   @override
   Future<void> deleteAllGoals() async => _goals.clear();
@@ -49,13 +49,13 @@ void main() {
         final goal = await useCase.call(
           title: 'フロントエンドスキル習得',
           category: 'スキル開発',
-          reason: 'キャリアアップのため',
+          description: 'キャリアアップのため',
           deadline: tomorrow,
         );
 
         expect(goal.title.value, 'フロントエンドスキル習得');
         expect(goal.category.value, 'スキル開発');
-        expect(goal.reason.value, 'キャリアアップのため');
+        expect(goal.description.value, 'キャリアアップのため');
         expect(goal.deadline.value.day, tomorrow.day);
       });
 
@@ -65,12 +65,12 @@ void main() {
         final goal = await useCase.call(
           title: 'テストゴール',
           category: 'テスト',
-          reason: 'テスト理由',
+          description: 'テスト理由',
           deadline: tomorrow,
         );
 
         // Repository に保存されたかを確認
-        final savedGoal = await mockRepository.getGoalById(goal.id.value);
+        final savedGoal = await mockRepository.getGoalById(goal.itemId.value);
         expect(savedGoal, isNotNull);
         expect(savedGoal!.title.value, 'テストゴール');
       });
@@ -81,18 +81,18 @@ void main() {
         final goal1 = await useCase.call(
           title: 'ゴール1',
           category: 'カテゴリ1',
-          reason: '理由1',
+          description: '理由1',
           deadline: tomorrow,
         );
 
         final goal2 = await useCase.call(
           title: 'ゴール2',
           category: 'カテゴリ2',
-          reason: '理由2',
+          description: '理由2',
           deadline: tomorrow,
         );
 
-        expect(goal1.id, isNot(equals(goal2.id)));
+        expect(goal1.itemId, isNot(equals(goal2.itemId)));
       });
 
       test('無効なタイトル（101文字以上）でエラーが発生すること', () async {
@@ -103,7 +103,7 @@ void main() {
           () => useCase.call(
             title: invalidTitle,
             category: 'カテゴリ',
-            reason: '理由',
+            description: '理由',
             deadline: tomorrow,
           ),
           throwsArgumentError,
@@ -118,22 +118,22 @@ void main() {
           () => useCase.call(
             title: 'タイトル',
             category: invalidCategory,
-            reason: '理由',
+            description: '理由',
             deadline: tomorrow,
           ),
           throwsArgumentError,
         );
       });
 
-      test('無効な理由（101文字以上）でエラーが発生すること', () async {
+      test('無効な説明（501文字以上）でエラーが発生すること', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
-        final invalidReason = 'a' * 101;
+        final invalidDescription = 'a' * 501;
 
         expect(
           () => useCase.call(
             title: 'タイトル',
             category: 'カテゴリ',
-            reason: invalidReason,
+            description: invalidDescription,
             deadline: tomorrow,
           ),
           throwsArgumentError,
@@ -147,7 +147,7 @@ void main() {
           () => useCase.call(
             title: 'タイトル',
             category: 'カテゴリ',
-            reason: '理由',
+            description: '理由',
             deadline: yesterday,
           ),
           returnsNormally,
@@ -161,7 +161,7 @@ void main() {
           () => useCase.call(
             title: '   ',
             category: 'カテゴリ',
-            reason: '理由',
+            description: '理由',
             deadline: tomorrow,
           ),
           throwsArgumentError,
@@ -175,24 +175,24 @@ void main() {
           () => useCase.call(
             title: 'タイトル',
             category: '   ',
-            reason: '理由',
+            description: '理由',
             deadline: tomorrow,
           ),
           throwsArgumentError,
         );
       });
 
-      test('空白のみの理由でエラーが発生すること', () async {
+      test('空白のみの説明でもゴールが作成できること（ItemDescriptionは空白を許可）', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
 
         expect(
           () => useCase.call(
             title: 'タイトル',
             category: 'カテゴリ',
-            reason: '   ',
+            description: '   ',
             deadline: tomorrow,
           ),
-          throwsArgumentError,
+          returnsNormally,
         );
       });
 
@@ -202,7 +202,7 @@ void main() {
         final goal = await useCase.call(
           title: 'a',
           category: 'カテゴリ',
-          reason: '理由',
+          description: '理由',
           deadline: tomorrow,
         );
 
@@ -216,7 +216,7 @@ void main() {
         final goal = await useCase.call(
           title: maxTitle,
           category: 'カテゴリ',
-          reason: '理由',
+          description: '理由',
           deadline: tomorrow,
         );
 
@@ -229,7 +229,7 @@ void main() {
         final goal = await useCase.call(
           title: 'タイトル',
           category: 'a',
-          reason: '理由',
+          description: '理由',
           deadline: tomorrow,
         );
 
@@ -243,38 +243,38 @@ void main() {
         final goal = await useCase.call(
           title: 'タイトル',
           category: maxCategory,
-          reason: '理由',
+          description: '理由',
           deadline: tomorrow,
         );
 
         expect(goal.category.value, maxCategory);
       });
 
-      test('1文字の理由でゴールが作成できること', () async {
+      test('1文字の説明でゴールが作成できること', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
 
         final goal = await useCase.call(
           title: 'タイトル',
           category: 'カテゴリ',
-          reason: 'a',
+          description: 'a',
           deadline: tomorrow,
         );
 
-        expect(goal.reason.value, 'a');
+        expect(goal.description.value, 'a');
       });
 
-      test('100文字の理由でゴールが作成できること', () async {
+      test('100文字の説明でゴールが作成できること', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
-        final maxReason = 'a' * 100;
+        final maxDescription = 'a' * 100;
 
         final goal = await useCase.call(
           title: 'タイトル',
           category: 'カテゴリ',
-          reason: maxReason,
+          description: maxDescription,
           deadline: tomorrow,
         );
 
-        expect(goal.reason.value, maxReason);
+        expect(goal.description.value, maxDescription);
       });
 
       test('明日の期限でゴールが作成できること', () async {
@@ -283,7 +283,7 @@ void main() {
         final goal = await useCase.call(
           title: 'タイトル',
           category: 'カテゴリ',
-          reason: '理由',
+          description: '理由',
           deadline: tomorrow,
         );
 
@@ -296,7 +296,7 @@ void main() {
         final goal = await useCase.call(
           title: 'タイトル',
           category: 'カテゴリ',
-          reason: '理由',
+          description: '理由',
           deadline: nextYear,
         );
 

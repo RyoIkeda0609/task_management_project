@@ -7,9 +7,10 @@ import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 class FakeTaskRepository implements TaskRepository {
   @override
@@ -45,10 +46,11 @@ class FakeMilestoneRepository implements MilestoneRepository {
   Future<Milestone?> getMilestoneById(String id) async {
     if (id == 'milestone-123') {
       return Milestone(
-        id: MilestoneId('milestone-123'),
-        goalId: 'goal-123',
-        title: MilestoneTitle('Test Milestone'),
-        deadline: MilestoneDeadline(DateTime.now().add(Duration(days: 7))),
+        itemId: ItemId('milestone-123'),
+        goalId: ItemId('test-goal-id'),
+        title: ItemTitle('Test Milestone'),
+        description: ItemDescription(''),
+        deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
       );
     }
     return null;

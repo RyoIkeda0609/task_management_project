@@ -52,7 +52,7 @@ class GoalCreatePage extends ConsumerWidget {
       await createGoalUseCase(
         title: state.title,
         category: state.selectedCategory,
-        reason: state.reason,
+        description: state.description,
         deadline: state.deadline,
       );
 

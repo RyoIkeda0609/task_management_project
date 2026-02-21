@@ -29,7 +29,7 @@ class SearchGoalsUseCaseImpl implements SearchGoalsUseCase {
     final searchResults = allGoals.where((goal) {
       return goal.title.value.toLowerCase().contains(lowerKeyword) ||
           goal.category.value.toLowerCase().contains(lowerKeyword) ||
-          goal.reason.value.toLowerCase().contains(lowerKeyword);
+          goal.description.value.toLowerCase().contains(lowerKeyword);
     }).toList();
 
     return searchResults;

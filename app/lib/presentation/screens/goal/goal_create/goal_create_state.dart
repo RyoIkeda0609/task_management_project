@@ -1,35 +1,33 @@
+import 'package:app/domain/value_objects/goal/goal_category.dart';
+
 class GoalCreatePageState {
   final String title;
-  final String reason;
+  final String description;
   final DateTime deadline;
   final String selectedCategory;
   final bool isLoading;
-  final List<String> categories;
 
   const GoalCreatePageState({
     this.title = '',
-    this.reason = '',
+    this.description = '',
     required this.deadline,
-    this.selectedCategory = '健康',
+    this.selectedCategory = kDefaultGoalCategory,
     this.isLoading = false,
-    this.categories = const ['健康', '仕事', '学習', '趣味'],
   });
 
   GoalCreatePageState copyWith({
     String? title,
-    String? reason,
+    String? description,
     DateTime? deadline,
     String? selectedCategory,
     bool? isLoading,
-    List<String>? categories,
   }) {
     return GoalCreatePageState(
       title: title ?? this.title,
-      reason: reason ?? this.reason,
+      description: description ?? this.description,
       deadline: deadline ?? this.deadline,
       selectedCategory: selectedCategory ?? this.selectedCategory,
       isLoading: isLoading ?? this.isLoading,
-      categories: categories ?? this.categories,
     );
   }
 }

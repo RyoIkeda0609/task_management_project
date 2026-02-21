@@ -60,16 +60,20 @@ class MilestoneEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化 - ID が変わった場合のみ
-    final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
+    // ref.listen を使って初期化（ref.read の代わりに）
     final state = ref.watch(milestoneEditViewModelProvider);
+    final viewModelNotifier = ref.read(milestoneEditViewModelProvider.notifier);
 
+    // 初回のみ初期化（milestoneId が変わる場合）
     if (state.milestoneId != milestoneId) {
-      viewModel.initializeWithMilestone(
-        milestoneId: milestoneId,
-        title: milestone.title.value,
-        deadline: milestone.deadline.value,
-      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        viewModelNotifier.initializeWithMilestone(
+          milestoneId: milestoneId,
+          title: milestone.title.value,
+          description: milestone.description.value,
+          deadline: milestone.deadline.value,
+        );
+      });
     }
 
     return Scaffold(
@@ -79,15 +83,20 @@ class MilestoneEditPage extends ConsumerWidget {
         onLeadingPressed: () => context.pop(),
       ),
       body: MilestoneEditFormWidget(
-        onSubmit: () => _submitForm(context, ref),
+        onSubmit: () => _submitForm(context, ref, milestone),
         milestoneId: milestoneId,
         milestoneTitle: milestone.title.value,
+        milestoneDescription: milestone.description.value,
         milestoneDeadline: milestone.deadline.value,
       ),
     );
   }
 
-  Future<void> _submitForm(BuildContext context, WidgetRef ref) async {
+  Future<void> _submitForm(
+    BuildContext context,
+    WidgetRef ref,
+    Milestone milestone,
+  ) async {
     final state = ref.read(milestoneEditViewModelProvider);
     final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
 
@@ -107,19 +116,11 @@ class MilestoneEditPage extends ConsumerWidget {
     try {
       final updateMilestoneUseCase = ref.read(updateMilestoneUseCaseProvider);
 
-      // 現在のマイルストーンデータを取得して goalId を保持
-      final currentMilestone = await ref.read(
-        milestoneDetailProvider(milestoneId).future,
-      );
-
-      if (currentMilestone == null) {
-        throw Exception('マイルストーンが見つかりません');
-      }
-
       // UseCase 経由で更新
       await updateMilestoneUseCase(
         milestoneId: milestoneId,
         title: state.title,
+        description: state.description,
         deadline: state.deadline,
       );
 
@@ -127,7 +128,7 @@ class MilestoneEditPage extends ConsumerWidget {
       if (context.mounted) {
         // ignore: unused_result
         ref.refresh(milestoneDetailProvider(milestoneId));
-        ref.invalidate(milestonesByGoalProvider(currentMilestone.goalId));
+        ref.invalidate(milestonesByGoalProvider(milestone.goalId.value));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
       }

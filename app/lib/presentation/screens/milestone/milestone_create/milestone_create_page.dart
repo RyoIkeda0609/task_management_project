@@ -56,6 +56,7 @@ class MilestoneCreatePage extends ConsumerWidget {
 
       await createMilestoneUseCase(
         title: state.title,
+        description: state.description,
         deadline: state.deadline,
         goalId: goalId,
       );

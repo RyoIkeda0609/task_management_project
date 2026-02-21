@@ -53,7 +53,8 @@ class TaskCreatePage extends ConsumerWidget {
     );
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
-    final dateError = ValidationHelper.validateDateNotInPast(
+    // 仕様：期限は明日以降のみ許可
+    final dateError = ValidationHelper.validateDateAfterToday(
       state.deadline,
       fieldName: '期限',
     );

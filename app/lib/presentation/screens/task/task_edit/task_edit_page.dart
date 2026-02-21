@@ -60,12 +60,13 @@ class TaskEditPage extends ConsumerWidget {
       );
     }
 
-    // ViewModelを初期化 - ID が変わった場合のみ
-    final viewModel = ref.read(taskEditViewModelProvider.notifier);
+    // ref.listen を使って初期化（ref.read の代わりに）
     final state = ref.watch(taskEditViewModelProvider);
+    final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
+    // 初回のみ初期化（taskId が変わる場合）
     if (state.taskId != taskId) {
-      Future.microtask(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.initializeWithTask(
           taskId: taskId,
           title: task.title.value,
@@ -100,19 +101,14 @@ class TaskEditPage extends ConsumerWidget {
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
-    final dateErrors = [
-      ValidationHelper.validateDateNotInPast(state.deadline, fieldName: '期限'),
-    ];
+    // 仕様：期限は明日以降のみ許可
+    final dateError = ValidationHelper.validateDateAfterToday(
+      state.deadline,
+      fieldName: '期限',
+    );
 
-    if (dateErrors.any((error) => error != null)) {
-      await DialogHelper.showValidationErrorDialog(
-        context,
-        message: dateErrors.firstWhere((error) => error != null)!,
-      );
-      return;
-    }
-
-    if (!ValidationHelper.validateAll(context, dateErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 
@@ -131,7 +127,7 @@ class TaskEditPage extends ConsumerWidget {
       // キャッシュを無効化
       if (context.mounted) {
         ref.invalidate(taskDetailProvider(taskId));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

@@ -4,8 +4,7 @@ import 'package:app/domain/value_objects/task/task_status.dart';
 void main() {
   group('TaskStatus - 状態遷移の厳密性テスト', () {
     group('循環遷移の順序', () {
-      test('should_enforce_todo_doing_done_sequence - '
-          'Task の状態遷移は必ず Todo → Doing → Done → Todo の循環である', () {
+      test('Taskの状態遷移はTodo → Doing → Done → Todoの循環であること', () {
         // Arrange
         final status = TaskStatus.todo();
 
@@ -26,8 +25,7 @@ void main() {
         expect(doingAgain.isDoing, true, reason: '4回目の遷移: Doing（再度）');
       });
 
-      test('should_prevent_skipping_states - '
-          '状態遷移でステップをスキップできない。複数回の遷移が必要', () {
+      test('状態遷移でステップをスキップできないこと（複数回の遷移が必要）', () {
         // Arrange
         final todoStatus = TaskStatus.todo();
 
@@ -47,8 +45,7 @@ void main() {
         expect(todoStatus.isDone, false, reason: 'Todo からは直接Done にはなれない');
       });
 
-      test('should_not_allow_reverse_transition - '
-          'Done から Todo への直接遷移は不可能。Done → Todo は循環のみ', () {
+      test('DoneからTodoへの直接遷移は不可能でありDone→Todoは循環のみであること', () {
         // Arrange
         final doneStatus = TaskStatus.done();
 
@@ -65,8 +62,7 @@ void main() {
     });
 
     group('各状態の不変性', () {
-      test('should_preserve_state_identity_across_comparisons - '
-          '同じ状態は常に等しい', () {
+      test('同じ状態は常に等しいこと', () {
         // Arrange
         final status1 = TaskStatus.todo();
         final status2 = TaskStatus.todo();
@@ -78,8 +74,7 @@ void main() {
         expect(status1.hashCode, status2.hashCode, reason: '等しい状態は同じハッシュコード');
       });
 
-      test('should_maintain_state_through_multiple_operations - '
-          'nextStatus() を呼び出しても元の状態は変わらない', () {
+      test('nextStatus()を呼び出しても元の状態は変わらないこと（イミュータブル）', () {
         // Arrange
         final originalStatus = TaskStatus.todo();
 
@@ -98,8 +93,7 @@ void main() {
     });
 
     group('状態値の一貫性', () {
-      test('should_ensure_progress_values_match_status - '
-          '各ステータスの progress() 値が一定である', () {
+      test('各ステータスのprogress値が一定であること', () {
         // Arrange
         final todoStatus = TaskStatus.todo();
         final doingStatus = TaskStatus.doing();
@@ -116,8 +110,7 @@ void main() {
         expect(todoStatus.progress, 0);
       });
 
-      test('should_enforce_valid_status_values - '
-          '無効な状態値を持つ TaskStatus は存在しない', () {
+      test('有効なファクトリで生成されたTaskStatusは必ず有効なステータス値を持つこと', () {
         // Arrange
         final validStates = [
           TaskStatus.todo(),
@@ -141,8 +134,7 @@ void main() {
     });
 
     group('状態遷移グラフの完全性', () {
-      test('should_form_complete_cycle_with_three_states - '
-          '3つの状態がすべて相互に到達可能である', () {
+      test('3つの状態がすべて相互に到達可能であること', () {
         // Arrange
         var currentStatus = TaskStatus.todo();
         final visitedStates = <String>{};
@@ -163,8 +155,7 @@ void main() {
         expect(currentStatus.isTodo, true, reason: '3ステップで元の状態に戻る');
       });
 
-      test('should_never_get_stuck_in_invalid_state - '
-          '状態遷移が常に有効な次の状態を生成する', () {
+      test('状態遷移が常に有効な次の状態を生成すること（100回繰り返し）', () {
         // Arrange
         var status = TaskStatus.todo();
 

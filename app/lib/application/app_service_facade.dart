@@ -2,6 +2,14 @@
 /// Application層のすべてのUseCaseへのアクセスを提供する単一のエントリーポイント
 /// Presentation層はこのファサードを通じてのみUseCase にアクセスすることで、
 /// 依存性を最小化し、Application層の構造変更の影響を局所化できる
+///
+/// --- 現在の実装方針 ---
+/// Presentation層は Riverpod の個別 UseCase Provider
+/// （use_case_providers.dart）を直接 ref.watch/read している。
+/// このファサードはその代替エントリーポイントとして定義されており、
+/// テストや将来的なリファクタリングで「UseCase へのアクセスを単一クラスに集約したい」
+/// 場合に活用できる。現状は個別 Provider が UI に近い粒度で利用できるため
+/// ファサード経由への統一は行っていない。
 library;
 
 import 'package:app/application/use_cases/goal/create_goal_use_case.dart';

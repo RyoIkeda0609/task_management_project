@@ -45,6 +45,6 @@ class GoalListView extends ConsumerWidget {
 
   void _onGoalCardTapped(BuildContext context, Goal goal) {
     // go_routerを使用してゴール詳細画面へナビゲート
-    context.go('/home/goal/${goal.id.value}');
+    context.go('/home/goal/${goal.itemId.value}');
   }
 }

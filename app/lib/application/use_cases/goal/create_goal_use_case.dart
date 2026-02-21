@@ -1,17 +1,17 @@
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// CreateGoalUseCase - ゴールを作成する
 abstract class CreateGoalUseCase {
   Future<Goal> call({
     required String title,
     required String category,
-    required String reason,
+    required String description,
     required DateTime deadline,
   });
 }
@@ -26,22 +26,22 @@ class CreateGoalUseCaseImpl implements CreateGoalUseCase {
   Future<Goal> call({
     required String title,
     required String category,
-    required String reason,
+    required String description,
     required DateTime deadline,
   }) async {
     // Validate
-    final goalTitle = GoalTitle(title);
+    final itemTitle = ItemTitle(title);
     final goalCategory = GoalCategory(category);
-    final goalReason = GoalReason(reason);
-    final goalDeadline = GoalDeadline(deadline);
+    final itemDescription = ItemDescription(description);
+    final itemDeadline = ItemDeadline(deadline);
 
     // Execute
     final goal = Goal(
-      id: GoalId.generate(),
-      title: goalTitle,
+      itemId: ItemId.generate(),
+      title: itemTitle,
       category: goalCategory,
-      reason: goalReason,
-      deadline: goalDeadline,
+      description: itemDescription,
+      deadline: itemDeadline,
     );
 
     // Save

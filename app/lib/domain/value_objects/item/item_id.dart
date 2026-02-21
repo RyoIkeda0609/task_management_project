@@ -1,22 +1,21 @@
 import 'package:uuid/uuid.dart';
 
-/// GoalId - ゴール ID を表現する ValueObject
+/// ItemId - アイテム ID を表現する ValueObject
 ///
 /// UUID 形式の一意識別子
-class GoalId {
-  late String value;
+/// Goal、Milestone、Task で共通利用される
+class ItemId {
+  final String value;
 
-  GoalId(String val) {
-    value = val;
-  }
+  ItemId(this.value);
 
   /// 新しい ID を自動生成
-  factory GoalId.generate() => GoalId(const Uuid().v4());
+  factory ItemId.generate() => ItemId(const Uuid().v4());
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GoalId &&
+      other is ItemId &&
           runtimeType == other.runtimeType &&
           value == other.value;
 
@@ -24,5 +23,5 @@ class GoalId {
   int get hashCode => value.hashCode;
 
   @override
-  String toString() => 'GoalId($value)';
+  String toString() => 'ItemId($value)';
 }

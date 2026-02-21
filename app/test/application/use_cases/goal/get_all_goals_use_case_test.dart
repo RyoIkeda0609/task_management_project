@@ -1,11 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/goal/get_all_goals_use_case.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+
 import 'package:app/domain/repositories/goal_repository.dart';
 
 class MockGoalRepository implements GoalRepository {
@@ -16,7 +18,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<Goal?> getGoalById(String id) async => _goals.firstWhere(
-    (g) => g.id.value == id,
+    (g) => g.itemId.value == id,
     orElse: () => throw Exception(),
   );
 
@@ -25,7 +27,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
+      _goals.removeWhere((g) => g.itemId.value == id);
 
   @override
   Future<void> deleteAllGoals() async => _goals.clear();
@@ -53,19 +55,19 @@ void main() {
       final tomorrow = DateTime.now().add(const Duration(days: 1));
 
       final goal1 = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('ゴール1'),
+        itemId: ItemId('goal-1'),
+        title: ItemTitle('ゴール1'),
         category: GoalCategory('カテゴリ1'),
-        reason: GoalReason('理由1'),
-        deadline: GoalDeadline(tomorrow),
+        description: ItemDescription('理由1'),
+        deadline: ItemDeadline(tomorrow),
       );
 
       final goal2 = Goal(
-        id: GoalId('goal-2'),
-        title: GoalTitle('ゴール2'),
+        itemId: ItemId('goal-2'),
+        title: ItemTitle('ゴール2'),
         category: GoalCategory('カテゴリ2'),
-        reason: GoalReason('理由2'),
-        deadline: GoalDeadline(tomorrow),
+        description: ItemDescription('理由2'),
+        deadline: ItemDeadline(tomorrow),
       );
 
       await repository.saveGoal(goal1);

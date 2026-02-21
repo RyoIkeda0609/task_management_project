@@ -2,22 +2,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'milestone_edit_state.dart';
 
 class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
-  MilestoneEditViewModel()
+  MilestoneEditViewModel([MilestoneEditPageState? initialState])
     : super(
-        MilestoneEditPageState(
-          deadline: DateTime.now().add(const Duration(days: 30)),
-        ),
+        initialState ??
+            MilestoneEditPageState(
+              deadline: DateTime.now().add(const Duration(days: 30)),
+            ),
       );
 
-  /// マイルストーン情報で状態を初期化
   void initializeWithMilestone({
     required String milestoneId,
     required String title,
+    required String description,
     required DateTime deadline,
   }) {
     state = MilestoneEditPageState(
       milestoneId: milestoneId,
       title: title,
+      description: description,
       deadline: deadline,
       isLoading: false,
     );
@@ -25,6 +27,10 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
 
   void updateTitle(String title) {
     state = state.copyWith(title: title);
+  }
+
+  void updateDescription(String description) {
+    state = state.copyWith(description: description);
   }
 
   void updateDeadline(DateTime deadline) {

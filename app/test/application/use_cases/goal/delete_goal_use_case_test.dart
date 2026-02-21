@@ -3,11 +3,13 @@ import 'package:app/application/use_cases/goal/delete_goal_use_case.dart';
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
@@ -21,7 +23,7 @@ class MockGoalRepository implements GoalRepository {
   @override
   Future<Goal?> getGoalById(String id) async {
     try {
-      return _goals.firstWhere((g) => g.id.value == id);
+      return _goals.firstWhere((g) => g.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -32,7 +34,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
+      _goals.removeWhere((g) => g.itemId.value == id);
 
   @override
   Future<void> deleteAllGoals() async => _goals.clear();
@@ -49,11 +51,11 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<Milestone?> getMilestoneById(String id) async => _milestones
-      .firstWhere((m) => m.id.value == id, orElse: () => throw Exception());
+      .firstWhere((m) => m.itemId.value == id, orElse: () => throw Exception());
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
-      _milestones.where((m) => m.id.value.startsWith(goalId)).toList();
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async =>
@@ -61,11 +63,11 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      _milestones.removeWhere((m) => m.id.value.startsWith(goalId));
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -80,7 +82,7 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -88,18 +90,18 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async => _tasks.add(task);
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
   Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -134,11 +136,11 @@ void main() {
     test('ゴールが削除されること', () async {
       final tomorrow = DateTime.now().add(const Duration(days: 1));
       final goal = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('削除対象'),
+        itemId: ItemId('goal-1'),
+        title: ItemTitle('削除対象'),
         category: GoalCategory('カテゴリ'),
-        reason: GoalReason('理由'),
-        deadline: GoalDeadline(tomorrow),
+        description: ItemDescription('理由'),
+        deadline: ItemDeadline(tomorrow),
       );
 
       await goalRepository.saveGoal(goal);

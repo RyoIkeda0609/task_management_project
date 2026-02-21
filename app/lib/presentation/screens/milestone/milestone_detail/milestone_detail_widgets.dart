@@ -159,8 +159,11 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () =>
-            _navigateToTaskDetail(context, task.id.value, milestone.goalId),
+        onTap: () => _navigateToTaskDetail(
+          context,
+          task.itemId.value,
+          milestone.goalId.value,
+        ),
         borderRadius: BorderRadius.circular(8),
         child: Container(
           padding: EdgeInsets.all(Spacing.medium),
@@ -199,7 +202,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
         ),
         SizedBox(height: Spacing.xSmall),
         Text(
-          _formatDate(task.deadline),
+          _formatDate(task.deadline.value),
           style: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral500),
         ),
       ],
@@ -231,11 +234,11 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
   Future<void> _changeTaskStatus(WidgetRef ref, Task task) async {
     try {
       final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
-      await changeTaskStatusUseCase(task.id.value);
+      await changeTaskStatusUseCase(task.itemId.value);
 
       // State を再取得
-      ref.invalidate(milestoneDetailProvider(task.milestoneId));
-      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+      ref.invalidate(milestoneDetailProvider(task.milestoneId.value));
+      ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
     } catch (e) {
       rethrow;
     }
@@ -267,8 +270,11 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
 
   String _formatDate(dynamic date) {
     try {
-      final dt = date is DateTime ? date : DateTime.now();
-      return '${dt.year}年${dt.month}月${dt.day}日';
+      if (date is DateTime) {
+        return '${date.year}年${date.month}月${date.day}日';
+      }
+      // 予期しない型の場合は未設定を返す
+      return '未設定';
     } catch (e) {
       return '未設定';
     }
@@ -310,7 +316,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
               Navigator.of(dialogContext).pop();
               try {
                 final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
-                await deleteTaskUseCase(task.id.value);
+                await deleteTaskUseCase(task.itemId.value);
 
                 // タスク一覧をリフレッシュ
                 ref.invalidate(tasksByMilestoneProvider(milestoneId));

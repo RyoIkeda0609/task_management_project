@@ -12,6 +12,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
   final String milestoneId;
   final String milestoneTitle;
+  final String milestoneDescription;
   final DateTime milestoneDeadline;
 
   const MilestoneEditFormWidget({
@@ -19,6 +20,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
     required this.onSubmit,
     required this.milestoneId,
     required this.milestoneTitle,
+    required this.milestoneDescription,
     required this.milestoneDeadline,
   });
 
@@ -37,19 +39,26 @@ class MilestoneEditFormWidget extends ConsumerWidget {
             Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: 'マイルストーン名を入力（100文字以内）',
-              initialValue: state.milestoneId == milestoneId
-                  ? state.title
-                  : milestoneTitle,
+              initialValue: state.title,
               maxLength: 100,
               onChanged: viewModel.updateTitle,
             ),
             SizedBox(height: Spacing.medium),
 
+            // 説明（任意）
+            Text('説明（任意）', style: AppTextStyles.labelLarge),
+            CustomTextField(
+              hintText: 'このマイルストーンの詳細や達成基準など（500文字以内）',
+              initialValue: state.description,
+              maxLength: 500,
+              multiline: true,
+              onChanged: viewModel.updateDescription,
+            ),
+            SizedBox(height: Spacing.medium),
+
             // 目標日時
             _MilestoneEditDeadlineField(
-              selectedDeadline: state.milestoneId == milestoneId
-                  ? state.deadline
-                  : milestoneDeadline,
+              selectedDeadline: state.deadline,
               onDeadlineSelected: viewModel.updateDeadline,
             ),
             SizedBox(height: Spacing.large),

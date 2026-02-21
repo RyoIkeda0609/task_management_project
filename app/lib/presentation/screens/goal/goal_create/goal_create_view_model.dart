@@ -8,8 +8,8 @@ class GoalCreateViewModel extends StateNotifier<GoalCreatePageState> {
     state = state.copyWith(title: title);
   }
 
-  void updateReason(String reason) {
-    state = state.copyWith(reason: reason);
+  void updateDescription(String description) {
+    state = state.copyWith(description: description);
   }
 
   void updateCategory(String category) {
