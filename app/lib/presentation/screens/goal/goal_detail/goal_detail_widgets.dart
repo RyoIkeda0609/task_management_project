@@ -10,13 +10,20 @@ import '../../../navigation/app_router.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../../domain/entities/milestone.dart';
 
-class GoalDetailHeaderWidget extends StatelessWidget {
+class GoalDetailHeaderWidget extends ConsumerWidget {
   final Goal goal;
+  final String goalId;
 
-  const GoalDetailHeaderWidget({super.key, required this.goal});
+  const GoalDetailHeaderWidget({
+    super.key,
+    required this.goal,
+    required this.goalId,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progressAsync = ref.watch(goalProgressProvider(goalId));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,6 +55,14 @@ class GoalDetailHeaderWidget extends StatelessWidget {
           ],
         ),
         SizedBox(height: Spacing.medium),
+        // 進捗表示
+        progressAsync.when(
+          data: (progress) =>
+              _GoalProgressSection(progressValue: progress.value),
+          loading: () => const SizedBox.shrink(),
+          error: (_, _) => const SizedBox.shrink(),
+        ),
+        SizedBox(height: Spacing.medium),
         Text('説明・理由', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.xSmall),
         Text(goal.description.value, style: AppTextStyles.bodyMedium),
@@ -57,6 +72,44 @@ class GoalDetailHeaderWidget extends StatelessWidget {
 
   String _formatDate(DateTime deadline) {
     return '${deadline.year}年${deadline.month}月${deadline.day}日';
+  }
+}
+
+/// ゴールの進捗バーと進捗率を表示するウィジェット
+class _GoalProgressSection extends StatelessWidget {
+  final int progressValue;
+
+  const _GoalProgressSection({required this.progressValue});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('進捗', style: AppTextStyles.labelLarge),
+            Text(
+              '$progressValue%',
+              style: AppTextStyles.labelLarge.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Spacing.xSmall),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: LinearProgressIndicator(
+            value: progressValue / 100,
+            minHeight: 8,
+            backgroundColor: AppColors.neutral300,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
+      ],
+    );
   }
 }
 

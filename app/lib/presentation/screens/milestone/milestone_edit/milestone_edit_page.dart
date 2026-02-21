@@ -70,6 +70,7 @@ class MilestoneEditPage extends ConsumerWidget {
         viewModelNotifier.initializeWithMilestone(
           milestoneId: milestoneId,
           title: milestone.title.value,
+          description: milestone.description.value,
           deadline: milestone.deadline.value,
         );
       });
@@ -85,6 +86,7 @@ class MilestoneEditPage extends ConsumerWidget {
         onSubmit: () => _submitForm(context, ref, milestone),
         milestoneId: milestoneId,
         milestoneTitle: milestone.title.value,
+        milestoneDescription: milestone.description.value,
         milestoneDeadline: milestone.deadline.value,
       ),
     );
@@ -118,6 +120,7 @@ class MilestoneEditPage extends ConsumerWidget {
       await updateMilestoneUseCase(
         milestoneId: milestoneId,
         title: state.title,
+        description: state.description,
         deadline: state.deadline,
       );
 

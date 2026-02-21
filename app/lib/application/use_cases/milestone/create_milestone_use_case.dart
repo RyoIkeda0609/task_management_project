@@ -10,6 +10,7 @@ import 'package:app/domain/value_objects/item/item_deadline.dart';
 abstract class CreateMilestoneUseCase {
   Future<Milestone> call({
     required String title,
+    required String description,
     required DateTime deadline,
     required String goalId,
   });
@@ -25,11 +26,13 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
   @override
   Future<Milestone> call({
     required String title,
+    required String description,
     required DateTime deadline,
     required String goalId,
   }) async {
     // Validate
     final itemTitle = ItemTitle(title);
+    final itemDescription = ItemDescription(description);
     final itemDeadline = ItemDeadline(deadline);
 
     if (goalId.isEmpty) {
@@ -46,7 +49,7 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
     final milestone = Milestone(
       itemId: ItemId.generate(),
       title: itemTitle,
-      description: ItemDescription(''),
+      description: itemDescription,
       deadline: itemDeadline,
       goalId: ItemId(goalId),
     );

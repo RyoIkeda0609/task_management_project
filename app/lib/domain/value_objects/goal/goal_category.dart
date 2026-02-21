@@ -1,3 +1,11 @@
+/// GoalCategory の選択肢（UI・ドメイン共通の正規リスト）
+///
+/// 作成・編集どちらのフォームもこのリストを参照することで整合性を保つ
+const List<String> kGoalCategories = ['キャリア', '学習', '健康', '趣味', 'その他'];
+
+/// デフォルトカテゴリ（新規作成時の初期値）
+const String kDefaultGoalCategory = 'キャリア';
+
 /// GoalCategory - ゴールのカテゴリを表現する ValueObject
 ///
 /// バリデーション：1～100文字、空白のみ不可

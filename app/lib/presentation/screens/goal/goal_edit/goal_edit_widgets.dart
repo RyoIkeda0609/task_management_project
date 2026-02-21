@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../domain/value_objects/goal/goal_category.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -50,9 +51,9 @@ class GoalEditFormWidget extends ConsumerWidget {
             // 説明・理由
             Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
-              hintText: '説明・理由を入力（100文字以内）',
+              hintText: '説明・理由を入力（500文字以内）',
               initialValue: state.description,
-              maxLength: 100,
+              maxLength: 500,
               onChanged: viewModel.updateDescription,
               multiline: true,
             ),
@@ -92,12 +93,11 @@ class _GoalEditCategoryDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const defaultCategories = ['キャリア', '学習', '健康', '趣味', 'その他'];
-
-    // 現在のカテゴリーがリストに含まれていない場合は追加
-    final categories = defaultCategories.contains(selectedCategory)
-        ? defaultCategories
-        : [selectedCategory, ...defaultCategories];
+    // kGoalCategories（共通定義列）を使用。
+    // 保存済みゴールのカテゴリーがリストにない場合は選択脂に追加する
+    final categories = kGoalCategories.contains(selectedCategory)
+        ? kGoalCategories
+        : [selectedCategory, ...kGoalCategories];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

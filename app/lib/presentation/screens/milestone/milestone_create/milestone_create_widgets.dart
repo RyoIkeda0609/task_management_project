@@ -37,6 +37,17 @@ class MilestoneCreateFormWidget extends ConsumerWidget {
             ),
             SizedBox(height: Spacing.large),
 
+            // 説明（任意）
+            Text('説明（任意）', style: AppTextStyles.labelLarge),
+            CustomTextField(
+              hintText: 'このマイルストーンの詳細や達成基準など（500文字以内）',
+              initialValue: state.description,
+              maxLength: 500,
+              multiline: true,
+              onChanged: viewModel.updateDescription,
+            ),
+            SizedBox(height: Spacing.large),
+
             // 目標日時
             _MilestoneCreateDeadlineField(
               selectedDeadline: state.deadline,

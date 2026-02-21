@@ -115,6 +115,7 @@ void main() {
 
         final milestone = await useCase.call(
           title: 'フロントエンド構築',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
@@ -130,12 +131,14 @@ void main() {
 
         final milestone1 = await useCase.call(
           title: 'マイルストーン1',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
 
         final milestone2 = await useCase.call(
           title: 'マイルストーン2',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
@@ -151,6 +154,7 @@ void main() {
         expect(
           () => useCase.call(
             title: invalidTitle,
+            description: '',
             deadline: tomorrow,
             goalId: goalId,
           ),
@@ -163,8 +167,12 @@ void main() {
         const goalId = 'goal-123';
 
         expect(
-          () =>
-              useCase.call(title: 'タイトル', deadline: yesterday, goalId: goalId),
+          () => useCase.call(
+            title: 'タイトル',
+            description: '',
+            deadline: yesterday,
+            goalId: goalId,
+          ),
           returnsNormally,
         );
       });
@@ -174,7 +182,12 @@ void main() {
         const goalId = 'goal-123';
 
         expect(
-          () => useCase.call(title: '   ', deadline: tomorrow, goalId: goalId),
+          () => useCase.call(
+            title: '   ',
+            description: '',
+            deadline: tomorrow,
+            goalId: goalId,
+          ),
           throwsArgumentError,
         );
       });
@@ -183,7 +196,12 @@ void main() {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
 
         expect(
-          () => useCase.call(title: 'タイトル', deadline: tomorrow, goalId: ''),
+          () => useCase.call(
+            title: 'タイトル',
+            description: '',
+            deadline: tomorrow,
+            goalId: '',
+          ),
           throwsArgumentError,
         );
       });
@@ -194,6 +212,7 @@ void main() {
 
         final milestone = await useCase.call(
           title: 'a',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
@@ -208,6 +227,7 @@ void main() {
 
         final milestone = await useCase.call(
           title: maxTitle,
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );

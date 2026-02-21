@@ -25,10 +25,17 @@ class TaskDetailPage extends ConsumerWidget {
   final String taskId;
   final String source;
 
+  /// マイルストーン経由で開いた場合に渡されるパラメータ。
+  /// ルートから直接取得することで非同期解決を不要にする。
+  final String? goalId;
+  final String? milestoneId;
+
   const TaskDetailPage({
     super.key,
     required this.taskId,
     this.source = 'today_tasks',
+    this.goalId,
+    this.milestoneId,
   });
 
   @override
@@ -46,21 +53,17 @@ class TaskDetailPage extends ConsumerWidget {
             icon: const Icon(Icons.edit),
             onPressed: () => taskAsync.whenData((task) {
               if (task != null) {
-                if (source == 'milestone') {
-                  // milestone から起動された場合は milestoneId から goalId を取得
-                  final milestoneDetailAsync = ref.read(
-                    milestoneDetailProvider(task.milestoneId.value),
+                if (source == 'milestone' &&
+                    goalId != null &&
+                    milestoneId != null) {
+                  // ルートパラメータから直接 goalId・milestoneId を使用
+                  // （ref.read での非同期解決を排除）
+                  AppRouter.navigateToTaskEditFromMilestone(
+                    context,
+                    goalId!,
+                    milestoneId!,
+                    taskId,
                   );
-                  milestoneDetailAsync.whenData((milestone) {
-                    if (milestone != null) {
-                      AppRouter.navigateToTaskEditFromMilestone(
-                        context,
-                        milestone.goalId.value,
-                        task.milestoneId.value,
-                        taskId,
-                      );
-                    }
-                  });
                 } else {
                   AppRouter.navigateToTaskEditFromTodayTasks(context, taskId);
                 }

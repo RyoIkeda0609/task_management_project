@@ -92,6 +92,7 @@ void main() {
         final updated = await useCase(
           milestoneId: original.itemId.value,
           title: '新しいタイトル',
+          description: '',
           deadline: newDeadline,
         );
 
@@ -116,6 +117,7 @@ void main() {
         final updated = await useCase(
           milestoneId: original.itemId.value,
           title: '更新後のタイトル',
+          description: '',
           deadline: original.deadline.value,
         );
 
@@ -140,6 +142,7 @@ void main() {
         final updated = await useCase(
           milestoneId: original.itemId.value,
           title: original.title.value,
+          description: '',
           deadline: newDeadline,
         );
 
@@ -171,6 +174,7 @@ void main() {
         await useCase(
           milestoneId: ms1.itemId.value,
           title: '更新後のMS1',
+          description: '',
           deadline: ms1.deadline.value,
         );
 
@@ -199,6 +203,7 @@ void main() {
           () => useCase(
             milestoneId: milestone.itemId.value,
             title: '',
+            description: '',
             deadline: milestone.deadline.value,
           ),
           throwsA(isA<ArgumentError>()),
@@ -221,6 +226,7 @@ void main() {
           () => useCase(
             milestoneId: milestone.itemId.value,
             title: 'a' * 101,
+            description: '',
             deadline: milestone.deadline.value,
           ),
           throwsA(isA<ArgumentError>()),
@@ -245,6 +251,7 @@ void main() {
           () => useCase(
             milestoneId: milestone.itemId.value,
             title: milestone.title.value,
+            description: '',
             deadline: yesterday,
           ),
           returnsNormally,
@@ -259,6 +266,7 @@ void main() {
           () => useCase(
             milestoneId: 'non-existent-id',
             title: 'タイトル',
+            description: '',
             deadline: DateTime.now().add(const Duration(days: 90)),
           ),
           throwsA(isA<ArgumentError>()),
@@ -271,6 +279,7 @@ void main() {
           () => useCase(
             milestoneId: '',
             title: 'タイトル',
+            description: '',
             deadline: DateTime.now().add(const Duration(days: 90)),
           ),
           throwsA(isA<ArgumentError>()),

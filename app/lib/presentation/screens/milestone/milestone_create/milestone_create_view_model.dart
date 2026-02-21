@@ -9,6 +9,10 @@ class MilestoneCreateViewModel extends StateNotifier<MilestoneCreatePageState> {
     state = state.copyWith(title: title);
   }
 
+  void updateDescription(String description) {
+    state = state.copyWith(description: description);
+  }
+
   void updateDeadline(DateTime deadline) {
     state = state.copyWith(deadline: deadline);
   }

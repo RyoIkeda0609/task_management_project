@@ -13,11 +13,13 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
   void initializeWithMilestone({
     required String milestoneId,
     required String title,
+    required String description,
     required DateTime deadline,
   }) {
     state = MilestoneEditPageState(
       milestoneId: milestoneId,
       title: title,
+      description: description,
       deadline: deadline,
       isLoading: false,
     );
@@ -25,6 +27,10 @@ class MilestoneEditViewModel extends StateNotifier<MilestoneEditPageState> {
 
   void updateTitle(String title) {
     state = state.copyWith(title: title);
+  }
+
+  void updateDescription(String description) {
+    state = state.copyWith(description: description);
   }
 
   void updateDeadline(DateTime deadline) {

@@ -111,6 +111,7 @@ void main() {
     test('マイルストーンは ValueObject のバリデーションで作成できる', () async {
       final milestone = await useCase.call(
         title: 'テストマイルストーン',
+        description: '',
         deadline: DateTime(2026, 12, 31),
         goalId: 'goal-1',
       );
@@ -123,6 +124,7 @@ void main() {
       expect(
         () async => await useCase.call(
           title: 'マイルストーン',
+          description: '',
           deadline: DateTime(2026, 12, 31),
           goalId: '',
         ),
@@ -134,6 +136,7 @@ void main() {
       expect(
         () async => await useCase.call(
           title: 'マイルストーン',
+          description: '',
           deadline: DateTime(2020, 1, 1),
           goalId: 'goal-1',
         ),
@@ -148,6 +151,7 @@ void main() {
       expect(
         () async => await useCase.call(
           title: 'マイルストーン',
+          description: '',
           deadline: DateTime(2026, 12, 31),
           goalId: 'nonexistent-goal',
         ),

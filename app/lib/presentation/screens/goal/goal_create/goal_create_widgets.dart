@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../domain/value_objects/goal/goal_category.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -39,17 +40,17 @@ class GoalCreateFormWidget extends ConsumerWidget {
             CustomTextField(
               hintText:
                   '・なぜこのゴールを達成したいのか\n・ゴールを達成するモチベーションは何か\n・達成したらどんな良いことがあるかなど',
-              initialValue: state.reason,
-              maxLength: 100,
+              initialValue: state.description,
+              maxLength: 500,
               multiline: true,
-              onChanged: viewModel.updateReason,
+              onChanged: viewModel.updateDescription,
             ),
             SizedBox(height: Spacing.large),
 
             // カテゴリー
             _GoalCategoryDropdown(
               selectedCategory: state.selectedCategory,
-              categories: state.categories,
+              categories: kGoalCategories,
               onChanged: viewModel.updateCategory,
             ),
             SizedBox(height: Spacing.large),

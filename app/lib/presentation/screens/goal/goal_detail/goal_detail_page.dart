@@ -203,7 +203,7 @@ class _ContentView extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Header(goal: goal),
+            _Header(goal: goal, goalId: goalId),
             SizedBox(height: Spacing.large),
             _Content(
               goal: goal,
@@ -219,12 +219,13 @@ class _ContentView extends ConsumerWidget {
 
 class _Header extends StatelessWidget {
   final Goal goal;
+  final String goalId;
 
-  const _Header({required this.goal});
+  const _Header({required this.goal, required this.goalId});
 
   @override
   Widget build(BuildContext context) {
-    return GoalDetailHeaderWidget(goal: goal);
+    return GoalDetailHeaderWidget(goal: goal, goalId: goalId);
   }
 }
 

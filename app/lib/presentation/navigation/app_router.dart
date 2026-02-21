@@ -171,9 +171,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             builder: (context, state) {
                               final taskId =
                                   state.pathParameters['taskId'] ?? '';
+                              final goalId =
+                                  state.pathParameters['goalId'] ?? '';
+                              final milestoneId =
+                                  state.pathParameters['milestoneId'] ?? '';
                               return TaskDetailPage(
                                 taskId: taskId,
                                 source: 'milestone',
+                                goalId: goalId,
+                                milestoneId: milestoneId,
                               );
                             },
                             routes: [
@@ -245,7 +251,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
     /// エラーページビルダー
     errorBuilder: (context, state) =>
-        Scaffold(body: Center(child: Text('ていません: ${state.uri}'))),
+        Scaffold(body: Center(child: Text('ページが見つかりません: ${state.uri}'))),
   );
 });
 

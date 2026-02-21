@@ -4,8 +4,11 @@ import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:app/presentation/screens/goal/goal_detail/goal_detail_widgets.dart';
+import 'package:app/presentation/state_management/providers/state_notifier_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -43,8 +46,20 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: GoalDetailHeaderWidget(goal: goal)),
+        ProviderScope(
+          overrides: [
+            goalProgressProvider.overrideWith(
+              (ref, goalId) async => Progress(0),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: GoalDetailHeaderWidget(
+                goal: goal,
+                goalId: goal.itemId.value,
+              ),
+            ),
+          ),
         ),
       );
 
@@ -65,8 +80,20 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: GoalDetailHeaderWidget(goal: goal)),
+        ProviderScope(
+          overrides: [
+            goalProgressProvider.overrideWith(
+              (ref, goalId) async => Progress(0),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: GoalDetailHeaderWidget(
+                goal: goal,
+                goalId: goal.itemId.value,
+              ),
+            ),
+          ),
         ),
       );
 
@@ -85,8 +112,20 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: GoalDetailHeaderWidget(goal: goal)),
+        ProviderScope(
+          overrides: [
+            goalProgressProvider.overrideWith(
+              (ref, goalId) async => Progress(0),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: GoalDetailHeaderWidget(
+                goal: goal,
+                goalId: goal.itemId.value,
+              ),
+            ),
+          ),
         ),
       );
 
