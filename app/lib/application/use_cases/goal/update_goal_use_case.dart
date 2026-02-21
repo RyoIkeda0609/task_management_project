@@ -2,9 +2,9 @@ import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 import 'package:app/domain/services/goal_completion_service.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// UpdateGoalUseCase - ゴールを更新する
 abstract class UpdateGoalUseCase {
@@ -12,7 +12,7 @@ abstract class UpdateGoalUseCase {
     required String goalId,
     required String title,
     required String category,
-    required String reason,
+    required String description,
     required DateTime deadline,
   });
 }
@@ -29,7 +29,7 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
     required String goalId,
     required String title,
     required String category,
-    required String reason,
+    required String description,
     required DateTime deadline,
   }) async {
     // Load
@@ -43,18 +43,18 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
     }
 
     // Validate
-    final goalTitle = GoalTitle(title);
+    final itemTitle = ItemTitle(title);
     final goalCategory = GoalCategory(category);
-    final goalReason = GoalReason(reason);
-    final goalDeadline = GoalDeadline(deadline);
+    final itemDescription = ItemDescription(description);
+    final itemDeadline = ItemDeadline(deadline);
 
     // Execute
     final updatedGoal = Goal(
-      id: existingGoal.id,
-      title: goalTitle,
+      itemId: existingGoal.itemId,
+      title: itemTitle,
       category: goalCategory,
-      reason: goalReason,
-      deadline: goalDeadline,
+      description: itemDescription,
+      deadline: itemDeadline,
     );
 
     // Save

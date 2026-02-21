@@ -18,7 +18,7 @@ class HiveTaskRepository extends HiveRepositoryBase<Task>
   Map<String, dynamic> toJson(Task entity) => entity.toJson();
 
   @override
-  String getId(Task entity) => entity.id.value;
+  String getId(Task entity) => entity.itemId.value;
 
   @override
   Future<List<Task>> getAllTasks() async => await getAll();
@@ -29,7 +29,7 @@ class HiveTaskRepository extends HiveRepositoryBase<Task>
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async {
     final all = await getAll();
-    return all.where((t) => t.milestoneId == milestoneId).toList();
+    return all.where((t) => t.milestoneId.value == milestoneId).toList();
   }
 
   @override
@@ -40,7 +40,7 @@ class HiveTaskRepository extends HiveRepositoryBase<Task>
 
   @override
   Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
-      await deleteWhere((t) => t.milestoneId == milestoneId);
+      await deleteWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => await count();

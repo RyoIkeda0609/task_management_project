@@ -1,3 +1,4 @@
+import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';

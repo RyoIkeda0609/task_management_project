@@ -7,6 +7,10 @@ import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 import 'package:app/domain/value_objects/milestone/milestone_id.dart';
 import 'package:app/domain/value_objects/milestone/milestone_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 
 class MockTaskRepository implements TaskRepository {
@@ -18,14 +22,14 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
       _tasks.where((t) => t.milestoneId == milestoneId).toList();
 
   @override
@@ -33,10 +37,10 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+  Future<void> deleteTasksByItemId(String milestoneId) async =>
       _tasks.removeWhere((t) => t.milestoneId == milestoneId);
 
   @override
@@ -49,10 +53,10 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+  Future<void> deleteMilestonesByItemId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
   @override
@@ -61,14 +65,14 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
       _milestones.where((m) => m.goalId == goalId).toList();
 
   @override
@@ -96,10 +100,11 @@ void main() {
       // Pre-populate milestone-1 for tests
       mockMilestoneRepository.saveMilestone(
         Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('テストマイルストーン'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('テストマイルストーン'),
+          description: ItemDescription(''),
+deadline: ItemDeadline(DateTime(2026, 12, 31)),
+          goalId: ItemId('\'),
         ),
       );
     });
@@ -109,12 +114,12 @@ void main() {
         title: 'テストタスク',
         description: 'テストタスクの説明',
         deadline: DateTime(2026, 12, 31),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
 
       expect(task.title.value, 'テストタスク');
       expect(task.description.value, 'テストタスクの説明');
-      expect(task.milestoneId, 'milestone-1');
+      expect(expect(task.milestoneId,.value, 'milestone-1');
       expect(task.status.value, TaskStatus.statusTodo);
     });
 
@@ -136,7 +141,7 @@ void main() {
           title: 'タスク',
           description: 'タスクの説明',
           deadline: DateTime(2020, 1, 1),
-          milestoneId: 'milestone-1',
+          milestoneId: ItemId('\'),
         ),
         returnsNormally,
       );
@@ -147,7 +152,7 @@ void main() {
         title: '新規タスク',
         description: '新規タスクの説明',
         deadline: DateTime(2026, 12, 31),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
 
       expect(task.status.value, TaskStatus.statusTodo);
@@ -160,7 +165,7 @@ void main() {
           title: 'タスク',
           description: longDescription,
           deadline: DateTime(2026, 12, 31),
-          milestoneId: 'milestone-1',
+          milestoneId: ItemId('\'),
         ),
         throwsA(isA<ArgumentError>()),
       );
@@ -175,10 +180,14 @@ void main() {
           title: 'タスク',
           description: '説明',
           deadline: DateTime(2026, 12, 31),
-          milestoneId: 'non-existent-milestone',
+          milestoneId: ItemId('\'),
         ),
         throwsA(isA<ArgumentError>()),
       );
     });
   });
 }
+
+
+
+

@@ -50,7 +50,7 @@ class GoalDetailHeaderWidget extends StatelessWidget {
         SizedBox(height: Spacing.medium),
         Text('説明・理由', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.xSmall),
-        Text(goal.reason.value, style: AppTextStyles.bodyMedium),
+        Text(goal.description.value, style: AppTextStyles.bodyMedium),
       ],
     );
   }
@@ -109,7 +109,7 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
               milestone: milestone,
               goalId: goalId,
               milestoneTasks: ref.watch(
-                tasksByMilestoneProvider(milestone.id.value),
+                tasksByMilestoneProvider(milestone.itemId.value),
               ),
             );
           },

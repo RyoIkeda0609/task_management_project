@@ -32,9 +32,9 @@ class PyramidView extends ConsumerWidget {
                 final milestone = milestones[index];
                 return PyramidMilestoneNode(
                   milestone: milestone,
-                  goalId: goal.id.value,
+                  goalId: goal.itemId.value,
                   milestoneTasks: ref.watch(
-                    tasksByMilestoneProvider(milestone.id.value),
+                    tasksByMilestoneProvider(milestone.itemId.value),
                   ),
                 );
               },

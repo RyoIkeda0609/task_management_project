@@ -26,7 +26,7 @@ class GoalCard extends ConsumerWidget {
             children: [
               _GoalCardHeader(goal: goal),
               SizedBox(height: Spacing.medium),
-              _GoalCardFooter(goal: goal, goalId: goal.id.value),
+              _GoalCardFooter(goal: goal, goalId: goal.itemId.value),
             ],
           ),
         ),

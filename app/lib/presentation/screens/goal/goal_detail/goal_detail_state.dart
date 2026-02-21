@@ -66,5 +66,5 @@ class GoalDetailPageState {
   }
 
   String get categoryLabel => goal?.category.value ?? 'Unknown';
-  String get reasonLabel => goal?.reason.value ?? '';
+  String get reasonLabel => goal?.description.value ?? '';
 }

@@ -2,11 +2,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/delete_milestone_use_case.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/value_objects/goal/goal_category.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+
+
+
 import 'package:app/domain/value_objects/task/task_id.dart';
 import 'package:app/domain/value_objects/task/task_title.dart';
 import 'package:app/domain/value_objects/task/task_description.dart';
@@ -22,14 +31,14 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
       _milestones.where((m) => m.goalId == goalId).toList();
 
   @override
@@ -38,10 +47,10 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+  Future<void> deleteMilestonesByItemId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
   @override
@@ -57,14 +66,14 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
       _tasks.where((t) => t.milestoneId == milestoneId).toList();
 
   @override
@@ -72,10 +81,10 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+  Future<void> deleteTasksByItemId(String milestoneId) async =>
       _tasks.removeWhere((t) => t.milestoneId == milestoneId);
 
   @override
@@ -101,21 +110,21 @@ void main() {
       test('マイルストーンが削除できること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('削除対象MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('削除対象MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         // Act
-        await useCase(milestone.id.value);
+        await useCase(milestone.itemId.value);
 
         // Assert
         final deleted = await mockMilestoneRepository.getMilestoneById(
-          milestone.id.value,
+          milestone.itemId.value,
         );
         expect(deleted, isNull);
       });
@@ -123,34 +132,34 @@ void main() {
       test('複数マイルストーン中、指定したマイルストーンだけが削除されること', () async {
         // Arrange
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 180)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(ms1);
         await mockMilestoneRepository.saveMilestone(ms2);
 
         // Act
-        await useCase(ms1.id.value);
+        await useCase(ms1.itemId.value);
 
         // Assert
         expect(
-          await mockMilestoneRepository.getMilestoneById(ms1.id.value),
+          await mockMilestoneRepository.getMilestoneById(ms1.itemId.value),
           isNull,
         );
         expect(
-          await mockMilestoneRepository.getMilestoneById(ms2.id.value),
+          await mockMilestoneRepository.getMilestoneById(ms2.itemId.value),
           isNotNull,
         );
       });
@@ -160,40 +169,40 @@ void main() {
       test('マイルストーン削除時、配下のタスクがすべて削除されること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.todo(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.doing(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         await mockTaskRepository.saveTask(task1);
         await mockTaskRepository.saveTask(task2);
 
         // Act
-        await useCase(milestone.id.value);
+        await useCase(milestone.itemId.value);
 
         // Assert
-        final remainingTasks = await mockTaskRepository.getTasksByMilestoneId(
-          milestone.id.value,
+        final remainingTasks = await mockTaskRepository.getTasksByItemId(
+          milestone.itemId.value,
         );
         expect(remainingTasks, isEmpty);
       });
@@ -202,17 +211,17 @@ void main() {
         // Arrange
         const goalId = 'goal-123';
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
           goalId: goalId,
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 180)),
           ),
           goalId: goalId,
@@ -221,85 +230,85 @@ void main() {
         await mockMilestoneRepository.saveMilestone(ms2);
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS1タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.todo(),
-          milestoneId: ms1.id.value,
+          milestoneId: ms1.itemId.value,
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS2タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 100))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 100))),
           status: TaskStatus.todo(),
-          milestoneId: ms2.id.value,
+          milestoneId: ms2.itemId.value,
         );
         await mockTaskRepository.saveTask(task1);
         await mockTaskRepository.saveTask(task2);
 
         // Act
-        await useCase(ms1.id.value);
+        await useCase(ms1.itemId.value);
 
         // Assert
         expect(
-          await mockTaskRepository.getTasksByMilestoneId(ms1.id.value),
+          await mockTaskRepository.getTasksByItemId(ms1.itemId.value),
           isEmpty,
         );
-        final ms2Tasks = await mockTaskRepository.getTasksByMilestoneId(
-          ms2.id.value,
+        final ms2Tasks = await mockTaskRepository.getTasksByItemId(
+          ms2.itemId.value,
         );
         expect(ms2Tasks.length, 1);
-        expect(ms2Tasks.first.id.value, task2.id.value);
+        expect(ms2Tasks.first.itemId.value, task2.itemId.value);
       });
 
       test('複数タスク（複数ステータス）を一括削除できること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         final todoTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('未開始'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('未開始'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.todo(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         final doingTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('進行中'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('進行中'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.doing(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         final doneTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('完了'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('完了'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         await mockTaskRepository.saveTask(todoTask);
         await mockTaskRepository.saveTask(doingTask);
         await mockTaskRepository.saveTask(doneTask);
 
         // Act
-        await useCase(milestone.id.value);
+        await useCase(milestone.itemId.value);
 
         // Assert
-        final remaining = await mockTaskRepository.getTasksByMilestoneId(
-          milestone.id.value,
+        final remaining = await mockTaskRepository.getTasksByItemId(
+          milestone.itemId.value,
         );
         expect(remaining, isEmpty);
       });
@@ -318,3 +327,8 @@ void main() {
     });
   });
 }
+
+
+
+
+

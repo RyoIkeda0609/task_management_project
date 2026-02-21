@@ -25,7 +25,7 @@ class PyramidGoalNode extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: InkWell(
-        onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),
+        onTap: () => AppRouter.navigateToGoalDetail(context, goal.itemId.value),
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -69,7 +69,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
     final viewModelState = ref.watch(pyramidViewModelProvider);
     final viewModel = ref.read(pyramidViewModelProvider.notifier);
     final isExpanded =
-        viewModelState.expandedMilestones[milestone.id.value] ?? false;
+        viewModelState.expandedMilestones[milestone.itemId.value] ?? false;
 
     return Column(
       children: [
@@ -94,7 +94,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
             ),
             initiallyExpanded: isExpanded,
             onExpansionChanged: (_) {
-              viewModel.toggleMilestoneExpansion(milestone.id.value);
+              viewModel.toggleMilestoneExpansion(milestone.itemId.value);
             },
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +120,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
               onTap: () => AppRouter.navigateToMilestoneDetail(
                 context,
                 goalId,
-                milestone.id.value,
+                milestone.itemId.value,
               ),
               child: Icon(
                 Icons.arrow_forward,

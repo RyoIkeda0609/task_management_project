@@ -75,7 +75,7 @@ class GoalEditPage extends ConsumerWidget {
         viewModelNotifier.initializeWithGoal(
           goalId: goalId,
           title: goal.title.value,
-          reason: goal.reason.value,
+          description: goal.description.value,
           category: goal.category.value,
           deadline: goal.deadline.value,
         );
@@ -92,7 +92,7 @@ class GoalEditPage extends ConsumerWidget {
         onSubmit: () => _submitForm(context, ref),
         goalId: goalId,
         goalTitle: goal.title.value,
-        goalReason: goal.reason.value,
+        goalReason: goal.description.value,
         goalCategory: goal.category.value,
         goalDeadline: goal.deadline.value,
       ),
@@ -123,7 +123,7 @@ class GoalEditPage extends ConsumerWidget {
       await updateGoalUseCase(
         goalId: goalId,
         title: state.title,
-        reason: state.reason,
+        description: state.description,
         category: state.category,
         deadline: state.deadline,
       );

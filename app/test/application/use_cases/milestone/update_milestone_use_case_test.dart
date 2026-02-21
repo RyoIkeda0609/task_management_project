@@ -2,11 +2,20 @@ import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/update_milestone_use_case.dart';
 import 'package:app/domain/entities/milestone.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/value_objects/goal/goal_category.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/services/milestone_completion_service.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+
+
+
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -17,28 +26,28 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
       _milestones.where((m) => m.goalId == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async {
-    _milestones.removeWhere((m) => m.id.value == milestone.id.value);
+    _milestones.removeWhere((m) => m.itemId.value == milestone.itemId.value);
     _milestones.add(milestone);
   }
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+  Future<void> deleteMilestonesByItemId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
   @override
@@ -77,12 +86,12 @@ void main() {
       test('マイルストーンを更新できること', () async {
         // Arrange
         final original = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('元のタイトル'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('元のタイトル'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(original);
 
@@ -90,7 +99,7 @@ void main() {
 
         // Act
         final updated = await useCase(
-          milestoneId: original.id.value,
+          milestoneId: original.itemId.value,
           title: '新しいタイトル',
           deadline: newDeadline,
         );
@@ -98,24 +107,24 @@ void main() {
         // Assert
         expect(updated.title.value, '新しいタイトル');
         expect(updated.deadline.value.day, newDeadline.day);
-        expect(updated.id.value, original.id.value);
+        expect(updated.itemId.value, original.itemId.value);
       });
 
       test('マイルストーンのタイトルのみを更新できること', () async {
         // Arrange
         final original = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('元のタイトル'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('元のタイトル'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(original);
 
         // Act
         final updated = await useCase(
-          milestoneId: original.id.value,
+          milestoneId: original.itemId.value,
           title: '更新後のタイトル',
           deadline: original.deadline.value,
         );
@@ -127,12 +136,12 @@ void main() {
       test('マイルストーンのデッドラインのみを更新できること', () async {
         // Arrange
         final original = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('タイトル'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('タイトル'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(original);
 
@@ -140,7 +149,7 @@ void main() {
 
         // Act
         final updated = await useCase(
-          milestoneId: original.id.value,
+          milestoneId: original.itemId.value,
           title: original.title.value,
           deadline: newDeadline,
         );
@@ -153,33 +162,33 @@ void main() {
       test('複数のマイルストーンの更新が独立していること', () async {
         // Arrange
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 180)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(ms1);
         await mockRepository.saveMilestone(ms2);
 
         // Act
         await useCase(
-          milestoneId: ms1.id.value,
+          milestoneId: ms1.itemId.value,
           title: '更新後のMS1',
           deadline: ms1.deadline.value,
         );
 
         // Assert
-        final unchanged = await mockRepository.getMilestoneById(ms2.id.value);
+        final unchanged = await mockRepository.getMilestoneById(ms2.itemId.value);
         expect(unchanged?.title.value, 'MS2');
       });
     });
@@ -188,19 +197,19 @@ void main() {
       test('無効なタイトル（空文字）で更新がエラーになること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('タイトル'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('タイトル'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(milestone);
 
         // Act & Assert
         expect(
           () => useCase(
-            milestoneId: milestone.id.value,
+            milestoneId: milestone.itemId.value,
             title: '',
             deadline: milestone.deadline.value,
           ),
@@ -211,19 +220,19 @@ void main() {
       test('タイトルが100文字を超える場合はエラーになること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('タイトル'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('タイトル'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(milestone);
 
         // Act & Assert
         expect(
           () => useCase(
-            milestoneId: milestone.id.value,
+            milestoneId: milestone.itemId.value,
             title: 'a' * 101,
             deadline: milestone.deadline.value,
           ),
@@ -234,12 +243,12 @@ void main() {
       test('デッドラインが過去の日付でも更新できること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('タイトル'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('タイトル'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 90)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockRepository.saveMilestone(milestone);
 
@@ -248,7 +257,7 @@ void main() {
         // Act & Assert
         expect(
           () => useCase(
-            milestoneId: milestone.id.value,
+            milestoneId: milestone.itemId.value,
             title: milestone.title.value,
             deadline: yesterday,
           ),
@@ -284,3 +293,8 @@ void main() {
     });
   });
 }
+
+
+
+
+

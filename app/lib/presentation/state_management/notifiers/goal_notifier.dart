@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 
 /// ゴール一覧の状態を管理する Notifier
@@ -31,18 +31,18 @@ class GoalsNotifier extends StateNotifier<AsyncValue<List<Goal>>> {
   ///
   /// 注意: UI側で ref.invalidate(goalsProvider) を呼び出して一覧を更新してください
   Future<void> createGoal({
-    required GoalTitle title,
+    required ItemTitle title,
     required GoalCategory category,
-    required GoalReason reason,
-    required GoalDeadline deadline,
+    required ItemDescription description,
+    required ItemDeadline deadline,
   }) async {
     // Notifier は単に保存処理を実行するのみ
     // UI側での状態更新は Repository ← UseCase ← UI の流れで自動化
     final goal = Goal(
-      id: GoalId.generate(),
+      itemId: ItemId.generate(),
       title: title,
       category: category,
-      reason: reason,
+      description: description,
       deadline: deadline,
     );
     await _repository.saveGoal(goal);
@@ -53,16 +53,16 @@ class GoalsNotifier extends StateNotifier<AsyncValue<List<Goal>>> {
   /// 注意: UI側で ref.invalidate(goalsProvider) を呼び出して一覧を更新してください
   Future<void> updateGoal({
     required String goalId,
-    GoalTitle? newTitle,
-    GoalDeadline? newDeadline,
+    ItemTitle? newTitle,
+    ItemDeadline? newDeadline,
   }) async {
     final goal = await _repository.getGoalById(goalId);
     if (goal != null) {
       final updatedGoal = Goal(
-        id: goal.id,
+        itemId: goal.itemId,
         title: newTitle ?? goal.title,
         category: goal.category,
-        reason: goal.reason,
+        description: goal.description,
         deadline: newDeadline ?? goal.deadline,
       );
       await _repository.saveGoal(updatedGoal);

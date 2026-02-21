@@ -1,9 +1,10 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// CreateMilestoneUseCase - マイルストーンを作成する
 abstract class CreateMilestoneUseCase {
@@ -28,8 +29,8 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
     required String goalId,
   }) async {
     // Validate
-    final milestoneTitle = MilestoneTitle(title);
-    final milestoneDeadline = MilestoneDeadline(deadline);
+    final itemTitle = ItemTitle(title);
+    final itemDeadline = ItemDeadline(deadline);
 
     if (goalId.isEmpty) {
       throw ArgumentError('ゴールIDが正しくありません');
@@ -43,10 +44,11 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
 
     // Execute
     final milestone = Milestone(
-      id: MilestoneId.generate(),
-      title: milestoneTitle,
-      deadline: milestoneDeadline,
-      goalId: goalId,
+      itemId: ItemId.generate(),
+      title: itemTitle,
+      description: ItemDescription(''),
+      deadline: itemDeadline,
+      goalId: ItemId(goalId),
     );
 
     // Save

@@ -13,14 +13,14 @@ class GoalEditViewModel extends StateNotifier<GoalEditPageState> {
   void initializeWithGoal({
     required String goalId,
     required String title,
-    required String reason,
+    required String description,
     required String category,
     required DateTime deadline,
   }) {
     state = GoalEditPageState(
       goalId: goalId,
       title: title,
-      reason: reason,
+      description: description,
       category: category,
       deadline: deadline,
       isLoading: false,
@@ -31,8 +31,8 @@ class GoalEditViewModel extends StateNotifier<GoalEditPageState> {
     state = state.copyWith(title: title);
   }
 
-  void updateReason(String reason) {
-    state = state.copyWith(reason: reason);
+  void updateDescription(String description) {
+    state = state.copyWith(description: description);
   }
 
   void updateCategory(String category) {

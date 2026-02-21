@@ -17,18 +17,13 @@ class Task extends Item {
 
   /// コンストラクタ
   Task({
-    required ItemId itemId,
-    required ItemTitle title,
-    required ItemDescription description,
-    required ItemDeadline deadline,
+    required super.itemId,
+    required super.title,
+    required super.description,
+    required super.deadline,
     required this.status,
     required this.milestoneId,
-  }) : super(
-         itemId: itemId,
-         title: title,
-         description: description,
-         deadline: deadline,
-       );
+  });
 
   /// タスクの Progress を取得する
   ///

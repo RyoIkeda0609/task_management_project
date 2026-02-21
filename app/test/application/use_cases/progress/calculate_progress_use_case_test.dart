@@ -6,13 +6,18 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
+
+
+
+
+
+
+
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/value_objects/goal/goal_category.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 import 'package:app/domain/value_objects/shared/progress.dart';
 
@@ -25,14 +30,14 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async {
+  Future<List<Milestone>> getMilestonesByItemId(String goalId) async {
     return _milestones.where((m) => m.goalId == goalId).toList();
   }
 
@@ -42,10 +47,10 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+  Future<void> deleteMilestonesByItemId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
   @override
@@ -61,14 +66,14 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async {
+  Future<List<Task>> getTasksByItemId(String milestoneId) async {
     return _tasks.where((t) => t.milestoneId == milestoneId).toList();
   }
 
@@ -77,10 +82,10 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+  Future<void> deleteTasksByItemId(String milestoneId) async =>
       _tasks.removeWhere((t) => t.milestoneId == milestoneId);
 
   @override
@@ -96,13 +101,13 @@ class MockGoalCompletionService implements GoalCompletionService {
 
   @override
   Future<bool> isGoalCompleted(String goalId) async {
-    final milestones = await milestoneRepository.getMilestonesByGoalId(goalId);
+    final milestones = await milestoneRepository.getMilestonesByItemId(goalId);
     if (milestones.isEmpty) return false;
 
     int completedCount = 0;
     for (final milestone in milestones) {
-      final tasks = await taskRepository.getTasksByMilestoneId(
-        milestone.id.value,
+      final tasks = await taskRepository.getTasksByItemId(
+        milestone.itemId.value,
       );
       if (tasks.isNotEmpty) {
         final allTasksDone = tasks.every((task) => task.status.isDone);
@@ -116,7 +121,7 @@ class MockGoalCompletionService implements GoalCompletionService {
 
   @override
   Future<Progress> calculateGoalProgress(String goalId) async {
-    final milestones = await milestoneRepository.getMilestonesByGoalId(goalId);
+    final milestones = await milestoneRepository.getMilestonesByItemId(goalId);
 
     if (milestones.isEmpty) {
       return Progress(0);
@@ -124,8 +129,8 @@ class MockGoalCompletionService implements GoalCompletionService {
 
     int totalProgress = 0;
     for (final milestone in milestones) {
-      final tasks = await taskRepository.getTasksByMilestoneId(
-        milestone.id.value,
+      final tasks = await taskRepository.getTasksByItemId(
+        milestone.itemId.value,
       );
 
       if (tasks.isEmpty) {
@@ -153,7 +158,7 @@ class MockMilestoneCompletionService implements MilestoneCompletionService {
 
   @override
   Future<bool> isMilestoneCompleted(String milestoneId) async {
-    final tasks = await taskRepository.getTasksByMilestoneId(milestoneId);
+    final tasks = await taskRepository.getTasksByItemId(milestoneId);
 
     if (tasks.isEmpty) {
       return false;
@@ -165,7 +170,7 @@ class MockMilestoneCompletionService implements MilestoneCompletionService {
 
   @override
   Future<Progress> calculateMilestoneProgress(String milestoneId) async {
-    final tasks = await taskRepository.getTasksByMilestoneId(milestoneId);
+    final tasks = await taskRepository.getTasksByItemId(milestoneId);
 
     if (tasks.isEmpty) {
       return Progress(0);
@@ -217,22 +222,22 @@ void main() {
       test('全タスク完了のゴールは 100% の進捗', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         final task = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         await mockTaskRepository.saveTask(task);
 
@@ -248,51 +253,51 @@ void main() {
         // Arrange
         // MS1: タスク1個完了（100%）
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: 'goal-456',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(ms1);
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: ms1.id.value,
+          milestoneId: ms1.itemId.value,
         );
         await mockTaskRepository.saveTask(task1);
 
         // MS2: タスク2個（1個Done=100%, 1個Todo=0%, 平均50%）
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 200)),
           ),
-          goalId: 'goal-456',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(ms2);
 
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2-1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2-1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: ms2.id.value,
+          milestoneId: ms2.itemId.value,
         );
         final task3 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2-2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2-2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.todo(),
-          milestoneId: ms2.id.value,
+          milestoneId: ms2.itemId.value,
         );
         await mockTaskRepository.saveTask(task2);
         await mockTaskRepository.saveTask(task3);
@@ -310,18 +315,18 @@ void main() {
       test('タスクなしのマイルストーンは 0% の進捗', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         // Act
         final progress = await useCase.calculateMilestoneProgress(
-          milestone.id.value,
+          milestone.itemId.value,
         );
 
         // Assert
@@ -331,37 +336,37 @@ void main() {
       test('全タスク完了のマイルストーンは 100% の進捗', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         await mockTaskRepository.saveTask(task1);
         await mockTaskRepository.saveTask(task2);
 
         // Act
         final progress = await useCase.calculateMilestoneProgress(
-          milestone.id.value,
+          milestone.itemId.value,
         );
 
         // Assert
@@ -371,39 +376,39 @@ void main() {
       test('複数タスクの平均進捗が計算される', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS'),
-          deadline: MilestoneDeadline(
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS'),
+          deadline: ItemDeadline(
             DateTime.now().add(const Duration(days: 100)),
           ),
-          goalId: 'goal-123',
+          goalId: ItemId('\'),
         );
         await mockMilestoneRepository.saveMilestone(milestone);
 
         // Task1: Done(100%), Task2: Doing(50%), Task3: Todo(0%) => 平均50%
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.done(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.doing(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         final task3 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク3'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 50))),
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク3'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
           status: TaskStatus.todo(),
-          milestoneId: milestone.id.value,
+          milestoneId: milestone.itemId.value,
         );
         await mockTaskRepository.saveTask(task1);
         await mockTaskRepository.saveTask(task2);
@@ -411,7 +416,7 @@ void main() {
 
         // Act
         final progress = await useCase.calculateMilestoneProgress(
-          milestone.id.value,
+          milestone.itemId.value,
         );
 
         // Assert
@@ -453,3 +458,6 @@ void main() {
     });
   });
 }
+
+
+

@@ -51,9 +51,9 @@ class GoalEditFormWidget extends ConsumerWidget {
             Text('説明・理由', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText: '説明・理由を入力（100文字以内）',
-              initialValue: state.reason,
+              initialValue: state.description,
               maxLength: 100,
-              onChanged: viewModel.updateReason,
+              onChanged: viewModel.updateDescription,
               multiline: true,
             ),
             SizedBox(height: Spacing.medium),

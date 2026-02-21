@@ -17,14 +17,14 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
       _tasks.where((t) => t.milestoneId == milestoneId).toList();
 
   @override
@@ -32,10 +32,10 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+  Future<void> deleteTasksByItemId(String milestoneId) async =>
       _tasks.removeWhere((t) => t.milestoneId == milestoneId);
 
   @override
@@ -48,10 +48,10 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+  Future<void> deleteMilestonesByItemId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
   @override
@@ -60,14 +60,14 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
       _milestones.where((m) => m.goalId == goalId).toList();
 
   @override
@@ -95,18 +95,20 @@ void main() {
       // Pre-populate milestones for tests
       mockMilestoneRepository.saveMilestone(
         Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('テストマイルストーン1'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('テストマイルストーン1'),
+          description: ItemDescription(''),
+deadline: ItemDeadline(DateTime(2026, 12, 31)),
+          goalId: ItemId('\'),
         ),
       );
       mockMilestoneRepository.saveMilestone(
         Milestone(
-          id: MilestoneId('milestone-123'),
-          title: MilestoneTitle('テストマイルストーン123'),
-          deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-123'),
+          title: ItemTitle('テストマイルストーン123'),
+          description: ItemDescription(''),
+deadline: ItemDeadline(DateTime(2026, 12, 31)),
+          goalId: ItemId('\'),
         ),
       );
     });
@@ -127,7 +129,7 @@ void main() {
         expect(task.description.value, 'RESTful APIの実装とテスト');
         expect(task.deadline.value.day, tomorrow.day);
         expect(task.status.isTodo, true);
-        expect(task.milestoneId, milestoneId);
+        expect(expect(task.milestoneId,.value, milestoneId);
       });
 
       test('ID は一意に生成されること', () async {
@@ -148,7 +150,7 @@ void main() {
           milestoneId: milestoneId,
         );
 
-        expect(task1.id, isNot(equals(task2.id)));
+        expect(task1.itemId$1 isNot(equals(task2.itemId$1));
       });
 
       test('作成時のステータスは常に Todo であること', () async {
@@ -326,9 +328,9 @@ void main() {
           milestoneId: milestoneId,
         );
 
-        final saved = await mockTaskRepository.getTaskById(task.id.value);
+        final saved = await mockTaskRepository.getTaskById(task.itemId.value);
         expect(saved, isNotNull);
-        expect(saved!.id, task.id);
+        expect(saved!.itemId$1 task.itemId$1;
         expect(saved.title.value, task.title.value);
         expect(saved.description.value, task.description.value);
       });
@@ -340,7 +342,7 @@ void main() {
             title: 'タスク',
             description: '説明',
             deadline: DateTime(2026, 12, 31),
-            milestoneId: 'non-existent-milestone',
+            milestoneId: ItemId('\'),
           ),
           throwsA(isA<ArgumentError>()),
         );
@@ -348,3 +350,7 @@ void main() {
     });
   });
 }
+
+
+
+

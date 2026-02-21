@@ -44,9 +44,9 @@ class DeleteGoalUseCaseImpl implements DeleteGoalUseCase {
     // 2. 各MilestoneのIDでTaskをすべて削除
     for (final milestone in milestonesToDelete) {
       debugPrint(
-        '[DeleteGoalUseCase] Deleting tasks for Milestone ID: ${milestone.id.value}',
+        '[DeleteGoalUseCase] Deleting tasks for Milestone ID: ${milestone.itemId.value}',
       );
-      await _taskRepository.deleteTasksByMilestoneId(milestone.id.value);
+      await _taskRepository.deleteTasksByMilestoneId(milestone.itemId.value);
     }
 
     // 3. MilestoneをすべてGoalIDで削除

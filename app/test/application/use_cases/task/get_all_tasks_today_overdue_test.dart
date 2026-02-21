@@ -2,10 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/task/get_all_tasks_today_use_case.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
+
+
+
+
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 
 class MockTaskRepository implements TaskRepository {
@@ -17,28 +21,28 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
+  Future<List<Task>> getTasksByItemId(String milestoneId) async =>
       _tasks.where((t) => t.milestoneId == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async {
-    _tasks.removeWhere((t) => t.id.value == task.id.value);
+    _tasks.removeWhere((t) => t.itemId.value == task.itemId.value);
     _tasks.add(task);
   }
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
+  Future<void> deleteTasksByItemId(String milestoneId) async =>
       _tasks.removeWhere((t) => t.milestoneId == milestoneId);
 
   @override
@@ -67,28 +71,28 @@ void main() {
       );
 
       final yesterdayTask = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('昨日のタスク'),
-        description: TaskDescription('過期限'),
-        deadline: TaskDeadline(yesterdayDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('昨日のタスク'),
+        description: ItemDescription('過期限'),
+        deadline: ItemDeadline(yesterdayDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
       final todayTask = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('本日のタスク'),
-        description: TaskDescription('本日'),
-        deadline: TaskDeadline(todayDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('本日のタスク'),
+        description: ItemDescription('本日'),
+        deadline: ItemDeadline(todayDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
       final tomorrowTask = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('明日のタスク'),
-        description: TaskDescription('未来'),
-        deadline: TaskDeadline(tomorrowDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('明日のタスク'),
+        description: ItemDescription('未来'),
+        deadline: ItemDeadline(tomorrowDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
 
       await mockRepository.saveTask(yesterdayTask);
@@ -100,9 +104,9 @@ void main() {
 
       // Assert
       expect(result.length, 2); // 昨日 + 本日のみ（明日は含まない）
-      expect(result.any((t) => t.id.value == yesterdayTask.id.value), true);
-      expect(result.any((t) => t.id.value == todayTask.id.value), true);
-      expect(result.any((t) => t.id.value == tomorrowTask.id.value), false);
+      expect(result.any((t) => t.itemId.value == yesterdayTask.itemId.value), true);
+      expect(result.any((t) => t.itemId.value == todayTask.itemId.value), true);
+      expect(result.any((t) => t.itemId.value == tomorrowTask.itemId.value), false);
     });
 
     test('複数日の過期限タスクがすべて含まれること', () async {
@@ -119,36 +123,36 @@ void main() {
       );
 
       final task3DaysAgo = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('3日前のタスク'),
-        description: TaskDescription('説明'),
-        deadline: TaskDeadline(threeDaysAgoDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('3日前のタスク'),
+        description: ItemDescription('説明'),
+        deadline: ItemDeadline(threeDaysAgoDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
       final task2DaysAgo = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('2日前のタスク'),
-        description: TaskDescription('説明'),
-        deadline: TaskDeadline(twoDaysAgoDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('2日前のタスク'),
+        description: ItemDescription('説明'),
+        deadline: ItemDeadline(twoDaysAgoDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
       final taskYesterday = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('昨日のタスク'),
-        description: TaskDescription('説明'),
-        deadline: TaskDeadline(yesterdayDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('昨日のタスク'),
+        description: ItemDescription('説明'),
+        deadline: ItemDeadline(yesterdayDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
       final taskToday = Task(
-        id: TaskId.generate(),
-        title: TaskTitle('本日のタスク'),
-        description: TaskDescription('説明'),
-        deadline: TaskDeadline(todayDeadline),
+        itemId: ItemId.generate(),
+        title: ItemTitle('本日のタスク'),
+        description: ItemDescription('説明'),
+        deadline: ItemDeadline(todayDeadline),
         status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        milestoneId: ItemId('\'),
       );
 
       await mockRepository.saveTask(task3DaysAgo);
@@ -161,10 +165,14 @@ void main() {
 
       // Assert
       expect(result.length, 4);
-      expect(result.any((t) => t.id.value == task3DaysAgo.id.value), true);
-      expect(result.any((t) => t.id.value == task2DaysAgo.id.value), true);
-      expect(result.any((t) => t.id.value == taskYesterday.id.value), true);
-      expect(result.any((t) => t.id.value == taskToday.id.value), true);
+      expect(result.any((t) => t.itemId.value == task3DaysAgo.itemId.value), true);
+      expect(result.any((t) => t.itemId.value == task2DaysAgo.itemId.value), true);
+      expect(result.any((t) => t.itemId.value == taskYesterday.itemId.value), true);
+      expect(result.any((t) => t.itemId.value == taskToday.itemId.value), true);
     });
   });
 }
+
+
+
+

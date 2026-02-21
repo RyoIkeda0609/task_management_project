@@ -14,17 +14,12 @@ class Milestone extends Item {
 
   /// コンストラクタ
   Milestone({
-    required ItemId itemId,
-    required ItemTitle title,
-    required ItemDescription description,
-    required ItemDeadline deadline,
+    required super.itemId,
+    required super.title,
+    required super.description,
+    required super.deadline,
     required this.goalId,
-  }) : super(
-         itemId: itemId,
-         title: title,
-         description: description,
-         deadline: deadline,
-       );
+  });
 
   @override
   bool operator ==(Object other) =>

@@ -14,17 +14,12 @@ class Goal extends Item {
 
   /// コンストラクタ
   Goal({
-    required ItemId itemId,
-    required ItemTitle title,
-    required ItemDescription description,
-    required ItemDeadline deadline,
+    required super.itemId,
+    required super.title,
+    required super.description,
+    required super.deadline,
     required this.category,
-  }) : super(
-         itemId: itemId,
-         title: title,
-         description: description,
-         deadline: deadline,
-       );
+  });
 
   @override
   bool operator ==(Object other) =>

@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/goal/search_goals_use_case.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
 
 class MockGoalRepository implements GoalRepository {
@@ -16,7 +16,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<Goal?> getGoalById(String id) async => _goals.firstWhere(
-    (g) => g.id.value == id,
+    (g) => g.itemId.value == id,
     orElse: () => throw Exception(),
   );
 
@@ -25,7 +25,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
+      _goals.removeWhere((g) => g.itemId.value == id);
 
   @override
   Future<void> deleteAllGoals() async => _goals.clear();
@@ -52,19 +52,19 @@ void main() {
       final tomorrow = DateTime.now().add(const Duration(days: 1));
 
       final goal1 = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('Flutter学習'),
+        itemId: ItemId('goal-1'),
+        title: ItemTitle('Flutter学習'),
         category: GoalCategory('プログラミング'),
-        reason: GoalReason('スキル習得'),
-        deadline: GoalDeadline(tomorrow),
+        description: ItemDescription('スキル習得'),
+        deadline: ItemDeadline(tomorrow),
       );
 
       final goal2 = Goal(
-        id: GoalId('goal-2'),
-        title: GoalTitle('ダイエット'),
+        itemId: ItemId('goal-2'),
+        title: ItemTitle('ダイエット'),
         category: GoalCategory('健康'),
-        reason: GoalReason('体重減少'),
-        deadline: GoalDeadline(tomorrow),
+        description: ItemDescription('体重減少'),
+        deadline: ItemDeadline(tomorrow),
       );
 
       await repository.saveGoal(goal1);
@@ -80,11 +80,11 @@ void main() {
       final tomorrow = DateTime.now().add(const Duration(days: 1));
 
       final goal = Goal(
-        id: GoalId('goal-1'),
-        title: GoalTitle('タイトル'),
+        itemId: ItemId('goal-1'),
+        title: ItemTitle('タイトル'),
         category: GoalCategory('プログラミング'),
-        reason: GoalReason('理由'),
-        deadline: GoalDeadline(tomorrow),
+        description: ItemDescription('理由'),
+        deadline: ItemDeadline(tomorrow),
       );
 
       await repository.saveGoal(goal);

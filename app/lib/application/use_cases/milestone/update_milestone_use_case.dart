@@ -1,8 +1,8 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/services/milestone_completion_service.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// UpdateMilestoneUseCase - マイルストーンを更新する
 abstract class UpdateMilestoneUseCase {
@@ -43,14 +43,15 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
     }
 
     // Validate
-    final milestoneTitle = MilestoneTitle(title);
-    final milestoneDeadline = MilestoneDeadline(deadline);
+    final itemTitle = ItemTitle(title);
+    final itemDeadline = ItemDeadline(deadline);
 
     // Execute
     final updatedMilestone = Milestone(
-      id: existingMilestone.id,
-      title: milestoneTitle,
-      deadline: milestoneDeadline,
+      itemId: existingMilestone.itemId,
+      title: itemTitle,
+      description: existingMilestone.description,
+      deadline: itemDeadline,
       goalId: existingMilestone.goalId,
     );
 

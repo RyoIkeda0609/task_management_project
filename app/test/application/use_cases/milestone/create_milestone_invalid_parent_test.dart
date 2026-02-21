@@ -3,12 +3,21 @@ import 'package:app/application/use_cases/milestone/create_milestone_use_case.da
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
-import 'package:app/domain/repositories/milestone_repository.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
+
+
+
+
+
 
 /// MockGoalRepository - ゴールを管理
 class MockGoalRepository implements GoalRepository {
@@ -19,7 +28,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
+      _goals.removeWhere((g) => g.itemId.value == id);
 
   @override
   Future<int> getGoalCount() async => _goals.length;
@@ -30,7 +39,7 @@ class MockGoalRepository implements GoalRepository {
   @override
   Future<Goal?> getGoalById(String id) async {
     try {
-      return _goals.firstWhere((g) => g.id.value == id);
+      return _goals.firstWhere((g) => g.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -38,7 +47,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> saveGoal(Goal goal) async {
-    final index = _goals.indexWhere((g) => g.id.value == goal.id.value);
+    final index = _goals.indexWhere((g) => g.itemId.value == goal.itemId.value);
     if (index >= 0) {
       _goals[index] = goal;
     } else {
@@ -56,14 +65,14 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
       _milestones.where((m) => m.goalId == goalId).toList();
 
   @override
@@ -72,10 +81,10 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+  Future<void> deleteMilestonesByItemId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId == goalId);
 
   @override
@@ -99,11 +108,11 @@ void main() {
       // Pre-populate goal-1 for tests
       mockGoalRepository.saveGoal(
         Goal(
-          id: GoalId('goal-1'),
-          title: GoalTitle('テストゴール'),
+          itemId: ItemId('goal-1'),
+          title: ItemTitle('テストゴール'),
           category: GoalCategory('ビジネス'),
-          reason: GoalReason('テスト用のゴール'),
-          deadline: GoalDeadline(DateTime(2026, 12, 31)),
+          description: ItemDescription('テスト用のゴール'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         ),
       );
     });
@@ -112,11 +121,11 @@ void main() {
       final milestone = await useCase.call(
         title: 'テストマイルストーン',
         deadline: DateTime(2026, 12, 31),
-        goalId: 'goal-1',
+        goalId: ItemId('\'),
       );
 
       expect(milestone.title.value, 'テストマイルストーン');
-      expect(milestone.goalId, 'goal-1');
+      expect(milestone.goalId.value, 'goal-1');
     });
 
     test('空のゴール ID でマイルストーンを作成しようとするとエラー', () async {
@@ -135,7 +144,7 @@ void main() {
         () async => await useCase.call(
           title: 'マイルストーン',
           deadline: DateTime(2020, 1, 1),
-          goalId: 'goal-1',
+          goalId: ItemId('\'),
         ),
         returnsNormally,
       );
@@ -149,10 +158,15 @@ void main() {
         () async => await useCase.call(
           title: 'マイルストーン',
           deadline: DateTime(2026, 12, 31),
-          goalId: 'non-existent-goal',
+          goalId: ItemId('\'),
         ),
         throwsA(isA<ArgumentError>()),
       );
     });
   });
 }
+
+
+
+
+

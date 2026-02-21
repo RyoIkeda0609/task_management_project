@@ -1,0 +1,467 @@
+00:00 +0: loading C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart
+00:00 +0: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・繝槭う繝ｫ繧ｹ繝医・繝ｳ縺ｯ ValueObject 縺ｮ繝舌Μ繝・・繧ｷ繝ｧ繝ｳ縺ｧ菴懈・縺ｧ縺阪ｋ
+00:00 +1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・遨ｺ縺ｮ繧ｴ繝ｼ繝ｫ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｽ懈・縺励ｈ縺・→縺吶ｋ縺ｨ繧ｨ繝ｩ繝ｼ
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:109:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:109:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:131:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:131:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:139:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:139:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:168:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:168:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:178:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:186:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:210:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:210:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:218:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:218:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:229:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:237:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:265:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:265:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:275:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:283:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+test/application/use_cases/milestone/delete_milestone_use_case_test.dart:291:11: Error: No named parameter with the name 'id'.
+          id: TaskId.generate(),
+          ^^
+lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+  Task({
+  ^^^^
+00:00 +2: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・譛滄剞縺梧悽譌･繧医ｊ蜑阪・譌･莉倥〒繧ゅ・繧､繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +3: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_invalid_parent_test.dart: CreateMilestoneUseCase - 荳肴ｭ｣縺ｪ隕ｪ縺ｸ縺ｮ霑ｽ蜉繝・せ繝・蟄伜惠縺励↑縺・ざ繝ｼ繝ｫ ID 縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ繧剃ｽ懈・縺励ｈ縺・→縺吶ｋ縺ｨ繧ｨ繝ｩ繝ｼ
+00:00 +4 -1: loading C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart [E]
+  Failed to load "C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart":
+  Compilation failed for testPath=C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/delete_milestone_use_case_test.dart: test/application/use_cases/milestone/delete_milestone_use_case_test.dart:109:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:109:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:131:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:131:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:139:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:139:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:168:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:168:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:178:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:186:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:210:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:210:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:218:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:218:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:229:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:237:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:265:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:265:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:275:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:283:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  test/application/use_cases/milestone/delete_milestone_use_case_test.dart:291:11: Error: No named parameter with the name 'id'.
+            id: TaskId.generate(),
+            ^^
+  lib/domain/entities/task.dart:19:3: Context: Found this candidate, but the arguments don't match.
+    Task({
+    ^^^^
+  .
+00:00 +4 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・譛牙柑縺ｪ蜈･蜉帙〒繝槭う繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +5 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・ID 縺ｯ荳諢上↓逕滓・縺輔ｌ繧九％縺ｨ
+00:00 +6 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・辟｡蜉ｹ縺ｪ繧ｿ繧､繝医Ν・・01譁・ｭ嶺ｻ･荳奇ｼ峨〒繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +7 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・譛ｬ譌･莉･蜑阪・譛滄剞縺ｧ繧ゅ・繧､繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +8 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・遨ｺ逋ｽ縺ｮ縺ｿ縺ｮ繧ｿ繧､繝医Ν縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +9 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・遨ｺ縺ｮ goalId 縺ｧ繧ｨ繝ｩ繝ｼ縺檎匱逕溘☆繧九％縺ｨ
+00:00 +10 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・1譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+00:00 +11 -1: C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/create_milestone_use_case_test.dart: CreateMilestoneUseCase 螳溯｡・100譁・ｭ励・繧ｿ繧､繝医Ν縺ｧ繝槭う繝ｫ繧ｹ繝医・繝ｳ縺御ｽ懈・縺ｧ縺阪ｋ縺薙→
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:64:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:64:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:72:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:72:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:111:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:111:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:119:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:119:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:147:19: Error: Undefined name 'MilestoneId'.
+              id: MilestoneId.generate(),
+                  ^^^^^^^^^^^
+test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:147:15: Error: No named parameter with the name 'id'.
+              id: MilestoneId.generate(),
+              ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+00:01 +12 -2: loading C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart [E]
+  Failed to load "C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart":
+  Compilation failed for testPath=C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart: test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:64:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:64:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:72:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:72:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:111:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:111:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:119:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:119:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:147:19: Error: Undefined name 'MilestoneId'.
+                id: MilestoneId.generate(),
+                    ^^^^^^^^^^^
+  test/application/use_cases/milestone/get_milestones_by_goal_id_use_case_test.dart:147:15: Error: No named parameter with the name 'id'.
+                id: MilestoneId.generate(),
+                ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  .
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:85:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:85:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:112:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:112:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:135:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:135:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:161:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:161:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:169:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:169:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:196:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:196:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:219:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:219:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:242:15: Error: Undefined name 'MilestoneId'.
+          id: MilestoneId.generate(),
+              ^^^^^^^^^^^
+test/application/use_cases/milestone/update_milestone_use_case_test.dart:242:11: Error: No named parameter with the name 'id'.
+          id: MilestoneId.generate(),
+          ^^
+lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+  Milestone({
+  ^^^^^^^^^
+00:01 +12 -3: loading C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart [E]
+  Failed to load "C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart":
+  Compilation failed for testPath=C:/Users/ikeda/dev/app/task_management_project/app/test/application/use_cases/milestone/update_milestone_use_case_test.dart: test/application/use_cases/milestone/update_milestone_use_case_test.dart:85:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:85:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:112:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:112:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:135:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:135:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:161:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:161:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:169:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:169:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:196:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:196:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:219:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:219:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:242:15: Error: Undefined name 'MilestoneId'.
+            id: MilestoneId.generate(),
+                ^^^^^^^^^^^
+  test/application/use_cases/milestone/update_milestone_use_case_test.dart:242:11: Error: No named parameter with the name 'id'.
+            id: MilestoneId.generate(),
+            ^^
+  lib/domain/entities/milestone.dart:16:3: Context: Found this candidate, but the arguments don't match.
+    Milestone({
+    ^^^^^^^^^
+  .
+00:01 +12 -3: Some tests failed.
