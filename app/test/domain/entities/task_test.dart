@@ -5,7 +5,6 @@ import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
-import 'package:app/domain/value_objects/shared/progress.dart';
 
 void main() {
   group('Task Entity', () {

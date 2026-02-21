@@ -12,9 +12,6 @@ import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 
-
-
-
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
 
@@ -31,8 +28,8 @@ class MockMilestoneRepository implements MilestoneRepository {
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByItemId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async =>
@@ -43,8 +40,8 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByItemId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -67,17 +64,15 @@ void main() {
         final ms1 = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('Q1計画'),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
           goalId: goalId,
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
-          title: ItemTitle('Q2計画'),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
+          title: ItemTitle('Q2\u8a08\u753b'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
           goalId: goalId,
         );
         await mockRepository.saveMilestone(ms1);
@@ -92,7 +87,7 @@ void main() {
           result.map((m) => m.itemId.value),
           containsAll([ms1.itemId.value, ms2.itemId.value]),
         );
-        expect(result.every((m) => m.goalId == goalId), true);
+        expect(result.every((m) => m.goalId.value == goalId), true);
       });
 
       test('マイルストーンなしのゴール ID で空リストが返されること', () async {
@@ -114,17 +109,15 @@ void main() {
         final ms1 = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('Goal1-MS'),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
           goalId: goalId1,
         );
         final ms2 = Milestone(
           itemId: ItemId.generate(),
           title: ItemTitle('Goal2-MS'),
-          deadline: ItemDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
           goalId: goalId2,
         );
         await mockRepository.saveMilestone(ms1);
@@ -150,6 +143,7 @@ void main() {
             Milestone(
               itemId: ItemId.generate(),
               title: ItemTitle('MS$i'),
+              description: ItemDescription(''),
               deadline: ItemDeadline(
                 DateTime.now().add(Duration(days: 30 * i)),
               ),
@@ -181,8 +175,3 @@ void main() {
     });
   });
 }
-
-
-
-
-

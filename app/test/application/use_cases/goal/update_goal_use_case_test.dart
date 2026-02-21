@@ -66,7 +66,7 @@ class MockMilestoneRepository implements MilestoneRepository {
   }
 
   @override
-  Future<List<Milestone>> getMilestonesByItemId(String goalId) async {
+  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async {
     return _milestones.where((m) => m.goalId.value == goalId).toList();
   }
 
@@ -81,7 +81,7 @@ class MockMilestoneRepository implements MilestoneRepository {
       _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
-  Future<void> deleteMilestonesByItemId(String goalId) async =>
+  Future<void> deleteMilestonesByGoalId(String goalId) async =>
       _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
@@ -104,7 +104,7 @@ class MockTaskRepository implements TaskRepository {
   }
 
   @override
-  Future<List<Task>> getTasksByItemId(String milestoneId) async {
+  Future<List<Task>> getTasksByMilestoneId(String milestoneId) async {
     return _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
   }
 
@@ -119,7 +119,7 @@ class MockTaskRepository implements TaskRepository {
       _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
-  Future<void> deleteTasksByItemId(String milestoneId) async =>
+  Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
       _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
