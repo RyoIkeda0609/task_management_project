@@ -156,7 +156,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus(TaskStatus.statusDone),
+          status: TaskStatus.done,
         );
         final task2 = Task(
           itemId: ItemId('task-2'),
@@ -164,7 +164,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus(TaskStatus.statusDone),
+          status: TaskStatus.done,
         );
         fakeTaskRepository.addTask(task1);
         fakeTaskRepository.addTask(task2);
@@ -205,7 +205,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus(TaskStatus.statusDone),
+          status: TaskStatus.done,
         );
         final task2 = Task(
           itemId: ItemId('task-2'),
@@ -213,7 +213,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus(TaskStatus.statusDoing),
+          status: TaskStatus.doing,
         );
         fakeTaskRepository.addTask(task1);
         fakeTaskRepository.addTask(task2);
@@ -276,7 +276,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus(TaskStatus.statusDone),
+          status: TaskStatus.done,
         );
         fakeTaskRepository.addTask(task1);
 
@@ -333,7 +333,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
         );
         final task2 = Task(
           itemId: ItemId('task-2'),
@@ -341,7 +341,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
         );
         fakeTaskRepository.addTask(task1);
         fakeTaskRepository.addTask(task2);
@@ -387,7 +387,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
         );
         final task2 = Task(
           itemId: ItemId('task-2'),
@@ -395,7 +395,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
         );
         fakeTaskRepository.addTask(task1);
         fakeTaskRepository.addTask(task2);
@@ -453,7 +453,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
         );
         fakeTaskRepository.addTask(task1);
 
@@ -508,7 +508,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
         );
         final task2 = Task(
           itemId: ItemId('task-2'),
@@ -516,7 +516,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
         );
         final task3 = Task(
           itemId: ItemId('task-3'),
@@ -524,7 +524,7 @@ void main() {
           title: ItemTitle('タスク3'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime(2026, 12, 31)),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
         );
         fakeTaskRepository.addTask(task1);
         fakeTaskRepository.addTask(task2);

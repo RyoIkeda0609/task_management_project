@@ -113,7 +113,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -122,7 +122,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -131,7 +131,7 @@ void main() {
           title: ItemTitle('タスク3'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -180,7 +180,7 @@ void main() {
           title: ItemTitle('未開始タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -189,7 +189,7 @@ void main() {
           title: ItemTitle('進行中タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -198,7 +198,7 @@ void main() {
           title: ItemTitle('完了タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -255,7 +255,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -265,7 +265,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-2'),
         );
 
@@ -321,7 +321,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -330,7 +330,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-2'),
         );
 
@@ -398,7 +398,7 @@ void main() {
           title: ItemTitle('不正なタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'), // goalId をそのまま milestoneId に設定
         );
 

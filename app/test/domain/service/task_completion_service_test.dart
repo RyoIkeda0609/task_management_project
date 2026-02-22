@@ -66,21 +66,21 @@ void main() {
 
     group('isTaskCompleted', () {
       test('Done のタスクは true を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', TaskStatus.done()));
+        fakeTaskRepository.addTask(createTask('t1', TaskStatus.done));
 
         final result = await service.isTaskCompleted('t1');
         expect(result, true);
       });
 
       test('Todo のタスクは false を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', TaskStatus.todo));
 
         final result = await service.isTaskCompleted('t1');
         expect(result, false);
       });
 
       test('Doing のタスクは false を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', TaskStatus.doing()));
+        fakeTaskRepository.addTask(createTask('t1', TaskStatus.doing));
 
         final result = await service.isTaskCompleted('t1');
         expect(result, false);

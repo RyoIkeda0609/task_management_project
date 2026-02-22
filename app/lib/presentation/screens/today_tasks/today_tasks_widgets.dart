@@ -6,6 +6,7 @@ import '../../theme/app_theme.dart';
 import '../../../application/providers/use_case_providers.dart';
 import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import '../../../domain/entities/task.dart';
+import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../utils/validation_helper.dart';
 import '../../widgets/common/status_badge.dart';
@@ -239,54 +240,36 @@ class TodayTaskItemWidget extends ConsumerWidget {
         onTap: () => _toggleTaskStatus(context, ref),
         child: Container(
           padding: EdgeInsets.all(Spacing.medium),
-          child: StatusBadge(
-            status: _normalizeTaskStatus(),
-            size: BadgeSize.small,
-          ),
+          child: StatusBadge(status: task.status, size: BadgeSize.small),
         ),
       ),
     );
   }
 
   IconData _getStatusIcon() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) {
-      return Icons.check_circle;
-    } else if (statusStr.contains('doing')) {
-      return Icons.radio_button_checked;
-    } else {
-      return Icons.radio_button_unchecked;
-    }
+    return switch (task.status) {
+      TaskStatus.done => Icons.check_circle,
+      TaskStatus.doing => Icons.radio_button_checked,
+      TaskStatus.todo => Icons.radio_button_unchecked,
+    };
   }
 
   Color _getStatusColor() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) {
-      return AppColors.success;
-    } else if (statusStr.contains('doing')) {
-      return AppColors.warning;
-    } else {
-      return AppColors.neutral400;
-    }
+    return switch (task.status) {
+      TaskStatus.done => AppColors.success,
+      TaskStatus.doing => AppColors.warning,
+      TaskStatus.todo => AppColors.neutral400,
+    };
   }
 
   TextStyle _getTaskTextStyle() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) {
+    if (task.status.isDone) {
       return AppTextStyles.bodyMedium.copyWith(
         decoration: TextDecoration.lineThrough,
         color: AppColors.neutral500,
       );
-    } else {
-      return AppTextStyles.bodyMedium;
     }
-  }
-
-  String _normalizeTaskStatus() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) return 'done';
-    if (statusStr.contains('doing')) return 'doing';
-    return 'todo';
+    return AppTextStyles.bodyMedium;
   }
 
   Future<void> _toggleTaskStatus(BuildContext context, WidgetRef ref) async {

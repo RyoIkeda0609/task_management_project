@@ -124,7 +124,7 @@ void main() {
           title: ItemTitle('Goal1のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await taskRepository.saveTask(task);
@@ -172,7 +172,7 @@ void main() {
           title: ItemTitle('孤立したタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('nonexistent-milestone'),
         );
 
@@ -196,7 +196,7 @@ void main() {
             title: ItemTitle('タスク'),
             description: ItemDescription('説明'),
             deadline: ItemDeadline(tomorrow),
-            status: TaskStatus.todo(),
+            status: TaskStatus.todo,
             milestoneId: ItemId(''),
           ),
           returnsNormally, // ドメインレイヤーでは作成できるがアプリケーション層で検証
@@ -222,7 +222,7 @@ void main() {
           title: ItemTitle('タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await taskRepository.saveTask(task);
@@ -266,7 +266,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -275,7 +275,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
 

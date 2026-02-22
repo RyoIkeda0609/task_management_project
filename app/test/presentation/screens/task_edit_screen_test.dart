@@ -24,7 +24,7 @@ class FakeTaskRepository implements TaskRepository {
     title: ItemTitle('テスト タスク'),
     description: ItemDescription('これはテストタスクです'),
     deadline: ItemDeadline(DateTime(2026, 3, 1)),
-    status: TaskStatus.todo(),
+    status: TaskStatus.todo,
     milestoneId: ItemId('milestone-1'),
   );
 
@@ -49,7 +49,7 @@ void main() {
         title: ItemTitle('テスト タスク'),
         description: ItemDescription('これはテストタスクです'),
         deadline: ItemDeadline(DateTime(2026, 3, 1)),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
 
@@ -106,7 +106,7 @@ void main() {
                   title: ItemTitle('テスト タスク'),
                   description: ItemDescription('これはテストタスクです'),
                   deadline: ItemDeadline(DateTime(2026, 3, 1)),
-                  status: TaskStatus.todo(),
+                  status: TaskStatus.todo,
                   milestoneId: ItemId('milestone-1'),
                 ),
               ),

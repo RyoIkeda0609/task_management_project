@@ -6,6 +6,7 @@ import '../../../theme/app_theme.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
 
 // ============ Header Widget ============
 
@@ -47,12 +48,10 @@ class TaskDetailDeadlineWidget extends StatelessWidget {
   }
 
   String _formatDate(dynamic deadline) {
-    try {
-      final dt = deadline is DateTime ? deadline : DateTime.now();
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '期限未設定';
+    if (deadline is DateTime) {
+      return '${deadline.year}年${deadline.month}月${deadline.day}日';
     }
+    return '期限未設定';
   }
 }
 
@@ -110,63 +109,55 @@ class TaskDetailStatusWidget extends ConsumerWidget {
   }
 
   Future<void> _changeTaskStatus(WidgetRef ref) async {
-    try {
-      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
-      await changeTaskStatusUseCase(task.itemId.value);
+    final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
+    await changeTaskStatusUseCase(task.itemId.value);
 
-      // State を再取得 - すべての Task Provider と進捗 Provider を invalidate
-      ref.invalidate(taskDetailProvider(task.itemId.value));
-      ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
-      ref.invalidate(todayTasksProvider);
-      ref.invalidate(goalsProvider);
-      ref.invalidate(goalProgressProvider);
-    } catch (e) {
-      rethrow;
-    }
+    // State を再取得 - すべての Task Provider と進捗 Provider を invalidate
+    ref.invalidate(taskDetailProvider(task.itemId.value));
+    ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
+    ref.invalidate(todayTasksProvider);
+    ref.invalidate(goalsProvider);
+    ref.invalidate(goalProgressProvider);
   }
 
-  String _getStatusLabel(dynamic status) {
-    final statusStr = status.toString();
-    if (statusStr.contains('todo')) return '未完了';
-    if (statusStr.contains('doing')) return '進行中';
-    if (statusStr.contains('done')) return '完了';
-    return statusStr;
+  String _getStatusLabel(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.todo => '未完了',
+      TaskStatus.doing => '進行中',
+      TaskStatus.done => '完了',
+    };
   }
 
-  IconData _getStatusIcon(dynamic status) {
-    final statusStr = status.toString();
-    if (statusStr.contains('done')) return Icons.check_circle;
-    if (statusStr.contains('doing')) return Icons.radio_button_checked;
-    return Icons.radio_button_unchecked;
+  IconData _getStatusIcon(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => Icons.check_circle,
+      TaskStatus.doing => Icons.radio_button_checked,
+      TaskStatus.todo => Icons.radio_button_unchecked,
+    };
   }
 
-  Color _getStatusColor(dynamic status) {
-    final statusStr = status.toString();
-    if (statusStr.contains('done')) return AppColors.success;
-    if (statusStr.contains('doing')) return AppColors.warning;
-    return AppColors.neutral400;
+  Color _getStatusColor(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => AppColors.success,
+      TaskStatus.doing => AppColors.warning,
+      TaskStatus.todo => AppColors.neutral400,
+    };
   }
 
-  Color _getStatusBackgroundColor(dynamic status) {
-    final statusStr = status.toString();
-    if (statusStr.contains('done')) {
-      return AppColors.success.withValues(alpha: 0.1);
-    }
-    if (statusStr.contains('doing')) {
-      return AppColors.warning.withValues(alpha: 0.1);
-    }
-    return AppColors.neutral100;
+  Color _getStatusBackgroundColor(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => AppColors.success.withValues(alpha: 0.1),
+      TaskStatus.doing => AppColors.warning.withValues(alpha: 0.1),
+      TaskStatus.todo => AppColors.neutral100,
+    };
   }
 
-  Color _getStatusBorderColor(dynamic status) {
-    final statusStr = status.toString();
-    if (statusStr.contains('done')) {
-      return AppColors.success.withValues(alpha: 0.3);
-    }
-    if (statusStr.contains('doing')) {
-      return AppColors.warning.withValues(alpha: 0.3);
-    }
-    return AppColors.neutral300;
+  Color _getStatusBorderColor(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => AppColors.success.withValues(alpha: 0.3),
+      TaskStatus.doing => AppColors.warning.withValues(alpha: 0.3),
+      TaskStatus.todo => AppColors.neutral300,
+    };
   }
 }
 

@@ -75,7 +75,7 @@ void main() {
           title: ItemTitle('本日タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final otherDayTask = Task(
@@ -83,7 +83,7 @@ void main() {
           title: ItemTitle('明日タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(otherDayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -114,7 +114,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明1'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
@@ -122,7 +122,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明2'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
         final task3 = Task(
@@ -130,7 +130,7 @@ void main() {
           title: ItemTitle('タスク3'),
           description: ItemDescription('説明3'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
         final task4 = Task(
@@ -138,7 +138,7 @@ void main() {
           title: ItemTitle('明日のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrowDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -173,7 +173,7 @@ void main() {
           title: ItemTitle('明日のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrowDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
@@ -181,7 +181,7 @@ void main() {
           title: ItemTitle('3日後のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(threeDaysLaterDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -211,7 +211,7 @@ void main() {
           title: ItemTitle('マイルストーン1のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
@@ -219,7 +219,7 @@ void main() {
           title: ItemTitle('マイルストーン2のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-2'),
         );
         final task3 = Task(
@@ -227,7 +227,7 @@ void main() {
           title: ItemTitle('マイルストーン3のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-3'),
         );
         final task4 = Task(
@@ -235,7 +235,7 @@ void main() {
           title: ItemTitle('別マイルストーンの明日のタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(tomorrowDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
 
@@ -269,7 +269,7 @@ void main() {
           title: ItemTitle('TODO タスク'),
           description: ItemDescription('まだ開始していない'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final doingTask = Task(
@@ -277,7 +277,7 @@ void main() {
           title: ItemTitle('DOING タスク'),
           description: ItemDescription('進行中'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
         final doneTask = Task(
@@ -285,7 +285,7 @@ void main() {
           title: ItemTitle('DONE タスク'),
           description: ItemDescription('完了済み'),
           deadline: ItemDeadline(todayDeadline),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
 

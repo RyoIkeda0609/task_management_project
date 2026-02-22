@@ -56,13 +56,10 @@ class GoalDetailPageState {
 
   // ========== 手術2-3: 表示用の整形文言 ==========
   String get formattedDeadline {
-    if (goal?.deadline == null) return '期限未設定';
-    try {
-      final dt = goal!.deadline.value;
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '期限未設定';
-    }
+    final g = goal;
+    if (g == null) return '期限未設定';
+    final dt = g.deadline.value;
+    return '${dt.year}年${dt.month}月${dt.day}日';
   }
 
   String get categoryLabel => goal?.category.value ?? 'Unknown';

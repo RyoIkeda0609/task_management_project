@@ -62,7 +62,7 @@ void main() {
           title: ItemTitle('Task 1'),
           description: ItemDescription('First task description'),
           deadline: ItemDeadline(DateTime(2026, 4, 5)),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
         ),
         Task(
           itemId: ItemId('task-2'),
@@ -70,7 +70,7 @@ void main() {
           title: ItemTitle('Task 2'),
           description: ItemDescription('Second task description'),
           deadline: ItemDeadline(DateTime(2026, 4, 10)),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
         ),
       ];
 
@@ -142,7 +142,7 @@ void main() {
         title: ItemTitle('Complete Documentation'),
         description: ItemDescription('Write docs for the new feature'),
         deadline: ItemDeadline(DateTime(2026, 3, 15)),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
       );
 
       await tester.pumpWidget(
@@ -165,7 +165,7 @@ void main() {
           title: ItemTitle('Task 1 - TODO'),
           description: ItemDescription('First task description'),
           deadline: ItemDeadline(DateTime(2026, 3, 10)),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
         ),
         Task(
           itemId: ItemId('task-2'),
@@ -173,7 +173,7 @@ void main() {
           title: ItemTitle('Task 2 - In Progress'),
           description: ItemDescription('Second task description'),
           deadline: ItemDeadline(DateTime(2026, 3, 12)),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
         ),
       ];
 

@@ -17,7 +17,7 @@ void main() {
         title: ItemTitle('ウィジェット学習'),
         description: ItemDescription('StatefulWidget と StatelessWidget の差を学ぶ'),
         deadline: ItemDeadline(tomorrow),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
     });
@@ -40,7 +40,7 @@ void main() {
           title: ItemTitle('New Task'),
           description: ItemDescription('Description'),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-x'),
         );
         expect(taskWithGeneratedId.itemId.value.isNotEmpty, true);
@@ -52,7 +52,7 @@ void main() {
           title: ItemTitle('Task'),
           description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
         expect(taskEmptyDesc.description.value, '');
@@ -66,7 +66,7 @@ void main() {
           title: ItemTitle('Test'),
           description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final progress = todoTask.getProgress();
@@ -79,7 +79,7 @@ void main() {
           title: ItemTitle('Test'),
           description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
         final progress = doingTask.getProgress();
@@ -92,7 +92,7 @@ void main() {
           title: ItemTitle('Test'),
           description: ItemDescription(''),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-1'),
         );
         final progress = doneTask.getProgress();
@@ -138,7 +138,7 @@ void main() {
             'StatefulWidget と StatelessWidget の差を学ぶ',
           ),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         expect(task, task2);
@@ -152,7 +152,7 @@ void main() {
             'StatefulWidget と StatelessWidget の差を学ぶ',
           ),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         expect(task, isNot(task2));
@@ -166,7 +166,7 @@ void main() {
             'StatefulWidget と StatelessWidget の差を学ぶ',
           ),
           deadline: ItemDeadline(tomorrow),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         expect(task.hashCode, task2.hashCode);

@@ -6,7 +6,7 @@ void main() {
     group('循環遷移の順序', () {
       test('Taskの状態遷移はTodo → Doing → Done → Todoの循環であること', () {
         // Arrange
-        final status = TaskStatus.todo();
+        final status = TaskStatus.todo;
 
         // Act & Assert
         expect(status.isTodo, true, reason: '初期状態: Todo');
@@ -27,7 +27,7 @@ void main() {
 
       test('状態遷移でステップをスキップできないこと（複数回の遷移が必要）', () {
         // Arrange
-        final todoStatus = TaskStatus.todo();
+        final todoStatus = TaskStatus.todo;
 
         // Act
         final step1 = todoStatus.nextStatus();
@@ -47,7 +47,7 @@ void main() {
 
       test('DoneからTodoへの直接遷移は不可能でありDone→Todoは循環のみであること', () {
         // Arrange
-        final doneStatus = TaskStatus.done();
+        final doneStatus = TaskStatus.done;
 
         // Act - Done からの遷移
         final nextStatus = doneStatus.nextStatus();
@@ -64,9 +64,9 @@ void main() {
     group('各状態の不変性', () {
       test('同じ状態は常に等しいこと', () {
         // Arrange
-        final status1 = TaskStatus.todo();
-        final status2 = TaskStatus.todo();
-        final status3 = TaskStatus.doing();
+        final status1 = TaskStatus.todo;
+        final status2 = TaskStatus.todo;
+        final status3 = TaskStatus.doing;
 
         // Act & Assert
         expect(status1, equals(status2), reason: '同じ Todo は等しい');
@@ -76,7 +76,7 @@ void main() {
 
       test('nextStatus()を呼び出しても元の状態は変わらないこと（イミュータブル）', () {
         // Arrange
-        final originalStatus = TaskStatus.todo();
+        final originalStatus = TaskStatus.todo;
 
         // Act
         final newStatus = originalStatus.nextStatus();
@@ -95,9 +95,9 @@ void main() {
     group('状態値の一貫性', () {
       test('各ステータスのprogress値が一定であること', () {
         // Arrange
-        final todoStatus = TaskStatus.todo();
-        final doingStatus = TaskStatus.doing();
-        final doneStatus = TaskStatus.done();
+        final todoStatus = TaskStatus.todo;
+        final doingStatus = TaskStatus.doing;
+        final doneStatus = TaskStatus.done;
 
         // Act & Assert
         expect(todoStatus.progress, 0, reason: 'Todo = 0%');
@@ -113,15 +113,15 @@ void main() {
       test('有効なファクトリで生成されたTaskStatusは必ず有効なステータス値を持つこと', () {
         // Arrange
         final validStates = [
-          TaskStatus.todo(),
-          TaskStatus.doing(),
-          TaskStatus.done(),
+          TaskStatus.todo,
+          TaskStatus.doing,
+          TaskStatus.done,
         ];
 
         final validValues = [
-          TaskStatus.statusTodo,
-          TaskStatus.statusDoing,
-          TaskStatus.statusDone,
+          'todo',
+          'doing',
+          'done',
         ];
 
         // Act & Assert
@@ -136,7 +136,7 @@ void main() {
     group('状態遷移グラフの完全性', () {
       test('3つの状態がすべて相互に到達可能であること', () {
         // Arrange
-        var currentStatus = TaskStatus.todo();
+        var currentStatus = TaskStatus.todo;
         final visitedStates = <String>{};
 
         // Act - 完全な循環を1周する
@@ -157,7 +157,7 @@ void main() {
 
       test('状態遷移が常に有効な次の状態を生成すること（100回繰り返し）', () {
         // Arrange
-        var status = TaskStatus.todo();
+        var status = TaskStatus.todo;
 
         // Act - 複数回の遷移を実行
         for (int i = 0; i < 100; i++) {

@@ -9,6 +9,7 @@ import '../../../state_management/providers/app_providers.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/milestone.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
 
 class MilestoneDetailHeaderWidget extends StatelessWidget {
   final Milestone milestone;
@@ -43,13 +44,8 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
     );
   }
 
-  String _formatDate(dynamic date) {
-    try {
-      final dt = date is DateTime ? date : DateTime.now();
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '未設定';
-    }
+  String _formatDate(DateTime date) {
+    return '${date.year}年${date.month}月${date.day}日';
   }
 }
 
@@ -177,10 +173,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
               SizedBox(width: Spacing.small),
               Expanded(child: _buildTaskInfo(task)),
               SizedBox(width: Spacing.small),
-              StatusBadge(
-                status: _mapTaskStatus(task.status),
-                size: BadgeSize.small,
-              ),
+              StatusBadge(status: task.status, size: BadgeSize.small),
               SizedBox(width: Spacing.small),
               _buildTaskMenu(context, ref, task),
             ],
@@ -232,28 +225,26 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
   }
 
   Future<void> _changeTaskStatus(WidgetRef ref, Task task) async {
-    try {
-      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
-      await changeTaskStatusUseCase(task.itemId.value);
+    final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
+    await changeTaskStatusUseCase(task.itemId.value);
 
-      // State を再取得
-      ref.invalidate(milestoneDetailProvider(task.milestoneId.value));
-      ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
-    } catch (e) {
-      rethrow;
-    }
+    // State を再取得
+    ref.invalidate(milestoneDetailProvider(task.milestoneId.value));
+    ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
   }
 
-  Widget _buildTaskStatusIcon(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
-
-    if (statusStr.contains('done')) {
-      return _buildStatusIconBox(AppColors.success, Icons.check);
-    }
-    if (statusStr.contains('doing')) {
-      return _buildStatusIconBox(AppColors.warning, Icons.schedule);
-    }
-    return _buildStatusIconBox(AppColors.neutral400, Icons.circle_outlined);
+  Widget _buildTaskStatusIcon(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => _buildStatusIconBox(AppColors.success, Icons.check),
+      TaskStatus.doing => _buildStatusIconBox(
+        AppColors.warning,
+        Icons.schedule,
+      ),
+      TaskStatus.todo => _buildStatusIconBox(
+        AppColors.neutral400,
+        Icons.circle_outlined,
+      ),
+    };
   }
 
   Widget _buildStatusIconBox(Color color, IconData icon) {
@@ -268,23 +259,8 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
     );
   }
 
-  String _formatDate(dynamic date) {
-    try {
-      if (date is DateTime) {
-        return '${date.year}年${date.month}月${date.day}日';
-      }
-      // 予期しない型の場合は未設定を返す
-      return '未設定';
-    } catch (e) {
-      return '未設定';
-    }
-  }
-
-  String _mapTaskStatus(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
-    if (statusStr.contains('done')) return 'done';
-    if (statusStr.contains('doing')) return 'doing';
-    return 'todo';
+  String _formatDate(DateTime date) {
+    return '${date.year}年${date.month}月${date.day}日';
   }
 
   void _navigateToTaskDetail(

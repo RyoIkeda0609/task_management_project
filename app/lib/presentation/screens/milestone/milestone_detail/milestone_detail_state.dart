@@ -64,12 +64,9 @@ class MilestoneDetailPageState {
 
   // ========== 手術2-3: 表示用の整形文言 ==========
   String get formattedDeadline {
-    if (milestone?.deadline == null) return '期限未設定';
-    try {
-      final dt = milestone!.deadline.value;
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '期限未設定';
-    }
+    final m = milestone;
+    if (m == null) return '期限未設定';
+    final dt = m.deadline.value;
+    return '${dt.year}年${dt.month}月${dt.day}日';
   }
 }

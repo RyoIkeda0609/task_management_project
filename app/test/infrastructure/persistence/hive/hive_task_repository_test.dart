@@ -1,4 +1,4 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:app/infrastructure/persistence/hive/hive_task_repository.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
@@ -49,7 +49,7 @@ void main() {
           title: ItemTitle('新しいタスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
 
@@ -65,7 +65,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明1'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
         final task2 = Task(
@@ -73,7 +73,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明2'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-123'),
         );
 
@@ -94,7 +94,7 @@ void main() {
           title: ItemTitle('検索対象'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
 
@@ -126,7 +126,7 @@ void main() {
           title: ItemTitle('MS内タスク1'),
           description: ItemDescription('説明1'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId(milestoneId),
         );
         final task2 = Task(
@@ -134,7 +134,7 @@ void main() {
           title: ItemTitle('MS内タスク2'),
           description: ItemDescription('説明2'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId(milestoneId),
         );
         final task3 = Task(
@@ -142,7 +142,7 @@ void main() {
           title: ItemTitle('他のMS タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('other-milestone'),
         );
 
@@ -168,7 +168,7 @@ void main() {
           title: ItemTitle('MS1タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId(msId1),
         );
         final task2 = Task(
@@ -176,7 +176,7 @@ void main() {
           title: ItemTitle('MS2タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId(msId2),
         );
 
@@ -210,13 +210,13 @@ void main() {
           title: ItemTitle('ステータス変更対象'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
 
         // Act & Assert
         // 実装: await repository.saveTask(task);
-        // final updatedTask = task.copyWith(status: TaskStatus.doing());
+        // final updatedTask = task.copyWith(status: TaskStatus.doing);
         // await repository.saveTask(updatedTask);
         // final retrieved = await repository.getTaskById(task.itemId.value);
         // expect(retrieved?.status.isDoing, true);
@@ -231,7 +231,7 @@ void main() {
           title: ItemTitle('未開始'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
         final doingTask = Task(
@@ -239,7 +239,7 @@ void main() {
           title: ItemTitle('進行中'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-123'),
         );
         final doneTask = Task(
@@ -247,7 +247,7 @@ void main() {
           title: ItemTitle('完了'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: ItemId('milestone-123'),
         );
 
@@ -273,7 +273,7 @@ void main() {
           title: ItemTitle('削除対象'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
 
@@ -295,7 +295,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId(milestoneId),
         );
         final task2 = Task(
@@ -303,7 +303,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId(milestoneId),
         );
 
@@ -327,7 +327,7 @@ void main() {
           title: ItemTitle('MS1タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId(msId1),
         );
         final task2 = Task(
@@ -335,7 +335,7 @@ void main() {
           title: ItemTitle('MS2タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId(msId2),
         );
 
@@ -360,7 +360,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
@@ -368,7 +368,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-2'),
         );
 

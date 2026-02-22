@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -309,13 +310,11 @@ class CalendarTaskItem extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusIcon(dynamic status) {
-    final statusValue = status is String ? status : (status as dynamic).value;
-    final (color, icon) = switch (statusValue) {
-      'todo' => (AppColors.neutral500, Icons.radio_button_unchecked),
-      'doing' => (AppColors.warning, Icons.schedule),
-      'done' => (AppColors.success, Icons.check_circle),
-      _ => (AppColors.neutral500, Icons.radio_button_unchecked),
+  Widget _buildStatusIcon(TaskStatus status) {
+    final (color, icon) = switch (status) {
+      TaskStatus.todo => (AppColors.neutral500, Icons.radio_button_unchecked),
+      TaskStatus.doing => (AppColors.warning, Icons.schedule),
+      TaskStatus.done => (AppColors.success, Icons.check_circle),
     };
 
     return Icon(icon, color: color, size: 20);

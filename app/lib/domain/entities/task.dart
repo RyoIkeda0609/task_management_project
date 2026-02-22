@@ -78,7 +78,7 @@ class Task extends Item {
     title: ItemTitle(json['title'] as String),
     description: ItemDescription(json['description'] as String),
     deadline: ItemDeadline(DateTime.parse(json['deadline'] as String)),
-    status: TaskStatus(json['status'] as String),
+    status: TaskStatus.fromString(json['status'] as String),
     milestoneId: ItemId(json['milestoneId'] as String),
   );
 }

@@ -8,7 +8,6 @@ import 'package:app/application/providers/use_case_providers.dart';
 import '../notifiers/goal_notifier.dart';
 import '../notifiers/milestone_notifier.dart';
 import '../notifiers/task_notifier.dart';
-import 'repository_providers.dart';
 
 /// ======================== Goal State Providers ========================
 
@@ -25,8 +24,8 @@ import 'repository_providers.dart';
 /// ```
 final goalsProvider =
     StateNotifierProvider<GoalsNotifier, AsyncValue<List<Goal>>>((ref) {
-      final repository = ref.watch(goalRepositoryProvider);
-      return GoalsNotifier(repository)..loadGoals();
+      final useCase = ref.watch(getAllGoalsUseCaseProvider);
+      return GoalsNotifier(useCase)..loadGoals();
     });
 
 /// 特定IDのゴール詳細を取得するProvider
@@ -39,8 +38,8 @@ final goalDetailProvider = FutureProvider.family<Goal?, String>((
   ref,
   goalId,
 ) async {
-  final repository = ref.watch(goalRepositoryProvider);
-  return repository.getGoalById(goalId);
+  final useCase = ref.watch(getGoalByIdUseCaseProvider);
+  return useCase(goalId);
 });
 
 /// ======================== Milestone State Providers ========================
@@ -57,8 +56,8 @@ final milestonesByGoalProvider =
       AsyncValue<List<Milestone>>,
       String
     >((ref, goalId) {
-      final repository = ref.watch(milestoneRepositoryProvider);
-      final notifier = MilestonesNotifier(repository);
+      final useCase = ref.watch(getMilestonesByGoalIdUseCaseProvider);
+      final notifier = MilestonesNotifier(useCase);
       notifier.loadMilestonesByGoalId(goalId);
       return notifier;
     });
@@ -73,8 +72,8 @@ final milestoneDetailProvider = FutureProvider.family<Milestone?, String>((
   ref,
   milestoneId,
 ) async {
-  final repository = ref.watch(milestoneRepositoryProvider);
-  return repository.getMilestoneById(milestoneId);
+  final useCase = ref.watch(getMilestoneByIdUseCaseProvider);
+  return useCase(milestoneId);
 });
 
 /// ======================== Task State Providers ========================
@@ -88,8 +87,8 @@ final milestoneDetailProvider = FutureProvider.family<Milestone?, String>((
 final tasksByMilestoneProvider =
     StateNotifierProvider.family<TasksNotifier, AsyncValue<List<Task>>, String>(
       (ref, milestoneId) {
-        final repository = ref.watch(taskRepositoryProvider);
-        final notifier = TasksNotifier(repository);
+        final useCase = ref.watch(getTasksByMilestoneIdUseCaseProvider);
+        final notifier = TasksNotifier.forMilestone(useCase);
         notifier.loadTasksByMilestoneId(milestoneId);
         return notifier;
       },
@@ -103,9 +102,8 @@ final tasksByMilestoneProvider =
 /// ```
 final todayTasksProvider =
     StateNotifierProvider<TasksNotifier, AsyncValue<List<Task>>>((ref) {
-      final repository = ref.watch(taskRepositoryProvider);
-      final notifier = TasksNotifier(repository);
-      // すべてのタスクを読み込む（UI側でフィルタリング可能）
+      final useCase = ref.watch(getAllTasksTodayUseCaseProvider);
+      final notifier = TasksNotifier.forAll(useCase);
       notifier.loadAllTasks();
       return notifier;
     });
@@ -120,8 +118,8 @@ final taskDetailProvider = FutureProvider.family<Task?, String>((
   ref,
   taskId,
 ) async {
-  final repository = ref.watch(taskRepositoryProvider);
-  return repository.getTaskById(taskId);
+  final useCase = ref.watch(getTaskByIdUseCaseProvider);
+  return useCase(taskId);
 });
 
 /// ======================== Grouped Task Providers ========================

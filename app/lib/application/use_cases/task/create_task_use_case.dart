@@ -53,7 +53,7 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
       title: itemTitle,
       description: itemDescription,
       deadline: itemDeadline,
-      status: TaskStatus.todo(),
+      status: TaskStatus.todo,
       milestoneId: ItemId(milestoneId),
     );
 

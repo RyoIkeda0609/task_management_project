@@ -107,7 +107,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'goal/:goalId',
                     builder: (context, state) {
-                      final goalId = state.pathParameters['goalId'] ?? '';
+                      final goalId = state.pathParameters['goalId']!;
                       return GoalDetailPage(goalId: goalId);
                     },
                     routes: [
@@ -115,7 +115,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       GoRoute(
                         path: 'edit',
                         builder: (context, state) {
-                          final goalId = state.pathParameters['goalId'] ?? '';
+                          final goalId = state.pathParameters['goalId']!;
                           return GoalEditPage(goalId: goalId);
                         },
                       ),
@@ -124,7 +124,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       GoRoute(
                         path: 'milestone_create',
                         builder: (context, state) {
-                          final goalId = state.pathParameters['goalId'] ?? '';
+                          final goalId = state.pathParameters['goalId']!;
                           return MilestoneCreatePage(goalId: goalId);
                         },
                       ),
@@ -134,7 +134,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                         path: 'milestone/:milestoneId',
                         builder: (context, state) {
                           final milestoneId =
-                              state.pathParameters['milestoneId'] ?? '';
+                              state.pathParameters['milestoneId']!;
                           return MilestoneDetailPage(milestoneId: milestoneId);
                         },
                         routes: [
@@ -143,7 +143,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             path: 'edit',
                             builder: (context, state) {
                               final milestoneId =
-                                  state.pathParameters['milestoneId'] ?? '';
+                                  state.pathParameters['milestoneId']!;
                               return MilestoneEditPage(
                                 milestoneId: milestoneId,
                               );
@@ -155,9 +155,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             path: 'task_create',
                             builder: (context, state) {
                               final milestoneId =
-                                  state.pathParameters['milestoneId'] ?? '';
+                                  state.pathParameters['milestoneId']!;
                               final goalId =
-                                  state.pathParameters['goalId'] ?? '';
+                                  state.pathParameters['goalId']!;
                               return TaskCreatePage(
                                 milestoneId: milestoneId,
                                 goalId: goalId,
@@ -170,11 +170,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             path: 'task/:taskId',
                             builder: (context, state) {
                               final taskId =
-                                  state.pathParameters['taskId'] ?? '';
+                                  state.pathParameters['taskId']!;
                               final goalId =
-                                  state.pathParameters['goalId'] ?? '';
+                                  state.pathParameters['goalId']!;
                               final milestoneId =
-                                  state.pathParameters['milestoneId'] ?? '';
+                                  state.pathParameters['milestoneId']!;
                               return TaskDetailPage(
                                 taskId: taskId,
                                 source: 'milestone',
@@ -188,7 +188,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                                 path: 'edit',
                                 builder: (context, state) {
                                   final taskId =
-                                      state.pathParameters['taskId'] ?? '';
+                                      state.pathParameters['taskId']!;
                                   return TaskEditPage(taskId: taskId);
                                 },
                               ),
@@ -214,7 +214,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'task/:taskId',
                     builder: (context, state) {
-                      final taskId = state.pathParameters['taskId'] ?? '';
+                      final taskId = state.pathParameters['taskId']!;
                       return TaskDetailPage(
                         taskId: taskId,
                         source: 'today_tasks',
@@ -225,7 +225,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       GoRoute(
                         path: 'edit',
                         builder: (context, state) {
-                          final taskId = state.pathParameters['taskId'] ?? '';
+                          final taskId = state.pathParameters['taskId']!;
                           return TaskEditPage(taskId: taskId);
                         },
                       ),

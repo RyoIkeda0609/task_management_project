@@ -71,23 +71,23 @@ void main() {
       });
 
       test('すべてのタスクが Done の場合は true を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done()));
-        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.done()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done));
+        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.done));
 
         final result = await service.isMilestoneCompleted('ms-1');
         expect(result, true);
       });
 
       test('一部のタスクが未完了の場合は false を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done()));
-        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done));
+        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.todo));
 
         final result = await service.isMilestoneCompleted('ms-1');
         expect(result, false);
       });
 
       test('すべてのタスクが Todo の場合は false を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.todo));
 
         final result = await service.isMilestoneCompleted('ms-1');
         expect(result, false);
@@ -95,7 +95,7 @@ void main() {
 
       test('Doing のタスクがある場合は false を返す', () async {
         fakeTaskRepository.addTask(
-          createTask('t1', 'ms-1', TaskStatus.doing()),
+          createTask('t1', 'ms-1', TaskStatus.doing),
         );
 
         final result = await service.isMilestoneCompleted('ms-1');
@@ -103,8 +103,8 @@ void main() {
       });
 
       test('別のマイルストーンのタスクは影響しない', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done()));
-        fakeTaskRepository.addTask(createTask('t2', 'ms-2', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done));
+        fakeTaskRepository.addTask(createTask('t2', 'ms-2', TaskStatus.todo));
 
         final result = await service.isMilestoneCompleted('ms-1');
         expect(result, true);
@@ -118,16 +118,16 @@ void main() {
       });
 
       test('すべてのタスクが Done の場合は 100% を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done()));
-        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.done()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done));
+        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.done));
 
         final progress = await service.calculateMilestoneProgress('ms-1');
         expect(progress.value, 100);
       });
 
       test('すべてのタスクが Todo の場合は 0% を返す', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.todo()));
-        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.todo));
+        fakeTaskRepository.addTask(createTask('t2', 'ms-1', TaskStatus.todo));
 
         final progress = await service.calculateMilestoneProgress('ms-1');
         expect(progress.value, 0);
@@ -135,11 +135,11 @@ void main() {
 
       test('タスクが混在する場合に正しい進捗率を返す', () async {
         // Todo=0, Doing=50, Done=100 → average = (0+50+100)/3 = 50
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.todo));
         fakeTaskRepository.addTask(
-          createTask('t2', 'ms-1', TaskStatus.doing()),
+          createTask('t2', 'ms-1', TaskStatus.doing),
         );
-        fakeTaskRepository.addTask(createTask('t3', 'ms-1', TaskStatus.done()));
+        fakeTaskRepository.addTask(createTask('t3', 'ms-1', TaskStatus.done));
 
         final progress = await service.calculateMilestoneProgress('ms-1');
         expect(progress.value, 50);
@@ -147,7 +147,7 @@ void main() {
 
       test('Doing のみの場合は 50% を返す', () async {
         fakeTaskRepository.addTask(
-          createTask('t1', 'ms-1', TaskStatus.doing()),
+          createTask('t1', 'ms-1', TaskStatus.doing),
         );
 
         final progress = await service.calculateMilestoneProgress('ms-1');
@@ -155,8 +155,8 @@ void main() {
       });
 
       test('別のマイルストーンのタスクは計算に含まない', () async {
-        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done()));
-        fakeTaskRepository.addTask(createTask('t2', 'ms-2', TaskStatus.todo()));
+        fakeTaskRepository.addTask(createTask('t1', 'ms-1', TaskStatus.done));
+        fakeTaskRepository.addTask(createTask('t2', 'ms-2', TaskStatus.todo));
 
         final progress = await service.calculateMilestoneProgress('ms-1');
         expect(progress.value, 100);

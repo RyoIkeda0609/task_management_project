@@ -8,7 +8,6 @@ import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
-import 'package:app/domain/value_objects/task/task_status.dart';
 
 class MockTaskRepository implements TaskRepository {
   final List<Task> _tasks = [];
@@ -117,7 +116,7 @@ void main() {
       expect(task.title.value, 'テストタスク');
       expect(task.description.value, 'テストタスクの説明');
       expect(task.milestoneId.value, 'milestone-1');
-      expect(task.status.value, TaskStatus.statusTodo);
+      expect(task.status.value, 'todo');
     });
 
     test('空のマイルストーンIDでタスクを作成しようとするとエラー', () async {
@@ -152,7 +151,7 @@ void main() {
         milestoneId: 'milestone-1',
       );
 
-      expect(task.status.value, TaskStatus.statusTodo);
+      expect(task.status.value, 'todo');
     });
 
     test('500文字以上の説明でタスク作成時にエラー', () async {

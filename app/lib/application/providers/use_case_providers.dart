@@ -7,10 +7,12 @@ import 'package:app/application/use_cases/goal/delete_goal_use_case.dart';
 import 'package:app/application/use_cases/goal/search_goals_use_case.dart';
 import 'package:app/application/use_cases/milestone/create_milestone_use_case.dart';
 import 'package:app/application/use_cases/milestone/get_milestones_by_goal_id_use_case.dart';
+import 'package:app/application/use_cases/milestone/get_milestone_by_id_use_case.dart';
 import 'package:app/application/use_cases/milestone/update_milestone_use_case.dart';
 import 'package:app/application/use_cases/milestone/delete_milestone_use_case.dart';
 import 'package:app/application/use_cases/task/create_task_use_case.dart';
 import 'package:app/application/use_cases/task/get_tasks_by_milestone_id_use_case.dart';
+import 'package:app/application/use_cases/task/get_task_by_id_use_case.dart';
 import 'package:app/application/use_cases/task/update_task_use_case.dart';
 import 'package:app/application/use_cases/task/delete_task_use_case.dart';
 import 'package:app/application/use_cases/task/change_task_status_use_case.dart';
@@ -104,6 +106,13 @@ final getMilestonesByGoalIdUseCaseProvider =
       );
     });
 
+/// GetMilestoneByIdUseCase Provider
+final getMilestoneByIdUseCaseProvider = Provider<GetMilestoneByIdUseCase>((
+  ref,
+) {
+  return GetMilestoneByIdUseCaseImpl(ref.watch(milestoneRepositoryProvider));
+});
+
 /// UpdateMilestoneUseCase Provider
 final updateMilestoneUseCaseProvider = Provider<UpdateMilestoneUseCase>((ref) {
   return UpdateMilestoneUseCaseImpl(
@@ -137,6 +146,11 @@ final getTasksByMilestoneIdUseCaseProvider =
         ref.watch(taskRepositoryProvider),
       );
     });
+
+/// GetTaskByIdUseCase Provider
+final getTaskByIdUseCaseProvider = Provider<GetTaskByIdUseCase>((ref) {
+  return GetTaskByIdUseCaseImpl(ref.watch(taskRepositoryProvider));
+});
 
 /// UpdateTaskUseCase Provider
 final updateTaskUseCaseProvider = Provider<UpdateTaskUseCase>((ref) {

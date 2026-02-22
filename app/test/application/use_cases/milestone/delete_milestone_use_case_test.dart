@@ -168,7 +168,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: milestone.itemId,
         );
         final task2 = Task(
@@ -176,7 +176,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: milestone.itemId,
         );
         await mockTaskRepository.saveTask(task1);
@@ -217,7 +217,7 @@ void main() {
           title: ItemTitle('MS1タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ms1.itemId,
         );
         final task2 = Task(
@@ -225,7 +225,7 @@ void main() {
           title: ItemTitle('MS2タスク'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 100))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ms2.itemId,
         );
         await mockTaskRepository.saveTask(task1);
@@ -262,7 +262,7 @@ void main() {
           title: ItemTitle('未開始'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: milestone.itemId,
         );
         final doingTask = Task(
@@ -270,7 +270,7 @@ void main() {
           title: ItemTitle('進行中'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: milestone.itemId,
         );
         final doneTask = Task(
@@ -278,7 +278,7 @@ void main() {
           title: ItemTitle('完了'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 50))),
-          status: TaskStatus.done(),
+          status: TaskStatus.done,
           milestoneId: milestone.itemId,
         );
         await mockTaskRepository.saveTask(todoTask);

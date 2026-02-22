@@ -210,7 +210,7 @@ void main() {
         title: ItemTitle('タスク1'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
-        status: TaskStatus.done(),
+        status: TaskStatus.done,
         milestoneId: ItemId('milestone-1'),
       );
       await taskRepository.saveTask(task1);

@@ -63,7 +63,7 @@ void main() {
         title: ItemTitle('テストタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
 
@@ -81,7 +81,7 @@ void main() {
         title: ItemTitle('テストタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
-        status: TaskStatus.doing(),
+        status: TaskStatus.doing,
         milestoneId: ItemId('milestone-1'),
       );
 
@@ -99,7 +99,7 @@ void main() {
         title: ItemTitle('テストタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(tomorrow),
-        status: TaskStatus.done(),
+        status: TaskStatus.done,
         milestoneId: ItemId('milestone-1'),
       );
 

@@ -38,10 +38,10 @@ void main() {
 
     test('タスクがステータス別に正しくグループ化されること', () async {
       final tasks = [
-        createTask('t1', TaskStatus.todo()),
-        createTask('t2', TaskStatus.doing()),
-        createTask('t3', TaskStatus.done()),
-        createTask('t4', TaskStatus.todo()),
+        createTask('t1', TaskStatus.todo),
+        createTask('t2', TaskStatus.doing),
+        createTask('t3', TaskStatus.done),
+        createTask('t4', TaskStatus.todo),
       ];
 
       final result = await useCase.call(tasks);
@@ -54,9 +54,9 @@ void main() {
 
     test('completedCount が Done タスク数と一致すること', () async {
       final tasks = [
-        createTask('t1', TaskStatus.done()),
-        createTask('t2', TaskStatus.done()),
-        createTask('t3', TaskStatus.todo()),
+        createTask('t1', TaskStatus.done),
+        createTask('t2', TaskStatus.done),
+        createTask('t3', TaskStatus.todo),
       ];
 
       final result = await useCase.call(tasks);
@@ -66,8 +66,8 @@ void main() {
 
     test('completionPercentage が正しく計算されること', () async {
       final tasks = [
-        createTask('t1', TaskStatus.done()),
-        createTask('t2', TaskStatus.todo()),
+        createTask('t1', TaskStatus.done),
+        createTask('t2', TaskStatus.todo),
       ];
 
       final result = await useCase.call(tasks);
@@ -83,9 +83,9 @@ void main() {
 
     test('すべて Done の場合 completionPercentage が 100 であること', () async {
       final tasks = [
-        createTask('t1', TaskStatus.done()),
-        createTask('t2', TaskStatus.done()),
-        createTask('t3', TaskStatus.done()),
+        createTask('t1', TaskStatus.done),
+        createTask('t2', TaskStatus.done),
+        createTask('t3', TaskStatus.done),
       ];
 
       final result = await useCase.call(tasks);
@@ -95,9 +95,9 @@ void main() {
 
     test('allTasks が全タスクを含むこと', () async {
       final tasks = [
-        createTask('t1', TaskStatus.todo()),
-        createTask('t2', TaskStatus.doing()),
-        createTask('t3', TaskStatus.done()),
+        createTask('t1', TaskStatus.todo),
+        createTask('t2', TaskStatus.doing),
+        createTask('t3', TaskStatus.done),
       ];
 
       final result = await useCase.call(tasks);
@@ -107,8 +107,8 @@ void main() {
 
     test('すべて同じステータスの場合に正しくグループ化されること', () async {
       final tasks = [
-        createTask('t1', TaskStatus.doing()),
-        createTask('t2', TaskStatus.doing()),
+        createTask('t1', TaskStatus.doing),
+        createTask('t2', TaskStatus.doing),
       ];
 
       final result = await useCase.call(tasks);

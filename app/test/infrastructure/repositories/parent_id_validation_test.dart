@@ -121,7 +121,7 @@ void main() {
         title: ItemTitle('テストタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(DateTime(2026, 12, 31)),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
 
@@ -165,7 +165,7 @@ void main() {
         title: ItemTitle('タスク1'),
         description: ItemDescription('説明1'),
         deadline: ItemDeadline(DateTime(2026, 12, 31)),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
 
@@ -174,7 +174,7 @@ void main() {
         title: ItemTitle('タスク2'),
         description: ItemDescription('説明2'),
         deadline: ItemDeadline(DateTime(2026, 12, 31)),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-2'),
       );
 

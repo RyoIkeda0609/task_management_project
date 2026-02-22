@@ -74,7 +74,7 @@ void main() {
           title: ItemTitle('元のタイトル'),
           description: ItemDescription('元の説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(original);
@@ -104,7 +104,7 @@ void main() {
           title: ItemTitle('元のタイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(original);
@@ -129,7 +129,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('元の説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(original);
@@ -153,7 +153,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(original);
@@ -179,7 +179,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(original);
@@ -203,7 +203,7 @@ void main() {
           title: ItemTitle('タスク1'),
           description: ItemDescription('説明1'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
@@ -211,7 +211,7 @@ void main() {
           title: ItemTitle('タスク2'),
           description: ItemDescription('説明2'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
+          status: TaskStatus.doing,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task1);
@@ -239,7 +239,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
@@ -263,7 +263,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
@@ -287,7 +287,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-1'),
         );
         await mockRepository.saveTask(task);
@@ -311,7 +311,7 @@ void main() {
           title: ItemTitle('タイトル'),
           description: ItemDescription('説明'),
           deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
+          status: TaskStatus.todo,
           milestoneId: ItemId('milestone-123'),
         );
         await mockRepository.saveTask(task);

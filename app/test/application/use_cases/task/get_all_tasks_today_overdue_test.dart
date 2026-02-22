@@ -72,7 +72,7 @@ void main() {
         title: ItemTitle('昨日のタスク'),
         description: ItemDescription('過期限'),
         deadline: ItemDeadline(yesterdayDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
       final todayTask = Task(
@@ -80,7 +80,7 @@ void main() {
         title: ItemTitle('本日のタスク'),
         description: ItemDescription('本日'),
         deadline: ItemDeadline(todayDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
       final tomorrowTask = Task(
@@ -88,7 +88,7 @@ void main() {
         title: ItemTitle('明日のタスク'),
         description: ItemDescription('未来'),
         deadline: ItemDeadline(tomorrowDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
 
@@ -130,7 +130,7 @@ void main() {
         title: ItemTitle('3日前のタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(threeDaysAgoDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
       final task2DaysAgo = Task(
@@ -138,7 +138,7 @@ void main() {
         title: ItemTitle('2日前のタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(twoDaysAgoDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
       final taskYesterday = Task(
@@ -146,7 +146,7 @@ void main() {
         title: ItemTitle('昨日のタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(yesterdayDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
       final taskToday = Task(
@@ -154,7 +154,7 @@ void main() {
         title: ItemTitle('本日のタスク'),
         description: ItemDescription('説明'),
         deadline: ItemDeadline(todayDeadline),
-        status: TaskStatus.todo(),
+        status: TaskStatus.todo,
         milestoneId: ItemId('milestone-1'),
       );
 

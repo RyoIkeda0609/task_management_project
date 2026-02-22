@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../../domain/entities/milestone.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -201,14 +202,14 @@ class PyramidTaskNode extends StatelessWidget {
         vertical: Spacing.xxSmall,
       ),
       decoration: BoxDecoration(
-        color: _getTaskStatusColor(task.status.value),
+        color: _getTaskStatusColor(task.status),
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppColors.neutral200),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _getStatusIcon(task.status.value),
+          _getStatusIcon(task.status),
           SizedBox(width: Spacing.small),
           Expanded(
             child: Text(
@@ -223,35 +224,31 @@ class PyramidTaskNode extends StatelessWidget {
     );
   }
 
-  Color _getTaskStatusColor(String status) {
-    switch (status) {
-      case 'todo':
-        return AppColors.neutral200.withValues(alpha: 0.5);
-      case 'doing':
-        return AppColors.warning.withValues(alpha: 0.1);
-      case 'done':
-        return AppColors.success.withValues(alpha: 0.1);
-      default:
-        return AppColors.neutral100;
-    }
+  Color _getTaskStatusColor(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.todo => AppColors.neutral200.withValues(alpha: 0.5),
+      TaskStatus.doing => AppColors.warning.withValues(alpha: 0.1),
+      TaskStatus.done => AppColors.success.withValues(alpha: 0.1),
+    };
   }
 
-  Widget _getStatusIcon(String status) {
-    switch (status) {
-      case 'done':
-        return Icon(Icons.check_circle, color: AppColors.success, size: 18);
-      case 'doing':
-        return Icon(
-          Icons.radio_button_checked,
-          color: AppColors.warning,
-          size: 18,
-        );
-      default:
-        return Icon(
-          Icons.radio_button_unchecked,
-          color: AppColors.neutral400,
-          size: 18,
-        );
-    }
+  Widget _getStatusIcon(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => Icon(
+        Icons.check_circle,
+        color: AppColors.success,
+        size: 18,
+      ),
+      TaskStatus.doing => Icon(
+        Icons.radio_button_checked,
+        color: AppColors.warning,
+        size: 18,
+      ),
+      TaskStatus.todo => Icon(
+        Icons.radio_button_unchecked,
+        color: AppColors.neutral400,
+        size: 18,
+      ),
+    };
   }
 }
