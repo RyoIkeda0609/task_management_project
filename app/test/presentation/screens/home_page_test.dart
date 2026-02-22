@@ -16,30 +16,13 @@ void main() {
     testWidgets('HomeAppBar が表示される', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: DefaultTabController(
-            length: 3,
-            child: Scaffold(appBar: const HomeAppBar(), body: const SizedBox()),
-          ),
+          home: Scaffold(appBar: const HomeAppBar(), body: const SizedBox()),
         ),
       );
 
       expect(find.text('ゴール管理'), findsOneWidget);
-      expect(find.byType(TabBar), findsOneWidget);
-    });
-
-    testWidgets('TabBar に3つのタブがある', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: DefaultTabController(
-            length: 3,
-            child: Scaffold(appBar: const HomeAppBar(), body: const SizedBox()),
-          ),
-        ),
-      );
-
-      expect(find.text('リスト'), findsOneWidget);
-      expect(find.text('ピラミッド'), findsOneWidget);
-      expect(find.text('カレンダー'), findsOneWidget);
+      // タブは削除済み（ゴール詳細画面へ移動）
+      expect(find.byType(TabBar), findsNothing);
     });
 
     testWidgets('ゴールカードが表示される', (WidgetTester tester) async {
@@ -69,10 +52,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: DefaultTabController(
-              length: 3,
-              child: Scaffold(body: GoalEmptyView(onCreatePressed: () {})),
-            ),
+            home: Scaffold(body: GoalEmptyView(onCreatePressed: () {})),
           ),
         ),
       );
@@ -83,10 +63,9 @@ void main() {
 
     testWidgets('エラービューが表示される', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: DefaultTabController(
-            length: 3,
-            child: Scaffold(
+        ProviderScope(
+          child: MaterialApp(
+            home: Scaffold(
               body: GoalErrorView(
                 errorMessage: 'テストエラー',
                 onCreatePressed: () {},
@@ -106,13 +85,10 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: DefaultTabController(
-              length: 3,
-              child: Scaffold(
-                body: state.viewState == HomeViewState.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : HomeContent(state: state, onCreatePressed: () {}),
-              ),
+            home: Scaffold(
+              body: state.viewState == HomeViewState.loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : HomeContent(state: state, onCreatePressed: () {}),
             ),
           ),
         ),
@@ -127,16 +103,13 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: DefaultTabController(
-              length: 3,
-              child: Scaffold(
-                body: state.viewState == HomeViewState.error
-                    ? GoalErrorView(
-                        errorMessage: state.errorMessage ?? 'エラーが発生しました',
-                        onCreatePressed: () {},
-                      )
-                    : HomeContent(state: state, onCreatePressed: () {}),
-              ),
+            home: Scaffold(
+              body: state.viewState == HomeViewState.error
+                  ? GoalErrorView(
+                      errorMessage: state.errorMessage ?? 'エラーが発生しました',
+                      onCreatePressed: () {},
+                    )
+                  : HomeContent(state: state, onCreatePressed: () {}),
             ),
           ),
         ),
@@ -151,13 +124,10 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: DefaultTabController(
-              length: 3,
-              child: Scaffold(
-                body: state.viewState == HomeViewState.empty
-                    ? GoalEmptyView(onCreatePressed: () {})
-                    : HomeContent(state: state, onCreatePressed: () {}),
-              ),
+            home: Scaffold(
+              body: state.viewState == HomeViewState.empty
+                  ? GoalEmptyView(onCreatePressed: () {})
+                  : HomeContent(state: state, onCreatePressed: () {}),
             ),
           ),
         ),

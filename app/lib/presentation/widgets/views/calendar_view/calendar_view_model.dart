@@ -56,3 +56,9 @@ final calendarViewModelProvider =
     StateNotifierProvider.autoDispose<CalendarViewModel, CalendarPageState>(
       (ref) => CalendarViewModel(),
     );
+
+/// ゴール詳細画面用のカレンダーViewModelProvider（goalId 別にインスタンスを持つ）
+final goalCalendarViewModelProvider = StateNotifierProvider.autoDispose
+    .family<CalendarViewModel, CalendarPageState, String>(
+      (ref, goalId) => CalendarViewModel(),
+    );

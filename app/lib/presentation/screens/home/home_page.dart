@@ -8,7 +8,7 @@ import 'home_widgets.dart';
 
 /// ホーム画面
 ///
-/// 3つの異なるビュー（リスト / ピラミッド / カレンダー）でゴール・マイルストーン・タスクを表示します。
+/// ゴール一覧をリスト形式で表示します。
 ///
 /// 責務：
 /// - Scaffold と Provider の接続
@@ -26,28 +26,25 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final goalsAsync = ref.watch(goalsProvider);
 
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: const HomeAppBar(),
-        body: goalsAsync.when(
-          data: (goals) => _Body(
-            state: HomePageState.withData(goals),
-            onCreatePressed: () => _onCreateGoalPressed(context),
-          ),
-          loading: () => _Body(
-            state: HomePageState.initial(),
-            onCreatePressed: () => _onCreateGoalPressed(context),
-          ),
-          error: (error, stackTrace) => _Body(
-            state: HomePageState.withError(error.toString()),
-            onCreatePressed: () => _onCreateGoalPressed(context),
-          ),
+    return Scaffold(
+      appBar: const HomeAppBar(),
+      body: goalsAsync.when(
+        data: (goals) => _Body(
+          state: HomePageState.withData(goals),
+          onCreatePressed: () => _onCreateGoalPressed(context),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _onCreateGoalPressed(context),
-          child: const Icon(Icons.add),
+        loading: () => _Body(
+          state: HomePageState.initial(),
+          onCreatePressed: () => _onCreateGoalPressed(context),
         ),
+        error: (error, stackTrace) => _Body(
+          state: HomePageState.withError(error.toString()),
+          onCreatePressed: () => _onCreateGoalPressed(context),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _onCreateGoalPressed(context),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -85,24 +82,10 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-      children: [
-        Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-          ),
-        ),
-        Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-          ),
-        ),
-        Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
-          ),
-        ),
-      ],
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+      ),
     );
   }
 }

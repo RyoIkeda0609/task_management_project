@@ -265,15 +265,18 @@ class CalendarTaskList extends StatelessWidget {
 /// カレンダーのタスク項目
 class CalendarTaskItem extends StatelessWidget {
   final Task task;
+  final VoidCallback? onTap;
 
-  const CalendarTaskItem({super.key, required this.task});
+  const CalendarTaskItem({super.key, required this.task, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(bottom: Spacing.small),
       child: InkWell(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
+        onTap:
+            onTap ??
+            () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
         borderRadius: BorderRadius.circular(4),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),

@@ -4,7 +4,17 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:app/application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
-import 'package:app/application/providers/use_case_providers.dart';
+import 'package:app/application/providers/use_case_providers.dart'
+    show
+        getAllGoalsUseCaseProvider,
+        getGoalByIdUseCaseProvider,
+        getMilestonesByGoalIdUseCaseProvider,
+        getMilestoneByIdUseCaseProvider,
+        getTasksByMilestoneIdUseCaseProvider,
+        getAllTasksTodayUseCaseProvider,
+        getTaskByIdUseCaseProvider,
+        getTasksGroupedByStatusUseCaseProvider,
+        calculateProgressUseCaseProvider;
 import '../notifiers/goal_notifier.dart';
 import '../notifiers/milestone_notifier.dart';
 import '../notifiers/task_notifier.dart';
@@ -144,6 +154,33 @@ final todayTasksGroupedProvider = FutureProvider<GroupedTasks>((ref) async {
     loading: () => throw Exception('Loading tasks...'),
     error: (error, stack) => throw error,
   );
+});
+
+/// ======================== Tasks by Goal Provider ========================
+
+/// 特定ゴール配下の全タスクを取得するProvider
+///
+/// ゴールに紐づく全マイルストーンのタスクをまとめて返します。
+/// ゴール詳細画面のカレンダービュー等で使用します。
+///
+/// 使用方法:
+/// ```dart
+/// final tasksAsync = ref.watch(tasksByGoalProvider(goalId));
+/// ```
+final tasksByGoalProvider = FutureProvider.family<List<Task>, String>((
+  ref,
+  goalId,
+) async {
+  final getMilestonesUseCase = ref.watch(getMilestonesByGoalIdUseCaseProvider);
+  final getTasksUseCase = ref.watch(getTasksByMilestoneIdUseCaseProvider);
+
+  final milestones = await getMilestonesUseCase(goalId);
+  final allTasks = <Task>[];
+  for (final milestone in milestones) {
+    final tasks = await getTasksUseCase(milestone.itemId.value);
+    allTasks.addAll(tasks);
+  }
+  return allTasks;
 });
 
 /// ======================== Progress Providers ========================

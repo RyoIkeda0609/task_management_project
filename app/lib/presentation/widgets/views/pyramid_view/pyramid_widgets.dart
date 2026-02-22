@@ -57,12 +57,14 @@ class PyramidMilestoneNode extends ConsumerWidget {
   final Milestone milestone;
   final String goalId;
   final AsyncValue<List<Task>> milestoneTasks;
+  final void Function(Task task)? onTaskTap;
 
   const PyramidMilestoneNode({
     super.key,
     required this.milestone,
     required this.goalId,
     required this.milestoneTasks,
+    this.onTaskTap,
   });
 
   @override
@@ -156,8 +158,15 @@ class PyramidMilestoneNode extends ConsumerWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: tasks.length,
-                      itemBuilder: (context, index) =>
-                          PyramidTaskNode(task: tasks[index]),
+                      itemBuilder: (context, index) {
+                        final task = tasks[index];
+                        return PyramidTaskNode(
+                          task: task,
+                          onTap: onTaskTap != null
+                              ? () => onTaskTap!(task)
+                              : null,
+                        );
+                      },
                     );
                   },
                   loading: () => Padding(
@@ -190,36 +199,42 @@ class PyramidMilestoneNode extends ConsumerWidget {
 /// ピラミッドのタスクノード
 class PyramidTaskNode extends StatelessWidget {
   final Task task;
+  final VoidCallback? onTap;
 
-  const PyramidTaskNode({super.key, required this.task});
+  const PyramidTaskNode({super.key, required this.task, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: Spacing.xSmall),
-      padding: EdgeInsets.symmetric(
-        horizontal: Spacing.small,
-        vertical: Spacing.xxSmall,
-      ),
-      decoration: BoxDecoration(
-        color: _getTaskStatusColor(task.status),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppColors.neutral200),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _getStatusIcon(task.status),
-          SizedBox(width: Spacing.small),
-          Expanded(
-            child: Text(
-              task.title.value,
-              style: AppTextStyles.bodySmall,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(bottom: Spacing.xSmall),
+        padding: EdgeInsets.symmetric(
+          horizontal: Spacing.small,
+          vertical: Spacing.xxSmall,
+        ),
+        decoration: BoxDecoration(
+          color: _getTaskStatusColor(task.status),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: AppColors.neutral200),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _getStatusIcon(task.status),
+            SizedBox(width: Spacing.small),
+            Expanded(
+              child: Text(
+                task.title.value,
+                style: AppTextStyles.bodySmall,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        ],
+            if (onTap != null)
+              Icon(Icons.chevron_right, size: 16, color: AppColors.neutral400),
+          ],
+        ),
       ),
     );
   }
