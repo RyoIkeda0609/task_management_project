@@ -8,6 +8,7 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'goal_edit_view_model.dart';
+import 'goal_edit_state.dart';
 import '../../../utils/date_formatter.dart';
 
 class GoalEditFormWidget extends ConsumerWidget {
@@ -32,54 +33,60 @@ class GoalEditFormWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(goalEditViewModelProvider);
     final viewModel = ref.read(goalEditViewModelProvider.notifier);
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ゴール名
-            Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              hintText: 'ゴール名を入力（100文字以内）',
-              initialValue: state.title,
-              maxLength: 100,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 説明・理由
-            Text('説明・理由（任意）', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              hintText: '説明・理由を入力（500文字以内）',
-              initialValue: state.description,
-              maxLength: 500,
-              onChanged: viewModel.updateDescription,
-              multiline: true,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // カテゴリー
-            _GoalEditCategoryDropdown(
-              selectedCategory: state.category,
-              onChanged: viewModel.updateCategory,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 達成予定日
-            _GoalEditDeadlineSelector(
-              selectedDeadline: state.deadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // アクションボタン
-            _GoalEditActions(onSubmit: onSubmit, isLoading: state.isLoading),
-          ],
+          children: _buildFormFields(state, viewModel),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(
+    GoalEditPageState state,
+    GoalEditViewModel viewModel,
+  ) {
+    return [
+      // ゴール名
+      Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: 'ゴール名を入力（100文字以内）',
+        initialValue: state.title,
+        maxLength: 100,
+        onChanged: viewModel.updateTitle,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 説明・理由
+      Text('説明・理由（任意）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: '説明・理由を入力（500文字以内）',
+        initialValue: state.description,
+        maxLength: 500,
+        onChanged: viewModel.updateDescription,
+        multiline: true,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // カテゴリー
+      _GoalEditCategoryDropdown(
+        selectedCategory: state.category,
+        onChanged: viewModel.updateCategory,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 達成予定日
+      _GoalEditDeadlineSelector(
+        selectedDeadline: state.deadline,
+        onDeadlineSelected: viewModel.updateDeadline,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // アクションボタン
+      _GoalEditActions(onSubmit: onSubmit, isLoading: state.isLoading),
+    ];
   }
 }
 

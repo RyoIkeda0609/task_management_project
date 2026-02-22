@@ -53,7 +53,7 @@ class TaskEditPage extends ConsumerWidget {
     final state = ref.watch(taskEditViewModelProvider);
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
-    if (state.taskId != taskId) {
+    if (!state.isInitialized) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.initializeWithTask(
           taskId: taskId,
@@ -66,10 +66,16 @@ class TaskEditPage extends ConsumerWidget {
 
     return TaskEditFormWidget(
       taskId: taskId,
+      title: state.isInitialized ? state.title : task.title.value,
+      description: state.isInitialized
+          ? state.description
+          : task.description.value,
+      deadline: state.isInitialized ? state.deadline : task.deadline.value,
+      isLoading: state.isLoading,
+      onTitleChanged: viewModel.updateTitle,
+      onDescriptionChanged: viewModel.updateDescription,
+      onDeadlineSelected: viewModel.updateDeadline,
       onSubmit: () => _submitForm(context, ref, task),
-      taskTitle: task.title.value,
-      taskDescription: task.description.value,
-      taskDeadline: task.deadline.value,
     );
   }
 

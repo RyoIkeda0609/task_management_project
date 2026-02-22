@@ -35,11 +35,27 @@ Widget _buildPageDescription(String description) {
   );
 }
 
-// ===================== ページ1：ゴール =====================
+// ===================== 共通テンプレート =====================
 
-/// オンボーディング ページ1：ゴールに関すること
-class OnboardingPage1 extends StatelessWidget {
-  const OnboardingPage1({super.key});
+/// オンボーディングページ共通テンプレート
+///
+/// 全ページで共通のグラデーション背景・スクロール・レイアウト構造を提供する。
+class _OnboardingPageTemplate extends StatelessWidget {
+  final Color gradientColor;
+  final Color? gradientEndColor;
+  final Widget header;
+  final String title;
+  final String description;
+  final List<Widget> trailing;
+
+  const _OnboardingPageTemplate({
+    required this.gradientColor,
+    this.gradientEndColor,
+    required this.header,
+    required this.title,
+    required this.description,
+    this.trailing = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +65,7 @@ class OnboardingPage1 extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            AppColors.primary.withValues(alpha: 0.1),
-            AppColors.neutral100,
-          ],
+          colors: [gradientColor, gradientEndColor ?? AppColors.neutral100],
         ),
       ),
       child: Center(
@@ -60,20 +73,39 @@ class OnboardingPage1 extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildPageIcon(AppColors.primary, Icons.flag),
+              header,
               SizedBox(height: Spacing.large),
-              _buildPageTitle('ゴールを決めよう'),
+              _buildPageTitle(title),
               SizedBox(height: Spacing.medium),
-              _buildPageDescription(
-                'ゴールとは、あなたが本当に達成したい大きな目標のこと。\n'
-                '「何を実現したいか」を明確にすることが、すべての第一歩です。',
-              ),
-              SizedBox(height: Spacing.large),
-              ..._page1Features(),
+              _buildPageDescription(description),
+              ...trailing,
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+// ===================== ページ1：ゴール =====================
+
+/// オンボーディング ページ1：ゴールに関すること
+class OnboardingPage1 extends StatelessWidget {
+  const OnboardingPage1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _OnboardingPageTemplate(
+      gradientColor: AppColors.primary.withValues(alpha: 0.1),
+      header: _buildPageIcon(AppColors.primary, Icons.flag),
+      title: 'ゴールを決めよう',
+      description:
+          'ゴールとは、あなたが本当に達成したい大きな目標のこと。\n'
+          '「何を実現したいか」を明確にすることが、すべての第一歩です。',
+      trailing: [
+        SizedBox(height: Spacing.large),
+        ..._page1Features(),
+      ],
     );
   }
 
@@ -106,37 +138,17 @@ class OnboardingPage2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(Spacing.large),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.success.withValues(alpha: 0.1),
-            AppColors.neutral100,
-          ],
-        ),
-      ),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildPageIcon(AppColors.success, Icons.timeline),
-              SizedBox(height: Spacing.large),
-              _buildPageTitle('マイルストーンで中間地点を作ろう'),
-              SizedBox(height: Spacing.medium),
-              _buildPageDescription(
-                'マイルストーンとは、ゴールに至るまでの中間目標のこと。\n'
-                '大きな目標を段階に分けることで、着実に前進できます。',
-              ),
-              SizedBox(height: Spacing.large),
-              ..._page2Features(),
-            ],
-          ),
-        ),
-      ),
+    return _OnboardingPageTemplate(
+      gradientColor: AppColors.success.withValues(alpha: 0.1),
+      header: _buildPageIcon(AppColors.success, Icons.timeline),
+      title: 'マイルストーンで中間地点を作ろう',
+      description:
+          'マイルストーンとは、ゴールに至るまでの中間目標のこと。\n'
+          '大きな目標を段階に分けることで、着実に前進できます。',
+      trailing: [
+        SizedBox(height: Spacing.large),
+        ..._page2Features(),
+      ],
     );
   }
 
@@ -169,34 +181,17 @@ class OnboardingPage3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(Spacing.large),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.orange.withValues(alpha: 0.1), AppColors.neutral100],
-        ),
-      ),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildPageIcon(Colors.orange, Icons.task_alt),
-              SizedBox(height: Spacing.large),
-              _buildPageTitle('タスクで日々の行動に落とし込もう'),
-              SizedBox(height: Spacing.medium),
-              _buildPageDescription(
-                'タスクとは、今日・明日にできる具体的なアクションのこと。\n'
-                '小さな一歩を積み重ねることが、ゴール達成の近道です。',
-              ),
-              SizedBox(height: Spacing.large),
-              ..._page3Features(),
-            ],
-          ),
-        ),
-      ),
+    return _OnboardingPageTemplate(
+      gradientColor: Colors.orange.withValues(alpha: 0.1),
+      header: _buildPageIcon(Colors.orange, Icons.task_alt),
+      title: 'タスクで日々の行動に落とし込もう',
+      description:
+          'タスクとは、今日・明日にできる具体的なアクションのこと。\n'
+          '小さな一歩を積み重ねることが、ゴール達成の近道です。',
+      trailing: [
+        SizedBox(height: Spacing.large),
+        ..._page3Features(),
+      ],
     );
   }
 
@@ -229,39 +224,18 @@ class OnboardingPage4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(Spacing.large),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Colors.deepPurple.withValues(alpha: 0.1),
-            AppColors.neutral100,
-          ],
-        ),
-      ),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // ピラミッド図
-              _PyramidDiagram(),
-              SizedBox(height: Spacing.large),
-              _buildPageTitle('逆算して考えよう'),
-              SizedBox(height: Spacing.medium),
-              _buildPageDescription(
-                'ゴールを頂点としたピラミッドのように、\n'
-                'マイルストーンを用意して、日々のタスクをクリアすると、\n'
-                '目標は必ず叶えられます。',
-              ),
-              SizedBox(height: Spacing.large),
-              ..._page4Features(),
-            ],
-          ),
-        ),
-      ),
+    return _OnboardingPageTemplate(
+      gradientColor: Colors.deepPurple.withValues(alpha: 0.1),
+      header: _PyramidDiagram(),
+      title: '逆算して考えよう',
+      description:
+          'ゴールを頂点としたピラミッドのように、\n'
+          'マイルストーンを用意して、日々のタスクをクリアすると、\n'
+          '目標は必ず叶えられます。',
+      trailing: [
+        SizedBox(height: Spacing.large),
+        ..._page4Features(),
+      ],
     );
   }
 
@@ -327,39 +301,20 @@ class OnboardingPage5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(Spacing.large),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.primary.withValues(alpha: 0.15),
-            AppColors.success.withValues(alpha: 0.05),
-          ],
-        ),
-      ),
-      child: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildPageIcon(AppColors.primary, Icons.rocket_launch),
-              SizedBox(height: Spacing.large),
-              _buildPageTitle('準備はOK！'),
-              SizedBox(height: Spacing.medium),
-              _buildPageDescription(
-                'まずはひとつ、ゴールを作ってみましょう。\n'
-                '小さな目標でも大丈夫。\n'
-                'あなたの「なりたい自分」への第一歩を、\n'
-                'ここから始めましょう！',
-              ),
-              SizedBox(height: Spacing.xxxLarge),
-              Icon(Icons.emoji_events, size: 64, color: Colors.amber),
-            ],
-          ),
-        ),
-      ),
+    return _OnboardingPageTemplate(
+      gradientColor: AppColors.primary.withValues(alpha: 0.15),
+      gradientEndColor: AppColors.success.withValues(alpha: 0.05),
+      header: _buildPageIcon(AppColors.primary, Icons.rocket_launch),
+      title: '準備はOK！',
+      description:
+          'まずはひとつ、ゴールを作ってみましょう。\n'
+          '小さな目標でも大丈夫。\n'
+          'あなたの「なりたい自分」への第一歩を、\n'
+          'ここから始めましょう！',
+      trailing: [
+        SizedBox(height: Spacing.xxxLarge),
+        Icon(Icons.emoji_events, size: 64, color: Colors.amber),
+      ],
     );
   }
 }
@@ -465,7 +420,7 @@ class OnboardingButtonArea extends StatelessWidget {
           ),
           SizedBox(height: Spacing.large),
           CustomButton(
-            text: state.isLastPage ? 'さあ、始めよう！' : '次へ',
+            text: state.buttonText,
             onPressed: onPressed,
             type: ButtonType.primary,
           ),

@@ -6,76 +6,80 @@ import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
-import 'task_edit_view_model.dart';
 import '../../../utils/date_formatter.dart';
 
-class TaskEditFormWidget extends ConsumerWidget {
+class TaskEditFormWidget extends StatelessWidget {
   final String taskId;
+  final String title;
+  final String description;
+  final DateTime deadline;
+  final bool isLoading;
+  final Function(String) onTitleChanged;
+  final Function(String) onDescriptionChanged;
+  final Function(DateTime) onDeadlineSelected;
   final VoidCallback onSubmit;
-  final String taskTitle;
-  final String taskDescription;
-  final DateTime taskDeadline;
 
   const TaskEditFormWidget({
     super.key,
     required this.taskId,
+    required this.title,
+    required this.description,
+    required this.deadline,
+    required this.isLoading,
+    required this.onTitleChanged,
+    required this.onDescriptionChanged,
+    required this.onDeadlineSelected,
     required this.onSubmit,
-    required this.taskTitle,
-    required this.taskDescription,
-    required this.taskDeadline,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(taskEditViewModelProvider);
-    final viewModel = ref.read(taskEditViewModelProvider.notifier);
-
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // タイトル
-            Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              key: ValueKey('title_$taskId'),
-              hintText: 'タスク名を入力（100文字以内）',
-              initialValue: state.taskId == taskId ? state.title : taskTitle,
-              maxLength: 100,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 説明
-            Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              key: ValueKey('description_$taskId'),
-              hintText: 'タスクの詳細を入力（500文字以内、任意）',
-              initialValue: state.taskId == taskId
-                  ? state.description
-                  : taskDescription,
-              maxLength: 500,
-              onChanged: viewModel.updateDescription,
-              multiline: true,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 期限
-            _TaskEditDeadlineField(
-              selectedDeadline: state.taskId == taskId
-                  ? state.deadline
-                  : taskDeadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // ボタン
-            _TaskEditActions(onSubmit: onSubmit, isLoading: state.isLoading),
-          ],
+          children: _buildFormFields(),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields() {
+    return [
+      // タイトル
+      Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        key: ValueKey('title_$taskId'),
+        hintText: 'タスク名を入力（100文字以内）',
+        initialValue: title,
+        maxLength: 100,
+        onChanged: onTitleChanged,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 説明
+      Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        key: ValueKey('description_$taskId'),
+        hintText: 'タスクの詳細を入力（500文字以内、任意）',
+        initialValue: description,
+        maxLength: 500,
+        onChanged: onDescriptionChanged,
+        multiline: true,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 期限
+      _TaskEditDeadlineField(
+        selectedDeadline: deadline,
+        onDeadlineSelected: onDeadlineSelected,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // ボタン
+      _TaskEditActions(onSubmit: onSubmit, isLoading: isLoading),
+    ];
   }
 }
 

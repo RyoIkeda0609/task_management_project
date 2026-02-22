@@ -27,6 +27,9 @@ class OnboardingPageState {
   /// 最後のページかどうか
   bool get isLastPage => currentPageIndex == totalPages - 1;
 
+  /// ボタンの表示テキスト
+  String get buttonText => isLastPage ? 'さあ、始めよう！' : '次へ';
+
   /// 次のページへ遷移（またはページの最後なら完了）
   OnboardingPageState nextPageOrComplete() {
     if (isLastPage) {

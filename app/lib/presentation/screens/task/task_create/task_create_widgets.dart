@@ -7,6 +7,7 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'task_create_view_model.dart';
+import 'task_create_state.dart';
 import '../../../utils/date_formatter.dart';
 
 class TaskCreateFormWidget extends ConsumerWidget {
@@ -32,42 +33,48 @@ class TaskCreateFormWidget extends ConsumerWidget {
         goalId: goalId,
       )).notifier,
     );
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // タスク名
-            Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
-            _TaskCreateTitleField(
-              title: state.title,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // タスクの詳細
-            Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
-            _TaskCreateDescriptionField(
-              description: state.description,
-              onChanged: viewModel.updateDescription,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 期限
-            _TaskCreateDeadlineField(
-              selectedDeadline: state.deadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.xxxLarge),
-
-            // アクションボタン
-            _TaskCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
-          ],
+          children: _buildFormFields(state, viewModel),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(
+    TaskCreatePageState state,
+    TaskCreateViewModel viewModel,
+  ) {
+    return [
+      // タスク名
+      Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
+      _TaskCreateTitleField(
+        title: state.title,
+        onChanged: viewModel.updateTitle,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // タスクの詳細
+      Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
+      _TaskCreateDescriptionField(
+        description: state.description,
+        onChanged: viewModel.updateDescription,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 期限
+      _TaskCreateDeadlineField(
+        selectedDeadline: state.deadline,
+        onDeadlineSelected: viewModel.updateDeadline,
+      ),
+      SizedBox(height: Spacing.xxxLarge),
+
+      // アクションボタン
+      _TaskCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
+    ];
   }
 }
 

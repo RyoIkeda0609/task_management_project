@@ -48,7 +48,7 @@ class _Body extends StatelessWidget {
       TodayTasksViewState.loading => const _LoadingView(),
       TodayTasksViewState.error => _ErrorView(error: state.errorMessage),
       TodayTasksViewState.empty => _EmptyView(),
-      TodayTasksViewState.data => _ContentView(grouped: state.groupedTasks!),
+      TodayTasksViewState.data => _ContentView(state: state),
     };
   }
 }
@@ -93,9 +93,9 @@ class _EmptyView extends StatelessWidget {
 }
 
 class _ContentView extends StatelessWidget {
-  final GroupedTasks grouped;
+  final TodayTasksPageState state;
 
-  const _ContentView({required this.grouped});
+  const _ContentView({required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +103,9 @@ class _ContentView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Header(grouped: grouped),
+          _Header(grouped: state.groupedTasks!),
           SizedBox(height: Spacing.medium),
-          _Content(grouped: grouped),
+          _Content(state: state),
         ],
       ),
     );
@@ -124,16 +124,17 @@ class _Header extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  final GroupedTasks grouped;
+  final TodayTasksPageState state;
 
-  const _Content({required this.grouped});
+  const _Content({required this.state});
 
   @override
   Widget build(BuildContext context) {
+    final grouped = state.groupedTasks!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (grouped.todoTasks.isNotEmpty) ...[
+        if (state.showTodoSection) ...[
           TodayTasksSectionWidget(
             title: '未完了',
             tasks: grouped.todoTasks,
@@ -141,7 +142,7 @@ class _Content extends StatelessWidget {
           ),
           SizedBox(height: Spacing.medium),
         ],
-        if (grouped.doingTasks.isNotEmpty) ...[
+        if (state.showDoingSection) ...[
           TodayTasksSectionWidget(
             title: '進行中',
             tasks: grouped.doingTasks,
@@ -149,7 +150,7 @@ class _Content extends StatelessWidget {
           ),
           SizedBox(height: Spacing.medium),
         ],
-        if (grouped.doneTasks.isNotEmpty)
+        if (state.showDoneSection)
           TodayTasksSectionWidget(
             title: '完了',
             tasks: grouped.doneTasks,
