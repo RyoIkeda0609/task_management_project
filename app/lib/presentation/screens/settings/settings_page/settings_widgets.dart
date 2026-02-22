@@ -21,32 +21,40 @@ class SettingsUserSectionWidget extends StatelessWidget {
           SizedBox(height: Spacing.medium),
           Row(
             children: [
-              Container(
-                width: 64,
-                height: 64,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(32),
-                ),
-                child: Icon(Icons.person, size: 32, color: Colors.white),
-              ),
+              _buildAvatar(),
               SizedBox(width: Spacing.medium),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('ユーザー名', style: AppTextStyles.bodyLarge),
-                    SizedBox(height: Spacing.xSmall),
-                    Text(
-                      'user@example.com',
-                      style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.neutral600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildUserInfo(),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAvatar() {
+    return Container(
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Icon(Icons.person, size: 32, color: Colors.white),
+    );
+  }
+
+  Widget _buildUserInfo() {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('ユーザー名', style: AppTextStyles.bodyLarge),
+          SizedBox(height: Spacing.xSmall),
+          Text(
+            'user@example.com',
+            style: AppTextStyles.bodySmall.copyWith(
+              color: AppColors.neutral600,
+            ),
           ),
         ],
       ),
@@ -121,33 +129,37 @@ class SettingsTileWidget extends StatelessWidget {
         border: Border.all(color: AppColors.neutral200),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Row(
-        children: [
-          Icon(icon, color: AppColors.primary, size: 24),
-          SizedBox(width: Spacing.medium),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: AppTextStyles.bodyMedium),
-                SizedBox(height: Spacing.xSmall),
-                Text(
-                  subtitle,
-                  style: AppTextStyles.labelSmall.copyWith(
-                    color: AppColors.neutral600,
-                  ),
+      child: _buildContent(),
+    );
+  }
+
+  Widget _buildContent() {
+    return Row(
+      children: [
+        Icon(icon, color: AppColors.primary, size: 24),
+        SizedBox(width: Spacing.medium),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: AppTextStyles.bodyMedium),
+              SizedBox(height: Spacing.xSmall),
+              Text(
+                subtitle,
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: AppColors.neutral600,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          SizedBox(width: Spacing.small),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeThumbColor: AppColors.primary,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(width: Spacing.small),
+        Switch(
+          value: value,
+          onChanged: onChanged,
+          activeThumbColor: AppColors.primary,
+        ),
+      ],
     );
   }
 }

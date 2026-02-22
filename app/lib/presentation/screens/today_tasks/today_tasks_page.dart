@@ -133,20 +133,22 @@ class _Content extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (grouped.todoTasks.isNotEmpty)
+        if (grouped.todoTasks.isNotEmpty) ...[
           TodayTasksSectionWidget(
             title: '未完了',
             tasks: grouped.todoTasks,
             color: AppColors.neutral400,
           ),
-        if (grouped.todoTasks.isNotEmpty) SizedBox(height: Spacing.medium),
-        if (grouped.doingTasks.isNotEmpty)
+          SizedBox(height: Spacing.medium),
+        ],
+        if (grouped.doingTasks.isNotEmpty) ...[
           TodayTasksSectionWidget(
             title: '進行中',
             tasks: grouped.doingTasks,
             color: AppColors.warning,
           ),
-        if (grouped.doingTasks.isNotEmpty) SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.medium),
+        ],
         if (grouped.doneTasks.isNotEmpty)
           TodayTasksSectionWidget(
             title: '完了',

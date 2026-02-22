@@ -118,14 +118,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ラベル
         if (widget.label != null)
           Padding(
             padding: EdgeInsets.only(bottom: Spacing.xSmall),
             child: Text(widget.label!, style: AppTextStyles.titleMedium),
           ),
-
-        // テキストフィールド
         TextFormField(
           controller: _controller,
           onChanged: (value) {
@@ -141,60 +138,65 @@ class _CustomTextFieldState extends State<CustomTextField> {
           inputFormatters: widget.inputFormatters,
           focusNode: widget.focusNode,
           readOnly: widget.readOnly,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            prefixIcon: widget.prefixIcon != null
-                ? Icon(widget.prefixIcon)
-                : null,
-            suffixIcon: widget.suffixIcon != null
-                ? IconButton(
-                    icon: Icon(widget.suffixIcon),
-                    onPressed: widget.obscureText
-                        ? () {
-                            setState(() {
-                              _obscureText = !_obscureText;
-                            });
-                          }
-                        : widget.onSuffixIconPressed,
-                  )
-                : null,
-            filled: true,
-            fillColor: widget.readOnly ? AppColors.neutral50 : Colors.white,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: Spacing.medium,
-              vertical: Spacing.small,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.neutral200),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.neutral200),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.primary, width: 2),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.error),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.error, width: 2),
-            ),
-            labelStyle: AppTextStyles.bodyMedium,
-            hintStyle: AppTextStyles.hint,
-            errorStyle: AppTextStyles.error,
-            counterStyle: AppTextStyles.bodySmall,
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.neutral200),
-            ),
-          ),
+          decoration: _buildDecoration(),
         ),
       ],
+    );
+  }
+
+  InputDecoration _buildDecoration() {
+    const borderRadius = BorderRadius.all(Radius.circular(8));
+
+    return InputDecoration(
+      hintText: widget.hintText,
+      prefixIcon: widget.prefixIcon != null
+          ? Icon(widget.prefixIcon)
+          : null,
+      suffixIcon: _buildSuffixIcon(),
+      filled: true,
+      fillColor: widget.readOnly ? AppColors.neutral50 : Colors.white,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: Spacing.medium,
+        vertical: Spacing.small,
+      ),
+      border: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: AppColors.neutral200),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: AppColors.neutral200),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: AppColors.primary, width: 2),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: AppColors.error),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: AppColors.error, width: 2),
+      ),
+      disabledBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: AppColors.neutral200),
+      ),
+      labelStyle: AppTextStyles.bodyMedium,
+      hintStyle: AppTextStyles.hint,
+      errorStyle: AppTextStyles.error,
+      counterStyle: AppTextStyles.bodySmall,
+    );
+  }
+
+  Widget? _buildSuffixIcon() {
+    if (widget.suffixIcon == null) return null;
+    return IconButton(
+      icon: Icon(widget.suffixIcon),
+      onPressed: widget.obscureText
+          ? () => setState(() => _obscureText = !_obscureText)
+          : widget.onSuffixIconPressed,
     );
   }
 }

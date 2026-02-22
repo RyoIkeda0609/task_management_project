@@ -11,9 +11,11 @@ import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../utils/validation_helper.dart';
+import '../../../utils/date_formatter.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../widgets/views/pyramid_view/pyramid_widgets.dart';
 import '../../../widgets/views/calendar_view/calendar_view_model.dart';
+import '../../../widgets/views/calendar_view/calendar_state.dart';
 import '../../../widgets/views/calendar_view/calendar_widgets.dart';
 import '../../../widgets/common/empty_state.dart';
 import 'goal_detail_state.dart';
@@ -45,29 +47,34 @@ class GoalDetailPage extends ConsumerWidget {
           goalAsync: goalAsync,
           onDelete: (goal) => _showDeleteConfirmation(context, ref, goal),
         ),
-        body: goalAsync.when(
-          data: (goal) {
-            return _Body(
-              state: GoalDetailPageState.withData(goal),
-              goalId: goalId,
-              milestonesAsync: milestonesAsync,
-            );
-          },
-          loading: () => _Body(
-            state: GoalDetailPageState.loading(),
-            goalId: goalId,
-            milestonesAsync: milestonesAsync,
-          ),
-          error: (error, stackTrace) => _Body(
-            state: GoalDetailPageState.withError(error.toString()),
-            goalId: goalId,
-            milestonesAsync: milestonesAsync,
-          ),
-        ),
+        body: _buildBody(goalAsync, milestonesAsync),
         floatingActionButton: FloatingActionButton(
           onPressed: () => AppRouter.navigateToMilestoneCreate(context, goalId),
           child: const Icon(Icons.add),
         ),
+      ),
+    );
+  }
+
+  Widget _buildBody(
+    AsyncValue<Goal?> goalAsync,
+    AsyncValue<List<Milestone>> milestonesAsync,
+  ) {
+    return goalAsync.when(
+      data: (goal) => _Body(
+        state: GoalDetailPageState.withData(goal),
+        goalId: goalId,
+        milestonesAsync: milestonesAsync,
+      ),
+      loading: () => _Body(
+        state: GoalDetailPageState.loading(),
+        goalId: goalId,
+        milestonesAsync: milestonesAsync,
+      ),
+      error: (error, stackTrace) => _Body(
+        state: GoalDetailPageState.withError(error.toString()),
+        goalId: goalId,
+        milestonesAsync: milestonesAsync,
       ),
     );
   }
@@ -142,37 +149,41 @@ class _GoalDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: const Icon(Icons.arrow_back),
         onPressed: () => context.pop(),
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.edit),
-          onPressed: () => goalAsync.whenData((goal) {
-            if (goal != null) {
-              AppRouter.navigateToGoalEdit(context, goalId);
-            }
-          }),
-        ),
-        IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () => goalAsync.whenData((goal) {
-            if (goal != null) {
-              onDelete(goal);
-            }
-          }),
-        ),
-      ],
+      actions: _buildActions(context),
       surfaceTintColor: Colors.transparent,
-      bottom: TabBar(
-        labelStyle: AppTextStyles.labelMedium,
-        unselectedLabelStyle: AppTextStyles.labelSmall,
-        labelColor: AppColors.primary,
-        unselectedLabelColor: AppColors.neutral600,
-        dividerColor: AppColors.neutral200,
-        tabs: const [
-          Tab(text: '概要'),
-          Tab(text: 'ピラミッド'),
-          Tab(text: 'カレンダー'),
-        ],
+      bottom: _buildTabBar(),
+    );
+  }
+
+  List<Widget> _buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () => goalAsync.whenData((goal) {
+          if (goal != null) AppRouter.navigateToGoalEdit(context, goalId);
+        }),
       ),
+      IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () => goalAsync.whenData((goal) {
+          if (goal != null) onDelete(goal);
+        }),
+      ),
+    ];
+  }
+
+  PreferredSizeWidget _buildTabBar() {
+    return TabBar(
+      labelStyle: AppTextStyles.labelMedium,
+      unselectedLabelStyle: AppTextStyles.labelSmall,
+      labelColor: AppColors.primary,
+      unselectedLabelColor: AppColors.neutral600,
+      dividerColor: AppColors.neutral200,
+      tabs: const [
+        Tab(text: '概要'),
+        Tab(text: 'ピラミッド'),
+        Tab(text: 'カレンダー'),
+      ],
     );
   }
 }
@@ -305,39 +316,45 @@ class _PyramidTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return milestonesAsync.when(
-      data: (milestones) {
-        if (milestones.isEmpty) {
-          return EmptyState(
-            icon: Icons.account_tree_outlined,
-            title: 'マイルストーンがありません',
-            message: 'マイルストーンを追加してゴールを達成しましょう。',
-            actionText: 'マイルストーン追加',
-            onActionPressed: () =>
-                AppRouter.navigateToMilestoneCreate(context, goalId),
-          );
-        }
-        return ListView.builder(
-          padding: EdgeInsets.all(Spacing.medium),
-          itemCount: milestones.length,
-          itemBuilder: (context, index) {
-            final milestone = milestones[index];
-            return PyramidMilestoneNode(
-              milestone: milestone,
-              goalId: goalId,
-              milestoneTasks: ref.watch(
-                tasksByMilestoneProvider(milestone.itemId.value),
-              ),
-              onTaskTap: (task) {
-                context.push(
-                  '/home/goal/$goalId/milestone/${task.milestoneId.value}/task/${task.itemId.value}',
-                );
-              },
+      data: (milestones) => _buildMilestoneList(context, ref, milestones),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(child: Text('読み込みエラー: $error')),
+    );
+  }
+
+  Widget _buildMilestoneList(
+    BuildContext context,
+    WidgetRef ref,
+    List<Milestone> milestones,
+  ) {
+    if (milestones.isEmpty) {
+      return EmptyState(
+        icon: Icons.account_tree_outlined,
+        title: 'マイルストーンがありません',
+        message: 'マイルストーンを追加してゴールを達成しましょう。',
+        actionText: 'マイルストーン追加',
+        onActionPressed: () =>
+            AppRouter.navigateToMilestoneCreate(context, goalId),
+      );
+    }
+    return ListView.builder(
+      padding: EdgeInsets.all(Spacing.medium),
+      itemCount: milestones.length,
+      itemBuilder: (context, index) {
+        final milestone = milestones[index];
+        return PyramidMilestoneNode(
+          milestone: milestone,
+          goalId: goalId,
+          milestoneTasks: ref.watch(
+            tasksByMilestoneProvider(milestone.itemId.value),
+          ),
+          onTaskTap: (task) {
+            context.push(
+              '/home/goal/$goalId/milestone/${task.milestoneId.value}/task/${task.itemId.value}',
             );
           },
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, _) => Center(child: Text('読み込みエラー: $error')),
     );
   }
 }
@@ -362,38 +379,43 @@ class _CalendarTab extends ConsumerWidget {
       });
     });
 
+    // 初回データロード時のキャッシュ構築
+    tasksAsync.whenData((tasks) {
+      if (state.tasksCache.isEmpty && tasks.isNotEmpty) {
+        Future.microtask(() => viewModel.buildTasksCache(tasks));
+      }
+    });
+
     return tasksAsync.when(
-      data: (tasks) {
-        // 初回ロード時にもキャッシュを構築
-        if (state.tasksCache.isEmpty && tasks.isNotEmpty) {
-          Future.microtask(() => viewModel.buildTasksCache(tasks));
-        }
-        return Column(
-          children: [
-            CalendarMonthNavigator(
-              onPreviousMonth: viewModel.previousMonth,
-              onNextMonth: viewModel.nextMonth,
-              monthDisplayText: state.monthDisplayText,
-            ),
-            CalendarGrid(
-              displayedMonth: state.displayedMonth,
-              selectedDate: state.selectedDate,
-              onDateSelected: viewModel.selectDate,
-              getTasksForDate: state.getTasksForDate,
-            ),
-            Expanded(
-              child: _GoalCalendarTaskList(
-                goalId: goalId,
-                selectedDate: state.selectedDate,
-                tasks: state.getTasksForDate(state.selectedDate),
-                selectedDateDisplayText: state.selectedDateDisplayText,
-              ),
-            ),
-          ],
-        );
-      },
+      data: (_) => _buildCalendar(state, viewModel),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, _) => Center(child: Text('エラー: $error')),
+    );
+  }
+
+  Widget _buildCalendar(CalendarPageState state, CalendarViewModel viewModel) {
+    return Column(
+      children: [
+        CalendarMonthNavigator(
+          onPreviousMonth: viewModel.previousMonth,
+          onNextMonth: viewModel.nextMonth,
+          monthDisplayText: DateFormatter.toJapaneseMonth(state.displayedMonth),
+        ),
+        CalendarGrid(
+          displayedMonth: state.displayedMonth,
+          selectedDate: state.selectedDate,
+          onDateSelected: viewModel.selectDate,
+          getTasksForDate: state.getTasksForDate,
+        ),
+        Expanded(
+          child: _GoalCalendarTaskList(
+            goalId: goalId,
+            selectedDate: state.selectedDate,
+            tasks: state.getTasksForDate(state.selectedDate),
+            selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(state.selectedDate),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -422,36 +444,34 @@ class _GoalCalendarTaskList extends StatelessWidget {
         children: [
           Text(selectedDateDisplayText, style: AppTextStyles.titleMedium),
           SizedBox(height: Spacing.medium),
-          if (tasks.isEmpty)
-            Expanded(
-              child: Center(
-                child: Text(
-                  'この日のタスクはありません',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.neutral600,
-                  ),
-                ),
-              ),
-            )
-          else
-            Expanded(
-              child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (context, index) {
-                  final task = tasks[index];
-                  return CalendarTaskItem(
-                    task: task,
-                    onTap: () {
-                      context.push(
-                        '/home/goal/$goalId/milestone/${task.milestoneId.value}/task/${task.itemId.value}',
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+          Expanded(child: _buildTaskContent(context)),
         ],
       ),
+    );
+  }
+
+  Widget _buildTaskContent(BuildContext context) {
+    if (tasks.isEmpty) {
+      return Center(
+        child: Text(
+          'この日のタスクはありません',
+          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral600),
+        ),
+      );
+    }
+    return ListView.builder(
+      itemCount: tasks.length,
+      itemBuilder: (context, index) {
+        final task = tasks[index];
+        return CalendarTaskItem(
+          task: task,
+          onTap: () {
+            context.push(
+              '/home/goal/$goalId/milestone/${task.milestoneId.value}/task/${task.itemId.value}',
+            );
+          },
+        );
+      },
     );
   }
 }

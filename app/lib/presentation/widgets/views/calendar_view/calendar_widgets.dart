@@ -168,46 +168,53 @@ class CalendarDayCell extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(date),
       child: Container(
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary
-              : isToday
-              ? AppColors.primaryLight
-              : AppColors.neutral100,
-          border: Border.all(
-            color: isToday ? AppColors.warning : AppColors.neutral200,
-            width: isToday ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(4),
-        ),
+        decoration: _buildDecoration(),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                date.day.toString(),
-                style: AppTextStyles.labelMedium.copyWith(
-                  color: isSelected
-                      ? AppColors.neutral100
-                      : AppColors.neutral900,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              if (taskCount > 0)
-                Padding(
-                  padding: EdgeInsets.only(top: Spacing.xSmall),
-                  child: Text(
-                    '$taskCount',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: isSelected
-                          ? AppColors.neutral100
-                          : AppColors.primary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+              _buildDayText(),
+              if (taskCount > 0) _buildTaskCountBadge(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration _buildDecoration() {
+    return BoxDecoration(
+      color: isSelected
+          ? AppColors.primary
+          : isToday
+          ? AppColors.primaryLight
+          : AppColors.neutral100,
+      border: Border.all(
+        color: isToday ? AppColors.warning : AppColors.neutral200,
+        width: isToday ? 2 : 1,
+      ),
+      borderRadius: BorderRadius.circular(4),
+    );
+  }
+
+  Widget _buildDayText() {
+    return Text(
+      date.day.toString(),
+      style: AppTextStyles.labelMedium.copyWith(
+        color: isSelected ? AppColors.neutral100 : AppColors.neutral900,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _buildTaskCountBadge() {
+    return Padding(
+      padding: EdgeInsets.only(top: Spacing.xSmall),
+      child: Text(
+        '$taskCount',
+        style: AppTextStyles.bodySmall.copyWith(
+          color: isSelected ? AppColors.neutral100 : AppColors.primary,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -280,36 +287,40 @@ class CalendarTaskItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _buildStatusIcon(task.status),
-                  SizedBox(width: Spacing.small),
-                  Expanded(
-                    child: Text(
-                      task.title.value,
-                      style: AppTextStyles.bodyMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: Spacing.xSmall),
-              Text(
-                task.description.value,
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.neutral600,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+          child: _buildContent(),
         ),
       ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            _buildStatusIcon(task.status),
+            SizedBox(width: Spacing.small),
+            Expanded(
+              child: Text(
+                task.title.value,
+                style: AppTextStyles.bodyMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Spacing.xSmall),
+        Text(
+          task.description.value,
+          style: AppTextStyles.bodySmall.copyWith(
+            color: AppColors.neutral600,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 

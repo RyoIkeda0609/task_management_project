@@ -1,5 +1,4 @@
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_status.dart';
 
 enum TaskDetailViewState { loading, notFound, data, error }
 
@@ -54,22 +53,4 @@ class TaskDetailPageState {
   bool get isNotFound => viewState == TaskDetailViewState.notFound;
   bool get hasData => viewState == TaskDetailViewState.data && task != null;
   bool get isError => viewState == TaskDetailViewState.error;
-
-  // ========== 手術2-3: 表示用の整形文言 ==========
-  String get formattedDeadline {
-    final t = task;
-    if (t == null) return '期限未設定';
-    final dt = t.deadline.value;
-    return '${dt.year}年${dt.month}月${dt.day}日';
-  }
-
-  String get statusLabel {
-    final t = task;
-    if (t == null) return 'Unknown';
-    return switch (t.status) {
-      TaskStatus.done => '完了',
-      TaskStatus.doing => '進行中',
-      TaskStatus.todo => '未完了',
-    };
-  }
 }

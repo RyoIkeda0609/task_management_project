@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../../utils/date_formatter.dart';
 import 'calendar_view_model.dart';
 import 'calendar_widgets.dart';
 
@@ -35,7 +36,7 @@ class CalendarView extends ConsumerWidget {
             CalendarMonthNavigator(
               onPreviousMonth: viewModel.previousMonth,
               onNextMonth: viewModel.nextMonth,
-              monthDisplayText: state.monthDisplayText,
+              monthDisplayText: DateFormatter.toJapaneseMonth(state.displayedMonth),
             ),
             CalendarGrid(
               displayedMonth: state.displayedMonth,
@@ -47,7 +48,7 @@ class CalendarView extends ConsumerWidget {
               child: CalendarTaskList(
                 selectedDate: state.selectedDate,
                 tasks: state.getTasksForDate(state.selectedDate),
-                selectedDateDisplayText: state.selectedDateDisplayText,
+                selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(state.selectedDate),
               ),
             ),
           ],

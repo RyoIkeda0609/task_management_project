@@ -24,52 +24,40 @@ class MilestoneEditPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final milestoneAsync = ref.watch(milestoneDetailProvider(milestoneId));
 
-    return milestoneAsync.when(
-      data: (milestone) => _buildForm(context, ref, milestone),
-      loading: () => Scaffold(
-        appBar: CustomAppBar(
-          title: 'マイルストーンを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: const Center(
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: 'マイルストーンを編集',
+        hasLeading: true,
+        onLeadingPressed: () => context.pop(),
+      ),
+      body: milestoneAsync.when(
+        data: (milestone) => _buildBody(context, ref, milestone),
+        loading: () => const Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
           ),
         ),
-      ),
-      error: (error, stackTrace) => Scaffold(
-        appBar: CustomAppBar(
-          title: 'マイルストーンを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
+        error: (error, stackTrace) => Center(
           child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
         ),
       ),
     );
   }
 
-  Widget _buildForm(BuildContext context, WidgetRef ref, Milestone? milestone) {
+  Widget _buildBody(
+    BuildContext context,
+    WidgetRef ref,
+    Milestone? milestone,
+  ) {
     if (milestone == null) {
-      return Scaffold(
-        appBar: CustomAppBar(
-          title: 'マイルストーンを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
-          child: Text('マイルストーンが見つかりません', style: AppTextStyles.titleMedium),
-        ),
+      return Center(
+        child: Text('マイルストーンが見つかりません', style: AppTextStyles.titleMedium),
       );
     }
 
-    // ref.listen を使って初期化（ref.read の代わりに）
     final state = ref.watch(milestoneEditViewModelProvider);
     final viewModelNotifier = ref.read(milestoneEditViewModelProvider.notifier);
 
-    // 初回のみ初期化（milestoneId が変わる場合）
     if (state.milestoneId != milestoneId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModelNotifier.initializeWithMilestone(
@@ -81,19 +69,12 @@ class MilestoneEditPage extends ConsumerWidget {
       });
     }
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'マイルストーンを編集',
-        hasLeading: true,
-        onLeadingPressed: () => context.pop(),
-      ),
-      body: MilestoneEditFormWidget(
-        onSubmit: () => _submitForm(context, ref, milestone),
-        milestoneId: milestoneId,
-        milestoneTitle: milestone.title.value,
-        milestoneDescription: milestone.description.value,
-        milestoneDeadline: milestone.deadline.value,
-      ),
+    return MilestoneEditFormWidget(
+      onSubmit: () => _submitForm(context, ref, milestone),
+      milestoneId: milestoneId,
+      milestoneTitle: milestone.title.value,
+      milestoneDescription: milestone.description.value,
+      milestoneDeadline: milestone.deadline.value,
     );
   }
 

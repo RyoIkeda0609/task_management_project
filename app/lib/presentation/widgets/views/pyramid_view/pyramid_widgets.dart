@@ -9,6 +9,7 @@ import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../navigation/app_router.dart';
 import 'pyramid_view_model.dart';
+import '../../../utils/date_formatter.dart';
 
 /// ピラミッドのゴールノード
 class PyramidGoalNode extends StatelessWidget {
@@ -85,115 +86,119 @@ class PyramidMilestoneNode extends ConsumerWidget {
             ),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(
-              horizontal: Spacing.small,
-              vertical: Spacing.xxSmall,
-            ),
-            childrenPadding: EdgeInsets.only(
-              left: Spacing.small,
-              right: Spacing.small,
-              bottom: Spacing.xxSmall,
-            ),
-            initiallyExpanded: isExpanded,
-            onExpansionChanged: (_) {
-              viewModel.toggleMilestoneExpansion(milestone.itemId.value);
-            },
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    milestone.title.value,
-                    style: AppTextStyles.titleSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                SizedBox(width: Spacing.small),
-                Text(
-                  _formatDate(milestone.deadline.value),
-                  style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.neutral600,
-                  ),
-                ),
-              ],
-            ),
-            trailing: GestureDetector(
-              onTap: () => AppRouter.navigateToMilestoneDetail(
-                context,
-                goalId,
-                milestone.itemId.value,
-              ),
-              child: Icon(
-                Icons.arrow_forward,
-                size: 18,
-                color: AppColors.primary,
-              ),
-            ),
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Spacing.small,
-                  vertical: Spacing.xxSmall,
-                ),
-                child: milestoneTasks.when(
-                  data: (tasks) {
-                    if (tasks.isEmpty) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: Spacing.xxSmall,
-                        ),
-                        child: Text(
-                          'タスクなし',
-                          style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.neutral500,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      );
-                    }
-
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: tasks.length,
-                      itemBuilder: (context, index) {
-                        final task = tasks[index];
-                        return PyramidTaskNode(
-                          task: task,
-                          onTap: onTaskTap != null
-                              ? () => onTaskTap!(task)
-                              : null,
-                        );
-                      },
-                    );
-                  },
-                  loading: () => Padding(
-                    padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.primary,
-                      ),
-                    ),
-                  ),
-                  error: (error, stackTrace) => Text(
-                    'タスク取得エラー',
-                    style: AppTextStyles.bodySmall.copyWith(color: Colors.red),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: _buildExpansionTile(context, isExpanded, viewModel),
         ),
       ],
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.month}/${date.day}';
+  Widget _buildExpansionTile(
+    BuildContext context,
+    bool isExpanded,
+    PyramidViewModel viewModel,
+  ) {
+    return ExpansionTile(
+      tilePadding: EdgeInsets.symmetric(
+        horizontal: Spacing.small,
+        vertical: Spacing.xxSmall,
+      ),
+      childrenPadding: EdgeInsets.only(
+        left: Spacing.small,
+        right: Spacing.small,
+        bottom: Spacing.xxSmall,
+      ),
+      initiallyExpanded: isExpanded,
+      onExpansionChanged: (_) {
+        viewModel.toggleMilestoneExpansion(milestone.itemId.value);
+      },
+      title: _buildMilestoneTitle(),
+      trailing: _buildMilestoneTrailing(context),
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Spacing.small,
+            vertical: Spacing.xxSmall,
+          ),
+          child: _buildTaskList(),
+        ),
+      ],
+    );
   }
+
+  Widget _buildMilestoneTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            milestone.title.value,
+            style: AppTextStyles.titleSmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        SizedBox(width: Spacing.small),
+        Text(
+          DateFormatter.toJapaneseDate(milestone.deadline.value),
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMilestoneTrailing(BuildContext context) {
+    return GestureDetector(
+      onTap: () => AppRouter.navigateToMilestoneDetail(
+        context,
+        goalId,
+        milestone.itemId.value,
+      ),
+      child: Icon(Icons.arrow_forward, size: 18, color: AppColors.primary),
+    );
+  }
+
+  Widget _buildTaskList() {
+    return milestoneTasks.when(
+      data: (tasks) {
+        if (tasks.isEmpty) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
+            child: Text(
+              'タスクなし',
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.neutral500,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          );
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            final task = tasks[index];
+            return PyramidTaskNode(
+              task: task,
+              onTap: onTaskTap != null ? () => onTaskTap!(task) : null,
+            );
+          },
+        );
+      },
+      loading: () => Padding(
+        padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+        ),
+      ),
+      error: (error, stackTrace) => Text(
+        'タスク取得エラー',
+        style: AppTextStyles.bodySmall.copyWith(color: Colors.red),
+      ),
+    );
+  }
+
 }
 
 /// ピラミッドのタスクノード

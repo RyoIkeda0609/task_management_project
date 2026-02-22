@@ -11,7 +11,6 @@ void main() {
       expect(state.currentPageIndex, 0);
       expect(state.isCompleted, false);
       expect(state.isLastPage, false);
-      expect(state.buttonText, '次へ');
     });
 
     test('ページ遷移で currentPageIndex が増加する', () {
@@ -42,19 +41,19 @@ void main() {
       expect(state.isLastPage, true);
     });
 
-    test('最後のページで buttonText が「さあ、始めよう！」になる', () {
+    test('最後のページでは isLastPage が true のため「さあ、始めよう！」を表示する', () {
       final state = OnboardingPageState(
         currentPageIndex: 4,
         isCompleted: false,
       );
 
-      expect(state.buttonText, 'さあ、始めよう！');
+      expect(state.isLastPage, true);
     });
 
-    test('最初のページで buttonText が「次へ」になる', () {
+    test('最初のページでは isLastPage が false のため「次へ」を表示する', () {
       final state = OnboardingPageState.initial();
 
-      expect(state.buttonText, '次へ');
+      expect(state.isLastPage, false);
     });
   });
 

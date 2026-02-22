@@ -10,6 +10,7 @@ import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/milestone.dart';
 import '../../../../domain/entities/task.dart';
 import '../../../../domain/value_objects/task/task_status.dart';
+import '../../../utils/date_formatter.dart';
 
 class MilestoneDetailHeaderWidget extends StatelessWidget {
   final Milestone milestone;
@@ -38,15 +39,12 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        '目標日時: ${_formatDate(milestone.deadline.value)}',
+        '目標日時: ${DateFormatter.toJapaneseDate(milestone.deadline.value)}',
         style: AppTextStyles.bodyMedium,
       ),
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
-  }
 }
 
 class MilestoneDetailTasksSection extends ConsumerWidget {
@@ -195,7 +193,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
         ),
         SizedBox(height: Spacing.xSmall),
         Text(
-          _formatDate(task.deadline.value),
+          DateFormatter.toJapaneseDate(task.deadline.value),
           style: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral500),
         ),
       ],
@@ -257,10 +255,6 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
       ),
       child: Icon(icon, size: 14, color: color),
     );
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
   }
 
   void _navigateToTaskDetail(

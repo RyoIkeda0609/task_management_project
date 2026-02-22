@@ -8,6 +8,7 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'goal_edit_view_model.dart';
+import '../../../utils/date_formatter.dart';
 
 class GoalEditFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
@@ -158,7 +159,7 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
                 SizedBox(width: Spacing.small),
                 Expanded(
                   child: Text(
-                    _formatDate(selectedDeadline),
+                    DateFormatter.toJapaneseDate(selectedDeadline),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ),
@@ -189,9 +190,6 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
     }
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
-  }
 }
 
 class _GoalEditActions extends ConsumerWidget {

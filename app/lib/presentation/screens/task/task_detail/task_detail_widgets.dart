@@ -7,6 +7,7 @@ import '../../../state_management/providers/app_providers.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
 import '../../../../domain/value_objects/task/task_status.dart';
+import '../../../utils/date_formatter.dart';
 
 // ============ Header Widget ============
 
@@ -42,17 +43,14 @@ class TaskDetailDeadlineWidget extends StatelessWidget {
       children: [
         Text('期限', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.xSmall),
-        Text(_formatDate(task.deadline), style: AppTextStyles.bodyMedium),
+        Text(
+          DateFormatter.toJapaneseDate(task.deadline.value),
+          style: AppTextStyles.bodyMedium,
+        ),
       ],
     );
   }
 
-  String _formatDate(dynamic deadline) {
-    if (deadline is DateTime) {
-      return '${deadline.year}年${deadline.month}月${deadline.day}日';
-    }
-    return '期限未設定';
-  }
 }
 
 class TaskDetailStatusWidget extends ConsumerWidget {

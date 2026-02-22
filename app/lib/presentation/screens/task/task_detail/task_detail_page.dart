@@ -49,54 +49,66 @@ class TaskDetailPage extends ConsumerWidget {
         hasLeading: true,
         backgroundColor: AppColors.neutral100,
         onLeadingPressed: () => context.pop(),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => taskAsync.whenData((task) {
-              if (task != null) {
-                if (source == 'milestone' &&
-                    goalId != null &&
-                    milestoneId != null) {
-                  // ルートパラメータから直接 goalId・milestoneId を使用
-                  // （ref.read での非同期解決を排除）
-                  AppRouter.navigateToTaskEditFromMilestone(
-                    context,
-                    goalId!,
-                    milestoneId!,
-                    taskId,
-                  );
-                } else {
-                  AppRouter.navigateToTaskEditFromTodayTasks(context, taskId);
-                }
-              }
-            }),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () => taskAsync.whenData((task) {
-              if (task != null) {
-                _showDeleteConfirmation(context, ref, task);
-              }
-            }),
-          ),
-        ],
+        actions: _buildAppBarActions(context, ref, taskAsync),
       ),
-      body: taskAsync.when(
-        data: (task) => _Body(
-          state: TaskDetailPageState.withData(task),
-          source: source,
-          taskId: taskId,
-        ),
-        loading: () => _Body(
-          state: TaskDetailPageState.loading(),
-          source: source,
-          taskId: taskId,
-        ),
-        error: (error, stackTrace) => _Body(
-          state: TaskDetailPageState.withError(error.toString()),
-          source: source,
-          taskId: taskId,
-        ),
+      body: _buildBody(taskAsync),
+    );
+  }
+
+  List<Widget> _buildAppBarActions(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<Task?> taskAsync,
+  ) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () => taskAsync.whenData((task) {
+          if (task != null) {
+            _navigateToEdit(context, task);
+          }
+        }),
+      ),
+      IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () => taskAsync.whenData((task) {
+          if (task != null) {
+            _showDeleteConfirmation(context, ref, task);
+          }
+        }),
+      ),
+    ];
+  }
+
+  void _navigateToEdit(BuildContext context, Task task) {
+    if (source == 'milestone' && goalId != null && milestoneId != null) {
+      AppRouter.navigateToTaskEditFromMilestone(
+        context,
+        goalId!,
+        milestoneId!,
+        taskId,
+      );
+    } else {
+      AppRouter.navigateToTaskEditFromTodayTasks(context, taskId);
+    }
+  }
+
+  Widget _buildBody(AsyncValue<Task?> taskAsync) {
+    return taskAsync.when(
+      data: (task) => _Body(
+        state: TaskDetailPageState.withData(task),
+        source: source,
+        taskId: taskId,
+      ),
+      loading: () => _Body(
+        state: TaskDetailPageState.loading(),
+        source: source,
+        taskId: taskId,
+      ),
+      error: (error, stackTrace) => _Body(
+        state: TaskDetailPageState.withError(error.toString()),
+        source: source,
+        taskId: taskId,
       ),
     );
   }

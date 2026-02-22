@@ -24,52 +24,36 @@ class TaskEditPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final taskAsync = ref.watch(taskDetailProvider(taskId));
 
-    return taskAsync.when(
-      data: (task) => _buildForm(context, ref, task),
-      loading: () => Scaffold(
-        appBar: CustomAppBar(
-          title: 'タスクを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: const Center(
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: 'タスクを編集',
+        hasLeading: true,
+        onLeadingPressed: () => context.pop(),
+      ),
+      body: taskAsync.when(
+        data: (task) => _buildBody(context, ref, task),
+        loading: () => const Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
           ),
         ),
-      ),
-      error: (error, stackTrace) => Scaffold(
-        appBar: CustomAppBar(
-          title: 'タスクを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
+        error: (error, stackTrace) => Center(
           child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
         ),
       ),
     );
   }
 
-  Widget _buildForm(BuildContext context, WidgetRef ref, Task? task) {
+  Widget _buildBody(BuildContext context, WidgetRef ref, Task? task) {
     if (task == null) {
-      return Scaffold(
-        appBar: CustomAppBar(
-          title: 'タスクを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
-          child: Text('タスクが見つかりません', style: AppTextStyles.titleMedium),
-        ),
+      return Center(
+        child: Text('タスクが見つかりません', style: AppTextStyles.titleMedium),
       );
     }
 
-    // ref.listen を使って初期化（ref.read の代わりに）
     final state = ref.watch(taskEditViewModelProvider);
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
-    // 初回のみ初期化（taskId が変わる場合）
     if (state.taskId != taskId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.initializeWithTask(
@@ -81,19 +65,12 @@ class TaskEditPage extends ConsumerWidget {
       });
     }
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'タスクを編集',
-        hasLeading: true,
-        onLeadingPressed: () => context.pop(),
-      ),
-      body: TaskEditFormWidget(
-        taskId: taskId,
-        onSubmit: () => _submitForm(context, ref, task),
-        taskTitle: task.title.value,
-        taskDescription: task.description.value,
-        taskDeadline: task.deadline.value,
-      ),
+    return TaskEditFormWidget(
+      taskId: taskId,
+      onSubmit: () => _submitForm(context, ref, task),
+      taskTitle: task.title.value,
+      taskDescription: task.description.value,
+      taskDeadline: task.deadline.value,
     );
   }
 

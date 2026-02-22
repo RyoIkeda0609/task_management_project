@@ -7,6 +7,7 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'task_create_view_model.dart';
+import '../../../utils/date_formatter.dart';
 
 class TaskCreateFormWidget extends ConsumerWidget {
   final String milestoneId;
@@ -138,7 +139,7 @@ class _TaskCreateDeadlineField extends StatelessWidget {
                 SizedBox(width: Spacing.small),
                 Expanded(
                   child: Text(
-                    _formatDate(selectedDeadline),
+                    DateFormatter.toJapaneseDate(selectedDeadline),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ),
@@ -167,9 +168,6 @@ class _TaskCreateDeadlineField extends StatelessWidget {
     }
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
-  }
 }
 
 class _TaskCreateActions extends ConsumerWidget {
