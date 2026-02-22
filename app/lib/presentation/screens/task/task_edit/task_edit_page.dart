@@ -37,9 +37,8 @@ class TaskEditPage extends ConsumerWidget {
             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
           ),
         ),
-        error: (error, stackTrace) => Center(
-          child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-        ),
+        error: (error, stackTrace) =>
+            Center(child: Text('エラーが発生しました', style: AppTextStyles.titleMedium)),
       ),
     );
   }

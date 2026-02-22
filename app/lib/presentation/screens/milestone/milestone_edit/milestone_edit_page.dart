@@ -37,18 +37,13 @@ class MilestoneEditPage extends ConsumerWidget {
             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
           ),
         ),
-        error: (error, stackTrace) => Center(
-          child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-        ),
+        error: (error, stackTrace) =>
+            Center(child: Text('エラーが発生しました', style: AppTextStyles.titleMedium)),
       ),
     );
   }
 
-  Widget _buildBody(
-    BuildContext context,
-    WidgetRef ref,
-    Milestone? milestone,
-  ) {
+  Widget _buildBody(BuildContext context, WidgetRef ref, Milestone? milestone) {
     if (milestone == null) {
       return Center(
         child: Text('マイルストーンが見つかりません', style: AppTextStyles.titleMedium),

@@ -167,7 +167,6 @@ class _TaskCreateDeadlineField extends StatelessWidget {
       onDeadlineSelected(picked);
     }
   }
-
 }
 
 class _TaskCreateActions extends ConsumerWidget {

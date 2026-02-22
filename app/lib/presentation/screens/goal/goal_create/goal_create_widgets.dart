@@ -167,7 +167,6 @@ class _GoalDeadlineSelector extends StatelessWidget {
       onDeadlineSelected(picked);
     }
   }
-
 }
 
 class _GoalCreateActions extends ConsumerWidget {

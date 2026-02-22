@@ -36,7 +36,9 @@ class CalendarView extends ConsumerWidget {
             CalendarMonthNavigator(
               onPreviousMonth: viewModel.previousMonth,
               onNextMonth: viewModel.nextMonth,
-              monthDisplayText: DateFormatter.toJapaneseMonth(state.displayedMonth),
+              monthDisplayText: DateFormatter.toJapaneseMonth(
+                state.displayedMonth,
+              ),
             ),
             CalendarGrid(
               displayedMonth: state.displayedMonth,
@@ -48,7 +50,9 @@ class CalendarView extends ConsumerWidget {
               child: CalendarTaskList(
                 selectedDate: state.selectedDate,
                 tasks: state.getTasksForDate(state.selectedDate),
-                selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(state.selectedDate),
+                selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(
+                  state.selectedDate,
+                ),
               ),
             ),
           ],

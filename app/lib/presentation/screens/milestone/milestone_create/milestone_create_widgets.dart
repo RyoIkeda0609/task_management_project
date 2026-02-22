@@ -147,7 +147,6 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
       onDeadlineSelected(picked);
     }
   }
-
 }
 
 class _MilestoneCreateActions extends ConsumerWidget {

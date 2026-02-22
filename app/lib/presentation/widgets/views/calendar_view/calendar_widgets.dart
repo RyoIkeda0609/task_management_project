@@ -314,9 +314,7 @@ class CalendarTaskItem extends StatelessWidget {
         SizedBox(height: Spacing.xSmall),
         Text(
           task.description.value,
-          style: AppTextStyles.bodySmall.copyWith(
-            color: AppColors.neutral600,
-          ),
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),

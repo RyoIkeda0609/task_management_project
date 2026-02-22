@@ -44,7 +44,6 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class MilestoneDetailTasksSection extends ConsumerWidget {

@@ -23,8 +23,6 @@ class CalendarPageState {
     return tasksCache[dateKey] ?? [];
   }
 
-
-
   /// copyWith
   CalendarPageState copyWith({
     DateTime? selectedDate,

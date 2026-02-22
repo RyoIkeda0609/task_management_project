@@ -412,7 +412,9 @@ class _CalendarTab extends ConsumerWidget {
             goalId: goalId,
             selectedDate: state.selectedDate,
             tasks: state.getTasksForDate(state.selectedDate),
-            selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(state.selectedDate),
+            selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(
+              state.selectedDate,
+            ),
           ),
         ),
       ],

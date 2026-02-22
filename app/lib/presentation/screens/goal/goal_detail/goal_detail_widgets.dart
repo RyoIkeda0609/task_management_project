@@ -63,9 +63,7 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
           ),
           child: Text(
             goal.category.value,
-            style: AppTextStyles.labelSmall.copyWith(
-              color: AppColors.primary,
-            ),
+            style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
           ),
         ),
       ],
@@ -82,7 +80,6 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
       ],
     );
   }
-
 }
 
 /// ゴールの進捗バーと進捗率を表示するウィジェット

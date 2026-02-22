@@ -149,9 +149,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
     return InputDecoration(
       hintText: widget.hintText,
-      prefixIcon: widget.prefixIcon != null
-          ? Icon(widget.prefixIcon)
-          : null,
+      prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
       suffixIcon: _buildSuffixIcon(),
       filled: true,
       fillColor: widget.readOnly ? AppColors.neutral50 : Colors.white,

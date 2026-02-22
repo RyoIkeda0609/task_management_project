@@ -50,7 +50,6 @@ class TaskDetailDeadlineWidget extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class TaskDetailStatusWidget extends ConsumerWidget {

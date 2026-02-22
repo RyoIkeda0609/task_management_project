@@ -198,7 +198,6 @@ class PyramidMilestoneNode extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 /// ピラミッドのタスクノード

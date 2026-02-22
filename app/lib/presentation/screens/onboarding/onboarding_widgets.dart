@@ -76,6 +76,7 @@ class OnboardingPage1 extends StatelessWidget {
       ),
     );
   }
+
   static List<Widget> _page1Features() => [
     const _FeatureItem(
       icon: Icons.lightbulb_outline,
@@ -138,6 +139,7 @@ class OnboardingPage2 extends StatelessWidget {
       ),
     );
   }
+
   static List<Widget> _page2Features() => [
     const _FeatureItem(
       icon: Icons.stacked_line_chart,
@@ -197,6 +199,7 @@ class OnboardingPage3 extends StatelessWidget {
       ),
     );
   }
+
   static List<Widget> _page3Features() => [
     const _FeatureItem(
       icon: Icons.checklist,
@@ -261,6 +264,7 @@ class OnboardingPage4 extends StatelessWidget {
       ),
     );
   }
+
   static List<Widget> _page4Features() => [
     const _FeatureItem(
       icon: Icons.arrow_downward,
