@@ -504,6 +504,10 @@ return goals;
 | enum exhaustiveでのdefault     | 永続化境界       |
 | stateが保証している分岐        | ユーザー入力境界 |
 
+if文は「状態分岐」のみに使用する。
+nullチェックのためのifは禁止。
+nullは存在しない設計を採用する。
+
 ---
 
 ## 14. AI向け追加制約
