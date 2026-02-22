@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -154,11 +155,11 @@ class _TaskEditActions extends ConsumerWidget {
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            onPressed: isLoading ? null : () => context.pop(),
             type: ButtonType.secondary,
           ),
         ),
-        SizedBox(width: Spacing.small),
+        SizedBox(width: Spacing.medium),
         Expanded(
           child: CustomButton(
             text: '更新',

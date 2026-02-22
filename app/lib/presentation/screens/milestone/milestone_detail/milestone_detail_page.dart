@@ -78,7 +78,7 @@ class MilestoneDetailPage extends ConsumerWidget {
                   : null,
             )
             .value,
-        child: const Icon(Icons.add_comment),
+        child: const Icon(Icons.add),
       ),
     );
   }

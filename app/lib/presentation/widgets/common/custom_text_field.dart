@@ -79,11 +79,38 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   late bool _obscureText;
+  late TextEditingController _controller;
+  bool _hasSyncedInitialValue = false;
 
   @override
   void initState() {
     super.initState();
     _obscureText = widget.obscureText;
+    _controller = TextEditingController(text: widget.initialValue ?? '');
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // initialValue が外部から変わった場合、ユーザーが未編集であればテキストを同期
+    if (widget.initialValue != oldWidget.initialValue &&
+        widget.initialValue != null) {
+      // 初回同期のみ（ユーザーが入力を始めていない場合）
+      if (!_hasSyncedInitialValue ||
+          _controller.text == (oldWidget.initialValue ?? '')) {
+        _controller.text = widget.initialValue!;
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length),
+        );
+        _hasSyncedInitialValue = true;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -100,8 +127,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
         // テキストフィールド
         TextFormField(
-          initialValue: widget.initialValue,
-          onChanged: widget.onChanged,
+          controller: _controller,
+          onChanged: (value) {
+            _hasSyncedInitialValue = true;
+            widget.onChanged?.call(value);
+          },
           validator: widget.validator,
           keyboardType: widget.keyboardType,
           obscureText: _obscureText,

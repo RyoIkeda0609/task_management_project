@@ -15,6 +15,7 @@ import '../screens/milestone/milestone_edit/milestone_edit_page.dart';
 import '../screens/task/task_create/task_create_page.dart';
 import '../screens/task/task_detail/task_detail_page.dart';
 import '../screens/task/task_edit/task_edit_page.dart';
+import '../theme/app_colors.dart';
 
 /// go_router を使用したアプリケーションのルーティング管理
 ///
@@ -156,8 +157,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             builder: (context, state) {
                               final milestoneId =
                                   state.pathParameters['milestoneId']!;
-                              final goalId =
-                                  state.pathParameters['goalId']!;
+                              final goalId = state.pathParameters['goalId']!;
                               return TaskCreatePage(
                                 milestoneId: milestoneId,
                                 goalId: goalId,
@@ -169,10 +169,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                           GoRoute(
                             path: 'task/:taskId',
                             builder: (context, state) {
-                              final taskId =
-                                  state.pathParameters['taskId']!;
-                              final goalId =
-                                  state.pathParameters['goalId']!;
+                              final taskId = state.pathParameters['taskId']!;
+                              final goalId = state.pathParameters['goalId']!;
                               final milestoneId =
                                   state.pathParameters['milestoneId']!;
                               return TaskDetailPage(
@@ -274,6 +272,10 @@ class _HomeNavigationShellState extends State<_HomeNavigationShell> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: widget.navigationShell.currentIndex,
         onTap: _onTabChange,
+        backgroundColor: AppColors.neutral100,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.neutral600,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -296,7 +298,11 @@ class _HomeNavigationShellState extends State<_HomeNavigationShell> {
   }
 
   void _onTabChange(int index) {
-    widget.navigationShell.goBranch(index);
+    // 同じタブを再度タップした場合は、そのタブのルート（トップ）に戻る
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
   }
 }
 

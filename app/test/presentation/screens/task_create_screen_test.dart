@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:app/presentation/screens/task/task_create/task_create_page.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
@@ -128,20 +129,38 @@ void main() {
       tester.view.physicalSize = const Size(1600, 2400);
       addTearDown(tester.view.resetPhysicalSize);
 
+      final router = GoRouter(
+        initialLocation: '/',
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const Scaffold(body: Text('Home')),
+            routes: [
+              GoRoute(
+                path: 'task-create',
+                builder: (context, state) => const TaskCreatePage(
+                  milestoneId: 'test-milestone-id',
+                  goalId: 'test-goal-id',
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
           ],
-          child: const MaterialApp(
-            home: TaskCreatePage(
-              milestoneId: 'test-milestone-id',
-              goalId: 'test-goal-id',
-            ),
-          ),
+          child: MaterialApp.router(routerConfig: router),
         ),
       );
 
+      await tester.pumpAndSettle();
+
+      // task-createに遷移
+      router.go('/task-create');
       await tester.pumpAndSettle();
 
       // キャンセルボタンを見つけてスクロール

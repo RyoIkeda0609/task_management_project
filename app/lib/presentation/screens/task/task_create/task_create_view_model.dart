@@ -7,7 +7,7 @@ class TaskCreateViewModel extends StateNotifier<TaskCreatePageState> {
         TaskCreatePageState(
           milestoneId: milestoneId,
           goalId: goalId,
-          deadline: DateTime.now(),
+          deadline: DateTime.now().add(const Duration(days: 1)),
         ),
       );
 
@@ -32,14 +32,14 @@ class TaskCreateViewModel extends StateNotifier<TaskCreatePageState> {
     state = TaskCreatePageState(
       milestoneId: state.milestoneId,
       goalId: state.goalId,
-      deadline: DateTime.now(),
+      deadline: DateTime.now().add(const Duration(days: 1)),
     );
   }
 }
 
-/// StateNotifierProvider (Family)
-final taskCreateViewModelProvider =
-    StateNotifierProvider.family<
+/// StateNotifierProvider (Family + autoDispose)
+final taskCreateViewModelProvider = StateNotifierProvider.autoDispose
+    .family<
       TaskCreateViewModel,
       TaskCreatePageState,
       ({String milestoneId, String goalId})

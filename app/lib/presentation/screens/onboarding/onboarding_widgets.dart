@@ -5,7 +5,39 @@ import '../../theme/app_theme.dart';
 import '../../widgets/common/custom_button.dart';
 import 'onboarding_state.dart';
 
-/// オンボーディング ページ1：ゴール設定
+// ===================== 共通ヘルパー =====================
+
+Widget _buildPageIcon(Color color, IconData icon) {
+  return Container(
+    width: 80,
+    height: 80,
+    decoration: BoxDecoration(
+      color: color.withValues(alpha: 0.2),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Icon(icon, size: 48, color: color),
+  );
+}
+
+Widget _buildPageTitle(String title) {
+  return Text(
+    title,
+    style: AppTextStyles.displaySmall,
+    textAlign: TextAlign.center,
+  );
+}
+
+Widget _buildPageDescription(String description) {
+  return Text(
+    description,
+    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral600),
+    textAlign: TextAlign.center,
+  );
+}
+
+// ===================== ページ1：ゴール =====================
+
+/// オンボーディング ページ1：ゴールに関すること
 class OnboardingPage1 extends StatelessWidget {
   const OnboardingPage1({super.key});
 
@@ -28,32 +60,31 @@ class OnboardingPage1 extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildIcon(AppColors.primary, Icons.flag),
+              _buildPageIcon(AppColors.primary, Icons.flag),
               SizedBox(height: Spacing.large),
-              _buildTitle('ゴールを設定しよう'),
+              _buildPageTitle('ゴールを決めよう'),
               SizedBox(height: Spacing.medium),
-              _buildDescription(
-                '達成したい大きな目標を設定します。'
-                '健康、仕事、学習、趣味など、'
-                'カテゴリーを選んで整理できます。',
+              _buildPageDescription(
+                'ゴールとは、あなたが本当に達成したい大きな目標のこと。\n'
+                '「何を実現したいか」を明確にすることが、すべての第一歩です。',
               ),
               SizedBox(height: Spacing.large),
               _FeatureItem(
-                icon: Icons.category,
-                title: 'カテゴリー分類',
-                description: '5つのカテゴリーで整理',
+                icon: Icons.lightbulb_outline,
+                title: 'ゴールの考え方',
+                description: '将来のなりたい自分をイメージしよう',
               ),
               SizedBox(height: Spacing.medium),
               _FeatureItem(
-                icon: Icons.edit_calendar,
-                title: '期限設定',
-                description: 'いつまでに達成するか決める',
+                icon: Icons.school,
+                title: '例：○○大学に合格する',
+                description: '具体的で測定可能な目標がベスト',
               ),
               SizedBox(height: Spacing.medium),
               _FeatureItem(
-                icon: Icons.notes,
-                title: 'メモ機能',
-                description: 'ゴールの詳細を記入できます',
+                icon: Icons.fitness_center,
+                title: '例：フルマラソンを完走する',
+                description: '期限を決めて達成意欲を高めよう',
               ),
             ],
           ),
@@ -61,37 +92,11 @@ class OnboardingPage1 extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildIcon(Color color, IconData icon) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Icon(icon, size: 48, color: color),
-    );
-  }
-
-  Widget _buildTitle(String title) {
-    return Text(
-      title,
-      style: AppTextStyles.displaySmall,
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _buildDescription(String description) {
-    return Text(
-      description,
-      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral600),
-      textAlign: TextAlign.center,
-    );
-  }
 }
 
-/// オンボーディング ページ2：タスク管理
+// ===================== ページ2：マイルストーン =====================
+
+/// オンボーディング ページ2：マイルストーンに関すること
 class OnboardingPage2 extends StatelessWidget {
   const OnboardingPage2({super.key});
 
@@ -114,33 +119,31 @@ class OnboardingPage2 extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildIcon(AppColors.success, Icons.task_alt),
+              _buildPageIcon(AppColors.success, Icons.timeline),
               SizedBox(height: Spacing.large),
-              _buildTitle('タスクで進捗を管理'),
+              _buildPageTitle('マイルストーンで中間地点を作ろう'),
               SizedBox(height: Spacing.medium),
-              _buildDescription(
-                'ゴール達成までのステップを'
-                'タスクとして分割します。'
-                'マイルストーンで整理することで、'
-                '段階的に進捗を追跡できます。',
+              _buildPageDescription(
+                'マイルストーンとは、ゴールに至るまでの中間目標のこと。\n'
+                '大きな目標を段階に分けることで、着実に前進できます。',
               ),
               SizedBox(height: Spacing.large),
               _FeatureItem(
-                icon: Icons.timeline,
-                title: 'マイルストーン',
-                description: '中間目標を設定して段階化',
+                icon: Icons.stacked_line_chart,
+                title: 'マイルストーンの考え方',
+                description: 'ゴールを3〜5つの段階に分けてみよう',
               ),
               SizedBox(height: Spacing.medium),
               _FeatureItem(
-                icon: Icons.playlist_add_check,
-                title: 'タスク管理',
-                description: '未着手・進行中・完了で進捗を表示',
+                icon: Icons.menu_book,
+                title: '例：模試で偏差値60を達成',
+                description: '合格というゴールへの通過点',
               ),
               SizedBox(height: Spacing.medium),
               _FeatureItem(
-                icon: Icons.insights,
-                title: '統計情報',
-                description: '進捗率をチャートで可視化',
+                icon: Icons.directions_run,
+                title: '例：10kmを60分以内で走る',
+                description: 'フルマラソン完走への中間目標',
               ),
             ],
           ),
@@ -148,32 +151,224 @@ class OnboardingPage2 extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildIcon(Color color, IconData icon) {
+// ===================== ページ3：タスク =====================
+
+/// オンボーディング ページ3：タスクに関すること
+class OnboardingPage3 extends StatelessWidget {
+  const OnboardingPage3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      width: 80,
-      height: 80,
+      padding: EdgeInsets.all(Spacing.large),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.orange.withValues(alpha: 0.1), AppColors.neutral100],
+        ),
       ),
-      child: Icon(icon, size: 48, color: color),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildPageIcon(Colors.orange, Icons.task_alt),
+              SizedBox(height: Spacing.large),
+              _buildPageTitle('タスクで日々の行動に落とし込もう'),
+              SizedBox(height: Spacing.medium),
+              _buildPageDescription(
+                'タスクとは、今日・明日にできる具体的なアクションのこと。\n'
+                '小さな一歩を積み重ねることが、ゴール達成の近道です。',
+              ),
+              SizedBox(height: Spacing.large),
+              _FeatureItem(
+                icon: Icons.checklist,
+                title: 'タスクの考え方',
+                description: '「今すぐできること」にまで分解しよう',
+              ),
+              SizedBox(height: Spacing.medium),
+              _FeatureItem(
+                icon: Icons.edit_note,
+                title: '例：過去問を1年分解く',
+                description: '1日でできる具体的な行動にする',
+              ),
+              SizedBox(height: Spacing.medium),
+              _FeatureItem(
+                icon: Icons.directions_walk,
+                title: '例：5kmジョギングする',
+                description: '無理のない範囲で毎日続けられるものを',
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
+}
 
-  Widget _buildTitle(String title) {
-    return Text(
-      title,
-      style: AppTextStyles.displaySmall,
-      textAlign: TextAlign.center,
+// ===================== ページ4：逆算の考え方 =====================
+
+/// オンボーディング ページ4：ゴール→マイルストーン→タスクの逆算思考
+class OnboardingPage4 extends StatelessWidget {
+  const OnboardingPage4({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(Spacing.large),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.deepPurple.withValues(alpha: 0.1),
+            AppColors.neutral100,
+          ],
+        ),
+      ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // ピラミッド図
+              _PyramidDiagram(),
+              SizedBox(height: Spacing.large),
+              _buildPageTitle('逆算して考えよう'),
+              SizedBox(height: Spacing.medium),
+              _buildPageDescription(
+                'ゴールを頂点としたピラミッドのように、\n'
+                'マイルストーンを用意して、日々のタスクをクリアすると、\n'
+                '目標は必ず叶えられます。',
+              ),
+              SizedBox(height: Spacing.large),
+              _FeatureItem(
+                icon: Icons.arrow_downward,
+                title: 'ゴールから逆算',
+                description: '大きな目標をマイルストーンに分解',
+              ),
+              SizedBox(height: Spacing.medium),
+              _FeatureItem(
+                icon: Icons.arrow_downward,
+                title: 'マイルストーンから逆算',
+                description: '中間目標を日々のタスクに分解',
+              ),
+              SizedBox(height: Spacing.medium),
+              _FeatureItem(
+                icon: Icons.check_circle_outline,
+                title: 'タスクをクリア',
+                description: '毎日の積み重ねがゴールへの道',
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
+}
 
-  Widget _buildDescription(String description) {
-    return Text(
-      description,
-      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral600),
-      textAlign: TextAlign.center,
+/// ピラミッド図ウィジェット
+class _PyramidDiagram extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // ゴール（頂点）
+        Container(
+          width: 120,
+          padding: EdgeInsets.symmetric(vertical: Spacing.small),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.primary, width: 2),
+          ),
+          child: Text(
+            '🏆 ゴール',
+            style: AppTextStyles.titleMedium.copyWith(color: AppColors.primary),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Icon(Icons.keyboard_arrow_down, color: AppColors.neutral400, size: 28),
+        // マイルストーン（中段）
+        Container(
+          width: 200,
+          padding: EdgeInsets.symmetric(vertical: Spacing.small),
+          decoration: BoxDecoration(
+            color: AppColors.success.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.success, width: 2),
+          ),
+          child: Text(
+            '📍 マイルストーン',
+            style: AppTextStyles.titleMedium.copyWith(color: AppColors.success),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Icon(Icons.keyboard_arrow_down, color: AppColors.neutral400, size: 28),
+        // タスク（底辺）
+        Container(
+          width: 280,
+          padding: EdgeInsets.symmetric(vertical: Spacing.small),
+          decoration: BoxDecoration(
+            color: Colors.orange.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.orange, width: 2),
+          ),
+          child: Text(
+            '✅ タスク（日々の行動）',
+            style: AppTextStyles.titleMedium.copyWith(color: Colors.orange),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ===================== ページ5：さあ始めよう =====================
+
+/// オンボーディング ページ5：さあ始めよう
+class OnboardingPage5 extends StatelessWidget {
+  const OnboardingPage5({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(Spacing.large),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            AppColors.primary.withValues(alpha: 0.15),
+            AppColors.success.withValues(alpha: 0.05),
+          ],
+        ),
+      ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildPageIcon(AppColors.primary, Icons.rocket_launch),
+              SizedBox(height: Spacing.large),
+              _buildPageTitle('準備はOK！'),
+              SizedBox(height: Spacing.medium),
+              _buildPageDescription(
+                'まずはひとつ、ゴールを作ってみましょう。\n'
+                '小さな目標でも大丈夫。\n'
+                'あなたの「なりたい自分」への第一歩を、\n'
+                'ここから始めましょう！',
+              ),
+              SizedBox(height: Spacing.xxxLarge),
+              Icon(Icons.emoji_events, size: 64, color: Colors.amber),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -307,7 +502,13 @@ class OnboardingPageView extends StatelessWidget {
     return PageView(
       controller: pageController,
       onPageChanged: onPageChanged,
-      children: const [OnboardingPage1(), OnboardingPage2()],
+      children: const [
+        OnboardingPage1(),
+        OnboardingPage2(),
+        OnboardingPage3(),
+        OnboardingPage4(),
+        OnboardingPage5(),
+      ],
     );
   }
 }

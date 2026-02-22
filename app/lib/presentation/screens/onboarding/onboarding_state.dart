@@ -22,13 +22,13 @@ class OnboardingPageState {
   }
 
   /// ページ数
-  static const int totalPages = 2;
+  static const int totalPages = 5;
 
   /// 最後のページかどうか
   bool get isLastPage => currentPageIndex == totalPages - 1;
 
-  /// ボタンテキスト：最後のページなら「開始する」、それ以外は「次へ」
-  String get buttonText => isLastPage ? '開始する' : '次へ';
+  /// ボタンテキスト：最後のページなら「さあ、始めよう！」、それ以外は「次へ」
+  String get buttonText => isLastPage ? 'さあ、始めよう！' : '次へ';
 
   /// 次のページへ遷移（またはページの最後なら完了）
   OnboardingPageState nextPageOrComplete() {

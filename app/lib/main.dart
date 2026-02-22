@@ -6,17 +6,26 @@ import 'infrastructure/persistence/hive/hive_milestone_repository.dart';
 import 'infrastructure/persistence/hive/hive_task_repository.dart';
 import 'presentation/theme/app_theme.dart';
 import 'presentation/navigation/app_router.dart';
-import 'presentation/state_management/providers/repository_providers.dart';
+import 'presentation/state_management/providers/app_providers.dart';
 
 // グローバルリポジトリインスタンス（Riverpodで共有）
 late HiveGoalRepository _goalRepository;
 late HiveMilestoneRepository _milestoneRepository;
 late HiveTaskRepository _taskRepository;
 
+/// オンボーディング完了フラグ用のHive Boxキー
+const String _onboardingBoxName = 'app_settings';
+const String _onboardingKey = 'onboarding_complete';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
+
+  // オンボーディング完了フラグを読み込み
+  final settingsBox = await Hive.openBox<bool>(_onboardingBoxName);
+  final isOnboardingComplete =
+      settingsBox.get(_onboardingKey, defaultValue: false) ?? false;
 
   // Hive リポジトリの初期化
   _goalRepository = HiveGoalRepository();
@@ -34,6 +43,10 @@ void main() async {
         goalRepositoryProvider.overrideWithValue(_goalRepository),
         milestoneRepositoryProvider.overrideWithValue(_milestoneRepository),
         taskRepositoryProvider.overrideWithValue(_taskRepository),
+        // オンボーディング完了フラグの初期値を反映
+        onboardingCompleteProvider.overrideWith((ref) => isOnboardingComplete),
+        // Hive Box をProviderで共有
+        onboardingSettingsBoxProvider.overrideWithValue(settingsBox),
       ],
       child: const MyApp(),
     ),

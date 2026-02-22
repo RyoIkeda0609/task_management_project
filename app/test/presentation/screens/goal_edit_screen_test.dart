@@ -105,7 +105,7 @@ void main() {
 
       // タイトルフィールドが表示されているか確認
       expect(find.text('ゴール名（最終目標）'), findsOneWidget);
-      expect(find.text('説明・理由'), findsOneWidget);
+      expect(find.text('説明・理由（任意）'), findsOneWidget);
     });
 
     testWidgets('displays cancel and update buttons', (

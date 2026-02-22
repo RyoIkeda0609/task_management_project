@@ -79,7 +79,7 @@ class GoalDetailPage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => AppRouter.navigateToMilestoneCreate(context, goalId),
-        child: const Icon(Icons.add_comment),
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -36,7 +36,7 @@ class GoalCreateFormWidget extends ConsumerWidget {
             SizedBox(height: Spacing.large),
 
             // 説明・理由
-            Text('説明・理由', style: AppTextStyles.labelLarge),
+            Text('説明・理由（任意）', style: AppTextStyles.labelLarge),
             CustomTextField(
               hintText:
                   '・なぜこのゴールを達成したいのか\n・ゴールを達成するモチベーションは何か\n・達成したらどんな良いことがあるかなど',
