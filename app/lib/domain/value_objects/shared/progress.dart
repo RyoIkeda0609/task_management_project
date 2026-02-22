@@ -5,10 +5,9 @@ class Progress {
   static const int minValue = 0;
   static const int maxValue = 100;
 
-  late int value;
+  final int value;
 
-  Progress(int val) {
-    value = val;
+  Progress(this.value) {
     _validate();
   }
 

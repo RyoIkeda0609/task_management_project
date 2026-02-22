@@ -115,6 +115,18 @@ void main() {
         final invalidStatus = TaskStatus('invalid_value');
         expect(() => invalidStatus.nextStatus(), throwsArgumentError);
       });
+
+      test('不正なステータス値のprogressは0にフォールバックすること', () {
+        final invalidStatus = TaskStatus('unknown');
+        expect(invalidStatus.progress, TaskStatus.progressTodo);
+      });
+
+      test('不正なステータス値ではisTodo/isDoing/isDoneがすべてfalseであること', () {
+        final invalidStatus = TaskStatus('invalid_value');
+        expect(invalidStatus.isTodo, isFalse);
+        expect(invalidStatus.isDoing, isFalse);
+        expect(invalidStatus.isDone, isFalse);
+      });
     });
   });
 }

@@ -56,9 +56,8 @@ class GoalCreatePage extends ConsumerWidget {
         deadline: state.deadline,
       );
 
-      // goalsNotifier に新しいゴールを読み込ませる
-      final goalsNotifier = ref.read(goalsProvider.notifier);
-      await goalsNotifier.loadGoals();
+      // プロバイダーキャッシュを無効化して新しいデータを取得させる
+      ref.invalidate(goalsProvider);
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(

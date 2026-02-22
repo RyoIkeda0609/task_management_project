@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_colors.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../utils/validation_helper.dart';
@@ -31,7 +32,11 @@ class TaskEditPage extends ConsumerWidget {
           hasLeading: true,
           onLeadingPressed: () => context.pop(),
         ),
-        body: Center(child: CircularProgressIndicator()),
+        body: const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
       ),
       error: (error, stackTrace) => Scaffold(
         appBar: CustomAppBar(

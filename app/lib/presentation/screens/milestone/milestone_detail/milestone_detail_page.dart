@@ -160,7 +160,11 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+      ),
+    );
   }
 }
 
@@ -184,25 +188,7 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 64, color: AppColors.error),
-          SizedBox(height: Spacing.medium),
-          Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-          SizedBox(height: Spacing.small),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Spacing.large),
-            child: Text(
-              error,
-              style: AppTextStyles.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
+    return MilestoneDetailErrorWidget(error: error);
   }
 }
 

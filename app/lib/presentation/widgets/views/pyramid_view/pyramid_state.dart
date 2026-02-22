@@ -12,6 +12,11 @@ class PyramidPageState {
     );
   }
 
+  /// 指定マイルストーンが展開中かを判定
+  bool isMilestoneExpanded(String milestoneId) {
+    return expandedMilestones[milestoneId] ?? false;
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

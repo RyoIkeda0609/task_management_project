@@ -345,6 +345,20 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
   }
 
   Widget _buildErrorWidget(Object error) {
+    return MilestoneDetailErrorWidget(error: error);
+  }
+}
+
+/// マイルストーン詳細エラー表示ウィジェット
+///
+/// GoalDetailErrorWidget / TaskDetailErrorWidget と同一パターン
+class MilestoneDetailErrorWidget extends StatelessWidget {
+  final Object error;
+
+  const MilestoneDetailErrorWidget({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

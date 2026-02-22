@@ -11,10 +11,9 @@ const String kDefaultGoalCategory = 'キャリア';
 /// バリデーション：1～100文字、空白のみ不可
 class GoalCategory {
   static const int maxLength = 100;
-  late String value;
+  final String value;
 
-  GoalCategory(String val) {
-    value = val;
+  GoalCategory(this.value) {
     _validate();
   }
 

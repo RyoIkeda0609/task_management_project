@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_colors.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/goal.dart';
@@ -31,7 +32,11 @@ class GoalEditPage extends ConsumerWidget {
           hasLeading: true,
           onLeadingPressed: () => context.pop(),
         ),
-        body: const Center(child: CircularProgressIndicator()),
+        body: const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
       ),
       error: (error, stackTrace) => Scaffold(
         appBar: CustomAppBar(

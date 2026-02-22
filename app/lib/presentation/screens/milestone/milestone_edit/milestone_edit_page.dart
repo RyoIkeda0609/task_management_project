@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_colors.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../utils/validation_helper.dart';
@@ -31,7 +32,11 @@ class MilestoneEditPage extends ConsumerWidget {
           hasLeading: true,
           onLeadingPressed: () => context.pop(),
         ),
-        body: const Center(child: CircularProgressIndicator()),
+        body: const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
       ),
       error: (error, stackTrace) => Scaffold(
         appBar: CustomAppBar(
@@ -124,10 +129,9 @@ class MilestoneEditPage extends ConsumerWidget {
         deadline: state.deadline,
       );
 
-      // プロバイダーキャッシュを再取得
+      // プロバイダーキャッシュを無効化して新しいデータを取得させる
       if (context.mounted) {
-        // ignore: unused_result
-        ref.refresh(milestoneDetailProvider(milestoneId));
+        ref.invalidate(milestoneDetailProvider(milestoneId));
         ref.invalidate(milestonesByGoalProvider(milestone.goalId.value));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);

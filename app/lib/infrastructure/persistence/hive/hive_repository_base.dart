@@ -2,6 +2,24 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:hive/hive.dart';
 
+/// リポジトリ操作で発生した例外をラップするカスタム例外
+///
+/// 元の例外 ([cause]) を保持し、呼び出し元での原因分析を可能にする。
+class RepositoryException implements Exception {
+  final String message;
+  final Object? cause;
+
+  RepositoryException(this.message, [this.cause]);
+
+  @override
+  String toString() {
+    if (cause != null) {
+      return 'RepositoryException: $message (cause: $cause)';
+    }
+    return 'RepositoryException: $message';
+  }
+}
+
 /// HiveRepositoryBase - Hive Repository の抽象基盤クラス
 ///
 /// JSON ベースの永続化処理を共通化し、コード重複を削減します。
@@ -161,9 +179,7 @@ abstract class HiveRepositoryBase<T> {
           continue;
         }
       }
-      for (final id in toDelete) {
-        await _box.delete(id);
-      }
+      await _box.deleteAll(toDelete);
     } catch (e) {
       throw _handleError(
         'Failed to delete entities from $boxName based on predicate',
@@ -202,13 +218,13 @@ abstract class HiveRepositoryBase<T> {
   }
 
   /// エラーハンドリング：一貫性のあるエラーメッセージを生成
-  Exception _handleError(String message, dynamic error) {
+  RepositoryException _handleError(String message, dynamic error) {
     final errorMessage = '$message. Details: ${error.toString()}';
     log(
       errorMessage,
       name: 'HiveRepositoryBase',
       level: 1000, // SEVERE level
     );
-    return Exception(errorMessage);
+    return RepositoryException(message, error);
   }
 }

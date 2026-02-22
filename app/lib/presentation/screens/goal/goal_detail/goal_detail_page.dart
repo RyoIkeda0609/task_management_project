@@ -4,6 +4,7 @@ import 'package:app/presentation/theme/app_text_styles.dart';
 import 'package:app/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../widgets/common/dialog_helper.dart';
@@ -37,7 +38,7 @@ class GoalDetailPage extends ConsumerWidget {
         title: 'ゴール詳細',
         hasLeading: true,
         backgroundColor: AppColors.neutral100,
-        onLeadingPressed: () => Navigator.of(context).pop(),
+        onLeadingPressed: () => context.pop(),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
@@ -158,7 +159,11 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+      ),
+    );
   }
 }
 

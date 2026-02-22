@@ -49,12 +49,6 @@ class CalendarViewModel extends StateNotifier<CalendarPageState> {
     );
     state = state.copyWith(displayedMonth: newMonth);
   }
-
-  /// 指定日付のタスクを取得
-  List<Task> getTasksForDate(DateTime date) {
-    final dateKey = DateTime(date.year, date.month, date.day);
-    return state.tasksCache[dateKey] ?? [];
-  }
 }
 
 /// CalendarViewModelProvider

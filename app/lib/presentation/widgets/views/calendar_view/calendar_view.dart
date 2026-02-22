@@ -41,12 +41,12 @@ class CalendarView extends ConsumerWidget {
               displayedMonth: state.displayedMonth,
               selectedDate: state.selectedDate,
               onDateSelected: viewModel.selectDate,
-              getTasksForDate: viewModel.getTasksForDate,
+              getTasksForDate: state.getTasksForDate,
             ),
             Expanded(
               child: CalendarTaskList(
                 selectedDate: state.selectedDate,
-                tasks: viewModel.getTasksForDate(state.selectedDate),
+                tasks: state.getTasksForDate(state.selectedDate),
                 selectedDateDisplayText: state.selectedDateDisplayText,
               ),
             ),

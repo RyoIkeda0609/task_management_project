@@ -13,12 +13,10 @@ class TaskStatus {
   static const int progressDoing = 50;
   static const int progressDone = 100;
 
-  late String value;
+  final String value;
 
   /// コンストラクタ（明示的なステータス値が必須）
-  TaskStatus(String val) {
-    value = val;
-  }
+  TaskStatus(this.value);
 
   /// ステータス：未着手
   factory TaskStatus.todo() => TaskStatus(statusTodo);
