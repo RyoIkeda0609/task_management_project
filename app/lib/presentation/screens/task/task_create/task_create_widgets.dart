@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'task_create_view_model.dart';
+import 'task_create_state.dart';
+import '../../../utils/date_formatter.dart';
 
 class TaskCreateFormWidget extends ConsumerWidget {
   final String milestoneId;
@@ -30,42 +33,48 @@ class TaskCreateFormWidget extends ConsumerWidget {
         goalId: goalId,
       )).notifier,
     );
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // タスク名
-            Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
-            _TaskCreateTitleField(
-              title: state.title,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // タスクの詳細
-            Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
-            _TaskCreateDescriptionField(
-              description: state.description,
-              onChanged: viewModel.updateDescription,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 期限
-            _TaskCreateDeadlineField(
-              selectedDeadline: state.deadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.xxxLarge),
-
-            // アクションボタン
-            _TaskCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
-          ],
+          children: _buildFormFields(state, viewModel),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(
+    TaskCreatePageState state,
+    TaskCreateViewModel viewModel,
+  ) {
+    return [
+      // タスク名
+      Text('タスク名（具体的な作業・行動内容）', style: AppTextStyles.labelLarge),
+      _TaskCreateTitleField(
+        title: state.title,
+        onChanged: viewModel.updateTitle,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // タスクの詳細
+      Text('タスクの詳細（任意）', style: AppTextStyles.labelLarge),
+      _TaskCreateDescriptionField(
+        description: state.description,
+        onChanged: viewModel.updateDescription,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 期限
+      _TaskCreateDeadlineField(
+        selectedDeadline: state.deadline,
+        onDeadlineSelected: viewModel.updateDeadline,
+      ),
+      SizedBox(height: Spacing.xxxLarge),
+
+      // アクションボタン
+      _TaskCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
+    ];
   }
 }
 
@@ -137,7 +146,7 @@ class _TaskCreateDeadlineField extends StatelessWidget {
                 SizedBox(width: Spacing.small),
                 Expanded(
                   child: Text(
-                    _formatDate(selectedDeadline),
+                    DateFormatter.toJapaneseDate(selectedDeadline),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ),
@@ -165,10 +174,6 @@ class _TaskCreateDeadlineField extends StatelessWidget {
       onDeadlineSelected(picked);
     }
   }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
-  }
 }
 
 class _TaskCreateActions extends ConsumerWidget {
@@ -184,7 +189,7 @@ class _TaskCreateActions extends ConsumerWidget {
         Expanded(
           child: CustomButton(
             text: 'キャンセル',
-            onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+            onPressed: isLoading ? null : () => context.pop(),
             type: ButtonType.secondary,
           ),
         ),

@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/screens/task/task_detail/task_detail_page.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 
@@ -42,12 +42,12 @@ void main() {
   group('TaskDetailPage', () {
     testWidgets('displays task details properly', (WidgetTester tester) async {
       final testTask = Task(
-        id: TaskId('test-task-1'),
-        title: TaskTitle('テスト タスク'),
-        description: TaskDescription('これはテストタスクです'),
-        deadline: TaskDeadline(DateTime(2026, 3, 1)),
-        status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('test-task-1'),
+        title: ItemTitle('テスト タスク'),
+        description: ItemDescription('これはテストタスクです'),
+        deadline: ItemDeadline(DateTime(2026, 3, 1)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       await tester.pumpWidget(
@@ -95,12 +95,12 @@ void main() {
 
     testWidgets('updates task status to done', (WidgetTester tester) async {
       final testTask = Task(
-        id: TaskId('test-task-1'),
-        title: TaskTitle('テスト タスク'),
-        description: TaskDescription('これはテストタスクです'),
-        deadline: TaskDeadline(DateTime(2026, 3, 1)),
-        status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('test-task-1'),
+        title: ItemTitle('テスト タスク'),
+        description: ItemDescription('これはテストタスクです'),
+        deadline: ItemDeadline(DateTime(2026, 3, 1)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       await tester.pumpWidget(
@@ -128,12 +128,12 @@ void main() {
 
     testWidgets('displays status icons correctly', (WidgetTester tester) async {
       final todoTask = Task(
-        id: TaskId('test-task-1'),
-        title: TaskTitle('未完了タスク'),
-        description: TaskDescription('説明'),
-        deadline: TaskDeadline(DateTime(2026, 3, 1)),
-        status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('test-task-1'),
+        title: ItemTitle('未完了タスク'),
+        description: ItemDescription('説明'),
+        deadline: ItemDeadline(DateTime(2026, 3, 1)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       await tester.pumpWidget(
@@ -160,12 +160,12 @@ void main() {
 
     testWidgets('shows all status update buttons', (WidgetTester tester) async {
       final testTask = Task(
-        id: TaskId('test-task-1'),
-        title: TaskTitle('テスト タスク'),
-        description: TaskDescription('これはテストタスクです'),
-        deadline: TaskDeadline(DateTime(2026, 3, 1)),
-        status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('test-task-1'),
+        title: ItemTitle('テスト タスク'),
+        description: ItemDescription('これはテストタスクです'),
+        deadline: ItemDeadline(DateTime(2026, 3, 1)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       await tester.pumpWidget(

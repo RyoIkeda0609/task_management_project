@@ -6,7 +6,9 @@ import '../../theme/app_theme.dart';
 import '../../../application/providers/use_case_providers.dart';
 import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import '../../../domain/entities/task.dart';
+import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../home/home_view_model.dart';
 import '../../utils/validation_helper.dart';
 import '../../widgets/common/status_badge.dart';
 import '../../navigation/app_router.dart';
@@ -105,20 +107,11 @@ class TodayTasksSummaryWidget extends StatelessWidget {
   }
 
   double _calculateProgressPercentage() {
-    if (grouped.total == 0) return 0.0;
-    return ((grouped.doingTasks.length * 50 + grouped.doneTasks.length * 100) /
-            (grouped.total * 100)) *
-        100;
+    return grouped.weightedProgressPercentage;
   }
 
   Color _getProgressColor(double progressPercentage) {
-    if (progressPercentage == 100) {
-      return AppColors.success;
-    } else if (progressPercentage >= 50) {
-      return AppColors.warning;
-    } else {
-      return AppColors.primary;
-    }
+    return AppColors.getProgressColor(progressPercentage.toInt());
   }
 }
 
@@ -218,7 +211,7 @@ class TodayTaskItemWidget extends ConsumerWidget {
   Widget _buildTaskInfo(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.id.value),
+        onTap: () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: Spacing.medium),
           child: Text(
@@ -239,64 +232,48 @@ class TodayTaskItemWidget extends ConsumerWidget {
         onTap: () => _toggleTaskStatus(context, ref),
         child: Container(
           padding: EdgeInsets.all(Spacing.medium),
-          child: StatusBadge(
-            status: _normalizeTaskStatus(),
-            size: BadgeSize.small,
-          ),
+          child: StatusBadge(status: task.status, size: BadgeSize.small),
         ),
       ),
     );
   }
 
   IconData _getStatusIcon() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) {
-      return Icons.check_circle;
-    } else if (statusStr.contains('doing')) {
-      return Icons.radio_button_checked;
-    } else {
-      return Icons.radio_button_unchecked;
-    }
+    return switch (task.status) {
+      TaskStatus.done => Icons.check_circle,
+      TaskStatus.doing => Icons.radio_button_checked,
+      TaskStatus.todo => Icons.radio_button_unchecked,
+    };
   }
 
   Color _getStatusColor() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) {
-      return AppColors.success;
-    } else if (statusStr.contains('doing')) {
-      return AppColors.warning;
-    } else {
-      return AppColors.neutral400;
-    }
+    return switch (task.status) {
+      TaskStatus.done => AppColors.success,
+      TaskStatus.doing => AppColors.warning,
+      TaskStatus.todo => AppColors.neutral400,
+    };
   }
 
   TextStyle _getTaskTextStyle() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) {
+    if (task.status.isDone) {
       return AppTextStyles.bodyMedium.copyWith(
         decoration: TextDecoration.lineThrough,
         color: AppColors.neutral500,
       );
-    } else {
-      return AppTextStyles.bodyMedium;
     }
-  }
-
-  String _normalizeTaskStatus() {
-    final statusStr = task.status.toString();
-    if (statusStr.contains('done')) return 'done';
-    if (statusStr.contains('doing')) return 'doing';
-    return 'todo';
+    return AppTextStyles.bodyMedium;
   }
 
   Future<void> _toggleTaskStatus(BuildContext context, WidgetRef ref) async {
     try {
       final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
-      await changeTaskStatusUseCase(task.id.value);
+      await changeTaskStatusUseCase(task.itemId.value);
 
       ref.invalidate(todayTasksProvider);
-      ref.invalidate(taskDetailProvider(task.id.value));
-      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+      ref.invalidate(taskDetailProvider(task.itemId.value));
+      ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
+      ref.invalidate(homeViewModelProvider);
+      ref.invalidate(tasksBySelectedDateGroupedProvider);
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(
@@ -307,7 +284,7 @@ class TodayTaskItemWidget extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'ステータス更新エラー',

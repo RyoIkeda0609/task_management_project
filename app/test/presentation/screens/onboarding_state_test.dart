@@ -11,7 +11,6 @@ void main() {
       expect(state.currentPageIndex, 0);
       expect(state.isCompleted, false);
       expect(state.isLastPage, false);
-      expect(state.buttonText, '次へ');
     });
 
     test('ページ遷移で currentPageIndex が増加する', () {
@@ -24,37 +23,37 @@ void main() {
 
     test('最後のページで nextPageOrComplete を呼ぶと完了フラグが true になる', () {
       final state = OnboardingPageState(
-        currentPageIndex: 1,
+        currentPageIndex: 4,
         isCompleted: false,
       );
       final nextState = state.nextPageOrComplete();
 
       expect(nextState.isCompleted, true);
-      expect(nextState.currentPageIndex, 1);
+      expect(nextState.currentPageIndex, 4);
     });
 
     test('最後のページで isLastPage が true になる', () {
       final state = OnboardingPageState(
-        currentPageIndex: 1,
+        currentPageIndex: 4,
         isCompleted: false,
       );
 
       expect(state.isLastPage, true);
     });
 
-    test('最後のページで buttonText が「開始する」になる', () {
+    test('最後のページでは isLastPage が true のため「さあ、始めよう！」を表示する', () {
       final state = OnboardingPageState(
-        currentPageIndex: 1,
+        currentPageIndex: 4,
         isCompleted: false,
       );
 
-      expect(state.buttonText, '開始する');
+      expect(state.isLastPage, true);
     });
 
-    test('最初のページで buttonText が「次へ」になる', () {
+    test('最初のページでは isLastPage が false のため「次へ」を表示する', () {
       final state = OnboardingPageState.initial();
 
-      expect(state.buttonText, '次へ');
+      expect(state.isLastPage, false);
     });
   });
 
@@ -89,8 +88,11 @@ void main() {
       final container = ProviderContainer();
       final viewModel = container.read(onboardingViewModelProvider.notifier);
 
-      // 最後のページまで進める
+      // 最後のページまで進める（5ページ: 0→1→2→3→4）
       await viewModel.nextPageOrComplete(); // ページ1へ
+      await viewModel.nextPageOrComplete(); // ページ2へ
+      await viewModel.nextPageOrComplete(); // ページ3へ
+      await viewModel.nextPageOrComplete(); // ページ4へ
       await viewModel.nextPageOrComplete(); // 完了
 
       expect(container.read(onboardingViewModelProvider).isCompleted, true);

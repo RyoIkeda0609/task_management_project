@@ -23,14 +23,6 @@ class CalendarPageState {
     return tasksCache[dateKey] ?? [];
   }
 
-  /// 月の表示用テキスト
-  String get monthDisplayText =>
-      '${displayedMonth.year}年${displayedMonth.month}月';
-
-  /// 選択日付の表示用テキスト
-  String get selectedDateDisplayText =>
-      '${selectedDate.year}年${selectedDate.month}月${selectedDate.day}日のタスク';
-
   /// copyWith
   CalendarPageState copyWith({
     DateTime? selectedDate,

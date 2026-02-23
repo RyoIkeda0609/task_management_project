@@ -9,6 +9,8 @@ import '../../../state_management/providers/app_providers.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/milestone.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
+import '../../../utils/date_formatter.dart';
 
 class MilestoneDetailHeaderWidget extends StatelessWidget {
   final Milestone milestone;
@@ -37,19 +39,10 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(
-        '目標日時: ${_formatDate(milestone.deadline.value)}',
+        '目標日時: ${DateFormatter.toJapaneseDate(milestone.deadline.value)}',
         style: AppTextStyles.bodyMedium,
       ),
     );
-  }
-
-  String _formatDate(dynamic date) {
-    try {
-      final dt = date is DateTime ? date : DateTime.now();
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '未設定';
-    }
   }
 }
 
@@ -159,8 +152,11 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () =>
-            _navigateToTaskDetail(context, task.id.value, milestone.goalId),
+        onTap: () => _navigateToTaskDetail(
+          context,
+          task.itemId.value,
+          milestone.goalId.value,
+        ),
         borderRadius: BorderRadius.circular(8),
         child: Container(
           padding: EdgeInsets.all(Spacing.medium),
@@ -174,10 +170,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
               SizedBox(width: Spacing.small),
               Expanded(child: _buildTaskInfo(task)),
               SizedBox(width: Spacing.small),
-              StatusBadge(
-                status: _mapTaskStatus(task.status),
-                size: BadgeSize.small,
-              ),
+              StatusBadge(status: task.status, size: BadgeSize.small),
               SizedBox(width: Spacing.small),
               _buildTaskMenu(context, ref, task),
             ],
@@ -199,7 +192,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
         ),
         SizedBox(height: Spacing.xSmall),
         Text(
-          _formatDate(task.deadline),
+          DateFormatter.toJapaneseDate(task.deadline.value),
           style: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral500),
         ),
       ],
@@ -229,28 +222,26 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
   }
 
   Future<void> _changeTaskStatus(WidgetRef ref, Task task) async {
-    try {
-      final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
-      await changeTaskStatusUseCase(task.id.value);
+    final changeTaskStatusUseCase = ref.read(changeTaskStatusUseCaseProvider);
+    await changeTaskStatusUseCase(task.itemId.value);
 
-      // State を再取得
-      ref.invalidate(milestoneDetailProvider(task.milestoneId));
-      ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
-    } catch (e) {
-      rethrow;
-    }
+    // State を再取得
+    ref.invalidate(milestoneDetailProvider(task.milestoneId.value));
+    ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
   }
 
-  Widget _buildTaskStatusIcon(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
-
-    if (statusStr.contains('done')) {
-      return _buildStatusIconBox(AppColors.success, Icons.check);
-    }
-    if (statusStr.contains('doing')) {
-      return _buildStatusIconBox(AppColors.warning, Icons.schedule);
-    }
-    return _buildStatusIconBox(AppColors.neutral400, Icons.circle_outlined);
+  Widget _buildTaskStatusIcon(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => _buildStatusIconBox(AppColors.success, Icons.check),
+      TaskStatus.doing => _buildStatusIconBox(
+        AppColors.warning,
+        Icons.schedule,
+      ),
+      TaskStatus.todo => _buildStatusIconBox(
+        AppColors.neutral400,
+        Icons.circle_outlined,
+      ),
+    };
   }
 
   Widget _buildStatusIconBox(Color color, IconData icon) {
@@ -263,22 +254,6 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
       ),
       child: Icon(icon, size: 14, color: color),
     );
-  }
-
-  String _formatDate(dynamic date) {
-    try {
-      final dt = date is DateTime ? date : DateTime.now();
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '未設定';
-    }
-  }
-
-  String _mapTaskStatus(dynamic status) {
-    final statusStr = status?.toString() ?? 'unknown';
-    if (statusStr.contains('done')) return 'done';
-    if (statusStr.contains('doing')) return 'doing';
-    return 'todo';
   }
 
   void _navigateToTaskDetail(
@@ -306,27 +281,9 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
             child: const Text('キャンセル'),
           ),
           TextButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.of(dialogContext).pop();
-              try {
-                final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
-                await deleteTaskUseCase(task.id.value);
-
-                // タスク一覧をリフレッシュ
-                ref.invalidate(tasksByMilestoneProvider(milestoneId));
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
-                }
-              }
+              _executeDeleteTask(context, ref, task);
             },
             child: Text(
               '削除',
@@ -338,7 +295,43 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
     );
   }
 
+  Future<void> _executeDeleteTask(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+  ) async {
+    try {
+      final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
+      await deleteTaskUseCase(task.itemId.value);
+      ref.invalidate(tasksByMilestoneProvider(milestoneId));
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
+    }
+  }
+
   Widget _buildErrorWidget(Object error) {
+    return MilestoneDetailErrorWidget(error: error);
+  }
+}
+
+/// マイルストーン詳細エラー表示ウィジェット
+///
+/// GoalDetailErrorWidget / TaskDetailErrorWidget と同一パターン
+class MilestoneDetailErrorWidget extends StatelessWidget {
+  final Object error;
+
+  const MilestoneDetailErrorWidget({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

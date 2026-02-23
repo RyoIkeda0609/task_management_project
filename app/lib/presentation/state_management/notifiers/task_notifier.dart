@@ -1,106 +1,37 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
-import 'package:app/domain/value_objects/task/task_status.dart';
-import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/application/use_cases/task/get_tasks_by_milestone_id_use_case.dart';
+import 'package:app/application/use_cases/task/get_all_tasks_today_use_case.dart';
 
 /// タスク一覧の状態を管理する Notifier
 ///
-/// 責務: 状態管理と Repository の呼び出しのみ
-/// UI側で判断（キャッシュ無効化など）を行うことで責務を分離
+/// 責務: 状態管理と UseCase の呼び出しのみ
+/// CRUD 操作は UseCase 経由で行い、完了後に ref.invalidate で更新。
 class TasksNotifier extends StateNotifier<AsyncValue<List<Task>>> {
-  final TaskRepository _repository;
+  final GetTasksByMilestoneIdUseCase? _getTasksByMilestoneIdUseCase;
+  final GetAllTasksTodayUseCase? _getAllTasksTodayUseCase;
 
-  TasksNotifier(this._repository) : super(const AsyncValue.loading());
+  TasksNotifier.forMilestone(GetTasksByMilestoneIdUseCase useCase)
+    : _getTasksByMilestoneIdUseCase = useCase,
+      _getAllTasksTodayUseCase = null,
+      super(const AsyncValue.loading());
+
+  TasksNotifier.forAll(GetAllTasksTodayUseCase useCase)
+    : _getTasksByMilestoneIdUseCase = null,
+      _getAllTasksTodayUseCase = useCase,
+      super(const AsyncValue.loading());
 
   /// 指定したマイルストーンIDに紐づくタスク一覧を読み込む
   Future<void> loadTasksByMilestoneId(String milestoneId) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
-      () => _repository.getTasksByMilestoneId(milestoneId),
+      () => _getTasksByMilestoneIdUseCase!(milestoneId),
     );
   }
 
   /// すべてのタスクを読み込む
   Future<void> loadAllTasks() async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() => _repository.getAllTasks());
-  }
-
-  /// IDからタスクを取得
-  Future<Task?> getTaskById(String taskId) async {
-    return await _repository.getTaskById(taskId);
-  }
-
-  /// 新しいタスクを作成
-  ///
-  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
-  Future<void> createTask({
-    required String milestoneId,
-    required TaskTitle title,
-    TaskDescription? description,
-    required TaskDeadline deadline,
-  }) async {
-    // Notifier は単に保存処理を実行するのみ
-    final task = Task(
-      id: TaskId.generate(),
-      title: title,
-      description: description ?? TaskDescription(''),
-      deadline: deadline,
-      status: TaskStatus.todo(), // 小文字の'todo'を使用
-      milestoneId: milestoneId,
-    );
-    await _repository.saveTask(task);
-  }
-
-  /// タスクを更新
-  ///
-  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
-  Future<void> updateTask({
-    required String taskId,
-    required String milestoneId,
-    TaskTitle? newTitle,
-    TaskDescription? newDescription,
-    TaskDeadline? newDeadline,
-  }) async {
-    final task = await _repository.getTaskById(taskId);
-    if (task != null) {
-      // 新しいTaskインスタンスを作成（変更部分のみ上書き）
-      final updatedTask = Task(
-        id: task.id,
-        title: newTitle ?? task.title,
-        description: newDescription ?? task.description,
-        deadline: newDeadline ?? task.deadline,
-        status: task.status,
-        milestoneId: milestoneId,
-      );
-      await _repository.saveTask(updatedTask);
-    } else {
-      throw Exception('Task not found');
-    }
-  }
-
-  /// タスクのステータスを次の状態に遷移（Todo→Doing→Done→Todo）
-  ///
-  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
-  Future<void> changeTaskStatus(String taskId, String milestoneId) async {
-    final task = await _repository.getTaskById(taskId);
-    if (task != null) {
-      // cycleStatus() メソッドを使用してステータスを遷移
-      final updatedTask = task.cycleStatus();
-      await _repository.saveTask(updatedTask);
-    } else {
-      throw Exception('Task not found');
-    }
-  }
-
-  /// タスクを削除
-  ///
-  /// 注意: UI側で ref.invalidate(tasksByMilestoneProvider) を呼び出して一覧を更新してください
-  Future<void> deleteTask(String taskId, String milestoneId) async {
-    await _repository.deleteTask(taskId);
+    state = await AsyncValue.guard(() => _getAllTasksTodayUseCase!());
   }
 }

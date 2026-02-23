@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../../utils/date_formatter.dart';
 import 'calendar_view_model.dart';
 import 'calendar_widgets.dart';
 
@@ -24,7 +25,7 @@ class CalendarView extends ConsumerWidget {
     ref.listen(todayTasksProvider, (previous, next) {
       next.whenData((allTasks) {
         // listener 内で state 更新（build 外で実行）
-        viewModel.buildTasksCache(allTasks);
+        viewModel.updateTasksCache(allTasks);
       });
     });
 
@@ -35,19 +36,23 @@ class CalendarView extends ConsumerWidget {
             CalendarMonthNavigator(
               onPreviousMonth: viewModel.previousMonth,
               onNextMonth: viewModel.nextMonth,
-              monthDisplayText: state.monthDisplayText,
+              monthDisplayText: DateFormatter.toJapaneseMonth(
+                state.displayedMonth,
+              ),
             ),
             CalendarGrid(
               displayedMonth: state.displayedMonth,
               selectedDate: state.selectedDate,
               onDateSelected: viewModel.selectDate,
-              getTasksForDate: viewModel.getTasksForDate,
+              getTasksForDate: state.getTasksForDate,
             ),
             Expanded(
               child: CalendarTaskList(
                 selectedDate: state.selectedDate,
-                tasks: viewModel.getTasksForDate(state.selectedDate),
-                selectedDateDisplayText: state.selectedDateDisplayText,
+                tasks: state.getTasksForDate(state.selectedDate),
+                selectedDateDisplayText: DateFormatter.toJapaneseDateTaskHeader(
+                  state.selectedDate,
+                ),
               ),
             ),
           ],

@@ -1,6 +1,24 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 import 'package:hive/hive.dart';
+
+/// リポジトリ操作で発生した例外をラップするカスタム例外
+///
+/// 元の例外 ([cause]) を保持し、呼び出し元での原因分析を可能にする。
+class RepositoryException implements Exception {
+  final String message;
+  final Object? cause;
+
+  RepositoryException(this.message, [this.cause]);
+
+  @override
+  String toString() {
+    if (cause != null) {
+      return 'RepositoryException: $message (cause: $cause)';
+    }
+    return 'RepositoryException: $message';
+  }
+}
 
 /// HiveRepositoryBase - Hive Repository の抽象基盤クラス
 ///
@@ -43,19 +61,34 @@ abstract class HiveRepositoryBase<T> {
   }
 
   /// すべてのエンティティを取得
+  ///
+  /// デコードに失敗したエンティティはスキップし、正常なエンティティのみ返す。
+  /// 破損データがある場合は log に記録する。
   Future<List<T>> getAll() async {
     _ensureInitialized();
     try {
       final result = <T>[];
+      var corruptedCount = 0;
       for (final jsonString in _box.values) {
         try {
           final json = jsonDecode(jsonString) as Map<String, dynamic>;
           result.add(fromJson(json));
         } catch (e) {
-          // 1つのエンティティのデコード失敗はスキップしてログにおさめる
-          debugPrint('Warning: Failed to decode entity in $boxName: $e');
+          corruptedCount++;
+          log(
+            'Failed to decode entity in $boxName: $e',
+            name: 'HiveRepositoryBase',
+            level: 900, // WARNING level
+          );
           continue;
         }
+      }
+      if (corruptedCount > 0) {
+        log(
+          '$corruptedCount corrupted entities skipped in $boxName',
+          name: 'HiveRepositoryBase',
+          level: 900,
+        );
       }
       return result;
     } catch (e) {
@@ -67,7 +100,7 @@ abstract class HiveRepositoryBase<T> {
   Future<T?> getById(String id) async {
     _ensureInitialized();
     if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
+      throw RepositoryException('ID cannot be empty', null);
     }
     try {
       final jsonString = _box.get(id);
@@ -113,7 +146,7 @@ abstract class HiveRepositoryBase<T> {
   Future<void> deleteById(String id) async {
     _ensureInitialized();
     if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
+      throw RepositoryException('ID cannot be empty', null);
     }
     try {
       await _box.delete(id);
@@ -138,13 +171,15 @@ abstract class HiveRepositoryBase<T> {
             toDelete.add(getId(entity));
           }
         } catch (e) {
-          debugPrint('Warning: Failed to decode entity in $boxName: $e');
+          log(
+            'Failed to decode entity in $boxName: $e',
+            name: 'HiveRepositoryBase',
+            level: 900,
+          );
           continue;
         }
       }
-      for (final id in toDelete) {
-        await _box.delete(id);
-      }
+      await _box.deleteAll(toDelete);
     } catch (e) {
       throw _handleError(
         'Failed to delete entities from $boxName based on predicate',
@@ -176,16 +211,21 @@ abstract class HiveRepositoryBase<T> {
   /// Box が初期化されているか確認
   void _ensureInitialized() {
     if (!isInitialized) {
-      throw StateError(
+      throw RepositoryException(
         '$boxName box is not initialized. Call initialize() first.',
+        null,
       );
     }
   }
 
   /// エラーハンドリング：一貫性のあるエラーメッセージを生成
-  Exception _handleError(String message, dynamic error) {
+  RepositoryException _handleError(String message, dynamic error) {
     final errorMessage = '$message. Details: ${error.toString()}';
-    debugPrint('❌ HiveRepositoryBase Error: $errorMessage');
-    return Exception(errorMessage);
+    log(
+      errorMessage,
+      name: 'HiveRepositoryBase',
+      level: 1000, // SEVERE level
+    );
+    return RepositoryException(message, error);
   }
 }

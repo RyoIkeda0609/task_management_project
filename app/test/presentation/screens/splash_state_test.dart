@@ -51,19 +51,5 @@ void main() {
       expect(result, true);
       expect(container.read(splashViewModelProvider).isCompleted, true);
     });
-
-    test('isOnboardingComplete() が正しくフラグを取得する', () async {
-      final container = ProviderContainer(
-        overrides: [
-          // onboardingCompleteProvider を true でオーバーライド
-        ],
-      );
-      final viewModel = container.read(splashViewModelProvider.notifier);
-
-      final result = viewModel.isOnboardingComplete();
-
-      // デフォルトは false
-      expect(result, false);
-    });
   });
 }

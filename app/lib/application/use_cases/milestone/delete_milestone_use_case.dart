@@ -19,13 +19,11 @@ class DeleteMilestoneUseCaseImpl implements DeleteMilestoneUseCase {
       throw ArgumentError('マイルストーンIDが正しくありません');
     }
 
-    // Load
     final milestone = await _milestoneRepository.getMilestoneById(milestoneId);
     if (milestone == null) {
       throw ArgumentError('対象のマイルストーンが見つかりません');
     }
 
-    // Execute
     await _taskRepository.deleteTasksByMilestoneId(milestoneId);
     await _milestoneRepository.deleteMilestone(milestoneId);
   }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/app_bar_common.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../../navigation/app_router.dart';
 import '../../widgets/common/empty_state.dart';
+import '../../utils/date_formatter.dart';
 import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import 'today_tasks_widgets.dart';
 import 'today_tasks_state.dart';
@@ -14,26 +16,124 @@ import 'today_tasks_state.dart';
 ///
 /// 本日中に完了すべきタスクを表示します。
 /// ステータス別にタスクをグループ化して表示します。
+/// 日付切り替え機能で前後の日のタスクも確認できます。
 class TodayTasksPage extends ConsumerWidget {
   const TodayTasksPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupedAsync = ref.watch(todayTasksGroupedProvider);
+    final groupedAsync = ref.watch(tasksBySelectedDateGroupedProvider);
+    final selectedDate = ref.watch(selectedDateProvider);
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '今日のタスク',
+        title: 'タスク一覧',
         hasLeading: false,
         backgroundColor: AppColors.neutral100,
       ),
-      body: groupedAsync.when(
-        data: (grouped) => _Body(state: TodayTasksPageState.withData(grouped)),
-        loading: () => _Body(state: TodayTasksPageState.loading()),
-        error: (error, stackTrace) =>
-            _Body(state: TodayTasksPageState.withError(error.toString())),
+      body: Column(
+        children: [
+          _DateNavigator(selectedDate: selectedDate, ref: ref),
+          Expanded(
+            child: groupedAsync.when(
+              data: (grouped) =>
+                  _Body(state: TodayTasksPageState.withData(grouped)),
+              loading: () => _Body(state: TodayTasksPageState.loading()),
+              error: (error, stackTrace) =>
+                  _Body(state: TodayTasksPageState.withError(error.toString())),
+            ),
+          ),
+        ],
       ),
     );
+  }
+}
+
+/// 日付切り替えナビゲーター
+class _DateNavigator extends StatelessWidget {
+  final DateTime selectedDate;
+  final WidgetRef ref;
+
+  const _DateNavigator({required this.selectedDate, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final isToday = selectedDate.isAtSameMomentAs(today);
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: Spacing.medium,
+        vertical: Spacing.small,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.neutral100,
+        border: Border(bottom: BorderSide(color: AppColors.neutral200)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.chevron_left),
+            onPressed: () => _changeDate(-1),
+            tooltip: '前日',
+          ),
+          GestureDetector(
+            onTap: () => _resetToToday(),
+            child: Column(
+              children: [
+                Text(
+                  _formatDate(selectedDate),
+                  style: AppTextStyles.titleSmall,
+                ),
+                if (!isToday)
+                  Text(
+                    'タップで今日に戻る',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.primary,
+                      fontSize: 11,
+                    ),
+                  ),
+                if (isToday)
+                  Text(
+                    '今日',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.chevron_right),
+            onPressed: () => _changeDate(1),
+            tooltip: '翌日',
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _changeDate(int days) {
+    final current = ref.read(selectedDateProvider);
+    ref.read(selectedDateProvider.notifier).state = current.add(
+      Duration(days: days),
+    );
+  }
+
+  void _resetToToday() {
+    final now = DateTime.now();
+    ref.read(selectedDateProvider.notifier).state = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    );
+  }
+
+  String _formatDate(DateTime date) {
+    return DateFormatter.toJapaneseDateWithWeekday(date);
   }
 }
 
@@ -48,7 +148,7 @@ class _Body extends StatelessWidget {
       TodayTasksViewState.loading => const _LoadingView(),
       TodayTasksViewState.error => _ErrorView(error: state.errorMessage),
       TodayTasksViewState.empty => _EmptyView(),
-      TodayTasksViewState.data => _ContentView(grouped: state.groupedTasks!),
+      TodayTasksViewState.data => _ContentView(state: state),
     };
   }
 }
@@ -93,9 +193,9 @@ class _EmptyView extends StatelessWidget {
 }
 
 class _ContentView extends StatelessWidget {
-  final GroupedTasks grouped;
+  final TodayTasksPageState state;
 
-  const _ContentView({required this.grouped});
+  const _ContentView({required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +203,9 @@ class _ContentView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Header(grouped: grouped),
+          _Header(grouped: state.groupedTasks!),
           SizedBox(height: Spacing.medium),
-          _Content(grouped: grouped),
+          _Content(state: state),
         ],
       ),
     );
@@ -124,30 +224,33 @@ class _Header extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  final GroupedTasks grouped;
+  final TodayTasksPageState state;
 
-  const _Content({required this.grouped});
+  const _Content({required this.state});
 
   @override
   Widget build(BuildContext context) {
+    final grouped = state.groupedTasks!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (grouped.todoTasks.isNotEmpty)
+        if (state.showTodoSection) ...[
           TodayTasksSectionWidget(
             title: '未完了',
             tasks: grouped.todoTasks,
             color: AppColors.neutral400,
           ),
-        if (grouped.todoTasks.isNotEmpty) SizedBox(height: Spacing.medium),
-        if (grouped.doingTasks.isNotEmpty)
+          SizedBox(height: Spacing.medium),
+        ],
+        if (state.showDoingSection) ...[
           TodayTasksSectionWidget(
             title: '進行中',
             tasks: grouped.doingTasks,
             color: AppColors.warning,
           ),
-        if (grouped.doingTasks.isNotEmpty) SizedBox(height: Spacing.medium),
-        if (grouped.doneTasks.isNotEmpty)
+          SizedBox(height: Spacing.medium),
+        ],
+        if (state.showDoneSection)
           TodayTasksSectionWidget(
             title: '完了',
             tasks: grouped.doneTasks,

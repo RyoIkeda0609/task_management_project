@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import 'goal_create_widgets.dart';
@@ -52,13 +53,13 @@ class GoalCreatePage extends ConsumerWidget {
       await createGoalUseCase(
         title: state.title,
         category: state.selectedCategory,
-        reason: state.reason,
+        description: state.description,
         deadline: state.deadline,
       );
 
-      // goalsNotifier に新しいゴールを読み込ませる
-      final goalsNotifier = ref.read(goalsProvider.notifier);
-      await goalsNotifier.loadGoals();
+      // プロバイダーキャッシュを無効化して新しいデータを取得させる
+      ref.invalidate(goalsProvider);
+      ref.invalidate(homeViewModelProvider);
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(
@@ -76,7 +77,7 @@ class GoalCreatePage extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'ゴール作成エラー',

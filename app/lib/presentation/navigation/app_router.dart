@@ -15,6 +15,7 @@ import '../screens/milestone/milestone_edit/milestone_edit_page.dart';
 import '../screens/task/task_create/task_create_page.dart';
 import '../screens/task/task_detail/task_detail_page.dart';
 import '../screens/task/task_edit/task_edit_page.dart';
+import '../theme/app_colors.dart';
 
 /// go_router を使用したアプリケーションのルーティング管理
 ///
@@ -49,14 +50,14 @@ class AppRoutePaths {
   /// マイルストーン編集ルート
   static const String milestoneEdit = 'edit';
 
-  /// マイルストーン作成ルート
-  static const String milestoneCreate = '/milestone_create';
+  /// マイルストーン作成ルート（ゴール配下の相対パス）
+  static const String milestoneCreate = 'milestone_create';
 
-  /// タスク詳細ルート
-  static const String taskDetail = '/task_detail/:taskId';
+  /// タスク詳細ルート（マイルストーン配下の相対パス）
+  static const String taskDetail = 'task/:taskId';
 
-  /// タスク創作ルート
-  static const String taskCreate = '/task_create';
+  /// タスク作成ルート（マイルストーン配下の相対パス）
+  static const String taskCreate = 'task_create';
 
   /// スプラッシュ画面ルート
   static const String splash = '/';
@@ -171,9 +172,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                             builder: (context, state) {
                               final taskId =
                                   state.pathParameters['taskId'] ?? '';
+                              final goalId =
+                                  state.pathParameters['goalId'] ?? '';
+                              final milestoneId =
+                                  state.pathParameters['milestoneId'] ?? '';
                               return TaskDetailPage(
                                 taskId: taskId,
                                 source: 'milestone',
+                                goalId: goalId,
+                                milestoneId: milestoneId,
                               );
                             },
                             routes: [
@@ -245,7 +252,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
     /// エラーページビルダー
     errorBuilder: (context, state) =>
-        Scaffold(body: Center(child: Text('ていません: ${state.uri}'))),
+        Scaffold(body: Center(child: Text('ページが見つかりません: ${state.uri}'))),
   );
 });
 
@@ -268,6 +275,10 @@ class _HomeNavigationShellState extends State<_HomeNavigationShell> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: widget.navigationShell.currentIndex,
         onTap: _onTabChange,
+        backgroundColor: AppColors.neutral100,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.neutral600,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
@@ -290,7 +301,11 @@ class _HomeNavigationShellState extends State<_HomeNavigationShell> {
   }
 
   void _onTabChange(int index) {
-    widget.navigationShell.goBranch(index);
+    // 同じタブを再度タップした場合は、そのタブのルート（トップ）に戻る
+    widget.navigationShell.goBranch(
+      index,
+      initialLocation: index == widget.navigationShell.currentIndex,
+    );
   }
 }
 

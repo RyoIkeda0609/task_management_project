@@ -7,11 +7,14 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'milestone_edit_view_model.dart';
+import 'milestone_edit_state.dart';
+import '../../../utils/date_formatter.dart';
 
 class MilestoneEditFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
   final String milestoneId;
   final String milestoneTitle;
+  final String milestoneDescription;
   final DateTime milestoneDeadline;
 
   const MilestoneEditFormWidget({
@@ -19,6 +22,7 @@ class MilestoneEditFormWidget extends ConsumerWidget {
     required this.onSubmit,
     required this.milestoneId,
     required this.milestoneTitle,
+    required this.milestoneDescription,
     required this.milestoneDeadline,
   });
 
@@ -26,43 +30,53 @@ class MilestoneEditFormWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(milestoneEditViewModelProvider);
     final viewModel = ref.read(milestoneEditViewModelProvider.notifier);
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // マイルストーン名
-            Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              hintText: 'マイルストーン名を入力（100文字以内）',
-              initialValue: state.milestoneId == milestoneId
-                  ? state.title
-                  : milestoneTitle,
-              maxLength: 100,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.medium),
-
-            // 目標日時
-            _MilestoneEditDeadlineField(
-              selectedDeadline: state.milestoneId == milestoneId
-                  ? state.deadline
-                  : milestoneDeadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // アクションボタン
-            _MilestoneEditActions(
-              onSubmit: onSubmit,
-              isLoading: state.isLoading,
-            ),
-          ],
+          children: _buildFormFields(state, viewModel),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(
+    MilestoneEditPageState state,
+    MilestoneEditViewModel viewModel,
+  ) {
+    return [
+      // マイルストーン名
+      Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: 'マイルストーン名を入力（100文字以内）',
+        initialValue: state.title,
+        maxLength: 100,
+        onChanged: viewModel.updateTitle,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 説明（任意）
+      Text('説明（任意）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: 'このマイルストーンの詳細や達成基準など（500文字以内）',
+        initialValue: state.description,
+        maxLength: 500,
+        multiline: true,
+        onChanged: viewModel.updateDescription,
+      ),
+      SizedBox(height: Spacing.medium),
+
+      // 目標日時
+      _MilestoneEditDeadlineField(
+        selectedDeadline: state.deadline,
+        onDeadlineSelected: viewModel.updateDeadline,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // アクションボタン
+      _MilestoneEditActions(onSubmit: onSubmit, isLoading: state.isLoading),
+    ];
   }
 }
 
@@ -96,7 +110,7 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
                 SizedBox(width: Spacing.small),
                 Expanded(
                   child: Text(
-                    _formatDate(selectedDeadline),
+                    DateFormatter.toJapaneseDate(selectedDeadline),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ),
@@ -125,10 +139,6 @@ class _MilestoneEditDeadlineField extends StatelessWidget {
     if (picked != null) {
       onDeadlineSelected(picked);
     }
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
   }
 }
 

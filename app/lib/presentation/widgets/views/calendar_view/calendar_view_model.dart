@@ -13,8 +13,8 @@ class CalendarViewModel extends StateNotifier<CalendarPageState> {
         ),
       );
 
-  /// タスク一覧からキャッシュを構築
-  void buildTasksCache(List<Task> allTasks) {
+  /// タスク一覧からキャッシュを更新
+  void updateTasksCache(List<Task> allTasks) {
     final cache = <DateTime, List<Task>>{};
     for (final task in allTasks) {
       final dateKey = DateTime(
@@ -49,16 +49,16 @@ class CalendarViewModel extends StateNotifier<CalendarPageState> {
     );
     state = state.copyWith(displayedMonth: newMonth);
   }
-
-  /// 指定日付のタスクを取得
-  List<Task> getTasksForDate(DateTime date) {
-    final dateKey = DateTime(date.year, date.month, date.day);
-    return state.tasksCache[dateKey] ?? [];
-  }
 }
 
 /// CalendarViewModelProvider
 final calendarViewModelProvider =
     StateNotifierProvider.autoDispose<CalendarViewModel, CalendarPageState>(
       (ref) => CalendarViewModel(),
+    );
+
+/// ゴール詳細画面用のカレンダーViewModelProvider（goalId 別にインスタンスを持つ）
+final goalCalendarViewModelProvider = StateNotifierProvider.autoDispose
+    .family<CalendarViewModel, CalendarPageState, String>(
+      (ref, goalId) => CalendarViewModel(),
     );

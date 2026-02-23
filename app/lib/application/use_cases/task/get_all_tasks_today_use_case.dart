@@ -24,14 +24,10 @@ class GetAllTasksTodayUseCaseImpl implements GetAllTasksTodayUseCase {
 
   @override
   Future<List<Task>> call() async {
-    // すべてのタスクを取得
     final allTasks = await _taskRepository.getAllTasks();
-
-    // 本日の日付を取得（時刻は00:00:00に正規化）
     final now = _dateTimeProvider();
     final today = DateTime(now.year, now.month, now.day);
 
-    // 本日以前（本日 + 過期限）のタスクをフィルタリング
     final tasksToday = allTasks.where((task) {
       final taskDate = task.deadline.value;
       final normalizedTaskDate = DateTime(
@@ -40,7 +36,6 @@ class GetAllTasksTodayUseCaseImpl implements GetAllTasksTodayUseCase {
         taskDate.day,
       );
 
-      // タスクの期限が本日以前（本日含む）なら対象
       return normalizedTaskDate.isBefore(today) ||
           normalizedTaskDate.isAtSameMomentAs(today);
     }).toList();

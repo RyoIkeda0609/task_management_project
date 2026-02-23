@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/task/get_tasks_by_milestone_id_use_case.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 
 class MockTaskRepository implements TaskRepository {
@@ -17,7 +17,7 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -25,18 +25,18 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async => _tasks.add(task);
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
   Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -57,20 +57,20 @@ void main() {
         // Arrange
         const milestoneId = 'milestone-123';
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明1'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明1'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(milestoneId),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明2'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明2'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
+          status: TaskStatus.doing,
+          milestoneId: ItemId(milestoneId),
         );
         await mockRepository.saveTask(task1);
         await mockRepository.saveTask(task2);
@@ -81,10 +81,10 @@ void main() {
         // Assert
         expect(result.length, 2);
         expect(
-          result.map((t) => t.id.value),
-          containsAll([task1.id.value, task2.id.value]),
+          result.map((t) => t.itemId.value),
+          containsAll([task1.itemId.value, task2.itemId.value]),
         );
-        expect(result.every((t) => t.milestoneId == milestoneId), true);
+        expect(result.every((t) => t.milestoneId.value == milestoneId), true);
       });
 
       test('タスクなしのマイルストーン ID で空リストが返されること', () async {
@@ -104,20 +104,20 @@ void main() {
         const msId2 = 'milestone-2';
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS1タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: msId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(msId1),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS2タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: msId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(msId2),
         );
         await mockRepository.saveTask(task1);
         await mockRepository.saveTask(task2);
@@ -129,8 +129,8 @@ void main() {
         // Assert
         expect(result1.length, 1);
         expect(result2.length, 1);
-        expect(result1.first.id.value, task1.id.value);
-        expect(result2.first.id.value, task2.id.value);
+        expect(result1.first.itemId.value, task1.itemId.value);
+        expect(result2.first.itemId.value, task2.itemId.value);
       });
 
       test('複数タスクを持つマイルストーンをすべて取得できること', () async {
@@ -140,12 +140,12 @@ void main() {
         for (int i = 1; i <= 5; i++) {
           tasks.add(
             Task(
-              id: TaskId.generate(),
-              title: TaskTitle('タスク$i'),
-              description: TaskDescription('説明'),
-              deadline: TaskDeadline(DateTime.now().add(Duration(days: 7 * i))),
-              status: TaskStatus.todo(),
-              milestoneId: milestoneId,
+              itemId: ItemId.generate(),
+              title: ItemTitle('タスク$i'),
+              description: ItemDescription('説明'),
+              deadline: ItemDeadline(DateTime.now().add(Duration(days: 7 * i))),
+              status: TaskStatus.todo,
+              milestoneId: ItemId(milestoneId),
             ),
           );
         }
@@ -159,8 +159,8 @@ void main() {
         // Assert
         expect(result.length, 5);
         expect(
-          result.map((t) => t.id.value),
-          containsAll(tasks.map((t) => t.id.value)),
+          result.map((t) => t.itemId.value),
+          containsAll(tasks.map((t) => t.itemId.value)),
         );
       });
 
@@ -168,28 +168,28 @@ void main() {
         // Arrange
         const milestoneId = 'milestone-123';
         final todoTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('未開始'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('未開始'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(milestoneId),
         );
         final doingTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('進行中'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.doing(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('進行中'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.doing,
+          milestoneId: ItemId(milestoneId),
         );
         final doneTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('完了'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.done(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('完了'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.done,
+          milestoneId: ItemId(milestoneId),
         );
         await mockRepository.saveTask(todoTask);
         await mockRepository.saveTask(doingTask);

@@ -1,73 +1,65 @@
-/// TaskStatus - タスクのステータスを表現する ValueObject
+/// TaskStatus - タスクのステータスを表現する列挙型 ValueObject
 ///
 /// 状態遷移：Todo → Doing → Done → Todo（循環）
 /// progress: Todo=0, Doing=50, Done=100
-class TaskStatus {
-  /// ステータス値
-  static const String statusTodo = 'todo';
-  static const String statusDoing = 'doing';
-  static const String statusDone = 'done';
+///
+/// enum により将来のステータス追加（例: archived）時に
+/// switch 文の網羅性がコンパイル時に保証される。
+enum TaskStatus {
+  /// ステータス：未着手
+  todo,
 
-  /// 進捗率値
+  /// ステータス：進行中
+  doing,
+
+  /// ステータス：完了
+  done;
+
+  /// シリアライズ用の文字列値（JSON/Hive 永続化互換）
+  String get value => name;
+
+  /// 進捗率定数
   static const int progressTodo = 0;
   static const int progressDoing = 50;
   static const int progressDone = 100;
 
-  late String value;
-
-  /// コンストラクタ（明示的なステータス値が必須）
-  TaskStatus(String val) {
-    value = val;
+  /// 文字列からの復元（デシリアライズ用）
+  ///
+  /// 不正な値は [ArgumentError] をスローする。
+  /// フォールバックは行わず、データ破損を即座に検出する。
+  static TaskStatus fromString(String value) {
+    return switch (value) {
+      'todo' => TaskStatus.todo,
+      'doing' => TaskStatus.doing,
+      'done' => TaskStatus.done,
+      _ => throw ArgumentError('Invalid TaskStatus value: $value'),
+    };
   }
-
-  /// ステータス：未着手
-  factory TaskStatus.todo() => TaskStatus(statusTodo);
-
-  /// ステータス：進行中
-  factory TaskStatus.doing() => TaskStatus(statusDoing);
-
-  /// ステータス：完了
-  factory TaskStatus.done() => TaskStatus(statusDone);
 
   /// 次のステータスに遷移（循環：Todo → Doing → Done → Todo）
   TaskStatus nextStatus() {
-    return switch (value) {
-      statusTodo => TaskStatus.doing(),
-      statusDoing => TaskStatus.done(),
-      statusDone => TaskStatus.todo(),
-      _ => throw ArgumentError('Invalid status: $value'),
+    return switch (this) {
+      TaskStatus.todo => TaskStatus.doing,
+      TaskStatus.doing => TaskStatus.done,
+      TaskStatus.done => TaskStatus.todo,
     };
   }
 
   /// 現在のステータスが Todo か
-  bool get isTodo => value == statusTodo;
+  bool get isTodo => this == TaskStatus.todo;
 
   /// 現在のステータスが Doing か
-  bool get isDoing => value == statusDoing;
+  bool get isDoing => this == TaskStatus.doing;
 
   /// 現在のステータスが Done か
-  bool get isDone => value == statusDone;
+  bool get isDone => this == TaskStatus.done;
 
   /// 進捗率：Todo=0%, Doing=50%, Done=100%
   int get progress {
-    return switch (value) {
-      statusTodo => progressTodo,
-      statusDoing => progressDoing,
-      statusDone => progressDone,
-      _ => progressTodo,
+    return switch (this) {
+      TaskStatus.todo => progressTodo,
+      TaskStatus.doing => progressDoing,
+      TaskStatus.done => progressDone,
     };
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TaskStatus &&
-          runtimeType == other.runtimeType &&
-          value == other.value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => 'TaskStatus($value)';
 }

@@ -13,6 +13,9 @@ class TaskEditPageState {
     this.isLoading = false,
   });
 
+  /// タスク情報が初期化されているか
+  bool get isInitialized => taskId.isNotEmpty;
+
   TaskEditPageState copyWith({
     String? taskId,
     String? title,

@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/infrastructure/persistence/hive/hive_task_repository.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
   group('HiveTaskRepository', () {
@@ -45,36 +45,36 @@ void main() {
       test('タスクを保存して取得できること', () async {
         // Arrange
         final task = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('新しいタスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('新しいタスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-123'),
         );
 
         // Contract: Repository は saveTask と getTaskById で CRUD をサポート
-        expect(task.id.value, isNotNull);
+        expect(task.itemId.value, isNotNull);
         expect(task.title.value, '新しいタスク');
       });
 
       test('複数のタスクを保存して全件取得できること', () async {
         // Arrange
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明1'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明1'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-123'),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明2'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明2'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
+          status: TaskStatus.doing,
+          milestoneId: ItemId('milestone-123'),
         );
 
         // Act & Assert
@@ -82,7 +82,7 @@ void main() {
         // await repository.saveTask(task2);
         // final allTasks = await repository.getAllTasks();
         // expect(allTasks.length, 2);
-        // expect(allTasks.map((t) => t.id.value), containsAll([task1.id.value, task2.id.value]));
+        // expect(allTasks.map((t) => t.itemId.value), containsAll([task1.itemId.value, task2.itemId.value]));
 
         expect([task1, task2].length, 2);
       });
@@ -90,21 +90,21 @@ void main() {
       test('ID でタスクを検索できること', () async {
         // Arrange
         final task = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('検索対象'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('検索対象'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-123'),
         );
 
         // Act & Assert
         // 実装: await repository.saveTask(task);
-        // final found = await repository.getTaskById(task.id.value);
+        // final found = await repository.getTaskById(task.itemId.value);
         // expect(found, isNotNull);
-        // expect(found?.id.value, task.id.value);
+        // expect(found?.itemId.value, task.itemId.value);
 
-        expect(task.id.value, isNotNull);
+        expect(task.itemId.value, isNotNull);
       });
 
       test('存在しないタスク ID で null が返されること', () async {
@@ -122,28 +122,28 @@ void main() {
         const milestoneId = 'milestone-123';
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS内タスク1'),
-          description: TaskDescription('説明1'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS内タスク1'),
+          description: ItemDescription('説明1'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(milestoneId),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS内タスク2'),
-          description: TaskDescription('説明2'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.done(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS内タスク2'),
+          description: ItemDescription('説明2'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
+          status: TaskStatus.done,
+          milestoneId: ItemId(milestoneId),
         );
         final task3 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('他のMS タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'other-milestone',
+          itemId: ItemId.generate(),
+          title: ItemTitle('他のMS タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('other-milestone'),
         );
 
         // Act & Assert
@@ -152,8 +152,8 @@ void main() {
         // await repository.saveTask(task3);
         // final msTasks = await repository.getTasksByMilestoneId(milestoneId);
         // expect(msTasks.length, 2);
-        // expect(msTasks.map((t) => t.id.value), containsAll([task1.id.value, task2.id.value]));
-        // expect(msTasks.every((t) => t.milestoneId == milestoneId), true);
+        // expect(msTasks.map((t) => t.itemId.value), containsAll([task1.itemId.value, task2.itemId.value]));
+        // expect(msTasks.every((t) => t.milestoneId.value == milestoneId), true);
 
         expect([task1, task2, task3].length, 3);
       });
@@ -164,20 +164,20 @@ void main() {
         const msId2 = 'milestone-2';
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS1タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: msId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(msId1),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS2タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: msId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(msId2),
         );
 
         // Act & Assert
@@ -187,8 +187,8 @@ void main() {
         // final ms2Tasks = await repository.getTasksByMilestoneId(msId2);
         // expect(ms1Tasks.length, 1);
         // expect(ms2Tasks.length, 1);
-        // expect(ms1Tasks.first.id.value, task1.id.value);
-        // expect(ms2Tasks.first.id.value, task2.id.value);
+        // expect(ms1Tasks.first.itemId.value, task1.itemId.value);
+        // expect(ms2Tasks.first.itemId.value, task2.itemId.value);
 
         expect([task1, task2].isNotEmpty, true);
       });
@@ -206,19 +206,19 @@ void main() {
       test('タスクのステータスを更新できること', () async {
         // Arrange
         final task = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('ステータス変更対象'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('ステータス変更対象'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-123'),
         );
 
         // Act & Assert
         // 実装: await repository.saveTask(task);
-        // final updatedTask = task.copyWith(status: TaskStatus.doing());
+        // final updatedTask = task.copyWith(status: TaskStatus.doing);
         // await repository.saveTask(updatedTask);
-        // final retrieved = await repository.getTaskById(task.id.value);
+        // final retrieved = await repository.getTaskById(task.itemId.value);
         // expect(retrieved?.status.isDoing, true);
 
         expect(task.status.isTodo, true);
@@ -227,28 +227,28 @@ void main() {
       test('複数ステータスのタスクを保存・検索できること', () async {
         // Arrange
         final todoTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('未開始'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('未開始'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-123'),
         );
         final doingTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('進行中'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.doing(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('進行中'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.doing,
+          milestoneId: ItemId('milestone-123'),
         );
         final doneTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('完了'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.done(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('完了'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.done,
+          milestoneId: ItemId('milestone-123'),
         );
 
         // Act & Assert
@@ -269,21 +269,21 @@ void main() {
       test('タスク ID で削除できること', () async {
         // Arrange
         final task = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('削除対象'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('削除対象'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-123'),
         );
 
         // Act & Assert
         // 実装: await repository.saveTask(task);
-        // await repository.deleteTask(task.id.value);
-        // final deleted = await repository.getTaskById(task.id.value);
+        // await repository.deleteTask(task.itemId.value);
+        // final deleted = await repository.getTaskById(task.itemId.value);
         // expect(deleted, isNull);
 
-        expect(task.id.value, isNotNull);
+        expect(task.itemId.value, isNotNull);
       });
 
       test('マイルストーン ID でタスクを一括削除できること', () async {
@@ -291,20 +291,20 @@ void main() {
         const milestoneId = 'milestone-123';
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(milestoneId),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
-          milestoneId: milestoneId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
+          status: TaskStatus.doing,
+          milestoneId: ItemId(milestoneId),
         );
 
         // Act & Assert
@@ -323,20 +323,20 @@ void main() {
         const msId2 = 'milestone-2';
 
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS1タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: msId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(msId1),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('MS2タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: msId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId(msId2),
         );
 
         // Act & Assert
@@ -356,20 +356,20 @@ void main() {
       test('タスク数を正確にカウントできること', () async {
         // Arrange
         final task1 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 7))),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-1'),
         );
         final task2 = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(DateTime.now().add(const Duration(days: 14))),
-          status: TaskStatus.doing(),
-          milestoneId: 'milestone-2',
+          itemId: ItemId.generate(),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 14))),
+          status: TaskStatus.doing,
+          milestoneId: ItemId('milestone-2'),
         );
 
         // Contract: Repository は getTaskCount でカウント取得をサポート

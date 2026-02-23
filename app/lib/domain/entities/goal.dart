@@ -1,66 +1,54 @@
-import '../value_objects/goal/goal_id.dart';
-import '../value_objects/goal/goal_title.dart';
+import '../entities/item.dart';
+import '../value_objects/item/item_id.dart';
+import '../value_objects/item/item_title.dart';
+import '../value_objects/item/item_description.dart';
+import '../value_objects/item/item_deadline.dart';
 import '../value_objects/goal/goal_category.dart';
-import '../value_objects/goal/goal_reason.dart';
-import '../value_objects/goal/goal_deadline.dart';
 
 /// Goal Entity - ゴール（目標）を表現する
 ///
 /// 3 段階の階層構造の最上位：Goal > Milestone > Task
-class Goal {
-  final GoalId id;
-  final GoalTitle title;
+/// Item を継承し、共通のバリデーション機構を利用する
+class Goal extends Item {
   final GoalCategory category;
-  final GoalReason reason;
-  final GoalDeadline deadline;
-  // progressはマイルストーンから自動計算される
-  // milestones: List<Milestone> は別途リポジトリで管理
 
+  /// コンストラクタ
   Goal({
-    required this.id,
-    required this.title,
+    required super.itemId,
+    required super.title,
+    required super.description,
+    required super.deadline,
     required this.category,
-    required this.reason,
-    required this.deadline,
   });
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Goal &&
+      super == other &&
+          other is Goal &&
           runtimeType == other.runtimeType &&
-          id == other.id &&
-          title == other.title &&
-          category == other.category &&
-          reason == other.reason &&
-          deadline == other.deadline;
+          category == other.category;
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      title.hashCode ^
-      category.hashCode ^
-      reason.hashCode ^
-      deadline.hashCode;
+  int get hashCode => super.hashCode ^ category.hashCode;
 
   @override
-  String toString() => 'Goal(id: $id, title: $title)';
+  String toString() => 'Goal(itemId: $itemId, title: $title)';
 
   /// JSON に変換
-  Map<String, dynamic> toJson() => {
-    'id': id.value,
-    'title': title.value,
-    'category': category.value,
-    'reason': reason.value,
-    'deadline': deadline.value.toIso8601String(),
-  };
+  @override
+  Map<String, dynamic> toJson() {
+    final baseJson = super.toJson();
+    baseJson['category'] = category.value;
+    return baseJson;
+  }
 
   /// JSON から復元
   factory Goal.fromJson(Map<String, dynamic> json) => Goal(
-    id: GoalId(json['id'] as String),
-    title: GoalTitle(json['title'] as String),
+    itemId: ItemId(json['itemId'] as String),
+    title: ItemTitle(json['title'] as String),
+    description: ItemDescription(json['description'] as String),
+    deadline: ItemDeadline(DateTime.parse(json['deadline'] as String)),
     category: GoalCategory(json['category'] as String),
-    reason: GoalReason(json['reason'] as String),
-    deadline: GoalDeadline(DateTime.parse(json['deadline'] as String)),
   );
 }

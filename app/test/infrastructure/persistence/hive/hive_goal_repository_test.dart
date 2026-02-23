@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/infrastructure/persistence/hive/hive_goal_repository.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
   group('HiveGoalRepository', () {
@@ -49,53 +49,53 @@ void main() {
 
     group('ゴール保存・取得操作 - インターフェース契約検証', () {
       test('ゴールを保存してから取得できること', () async {
-        final goalId = GoalId.generate();
+        final goalId = ItemId.generate();
         final goal = Goal(
-          id: goalId,
-          title: GoalTitle('新しいゴール'),
+          itemId: goalId,
+          title: ItemTitle('新しいゴール'),
           category: GoalCategory('仕事'),
-          reason: GoalReason('スキル向上'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('スキル向上'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
 
         // Contract: Repository は saveGoal と getGoalById で CRUD をサポート
-        expect(goal.id.value, isNotNull);
+        expect(goal.itemId.value, isNotNull);
         expect(goal.title.value, '新しいゴール');
       });
 
       test('複数のゴールを保存して全件取得できること', () async {
         final goal1 = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール1'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール1'),
           category: GoalCategory('仕事'),
-          reason: GoalReason('理由1'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由1'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
         final goal2 = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール2'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール2'),
           category: GoalCategory('個人'),
-          reason: GoalReason('理由2'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 180))),
+          description: ItemDescription('理由2'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
         );
 
         // Contract: Repository は複数ゴール管理と getAllGoals をサポート
         expect([goal1, goal2], hasLength(2));
-        expect(goal1.id.value, isNot(goal2.id.value));
+        expect(goal1.itemId.value, isNot(goal2.itemId.value));
       });
 
       test('ゴールを ID で検索できること', () async {
-        final goalId = GoalId.generate();
+        final goalId = ItemId.generate();
         final goal = Goal(
-          id: goalId,
-          title: GoalTitle('検索対象'),
+          itemId: goalId,
+          title: ItemTitle('検索対象'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
 
         // Contract: Repository は getGoalById で ID 検索をサポート
-        expect(goal.id, equals(goalId));
+        expect(goal.itemId, equals(goalId));
       });
 
       test('存在しないゴール ID で null が返されること', () async {
@@ -110,31 +110,31 @@ void main() {
     group('ゴール削除操作 - インターフェース契約検証', () {
       test('ゴール ID で削除できること', () async {
         final goal = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('削除対象'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('削除対象'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
 
         // Contract: Repository は deleteGoal で削除をサポート
-        expect(goal.id.value, isNotNull);
+        expect(goal.itemId.value, isNotNull);
       });
 
       test('全ゴールを削除できること', () async {
         final goal1 = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール1'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール1'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
         final goal2 = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール2'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール2'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
 
         // Contract: Repository は deleteAllGoals で全削除をサポート
@@ -143,33 +143,33 @@ void main() {
 
       test('ゴール削除後にカウントが減少すること', () async {
         final goal = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
 
         // Contract: Repository は saveGoal と getGoalCount で状態管理をサポート
-        expect(goal.id.value, isNotNull);
+        expect(goal.itemId.value, isNotNull);
       });
     });
 
     group('ゴール カウント操作 - インターフェース契約検証', () {
       test('保存されたゴール数を正確にカウントできること', () async {
         final goal1 = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール1'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール1'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
         final goal2 = Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('ゴール2'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('ゴール2'),
           category: GoalCategory('カテゴリ'),
-          reason: GoalReason('理由'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 365))),
+          description: ItemDescription('理由'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 365))),
         );
 
         // Contract: Repository は getGoalCount でカウント取得をサポート

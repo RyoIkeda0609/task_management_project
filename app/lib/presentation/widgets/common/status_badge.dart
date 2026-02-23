@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/domain/value_objects/task/task_status.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_theme.dart';
 
@@ -18,8 +19,8 @@ enum BadgeSize {
 ///
 /// タスクの状態（未着手・進行中・完了）を視覚的に表示します。
 class StatusBadge extends StatelessWidget {
-  /// ステータス（'todo'/'doing'/'done'）
-  final String status;
+  /// タスクステータス
+  final TaskStatus status;
 
   /// バッジのサイズ
   final BadgeSize size;
@@ -32,30 +33,20 @@ class StatusBadge extends StatelessWidget {
 
   /// ステータスから色を取得
   Color _getStatusColor() {
-    switch (status) {
-      case 'todo':
-        return AppColors.neutral300;
-      case 'doing':
-        return AppColors.warning;
-      case 'done':
-        return AppColors.success;
-      default:
-        return AppColors.neutral400;
-    }
+    return switch (status) {
+      TaskStatus.todo => AppColors.neutral300,
+      TaskStatus.doing => AppColors.warning,
+      TaskStatus.done => AppColors.success,
+    };
   }
 
   /// ステータスから表示テキストを取得
   String _getStatusLabel() {
-    switch (status) {
-      case 'todo':
-        return '未着手';
-      case 'doing':
-        return '進行中';
-      case 'done':
-        return '完了';
-      default:
-        return 'Unknown';
-    }
+    return switch (status) {
+      TaskStatus.todo => '未着手',
+      TaskStatus.doing => '進行中',
+      TaskStatus.done => '完了',
+    };
   }
 
   /// サイズから詳細情報を取得

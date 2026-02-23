@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:app/presentation/screens/task/task_create/task_create_page.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 class FakeTaskRepository implements TaskRepository {
   @override
@@ -45,10 +47,11 @@ class FakeMilestoneRepository implements MilestoneRepository {
   Future<Milestone?> getMilestoneById(String id) async {
     if (id == 'milestone-123') {
       return Milestone(
-        id: MilestoneId('milestone-123'),
-        goalId: 'goal-123',
-        title: MilestoneTitle('Test Milestone'),
-        deadline: MilestoneDeadline(DateTime.now().add(Duration(days: 7))),
+        itemId: ItemId('milestone-123'),
+        goalId: ItemId('test-goal-id'),
+        title: ItemTitle('Test Milestone'),
+        description: ItemDescription(''),
+        deadline: ItemDeadline(DateTime.now().add(const Duration(days: 7))),
       );
     }
     return null;
@@ -126,20 +129,38 @@ void main() {
       tester.view.physicalSize = const Size(1600, 2400);
       addTearDown(tester.view.resetPhysicalSize);
 
+      final router = GoRouter(
+        initialLocation: '/',
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const Scaffold(body: Text('Home')),
+            routes: [
+              GoRoute(
+                path: 'task-create',
+                builder: (context, state) => const TaskCreatePage(
+                  milestoneId: 'test-milestone-id',
+                  goalId: 'test-goal-id',
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
           ],
-          child: const MaterialApp(
-            home: TaskCreatePage(
-              milestoneId: 'test-milestone-id',
-              goalId: 'test-goal-id',
-            ),
-          ),
+          child: MaterialApp.router(routerConfig: router),
         ),
       );
 
+      await tester.pumpAndSettle();
+
+      // task-createに遷移
+      router.go('/task-create');
       await tester.pumpAndSettle();
 
       // キャンセルボタンを見つけてスクロール

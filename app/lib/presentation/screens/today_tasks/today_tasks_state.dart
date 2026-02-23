@@ -61,5 +61,14 @@ class TodayTasksPageState {
   bool get hasData =>
       viewState == TodayTasksViewState.data &&
       groupedTasks != null &&
-      groupedTasks!.total > 0;
+      (groupedTasks?.total ?? 0) > 0;
+
+  /// 未完了セクションを表示するか
+  bool get showTodoSection => groupedTasks?.todoTasks.isNotEmpty ?? false;
+
+  /// 進行中セクションを表示するか
+  bool get showDoingSection => groupedTasks?.doingTasks.isNotEmpty ?? false;
+
+  /// 完了セクションを表示するか
+  bool get showDoneSection => groupedTasks?.doneTasks.isNotEmpty ?? false;
 }

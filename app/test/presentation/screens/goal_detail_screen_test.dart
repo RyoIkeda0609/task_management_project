@@ -1,11 +1,14 @@
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/domain/value_objects/shared/progress.dart';
 import 'package:app/presentation/screens/goal/goal_detail/goal_detail_widgets.dart';
+import 'package:app/presentation/state_management/providers/state_notifier_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -35,16 +38,28 @@ void main() {
     ) async {
       final testDateTime = DateTime(2026, 2, 19);
       final goal = Goal(
-        id: GoalId('test-goal-1'),
-        title: GoalTitle('Test Goal'),
-        reason: GoalReason('Test Reason'),
+        itemId: ItemId('test-goal-1'),
+        title: ItemTitle('Test Goal'),
+        description: ItemDescription('Test Reason'),
         category: GoalCategory('キャリア'),
-        deadline: GoalDeadline(testDateTime),
+        deadline: ItemDeadline(testDateTime),
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: GoalDetailHeaderWidget(goal: goal)),
+        ProviderScope(
+          overrides: [
+            goalProgressProvider.overrideWith(
+              (ref, goalId) async => Progress(0),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: GoalDetailHeaderWidget(
+                goal: goal,
+                goalId: goal.itemId.value,
+              ),
+            ),
+          ),
         ),
       );
 
@@ -57,16 +72,28 @@ void main() {
     ) async {
       final testDateTime = DateTime(2026, 3, 15);
       final goal = Goal(
-        id: GoalId('test-goal-2'),
-        title: GoalTitle('Another Goal'),
-        reason: GoalReason('Another Reason'),
+        itemId: ItemId('test-goal-2'),
+        title: ItemTitle('Another Goal'),
+        description: ItemDescription('Another Reason'),
         category: GoalCategory('学習'),
-        deadline: GoalDeadline(testDateTime),
+        deadline: ItemDeadline(testDateTime),
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: GoalDetailHeaderWidget(goal: goal)),
+        ProviderScope(
+          overrides: [
+            goalProgressProvider.overrideWith(
+              (ref, goalId) async => Progress(0),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: GoalDetailHeaderWidget(
+                goal: goal,
+                goalId: goal.itemId.value,
+              ),
+            ),
+          ),
         ),
       );
 
@@ -77,16 +104,28 @@ void main() {
       WidgetTester tester,
     ) async {
       final goal = Goal(
-        id: GoalId('test-goal-3'),
-        title: GoalTitle('My Test Goal'),
-        reason: GoalReason('Good Reason'),
+        itemId: ItemId('test-goal-3'),
+        title: ItemTitle('My Test Goal'),
+        description: ItemDescription('Good Reason'),
         category: GoalCategory('健康'),
-        deadline: GoalDeadline(DateTime(2026, 4, 1)),
+        deadline: ItemDeadline(DateTime(2026, 4, 1)),
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(body: GoalDetailHeaderWidget(goal: goal)),
+        ProviderScope(
+          overrides: [
+            goalProgressProvider.overrideWith(
+              (ref, goalId) async => Progress(0),
+            ),
+          ],
+          child: MaterialApp(
+            home: Scaffold(
+              body: GoalDetailHeaderWidget(
+                goal: goal,
+                goalId: goal.itemId.value,
+              ),
+            ),
+          ),
         ),
       );
 

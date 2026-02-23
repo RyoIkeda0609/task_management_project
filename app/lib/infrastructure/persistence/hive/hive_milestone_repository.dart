@@ -18,7 +18,7 @@ class HiveMilestoneRepository extends HiveRepositoryBase<Milestone>
   Map<String, dynamic> toJson(Milestone entity) => entity.toJson();
 
   @override
-  String getId(Milestone entity) => entity.id.value;
+  String getId(Milestone entity) => entity.itemId.value;
 
   @override
   Future<List<Milestone>> getAllMilestones() async => await getAll();
@@ -29,7 +29,7 @@ class HiveMilestoneRepository extends HiveRepositoryBase<Milestone>
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async {
     final all = await getAll();
-    return all.where((m) => m.goalId == goalId).toList();
+    return all.where((m) => m.goalId.value == goalId).toList();
   }
 
   @override
@@ -41,7 +41,7 @@ class HiveMilestoneRepository extends HiveRepositoryBase<Milestone>
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      await deleteWhere((m) => m.goalId == goalId);
+      await deleteWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => await count();

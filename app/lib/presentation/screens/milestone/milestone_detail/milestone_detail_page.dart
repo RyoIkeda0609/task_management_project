@@ -33,53 +33,72 @@ class MilestoneDetailPage extends ConsumerWidget {
         hasLeading: true,
         backgroundColor: AppColors.neutral100,
         onLeadingPressed: () => context.pop(),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => milestoneAsync.whenData((milestone) {
-              if (milestone != null) {
-                AppRouter.navigateToMilestoneEdit(
-                  context,
-                  milestone.goalId,
-                  milestoneId,
-                );
-              }
-            }),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () => milestoneAsync.whenData((milestone) {
-              if (milestone != null) {
-                _showDeleteConfirmation(context, ref, milestone);
-              }
-            }),
-          ),
-        ],
+        actions: _buildAppBarActions(context, ref, milestoneAsync),
       ),
-      body: milestoneAsync.when(
-        data: (milestone) => _Body(
-          state: MilestoneDetailPageState.withData(milestone),
-          milestoneId: milestoneId,
-        ),
-        loading: () => _Body(
-          state: MilestoneDetailPageState.loading(),
-          milestoneId: milestoneId,
-        ),
-        error: (error, stackTrace) => _Body(
-          state: MilestoneDetailPageState.withError(error.toString()),
-          milestoneId: milestoneId,
-        ),
+      body: _buildBody(milestoneAsync),
+      floatingActionButton: _buildFab(context, milestoneAsync),
+    );
+  }
+
+  List<Widget> _buildAppBarActions(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<Milestone?> milestoneAsync,
+  ) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () => milestoneAsync.whenData((milestone) {
+          if (milestone != null) {
+            AppRouter.navigateToMilestoneEdit(
+              context,
+              milestone.goalId.value,
+              milestoneId,
+            );
+          }
+        }),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => milestoneAsync
-            .whenData(
-              (milestone) => milestone != null
-                  ? _navigateToTaskCreate(context, milestone.goalId)
-                  : null,
-            )
-            .value,
-        child: const Icon(Icons.add_comment),
+      IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () => milestoneAsync.whenData((milestone) {
+          if (milestone != null) {
+            _showDeleteConfirmation(context, ref, milestone);
+          }
+        }),
       ),
+    ];
+  }
+
+  Widget _buildBody(AsyncValue<Milestone?> milestoneAsync) {
+    return milestoneAsync.when(
+      data: (milestone) => _Body(
+        state: MilestoneDetailPageState.withData(milestone),
+        milestoneId: milestoneId,
+      ),
+      loading: () => _Body(
+        state: MilestoneDetailPageState.loading(),
+        milestoneId: milestoneId,
+      ),
+      error: (error, stackTrace) => _Body(
+        state: MilestoneDetailPageState.withError(error.toString()),
+        milestoneId: milestoneId,
+      ),
+    );
+  }
+
+  Widget _buildFab(
+    BuildContext context,
+    AsyncValue<Milestone?> milestoneAsync,
+  ) {
+    return FloatingActionButton(
+      onPressed: () => milestoneAsync
+          .whenData(
+            (milestone) => milestone != null
+                ? _navigateToTaskCreate(context, milestone.goalId.value)
+                : null,
+          )
+          .value,
+      child: const Icon(Icons.add),
     );
   }
 
@@ -104,7 +123,7 @@ class MilestoneDetailPage extends ConsumerWidget {
         await deleteMilestoneUseCase(milestoneId);
 
         // Provider キャッシュを無効化
-        ref.invalidate(milestonesByGoalProvider(milestone.goalId));
+        ref.invalidate(milestonesByGoalProvider(milestone.goalId.value));
         ref.invalidate(milestoneDetailProvider(milestoneId));
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
@@ -121,7 +140,7 @@ class MilestoneDetailPage extends ConsumerWidget {
         }
       } catch (e) {
         if (context.mounted) {
-          await ValidationHelper.handleException(
+          await ValidationHelper.showExceptionError(
             context,
             e,
             customTitle: 'マイルストーン削除エラー',
@@ -160,7 +179,11 @@ class _LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
+    return const Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+      ),
+    );
   }
 }
 
@@ -184,25 +207,7 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.error_outline, size: 64, color: AppColors.error),
-          SizedBox(height: Spacing.medium),
-          Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-          SizedBox(height: Spacing.small),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Spacing.large),
-            child: Text(
-              error,
-              style: AppTextStyles.bodySmall,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
+    return MilestoneDetailErrorWidget(error: error);
   }
 }
 

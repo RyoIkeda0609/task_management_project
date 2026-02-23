@@ -15,15 +15,12 @@ class MilestoneCompletionService {
   /// タスクが存在しない場合は完了していないと判定
   /// すべてのタスクが完了した場合に 100% と判定
   Future<bool> isMilestoneCompleted(String milestoneId) async {
-    // 指定マイルストーンのタスクを取得
     final tasks = await _taskRepository.getTasksByMilestoneId(milestoneId);
 
     if (tasks.isEmpty) {
-      // タスクが存在しない場合は完了していない
       return false;
     }
 
-    // すべてのタスクが完了しているか確認
     final allTasksDone = tasks.every((task) => task.status.isDone);
     return allTasksDone;
   }

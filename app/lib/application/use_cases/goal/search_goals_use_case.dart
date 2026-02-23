@@ -21,15 +21,12 @@ class SearchGoalsUseCaseImpl implements SearchGoalsUseCase {
       throw ArgumentError('検索キーワードを入力してください');
     }
 
-    // すべてのゴールを取得
     final allGoals = await _goalRepository.getAllGoals();
-
-    // キーワードでフィルタリング（大文字小文字を区別しない）
     final lowerKeyword = keyword.toLowerCase();
     final searchResults = allGoals.where((goal) {
       return goal.title.value.toLowerCase().contains(lowerKeyword) ||
           goal.category.value.toLowerCase().contains(lowerKeyword) ||
-          goal.reason.value.toLowerCase().contains(lowerKeyword);
+          goal.description.value.toLowerCase().contains(lowerKeyword);
     }).toList();
 
     return searchResults;

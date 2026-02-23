@@ -39,6 +39,8 @@ class TaskEditViewModel extends StateNotifier<TaskEditPageState> {
 
 /// StateNotifierProvider
 final taskEditViewModelProvider =
-    StateNotifierProvider<TaskEditViewModel, TaskEditPageState>((ref) {
+    StateNotifierProvider.autoDispose<TaskEditViewModel, TaskEditPageState>((
+      ref,
+    ) {
       return TaskEditViewModel();
     });

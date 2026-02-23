@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/milestone/get_milestones_by_goal_id_use_case.dart';
 import 'package:app/domain/entities/milestone.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -15,7 +16,7 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -23,7 +24,7 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async =>
@@ -31,11 +32,11 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -56,20 +57,18 @@ void main() {
         // Arrange
         const goalId = 'goal-123';
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Q1計画'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Q1計画'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Q2計画'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
-          goalId: goalId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Q2\u8a08\u753b'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
+          goalId: ItemId(goalId),
         );
         await mockRepository.saveMilestone(ms1);
         await mockRepository.saveMilestone(ms2);
@@ -80,10 +79,10 @@ void main() {
         // Assert
         expect(result.length, 2);
         expect(
-          result.map((m) => m.id.value),
-          containsAll([ms1.id.value, ms2.id.value]),
+          result.map((m) => m.itemId.value),
+          containsAll([ms1.itemId.value, ms2.itemId.value]),
         );
-        expect(result.every((m) => m.goalId == goalId), true);
+        expect(result.every((m) => m.goalId.value == goalId), true);
       });
 
       test('マイルストーンなしのゴール ID で空リストが返されること', () async {
@@ -103,20 +102,18 @@ void main() {
         const goalId2 = 'goal-2';
 
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal1-MS'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal1-MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId1),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal2-MS'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal2-MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId2),
         );
         await mockRepository.saveMilestone(ms1);
         await mockRepository.saveMilestone(ms2);
@@ -128,8 +125,8 @@ void main() {
         // Assert
         expect(result1.length, 1);
         expect(result2.length, 1);
-        expect(result1.first.id.value, ms1.id.value);
-        expect(result2.first.id.value, ms2.id.value);
+        expect(result1.first.itemId.value, ms1.itemId.value);
+        expect(result2.first.itemId.value, ms2.itemId.value);
       });
 
       test('複数マイルストーンを持つゴールをすべて取得できること', () async {
@@ -139,12 +136,13 @@ void main() {
         for (int i = 1; i <= 5; i++) {
           milestones.add(
             Milestone(
-              id: MilestoneId.generate(),
-              title: MilestoneTitle('MS$i'),
-              deadline: MilestoneDeadline(
+              itemId: ItemId.generate(),
+              title: ItemTitle('MS$i'),
+              description: ItemDescription(''),
+              deadline: ItemDeadline(
                 DateTime.now().add(Duration(days: 30 * i)),
               ),
-              goalId: goalId,
+              goalId: ItemId(goalId),
             ),
           );
         }
@@ -158,8 +156,8 @@ void main() {
         // Assert
         expect(result.length, 5);
         expect(
-          result.map((m) => m.id.value),
-          containsAll(milestones.map((m) => m.id.value)),
+          result.map((m) => m.itemId.value),
+          containsAll(milestones.map((m) => m.itemId.value)),
         );
       });
     });

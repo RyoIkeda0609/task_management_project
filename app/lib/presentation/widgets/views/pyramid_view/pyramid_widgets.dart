@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../../domain/entities/milestone.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import '../../../navigation/app_router.dart';
 import 'pyramid_view_model.dart';
+import '../../../utils/date_formatter.dart';
 
 /// ピラミッドのゴールノード
 class PyramidGoalNode extends StatelessWidget {
@@ -25,7 +27,7 @@ class PyramidGoalNode extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: InkWell(
-        onTap: () => AppRouter.navigateToGoalDetail(context, goal.id.value),
+        onTap: () => AppRouter.navigateToGoalDetail(context, goal.itemId.value),
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -56,12 +58,14 @@ class PyramidMilestoneNode extends ConsumerWidget {
   final Milestone milestone;
   final String goalId;
   final AsyncValue<List<Task>> milestoneTasks;
+  final void Function(Task task)? onTaskTap;
 
   const PyramidMilestoneNode({
     super.key,
     required this.milestone,
     required this.goalId,
     required this.milestoneTasks,
+    this.onTaskTap,
   });
 
   @override
@@ -69,7 +73,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
     final viewModelState = ref.watch(pyramidViewModelProvider);
     final viewModel = ref.read(pyramidViewModelProvider.notifier);
     final isExpanded =
-        viewModelState.expandedMilestones[milestone.id.value] ?? false;
+        viewModelState.expandedMilestones[milestone.itemId.value] ?? false;
 
     return Column(
       children: [
@@ -82,176 +86,188 @@ class PyramidMilestoneNode extends ConsumerWidget {
             ),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: ExpansionTile(
-            tilePadding: EdgeInsets.symmetric(
-              horizontal: Spacing.small,
-              vertical: Spacing.xxSmall,
-            ),
-            childrenPadding: EdgeInsets.only(
-              left: Spacing.small,
-              right: Spacing.small,
-              bottom: Spacing.xxSmall,
-            ),
-            initiallyExpanded: isExpanded,
-            onExpansionChanged: (_) {
-              viewModel.toggleMilestoneExpansion(milestone.id.value);
-            },
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    milestone.title.value,
-                    style: AppTextStyles.titleSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                SizedBox(width: Spacing.small),
-                Text(
-                  _formatDate(milestone.deadline.value),
-                  style: AppTextStyles.bodySmall.copyWith(
-                    color: AppColors.neutral600,
-                  ),
-                ),
-              ],
-            ),
-            trailing: GestureDetector(
-              onTap: () => AppRouter.navigateToMilestoneDetail(
-                context,
-                goalId,
-                milestone.id.value,
-              ),
-              child: Icon(
-                Icons.arrow_forward,
-                size: 18,
-                color: AppColors.primary,
-              ),
-            ),
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: Spacing.small,
-                  vertical: Spacing.xxSmall,
-                ),
-                child: milestoneTasks.when(
-                  data: (tasks) {
-                    if (tasks.isEmpty) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: Spacing.xxSmall,
-                        ),
-                        child: Text(
-                          'タスクなし',
-                          style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.neutral500,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                      );
-                    }
-
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: tasks.length,
-                      itemBuilder: (context, index) =>
-                          PyramidTaskNode(task: tasks[index]),
-                    );
-                  },
-                  loading: () => Padding(
-                    padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.primary,
-                      ),
-                    ),
-                  ),
-                  error: (error, stackTrace) => Text(
-                    'タスク取得エラー',
-                    style: AppTextStyles.bodySmall.copyWith(color: Colors.red),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          child: _buildExpansionTile(context, isExpanded, viewModel),
         ),
       ],
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.month}/${date.day}';
+  Widget _buildExpansionTile(
+    BuildContext context,
+    bool isExpanded,
+    PyramidViewModel viewModel,
+  ) {
+    return ExpansionTile(
+      tilePadding: EdgeInsets.symmetric(
+        horizontal: Spacing.small,
+        vertical: Spacing.xxSmall,
+      ),
+      childrenPadding: EdgeInsets.only(
+        left: Spacing.small,
+        right: Spacing.small,
+        bottom: Spacing.xxSmall,
+      ),
+      initiallyExpanded: isExpanded,
+      onExpansionChanged: (_) {
+        viewModel.toggleMilestoneExpansion(milestone.itemId.value);
+      },
+      title: _buildMilestoneTitle(),
+      trailing: _buildMilestoneTrailing(context),
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: Spacing.small,
+            vertical: Spacing.xxSmall,
+          ),
+          child: _buildTaskList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMilestoneTitle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            milestone.title.value,
+            style: AppTextStyles.titleSmall,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        SizedBox(width: Spacing.small),
+        Text(
+          DateFormatter.toJapaneseDate(milestone.deadline.value),
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMilestoneTrailing(BuildContext context) {
+    return GestureDetector(
+      onTap: () => AppRouter.navigateToMilestoneDetail(
+        context,
+        goalId,
+        milestone.itemId.value,
+      ),
+      child: Icon(Icons.arrow_forward, size: 18, color: AppColors.primary),
+    );
+  }
+
+  Widget _buildTaskList() {
+    return milestoneTasks.when(
+      data: (tasks) {
+        if (tasks.isEmpty) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
+            child: Text(
+              'タスクなし',
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.neutral500,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          );
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: tasks.length,
+          itemBuilder: (context, index) {
+            final task = tasks[index];
+            return PyramidTaskNode(
+              task: task,
+              onTap: onTaskTap != null ? () => onTaskTap!(task) : null,
+            );
+          },
+        );
+      },
+      loading: () => Padding(
+        padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+        ),
+      ),
+      error: (error, stackTrace) => Text(
+        'タスク取得エラー',
+        style: AppTextStyles.bodySmall.copyWith(color: Colors.red),
+      ),
+    );
   }
 }
 
 /// ピラミッドのタスクノード
 class PyramidTaskNode extends StatelessWidget {
   final Task task;
+  final VoidCallback? onTap;
 
-  const PyramidTaskNode({super.key, required this.task});
+  const PyramidTaskNode({super.key, required this.task, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: Spacing.xSmall),
-      padding: EdgeInsets.symmetric(
-        horizontal: Spacing.small,
-        vertical: Spacing.xxSmall,
-      ),
-      decoration: BoxDecoration(
-        color: _getTaskStatusColor(task.status.value),
-        borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppColors.neutral200),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _getStatusIcon(task.status.value),
-          SizedBox(width: Spacing.small),
-          Expanded(
-            child: Text(
-              task.title.value,
-              style: AppTextStyles.bodySmall,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(bottom: Spacing.xSmall),
+        padding: EdgeInsets.symmetric(
+          horizontal: Spacing.small,
+          vertical: Spacing.xxSmall,
+        ),
+        decoration: BoxDecoration(
+          color: _getTaskStatusColor(task.status),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: AppColors.neutral200),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _getStatusIcon(task.status),
+            SizedBox(width: Spacing.small),
+            Expanded(
+              child: Text(
+                task.title.value,
+                style: AppTextStyles.bodySmall,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        ],
+            if (onTap != null)
+              Icon(Icons.chevron_right, size: 16, color: AppColors.neutral400),
+          ],
+        ),
       ),
     );
   }
 
-  Color _getTaskStatusColor(String status) {
-    switch (status) {
-      case 'todo':
-        return AppColors.neutral200.withValues(alpha: 0.5);
-      case 'doing':
-        return AppColors.warning.withValues(alpha: 0.1);
-      case 'done':
-        return AppColors.success.withValues(alpha: 0.1);
-      default:
-        return AppColors.neutral100;
-    }
+  Color _getTaskStatusColor(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.todo => AppColors.neutral200.withValues(alpha: 0.5),
+      TaskStatus.doing => AppColors.warning.withValues(alpha: 0.1),
+      TaskStatus.done => AppColors.success.withValues(alpha: 0.1),
+    };
   }
 
-  Widget _getStatusIcon(String status) {
-    switch (status) {
-      case 'done':
-        return Icon(Icons.check_circle, color: AppColors.success, size: 18);
-      case 'doing':
-        return Icon(
-          Icons.radio_button_checked,
-          color: AppColors.warning,
-          size: 18,
-        );
-      default:
-        return Icon(
-          Icons.radio_button_unchecked,
-          color: AppColors.neutral400,
-          size: 18,
-        );
-    }
+  Widget _getStatusIcon(TaskStatus status) {
+    return switch (status) {
+      TaskStatus.done => Icon(
+        Icons.check_circle,
+        color: AppColors.success,
+        size: 18,
+      ),
+      TaskStatus.doing => Icon(
+        Icons.radio_button_checked,
+        color: AppColors.warning,
+        size: 18,
+      ),
+      TaskStatus.todo => Icon(
+        Icons.radio_button_unchecked,
+        color: AppColors.neutral400,
+        size: 18,
+      ),
+    };
   }
 }

@@ -3,14 +3,11 @@ import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
 import 'package:app/domain/repositories/task_repository.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -21,7 +18,7 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -29,7 +26,7 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   @override
@@ -38,11 +35,11 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -57,7 +54,7 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -65,18 +62,18 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async => _tasks.add(task);
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
   Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -120,12 +117,12 @@ void main() {
 
     test('タスクを保存し、その後に削除できる', () async {
       final task = Task(
-        id: TaskId('task-1'),
-        title: TaskTitle('テストタスク'),
-        description: TaskDescription('説明'),
-        deadline: TaskDeadline(DateTime(2026, 12, 31)),
-        status: TaskStatus('notStarted'),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('task-1'),
+        title: ItemTitle('テストタスク'),
+        description: ItemDescription('説明'),
+        deadline: ItemDeadline(DateTime(2026, 12, 31)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       await taskRepository.saveTask(task);
@@ -146,10 +143,11 @@ void main() {
 
     test('マイルストーンを保存し、その後に削除できる', () async {
       final milestone = Milestone(
-        id: MilestoneId('milestone-1'),
-        title: MilestoneTitle('テストマイルストーン'),
-        deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-        goalId: 'goal-1',
+        itemId: ItemId('milestone-1'),
+        title: ItemTitle('テストマイルストーン'),
+        description: ItemDescription(''),
+        deadline: ItemDeadline(DateTime(2026, 12, 31)),
+        goalId: ItemId('goal-1'),
       );
 
       await milestoneRepository.saveMilestone(milestone);
@@ -163,21 +161,21 @@ void main() {
 
     test('複数のタスクを保存し、マイルストーン ID で フィルタリングできる', () async {
       final task1 = Task(
-        id: TaskId('task-1'),
-        title: TaskTitle('タスク1'),
-        description: TaskDescription('説明1'),
-        deadline: TaskDeadline(DateTime(2026, 12, 31)),
-        status: TaskStatus('notStarted'),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('task-1'),
+        title: ItemTitle('タスク1'),
+        description: ItemDescription('説明1'),
+        deadline: ItemDeadline(DateTime(2026, 12, 31)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       final task2 = Task(
-        id: TaskId('task-2'),
-        title: TaskTitle('タスク2'),
-        description: TaskDescription('説明2'),
-        deadline: TaskDeadline(DateTime(2026, 12, 31)),
-        status: TaskStatus('notStarted'),
-        milestoneId: 'milestone-2',
+        itemId: ItemId('task-2'),
+        title: ItemTitle('タスク2'),
+        description: ItemDescription('説明2'),
+        deadline: ItemDeadline(DateTime(2026, 12, 31)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-2'),
       );
 
       await taskRepository.saveTask(task1);
@@ -192,23 +190,25 @@ void main() {
 
       expect(tasksForMilestone1, hasLength(1));
       expect(tasksForMilestone2, hasLength(1));
-      expect(tasksForMilestone1.first.id.value, 'task-1');
-      expect(tasksForMilestone2.first.id.value, 'task-2');
+      expect(tasksForMilestone1.first.itemId.value, 'task-1');
+      expect(tasksForMilestone2.first.itemId.value, 'task-2');
     });
 
     test('複数のマイルストーンを保存し、ゴール ID で フィルタリングできる', () async {
       final milestone1 = Milestone(
-        id: MilestoneId('milestone-1'),
-        title: MilestoneTitle('マイルストーン1'),
-        deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-        goalId: 'goal-1',
+        itemId: ItemId('milestone-1'),
+        title: ItemTitle('マイルストーン1'),
+        description: ItemDescription(''),
+        deadline: ItemDeadline(DateTime(2026, 12, 31)),
+        goalId: ItemId('goal-1'),
       );
 
       final milestone2 = Milestone(
-        id: MilestoneId('milestone-2'),
-        title: MilestoneTitle('マイルストーン2'),
-        deadline: MilestoneDeadline(DateTime(2026, 12, 31)),
-        goalId: 'goal-2',
+        itemId: ItemId('milestone-2'),
+        title: ItemTitle('マイルストーン2'),
+        description: ItemDescription(''),
+        deadline: ItemDeadline(DateTime(2026, 12, 31)),
+        goalId: ItemId('goal-2'),
       );
 
       await milestoneRepository.saveMilestone(milestone1);
@@ -221,8 +221,8 @@ void main() {
 
       expect(milestonesForGoal1, hasLength(1));
       expect(milestonesForGoal2, hasLength(1));
-      expect(milestonesForGoal1.first.id.value, 'milestone-1');
-      expect(milestonesForGoal2.first.id.value, 'milestone-2');
+      expect(milestonesForGoal1.first.itemId.value, 'milestone-1');
+      expect(milestonesForGoal2.first.itemId.value, 'milestone-2');
     });
   });
 }

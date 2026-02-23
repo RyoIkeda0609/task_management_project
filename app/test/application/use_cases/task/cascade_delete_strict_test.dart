@@ -3,14 +3,12 @@ import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
+
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
 
 class MockMilestoneRepository implements MilestoneRepository {
   final List<Milestone> _milestones = [];
@@ -18,7 +16,7 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -29,21 +27,21 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async {
-    _milestones.removeWhere((m) => m.id.value == milestone.id.value);
+    _milestones.removeWhere((m) => m.itemId.value == milestone.itemId.value);
     _milestones.add(milestone);
   }
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -58,7 +56,7 @@ class MockTaskRepository implements TaskRepository {
   @override
   Future<Task?> getTaskById(String id) async {
     try {
-      return _tasks.firstWhere((t) => t.id.value == id);
+      return _tasks.firstWhere((t) => t.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -66,21 +64,21 @@ class MockTaskRepository implements TaskRepository {
 
   @override
   Future<List<Task>> getTasksByMilestoneId(String milestoneId) async =>
-      _tasks.where((t) => t.milestoneId == milestoneId).toList();
+      _tasks.where((t) => t.milestoneId.value == milestoneId).toList();
 
   @override
   Future<void> saveTask(Task task) async {
-    _tasks.removeWhere((t) => t.id.value == task.id.value);
+    _tasks.removeWhere((t) => t.itemId.value == task.itemId.value);
     _tasks.add(task);
   }
 
   @override
   Future<void> deleteTask(String id) async =>
-      _tasks.removeWhere((t) => t.id.value == id);
+      _tasks.removeWhere((t) => t.itemId.value == id);
 
   @override
   Future<void> deleteTasksByMilestoneId(String milestoneId) async =>
-      _tasks.removeWhere((t) => t.milestoneId == milestoneId);
+      _tasks.removeWhere((t) => t.milestoneId.value == milestoneId);
 
   @override
   Future<int> getTaskCount() async => _tasks.length;
@@ -102,38 +100,39 @@ void main() {
           'Milestone を削除すると、配下のすべての Task が自動削除される', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('マイルストーン'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('マイルストーン'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
         await milestoneRepository.saveMilestone(milestone);
 
         final task1 = Task(
-          id: TaskId('task-1'),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-1'),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-1'),
         );
 
         final task2 = Task(
-          id: TaskId('task-2'),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.doing(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-2'),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.doing,
+          milestoneId: ItemId('milestone-1'),
         );
 
         final task3 = Task(
-          id: TaskId('task-3'),
-          title: TaskTitle('タスク3'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.done(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-3'),
+          title: ItemTitle('タスク3'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.done,
+          milestoneId: ItemId('milestone-1'),
         );
 
         await taskRepository.saveTask(task1);
@@ -167,39 +166,40 @@ void main() {
           'Milestone 削除時、ステータスが異なるすべてのタスクが削除される', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('マイルストーン'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('マイルストーン'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
         await milestoneRepository.saveMilestone(milestone);
 
         // 異なるステータスのタスク
         final todoTask = Task(
-          id: TaskId('task-todo'),
-          title: TaskTitle('未開始タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-todo'),
+          title: ItemTitle('未開始タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-1'),
         );
 
         final doingTask = Task(
-          id: TaskId('task-doing'),
-          title: TaskTitle('進行中タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.doing(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-doing'),
+          title: ItemTitle('進行中タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.doing,
+          milestoneId: ItemId('milestone-1'),
         );
 
         final doneTask = Task(
-          id: TaskId('task-done'),
-          title: TaskTitle('完了タスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.done(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-done'),
+          title: ItemTitle('完了タスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.done,
+          milestoneId: ItemId('milestone-1'),
         );
 
         await taskRepository.saveTask(todoTask);
@@ -231,17 +231,19 @@ void main() {
           '他の Milestone に属するタスクは削除されない', () async {
         // Arrange
         final milestone1 = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('マイルストーン1'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('マイルストーン1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
 
         final milestone2 = Milestone(
-          id: MilestoneId('milestone-2'),
-          title: MilestoneTitle('マイルストーン2'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-2'),
+          title: ItemTitle('マイルストーン2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
 
         await milestoneRepository.saveMilestone(milestone1);
@@ -249,22 +251,22 @@ void main() {
 
         // milestone-1 配下のタスク
         final task1 = Task(
-          id: TaskId('task-1'),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-1'),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-1'),
         );
 
         // milestone-2 配下のタスク
         final task2 = Task(
-          id: TaskId('task-2'),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.todo(),
-          milestoneId: 'milestone-2',
+          itemId: ItemId('task-2'),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-2'),
         );
 
         await taskRepository.saveTask(task1);
@@ -286,7 +288,7 @@ void main() {
         final task2Retrieved = await taskRepository.getTaskById('task-2');
         expect(task2Retrieved, isNotNull, reason: 'milestone-2 配下のタスクは残存');
         expect(
-          task2Retrieved!.milestoneId,
+          task2Retrieved!.milestoneId.value,
           'milestone-2',
           reason: 'task-2 は完全に保持されている',
         );
@@ -296,38 +298,40 @@ void main() {
           '同じ Goal 内の他の Milestone のタスクは保護される', () async {
         // Arrange
         final milestone1 = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('マイルストーン1'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('マイルストーン1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
 
         final milestone2 = Milestone(
-          id: MilestoneId('milestone-2'),
-          title: MilestoneTitle('マイルストーン2'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-2'),
+          title: ItemTitle('マイルストーン2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
 
         await milestoneRepository.saveMilestone(milestone1);
         await milestoneRepository.saveMilestone(milestone2);
 
         final task1 = Task(
-          id: TaskId('task-1'),
-          title: TaskTitle('タスク1'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.done(),
-          milestoneId: 'milestone-1',
+          itemId: ItemId('task-1'),
+          title: ItemTitle('タスク1'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.done,
+          milestoneId: ItemId('milestone-1'),
         );
 
         final task2 = Task(
-          id: TaskId('task-2'),
-          title: TaskTitle('タスク2'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.doing(),
-          milestoneId: 'milestone-2',
+          itemId: ItemId('task-2'),
+          title: ItemTitle('タスク2'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.doing,
+          milestoneId: ItemId('milestone-2'),
         );
 
         await taskRepository.saveTask(task1);
@@ -341,17 +345,18 @@ void main() {
           'milestone-2',
         );
         expect(tasksInMs2.length, 1, reason: 'milestone-2 のタスクは完全に保持される');
-        expect(tasksInMs2.first.id.value, 'task-2');
+        expect(tasksInMs2.first.itemId.value, 'task-2');
       });
 
       test('should_handle_deletion_of_empty_milestone - '
           'タスクのない Milestone を削除しても問題が起きない', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId('milestone-1'),
-          title: MilestoneTitle('空のマイルストーン'),
-          deadline: MilestoneDeadline(tomorrow),
-          goalId: 'goal-1',
+          itemId: ItemId('milestone-1'),
+          title: ItemTitle('空のマイルストーン'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(tomorrow),
+          goalId: ItemId('milestone-1'),
         );
         await milestoneRepository.saveMilestone(milestone);
 
@@ -389,17 +394,17 @@ void main() {
         // ドメインレイヤーではタスク生成時に milestoneId の存在チェックは行わない
         // が、アプリケーション層で검증되어야 함
         final illegalTask = Task(
-          id: TaskId.generate(),
-          title: TaskTitle('不正なタスク'),
-          description: TaskDescription('説明'),
-          deadline: TaskDeadline(tomorrow),
-          status: TaskStatus.todo(),
-          milestoneId: 'goal-1', // goalId をそのまま milestoneId に設定
+          itemId: ItemId.generate(),
+          title: ItemTitle('不正なタスク'),
+          description: ItemDescription('説明'),
+          deadline: ItemDeadline(tomorrow),
+          status: TaskStatus.todo,
+          milestoneId: ItemId('milestone-1'), // goalId をそのまま milestoneId に設定
         );
 
         // Task 生成自体はできるが、
         // リポジトリに保存しようとする時にアプリケーション層で検証されるべき
-        expect(illegalTask.milestoneId, 'goal-1');
+        expect(illegalTask.milestoneId.value, 'milestone-1');
 
         // milestoneId が実際に有効な milestone を参照しているか確認
         // （アプリケーション層の責務）

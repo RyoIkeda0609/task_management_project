@@ -53,23 +53,4 @@ class TaskDetailPageState {
   bool get isNotFound => viewState == TaskDetailViewState.notFound;
   bool get hasData => viewState == TaskDetailViewState.data && task != null;
   bool get isError => viewState == TaskDetailViewState.error;
-
-  // ========== 手術2-3: 表示用の整形文言 ==========
-  String get formattedDeadline {
-    if (task?.deadline == null) return '期限未設定';
-    try {
-      final dt = task!.deadline.value;
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '期限未設定';
-    }
-  }
-
-  String get statusLabel {
-    if (task == null) return 'Unknown';
-    final statusStr = task!.status.toString();
-    if (statusStr.contains('done')) return '完了';
-    if (statusStr.contains('doing')) return '進行中';
-    return '未完了';
-  }
 }

@@ -35,7 +35,7 @@ void main() {
       );
 
       expect(find.byType(OnboardingPage1), findsOneWidget);
-      expect(find.text('ゴールを設定しよう'), findsOneWidget);
+      expect(find.text('ゴールを決めよう'), findsOneWidget);
     });
 
     testWidgets('2番目のページが表示される', (WidgetTester tester) async {
@@ -46,7 +46,7 @@ void main() {
       );
 
       expect(find.byType(OnboardingPage2), findsOneWidget);
-      expect(find.text('タスクで進捗を管理'), findsOneWidget);
+      expect(find.text('マイルストーンで中間地点を作ろう'), findsOneWidget);
     });
 
     testWidgets('ページインジケーターが表示される', (WidgetTester tester) async {
@@ -55,7 +55,7 @@ void main() {
           home: Scaffold(
             body: const OnboardingPageIndicator(
               currentPageIndex: 0,
-              totalPages: 2,
+              totalPages: 5,
             ),
           ),
         ),
@@ -89,9 +89,8 @@ void main() {
 
       expect(
         find.text(
-          '達成したい大きな目標を設定します。'
-          '健康、仕事、学習、趣味など、'
-          'カテゴリーを選んで整理できます。',
+          'ゴールとは、あなたが本当に達成したい大きな目標のこと。\n'
+          '「何を実現したいか」を明確にすることが、すべての第一歩です。',
         ),
         findsOneWidget,
       );
@@ -103,8 +102,8 @@ void main() {
       );
 
       // _FeatureItem は private なので、テキストから確認
-      expect(find.text('カテゴリー分類'), findsOneWidget);
-      expect(find.text('5つのカテゴリーで整理'), findsOneWidget);
+      expect(find.text('ゴールの考え方'), findsOneWidget);
+      expect(find.text('将来のなりたい自分をイメージしよう'), findsOneWidget);
     });
   });
 }

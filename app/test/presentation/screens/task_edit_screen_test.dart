@@ -3,11 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/presentation/screens/task/task_edit/task_edit_page.dart';
 import 'package:app/domain/entities/task.dart';
-import 'package:app/domain/value_objects/task/task_id.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/presentation/state_management/providers/app_providers.dart';
 
@@ -20,12 +20,12 @@ class FakeTaskRepository implements TaskRepository {
 
   @override
   Future<Task?> getTaskById(String id) async => Task(
-    id: TaskId(id),
-    title: TaskTitle('テスト タスク'),
-    description: TaskDescription('これはテストタスクです'),
-    deadline: TaskDeadline(DateTime(2026, 3, 1)),
-    status: TaskStatus.todo(),
-    milestoneId: 'milestone-1',
+    itemId: ItemId(id),
+    title: ItemTitle('テスト タスク'),
+    description: ItemDescription('これはテストタスクです'),
+    deadline: ItemDeadline(DateTime(2026, 3, 1)),
+    status: TaskStatus.todo,
+    milestoneId: ItemId('milestone-1'),
   );
 
   @override
@@ -45,12 +45,12 @@ void main() {
   group('TaskEditPage Tests', () {
     testWidgets('displays task edit form', (WidgetTester tester) async {
       final testTask = Task(
-        id: TaskId('test-task-1'),
-        title: TaskTitle('テスト タスク'),
-        description: TaskDescription('これはテストタスクです'),
-        deadline: TaskDeadline(DateTime(2026, 3, 1)),
-        status: TaskStatus.todo(),
-        milestoneId: 'milestone-1',
+        itemId: ItemId('test-task-1'),
+        title: ItemTitle('テスト タスク'),
+        description: ItemDescription('これはテストタスクです'),
+        deadline: ItemDeadline(DateTime(2026, 3, 1)),
+        status: TaskStatus.todo,
+        milestoneId: ItemId('milestone-1'),
       );
 
       await tester.pumpWidget(
@@ -102,12 +102,12 @@ void main() {
               (ref) async => await Future.delayed(
                 const Duration(seconds: 1),
                 () => Task(
-                  id: TaskId('test-task-1'),
-                  title: TaskTitle('テスト タスク'),
-                  description: TaskDescription('これはテストタスクです'),
-                  deadline: TaskDeadline(DateTime(2026, 3, 1)),
-                  status: TaskStatus.todo(),
-                  milestoneId: 'milestone-1',
+                  itemId: ItemId('test-task-1'),
+                  title: ItemTitle('テスト タスク'),
+                  description: ItemDescription('これはテストタスクです'),
+                  deadline: ItemDeadline(DateTime(2026, 3, 1)),
+                  status: TaskStatus.todo,
+                  milestoneId: ItemId('milestone-1'),
                 ),
               ),
             ),

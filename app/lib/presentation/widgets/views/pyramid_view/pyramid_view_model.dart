@@ -14,11 +14,6 @@ class PyramidViewModel extends StateNotifier<PyramidPageState> {
       expandedMilestones: {...current, milestoneId: !isExpanded},
     );
   }
-
-  /// マイルストーンが展開中かを確認
-  bool isMilestoneExpanded(String milestoneId) {
-    return state.expandedMilestones[milestoneId] ?? false;
-  }
 }
 
 /// PyramidViewModelProvider

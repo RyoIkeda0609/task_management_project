@@ -53,7 +53,7 @@ void main() {
 
       // 必須フィールドが表示されているか
       expect(find.text('ゴール名（最終目標）'), findsOneWidget);
-      expect(find.text('説明・理由'), findsOneWidget);
+      expect(find.text('説明・理由（任意）'), findsOneWidget);
       expect(find.text('カテゴリー'), findsOneWidget);
       expect(find.text('達成予定日'), findsOneWidget);
     });

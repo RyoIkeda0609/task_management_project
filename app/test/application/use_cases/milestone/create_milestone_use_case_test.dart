@@ -3,12 +3,12 @@ import 'package:app/application/use_cases/milestone/create_milestone_use_case.da
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
-import 'package:app/domain/repositories/milestone_repository.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
+import 'package:app/domain/repositories/milestone_repository.dart';
 
 /// MockGoalRepository
 class MockGoalRepository implements GoalRepository {
@@ -19,7 +19,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.id.value == id);
+      _goals.removeWhere((g) => g.itemId.value == id);
 
   @override
   Future<int> getGoalCount() async => _goals.length;
@@ -30,7 +30,7 @@ class MockGoalRepository implements GoalRepository {
   @override
   Future<Goal?> getGoalById(String id) async {
     try {
-      return _goals.firstWhere((g) => g.id.value == id);
+      return _goals.firstWhere((g) => g.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -38,7 +38,7 @@ class MockGoalRepository implements GoalRepository {
 
   @override
   Future<void> saveGoal(Goal goal) async {
-    final index = _goals.indexWhere((g) => g.id.value == goal.id.value);
+    final index = _goals.indexWhere((g) => g.itemId.value == goal.itemId.value);
     if (index >= 0) {
       _goals[index] = goal;
     } else {
@@ -56,7 +56,7 @@ class MockMilestoneRepository implements MilestoneRepository {
   @override
   Future<Milestone?> getMilestoneById(String id) async {
     try {
-      return _milestones.firstWhere((m) => m.id.value == id);
+      return _milestones.firstWhere((m) => m.itemId.value == id);
     } catch (_) {
       return null;
     }
@@ -64,7 +64,7 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
-      _milestones.where((m) => m.goalId == goalId).toList();
+      _milestones.where((m) => m.goalId.value == goalId).toList();
 
   @override
   Future<void> saveMilestone(Milestone milestone) async =>
@@ -72,11 +72,11 @@ class MockMilestoneRepository implements MilestoneRepository {
 
   @override
   Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.id.value == id);
+      _milestones.removeWhere((m) => m.itemId.value == id);
 
   @override
   Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId == goalId);
+      _milestones.removeWhere((m) => m.goalId.value == goalId);
 
   @override
   Future<int> getMilestoneCount() async => _milestones.length;
@@ -99,11 +99,11 @@ void main() {
       // Pre-populate goal-123 for tests
       mockGoalRepository.saveGoal(
         Goal(
-          id: GoalId('goal-123'),
-          title: GoalTitle('テスト用ゴール'),
+          itemId: ItemId('goal-123'),
+          title: ItemTitle('テスト用ゴール'),
           category: GoalCategory('ビジネス'),
-          reason: GoalReason('テスト'),
-          deadline: GoalDeadline(DateTime(2026, 12, 31)),
+          description: ItemDescription('テスト'),
+          deadline: ItemDeadline(DateTime(2026, 12, 31)),
         ),
       );
     });
@@ -115,13 +115,14 @@ void main() {
 
         final milestone = await useCase.call(
           title: 'フロントエンド構築',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
 
         expect(milestone.title.value, 'フロントエンド構築');
         expect(milestone.deadline.value.day, tomorrow.day);
-        expect(milestone.goalId, goalId);
+        expect(milestone.goalId.value, goalId);
       });
 
       test('ID は一意に生成されること', () async {
@@ -130,17 +131,19 @@ void main() {
 
         final milestone1 = await useCase.call(
           title: 'マイルストーン1',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
 
         final milestone2 = await useCase.call(
           title: 'マイルストーン2',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
 
-        expect(milestone1.id, isNot(equals(milestone2.id)));
+        expect(milestone1.itemId, isNot(equals(milestone2.itemId)));
       });
 
       test('無効なタイトル（101文字以上）でエラーが発生すること', () async {
@@ -151,6 +154,7 @@ void main() {
         expect(
           () => useCase.call(
             title: invalidTitle,
+            description: '',
             deadline: tomorrow,
             goalId: goalId,
           ),
@@ -163,8 +167,12 @@ void main() {
         const goalId = 'goal-123';
 
         expect(
-          () =>
-              useCase.call(title: 'タイトル', deadline: yesterday, goalId: goalId),
+          () => useCase.call(
+            title: 'タイトル',
+            description: '',
+            deadline: yesterday,
+            goalId: goalId,
+          ),
           returnsNormally,
         );
       });
@@ -174,7 +182,12 @@ void main() {
         const goalId = 'goal-123';
 
         expect(
-          () => useCase.call(title: '   ', deadline: tomorrow, goalId: goalId),
+          () => useCase.call(
+            title: '   ',
+            description: '',
+            deadline: tomorrow,
+            goalId: goalId,
+          ),
           throwsArgumentError,
         );
       });
@@ -183,7 +196,12 @@ void main() {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
 
         expect(
-          () => useCase.call(title: 'タイトル', deadline: tomorrow, goalId: ''),
+          () => useCase.call(
+            title: 'タイトル',
+            description: '',
+            deadline: tomorrow,
+            goalId: '',
+          ),
           throwsArgumentError,
         );
       });
@@ -194,6 +212,7 @@ void main() {
 
         final milestone = await useCase.call(
           title: 'a',
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );
@@ -208,6 +227,7 @@ void main() {
 
         final milestone = await useCase.call(
           title: maxTitle,
+          description: '',
           deadline: tomorrow,
           goalId: goalId,
         );

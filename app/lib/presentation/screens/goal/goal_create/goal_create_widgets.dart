@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../domain/value_objects/goal/goal_category.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -7,6 +8,8 @@ import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import '../../../navigation/app_router.dart';
 import 'goal_create_view_model.dart';
+import 'goal_create_state.dart';
+import '../../../utils/date_formatter.dart';
 
 class GoalCreateFormWidget extends ConsumerWidget {
   final VoidCallback onSubmit;
@@ -17,56 +20,61 @@ class GoalCreateFormWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(goalCreateViewModelProvider);
     final viewModel = ref.read(goalCreateViewModelProvider.notifier);
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ゴール名
-            Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              hintText: '○○大学に合格する、会社を辞めて独立するなど',
-              initialValue: state.title,
-              maxLength: 100,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // 説明・理由
-            Text('説明・理由', style: AppTextStyles.labelLarge),
-            CustomTextField(
-              hintText:
-                  '・なぜこのゴールを達成したいのか\n・ゴールを達成するモチベーションは何か\n・達成したらどんな良いことがあるかなど',
-              initialValue: state.reason,
-              maxLength: 100,
-              multiline: true,
-              onChanged: viewModel.updateReason,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // カテゴリー
-            _GoalCategoryDropdown(
-              selectedCategory: state.selectedCategory,
-              categories: state.categories,
-              onChanged: viewModel.updateCategory,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // 達成予定日
-            _GoalDeadlineSelector(
-              selectedDeadline: state.deadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.xxxLarge),
-
-            // アクションボタン
-            _GoalCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
-          ],
+          children: _buildFormFields(state, viewModel),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(
+    GoalCreatePageState state,
+    GoalCreateViewModel viewModel,
+  ) {
+    return [
+      // ゴール名
+      Text('ゴール名（最終目標）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: '○○大学に合格する、会社を辞めて独立するなど',
+        initialValue: state.title,
+        maxLength: 100,
+        onChanged: viewModel.updateTitle,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // 説明・理由
+      Text('説明・理由（任意）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: '・なぜこのゴールを達成したいのか\n・ゴールを達成するモチベーションは何か\n・達成したらどんな良いことがあるかなど',
+        initialValue: state.description,
+        maxLength: 500,
+        multiline: true,
+        onChanged: viewModel.updateDescription,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // カテゴリー
+      _GoalCategoryDropdown(
+        selectedCategory: state.selectedCategory,
+        categories: kGoalCategories,
+        onChanged: viewModel.updateCategory,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // 達成予定日
+      _GoalDeadlineSelector(
+        selectedDeadline: state.deadline,
+        onDeadlineSelected: viewModel.updateDeadline,
+      ),
+      SizedBox(height: Spacing.xxxLarge),
+
+      // アクションボタン
+      _GoalCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
+    ];
   }
 }
 
@@ -136,7 +144,7 @@ class _GoalDeadlineSelector extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _formatDate(selectedDeadline),
+                  DateFormatter.toJapaneseDate(selectedDeadline),
                   style: AppTextStyles.bodyMedium,
                 ),
                 Icon(Icons.calendar_today, color: AppColors.primary),
@@ -164,10 +172,6 @@ class _GoalDeadlineSelector extends StatelessWidget {
     if (picked != null) {
       onDeadlineSelected(picked);
     }
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
   }
 }
 

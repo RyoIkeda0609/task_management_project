@@ -53,18 +53,4 @@ class GoalDetailPageState {
   bool get isNotFound => viewState == GoalDetailViewState.notFound;
   bool get hasData => viewState == GoalDetailViewState.data && goal != null;
   bool get isError => viewState == GoalDetailViewState.error;
-
-  // ========== 手術2-3: 表示用の整形文言 ==========
-  String get formattedDeadline {
-    if (goal?.deadline == null) return '期限未設定';
-    try {
-      final dt = goal!.deadline.value;
-      return '${dt.year}年${dt.month}月${dt.day}日';
-    } catch (e) {
-      return '期限未設定';
-    }
-  }
-
-  String get categoryLabel => goal?.category.value ?? 'Unknown';
-  String get reasonLabel => goal?.reason.value ?? '';
 }

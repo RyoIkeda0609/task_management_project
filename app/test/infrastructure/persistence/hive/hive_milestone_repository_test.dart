@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/infrastructure/persistence/hive/hive_milestone_repository.dart';
 import 'package:app/domain/entities/milestone.dart';
-import 'package:app/domain/value_objects/milestone/milestone_id.dart';
-import 'package:app/domain/value_objects/milestone/milestone_title.dart';
-import 'package:app/domain/value_objects/milestone/milestone_deadline.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
   group('HiveMilestoneRepository', () {
@@ -23,36 +24,33 @@ void main() {
       test('マイルストーンを保存して取得できること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Q1計画'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: 'goal-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('Q1計画'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('goal-123'),
         );
 
         // Contract: Repository は saveMilestone と getMilestoneById で CRUD をサポート
-        expect(milestone.id.value, isNotNull);
+        expect(milestone.itemId.value, isNotNull);
         expect(milestone.title.value, 'Q1計画');
       });
 
       test('複数のマイルストーンを保存して全件取得できること', () async {
         // Arrange
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: 'goal-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('goal-123'),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
-          goalId: 'goal-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
+          goalId: ItemId('goal-123'),
         );
 
         // Contract: Repository は複数マイルストーン管理と getAllMilestones をサポート
@@ -62,16 +60,15 @@ void main() {
       test('ID でマイルストーンを検索できること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('検索対象'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: 'goal-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('検索対象'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('goal-123'),
         );
 
         // Contract: Repository は getMilestoneById で ID 検索をサポート
-        expect(milestone.id.value, isNotNull);
+        expect(milestone.itemId.value, isNotNull);
       });
 
       test('存在しないマイルストーン ID で null が返されること', () async {
@@ -87,28 +84,25 @@ void main() {
         const goalId2 = 'goal-2';
 
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal1-MS1'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal1-MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId1),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal1-MS2'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
-          goalId: goalId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal1-MS2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
+          goalId: ItemId(goalId1),
         );
         final ms3 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal2-MS1'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal2-MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId2),
         );
 
         // Contract: Repository は getMilestonesByGoalId でゴール ID フィルタリングをサポート
@@ -121,20 +115,18 @@ void main() {
         const goalId2 = 'goal-2';
 
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal1-MS'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal1-MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId1),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal2-MS'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal2-MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId2),
         );
 
         // Contract: Repository は複数ゴールの MS を独立して管理
@@ -151,16 +143,15 @@ void main() {
       test('マイルストーン ID で削除できること', () async {
         // Arrange
         final milestone = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('削除対象'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: 'goal-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('削除対象'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('goal-123'),
         );
 
         // Contract: Repository は deleteMilestone で削除をサポート
-        expect(milestone.id.value, isNotNull);
+        expect(milestone.itemId.value, isNotNull);
       });
 
       test('ゴール ID でマイルストーンを一括削除できること', () async {
@@ -168,20 +159,18 @@ void main() {
         const goalId = 'goal-123';
 
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
-          goalId: goalId,
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
+          goalId: ItemId(goalId),
         );
 
         // Contract: Repository は deleteMilestonesByGoalId で一括削除をサポート
@@ -194,20 +183,18 @@ void main() {
         const goalId2 = 'goal-2';
 
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal1-MS'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId1,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal1-MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId1),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('Goal2-MS'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: goalId2,
+          itemId: ItemId.generate(),
+          title: ItemTitle('Goal2-MS'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId(goalId2),
         );
 
         // Contract: Repository は削除が他のゴールに影響しないことを保証
@@ -219,20 +206,18 @@ void main() {
       test('マイルストーン数を正確にカウントできること', () async {
         // Arrange
         final ms1 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS1'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 90)),
-          ),
-          goalId: 'goal-123',
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS1'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 90))),
+          goalId: ItemId('goal-123'),
         );
         final ms2 = Milestone(
-          id: MilestoneId.generate(),
-          title: MilestoneTitle('MS2'),
-          deadline: MilestoneDeadline(
-            DateTime.now().add(const Duration(days: 180)),
-          ),
-          goalId: 'goal-456',
+          itemId: ItemId.generate(),
+          title: ItemTitle('MS2'),
+          description: ItemDescription(''),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 180))),
+          goalId: ItemId('goal-456'),
         );
 
         // Contract: Repository は getMilestoneCount でカウント取得をサポート

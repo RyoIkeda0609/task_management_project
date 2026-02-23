@@ -7,10 +7,12 @@ import 'package:app/application/use_cases/goal/delete_goal_use_case.dart';
 import 'package:app/application/use_cases/goal/search_goals_use_case.dart';
 import 'package:app/application/use_cases/milestone/create_milestone_use_case.dart';
 import 'package:app/application/use_cases/milestone/get_milestones_by_goal_id_use_case.dart';
+import 'package:app/application/use_cases/milestone/get_milestone_by_id_use_case.dart';
 import 'package:app/application/use_cases/milestone/update_milestone_use_case.dart';
 import 'package:app/application/use_cases/milestone/delete_milestone_use_case.dart';
 import 'package:app/application/use_cases/task/create_task_use_case.dart';
 import 'package:app/application/use_cases/task/get_tasks_by_milestone_id_use_case.dart';
+import 'package:app/application/use_cases/task/get_task_by_id_use_case.dart';
 import 'package:app/application/use_cases/task/update_task_use_case.dart';
 import 'package:app/application/use_cases/task/delete_task_use_case.dart';
 import 'package:app/application/use_cases/task/change_task_status_use_case.dart';
@@ -21,9 +23,7 @@ import 'package:app/application/use_cases/progress/calculate_progress_use_case.d
 import 'package:app/domain/services/goal_completion_service.dart';
 import 'package:app/domain/services/milestone_completion_service.dart';
 import 'package:app/domain/services/task_completion_service.dart';
-import 'package:app/presentation/state_management/providers/repository_providers.dart';
-
-import 'package:app/application/app_service_facade.dart';
+import 'package:app/application/providers/repository_providers.dart';
 
 // ==================== Domain Service Providers ====================
 
@@ -104,6 +104,13 @@ final getMilestonesByGoalIdUseCaseProvider =
       );
     });
 
+/// GetMilestoneByIdUseCase Provider
+final getMilestoneByIdUseCaseProvider = Provider<GetMilestoneByIdUseCase>((
+  ref,
+) {
+  return GetMilestoneByIdUseCaseImpl(ref.watch(milestoneRepositoryProvider));
+});
+
 /// UpdateMilestoneUseCase Provider
 final updateMilestoneUseCaseProvider = Provider<UpdateMilestoneUseCase>((ref) {
   return UpdateMilestoneUseCaseImpl(
@@ -137,6 +144,11 @@ final getTasksByMilestoneIdUseCaseProvider =
         ref.watch(taskRepositoryProvider),
       );
     });
+
+/// GetTaskByIdUseCase Provider
+final getTaskByIdUseCaseProvider = Provider<GetTaskByIdUseCase>((ref) {
+  return GetTaskByIdUseCaseImpl(ref.watch(taskRepositoryProvider));
+});
 
 /// UpdateTaskUseCase Provider
 final updateTaskUseCaseProvider = Provider<UpdateTaskUseCase>((ref) {
@@ -180,40 +192,3 @@ final getTasksGroupedByStatusUseCaseProvider =
     Provider<GetTasksGroupedByStatusUseCase>((ref) {
       return GetTasksGroupedByStatusUseCaseImpl();
     });
-
-// ==================== Application Service Facade Provider ====================
-
-/// AppServiceFacade Provider
-/// Presentation層がすべてのUseCaseにアクセスするための単一エントリーポイント
-final appServiceFacadeProvider = Provider<AppServiceFacade>((ref) {
-  return AppServiceFacade(
-    // Goal UseCases
-    createGoalUseCase: ref.watch(createGoalUseCaseProvider),
-    deleteGoalUseCase: ref.watch(deleteGoalUseCaseProvider),
-    getAllGoalsUseCase: ref.watch(getAllGoalsUseCaseProvider),
-    getGoalByIdUseCase: ref.watch(getGoalByIdUseCaseProvider),
-    searchGoalsUseCase: ref.watch(searchGoalsUseCaseProvider),
-    updateGoalUseCase: ref.watch(updateGoalUseCaseProvider),
-    // Milestone UseCases
-    createMilestoneUseCase: ref.watch(createMilestoneUseCaseProvider),
-    deleteMilestoneUseCase: ref.watch(deleteMilestoneUseCaseProvider),
-    getMilestonesByGoalIdUseCase: ref.watch(
-      getMilestonesByGoalIdUseCaseProvider,
-    ),
-    updateMilestoneUseCase: ref.watch(updateMilestoneUseCaseProvider),
-    // Task UseCases
-    changeTaskStatusUseCase: ref.watch(changeTaskStatusUseCaseProvider),
-    createTaskUseCase: ref.watch(createTaskUseCaseProvider),
-    deleteTaskUseCase: ref.watch(deleteTaskUseCaseProvider),
-    getAllTasksTodayUseCase: ref.watch(getAllTasksTodayUseCaseProvider),
-    getTasksByMilestoneIdUseCase: ref.watch(
-      getTasksByMilestoneIdUseCaseProvider,
-    ),
-    getTasksGroupedByStatusUseCase: ref.watch(
-      getTasksGroupedByStatusUseCaseProvider,
-    ),
-    updateTaskUseCase: ref.watch(updateTaskUseCaseProvider),
-    // Progress UseCases
-    calculateProgressUseCase: ref.watch(calculateProgressUseCaseProvider),
-  );
-});

@@ -22,13 +22,26 @@ class OnboardingPageState {
   }
 
   /// ページ数
-  static const int totalPages = 2;
+  static const int totalPages = 5;
 
   /// 最後のページかどうか
   bool get isLastPage => currentPageIndex == totalPages - 1;
 
-  /// ボタンテキスト：最後のページなら「開始する」、それ以外は「次へ」
-  String get buttonText => isLastPage ? '開始する' : '次へ';
+  /// ボタンの表示テキスト
+  String get buttonText => isLastPage ? 'さあ、始めよう！' : '次へ';
+
+  /// copyWith
+  OnboardingPageState copyWith({
+    int? currentPageIndex,
+    bool? isCompleted,
+    String? errorMessage,
+  }) {
+    return OnboardingPageState(
+      currentPageIndex: currentPageIndex ?? this.currentPageIndex,
+      isCompleted: isCompleted ?? this.isCompleted,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 
   /// 次のページへ遷移（またはページの最後なら完了）
   OnboardingPageState nextPageOrComplete() {

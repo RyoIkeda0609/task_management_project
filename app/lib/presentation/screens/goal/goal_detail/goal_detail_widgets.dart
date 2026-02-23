@@ -9,54 +9,114 @@ import '../../../widgets/common/empty_state.dart';
 import '../../../navigation/app_router.dart';
 import '../../../../domain/entities/goal.dart';
 import '../../../../domain/entities/milestone.dart';
+import '../../../utils/date_formatter.dart';
 
-class GoalDetailHeaderWidget extends StatelessWidget {
+class GoalDetailHeaderWidget extends ConsumerWidget {
   final Goal goal;
+  final String goalId;
 
-  const GoalDetailHeaderWidget({super.key, required this.goal});
+  const GoalDetailHeaderWidget({
+    super.key,
+    required this.goal,
+    required this.goalId,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progressAsync = ref.watch(goalProgressProvider(goalId));
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(goal.title.value, style: AppTextStyles.headlineMedium),
+        SizedBox(height: Spacing.small),
+        _buildDeadlineRow(),
+        SizedBox(height: Spacing.medium),
+        progressAsync.when(
+          data: (progress) =>
+              _GoalProgressSection(progressValue: progress.value),
+          loading: () => const SizedBox.shrink(),
+          error: (_, _) => const SizedBox.shrink(),
+        ),
+        SizedBox(height: Spacing.medium),
+        _buildDescriptionSection(),
+      ],
+    );
+  }
+
+  Widget _buildDeadlineRow() {
+    return Row(
+      children: [
+        Text(
+          '達成予定日: ${DateFormatter.toJapaneseDate(goal.deadline.value)}',
+          style: AppTextStyles.bodyMedium,
+        ),
+        SizedBox(width: Spacing.medium),
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: Spacing.small,
+            vertical: Spacing.xSmall,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            goal.category.value,
+            style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDescriptionSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('説明・理由', style: AppTextStyles.labelLarge),
+        SizedBox(height: Spacing.xSmall),
+        Text(goal.description.value, style: AppTextStyles.bodyMedium),
+      ],
+    );
+  }
+}
+
+/// ゴールの進捗バーと進捗率を表示するウィジェット
+class _GoalProgressSection extends StatelessWidget {
+  final int progressValue;
+
+  const _GoalProgressSection({required this.progressValue});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(goal.title.value, style: AppTextStyles.headlineMedium),
-        SizedBox(height: Spacing.small),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text('進捗', style: AppTextStyles.labelLarge),
             Text(
-              '達成予定日: ${_formatDate(goal.deadline.value)}',
-              style: AppTextStyles.bodyMedium,
-            ),
-            SizedBox(width: Spacing.medium),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: Spacing.small,
-                vertical: Spacing.xSmall,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                goal.category.value,
-                style: AppTextStyles.labelSmall.copyWith(
-                  color: AppColors.primary,
-                ),
+              '$progressValue%',
+              style: AppTextStyles.labelLarge.copyWith(
+                color: AppColors.primary,
               ),
             ),
           ],
         ),
-        SizedBox(height: Spacing.medium),
-        Text('説明・理由', style: AppTextStyles.labelLarge),
         SizedBox(height: Spacing.xSmall),
-        Text(goal.reason.value, style: AppTextStyles.bodyMedium),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: LinearProgressIndicator(
+            value: progressValue / 100,
+            minHeight: 8,
+            backgroundColor: AppColors.neutral300,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
       ],
     );
-  }
-
-  String _formatDate(DateTime deadline) {
-    return '${deadline.year}年${deadline.month}月${deadline.day}日';
   }
 }
 
@@ -109,7 +169,7 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
               milestone: milestone,
               goalId: goalId,
               milestoneTasks: ref.watch(
-                tasksByMilestoneProvider(milestone.id.value),
+                tasksByMilestoneProvider(milestone.itemId.value),
               ),
             );
           },

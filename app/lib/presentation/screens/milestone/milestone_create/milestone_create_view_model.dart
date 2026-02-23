@@ -3,10 +3,18 @@ import 'milestone_create_state.dart';
 
 class MilestoneCreateViewModel extends StateNotifier<MilestoneCreatePageState> {
   MilestoneCreateViewModel()
-    : super(MilestoneCreatePageState(deadline: DateTime.now()));
+    : super(
+        MilestoneCreatePageState(
+          deadline: DateTime.now().add(const Duration(days: 1)),
+        ),
+      );
 
   void updateTitle(String title) {
     state = state.copyWith(title: title);
+  }
+
+  void updateDescription(String description) {
+    state = state.copyWith(description: description);
   }
 
   void updateDeadline(DateTime deadline) {
@@ -19,7 +27,9 @@ class MilestoneCreateViewModel extends StateNotifier<MilestoneCreatePageState> {
 
   /// フォームをリセット
   void resetForm() {
-    state = MilestoneCreatePageState(deadline: DateTime.now());
+    state = MilestoneCreatePageState(
+      deadline: DateTime.now().add(const Duration(days: 1)),
+    );
   }
 }
 

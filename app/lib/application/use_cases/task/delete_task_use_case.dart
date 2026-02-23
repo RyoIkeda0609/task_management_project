@@ -17,13 +17,11 @@ class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
       throw ArgumentError('タスクIDが正しくありません');
     }
 
-    // Load
     final task = await _taskRepository.getTaskById(taskId);
     if (task == null) {
       throw ArgumentError('対象のタスクが見つかりません');
     }
 
-    // Execute
     await _taskRepository.deleteTask(taskId);
   }
 }

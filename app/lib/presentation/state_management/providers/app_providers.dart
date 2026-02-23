@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 
 // ======================== Providers のエクスポート ========================
 // Repository Providers
@@ -19,14 +20,34 @@ export 'state_notifier_providers.dart'
         todayTasksProvider,
         taskDetailProvider,
         todayTasksGroupedProvider,
-        goalProgressProvider;
+        tasksByGoalProvider,
+        goalProgressProvider,
+        selectedDateProvider,
+        tasksBySelectedDateGroupedProvider;
 
 /// ======================== Onboarding / Initialization Providers ========================
 
-/// オンボーディング完了フラグを管理
+/// オンボーディング設定用 Hive Box Provider
+///
+/// main.dart で overrideWithValue されるため、ダミー値で初期化
+final onboardingSettingsBoxProvider = Provider<Box<bool>>((ref) {
+  throw UnimplementedError('onboardingSettingsBoxProvider must be overridden');
+});
+
+/// オンボーディング完了フラグ用の Hive キー
+const String _onboardingKey = 'onboarding_complete';
+
+/// オンボーディング完了フラグを管理（Hive で永続化）
 ///
 /// 初回起動時にオンボーディング画面を表示するかどうかを制御します。
+/// 値が変更されると Hive に自動保存されます。
 final onboardingCompleteProvider = StateProvider<bool>((ref) => false);
+
+/// オンボーディング完了フラグを Hive に保存するヘルパー
+void persistOnboardingComplete(Ref ref, bool value) {
+  final box = ref.read(onboardingSettingsBoxProvider);
+  box.put(_onboardingKey, value);
+}
 
 /// アプリケーション初期化処理を提供
 ///

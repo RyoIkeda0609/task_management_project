@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../domain/entities/task.dart';
+import '../../../../domain/value_objects/task/task_status.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -167,46 +168,53 @@ class CalendarDayCell extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(date),
       child: Container(
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary
-              : isToday
-              ? AppColors.primaryLight
-              : AppColors.neutral100,
-          border: Border.all(
-            color: isToday ? AppColors.warning : AppColors.neutral200,
-            width: isToday ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(4),
-        ),
+        decoration: _buildDecoration(),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                date.day.toString(),
-                style: AppTextStyles.labelMedium.copyWith(
-                  color: isSelected
-                      ? AppColors.neutral100
-                      : AppColors.neutral900,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              if (taskCount > 0)
-                Padding(
-                  padding: EdgeInsets.only(top: Spacing.xSmall),
-                  child: Text(
-                    '$taskCount',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: isSelected
-                          ? AppColors.neutral100
-                          : AppColors.primary,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+              _buildDayText(),
+              if (taskCount > 0) _buildTaskCountBadge(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration _buildDecoration() {
+    return BoxDecoration(
+      color: isSelected
+          ? AppColors.primary
+          : isToday
+          ? AppColors.primaryLight
+          : AppColors.neutral100,
+      border: Border.all(
+        color: isToday ? AppColors.warning : AppColors.neutral200,
+        width: isToday ? 2 : 1,
+      ),
+      borderRadius: BorderRadius.circular(4),
+    );
+  }
+
+  Widget _buildDayText() {
+    return Text(
+      date.day.toString(),
+      style: AppTextStyles.labelMedium.copyWith(
+        color: isSelected ? AppColors.neutral100 : AppColors.neutral900,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  Widget _buildTaskCountBadge() {
+    return Padding(
+      padding: EdgeInsets.only(top: Spacing.xSmall),
+      child: Text(
+        '$taskCount',
+        style: AppTextStyles.bodySmall.copyWith(
+          color: isSelected ? AppColors.neutral100 : AppColors.primary,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
@@ -264,58 +272,61 @@ class CalendarTaskList extends StatelessWidget {
 /// カレンダーのタスク項目
 class CalendarTaskItem extends StatelessWidget {
   final Task task;
+  final VoidCallback? onTap;
 
-  const CalendarTaskItem({super.key, required this.task});
+  const CalendarTaskItem({super.key, required this.task, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(bottom: Spacing.small),
       child: InkWell(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.id.value),
+        onTap:
+            onTap ??
+            () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
         borderRadius: BorderRadius.circular(4),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  _buildStatusIcon(task.status),
-                  SizedBox(width: Spacing.small),
-                  Expanded(
-                    child: Text(
-                      task.title.value,
-                      style: AppTextStyles.bodyMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: Spacing.xSmall),
-              Text(
-                task.description.value,
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.neutral600,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+          child: _buildContent(),
         ),
       ),
     );
   }
 
-  Widget _buildStatusIcon(dynamic status) {
-    final statusValue = status is String ? status : (status as dynamic).value;
-    final (color, icon) = switch (statusValue) {
-      'todo' => (AppColors.neutral500, Icons.radio_button_unchecked),
-      'doing' => (AppColors.warning, Icons.schedule),
-      'done' => (AppColors.success, Icons.check_circle),
-      _ => (AppColors.neutral500, Icons.radio_button_unchecked),
+  Widget _buildContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            _buildStatusIcon(task.status),
+            SizedBox(width: Spacing.small),
+            Expanded(
+              child: Text(
+                task.title.value,
+                style: AppTextStyles.bodyMedium,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Spacing.xSmall),
+        Text(
+          task.description.value,
+          style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatusIcon(TaskStatus status) {
+    final (color, icon) = switch (status) {
+      TaskStatus.todo => (AppColors.neutral500, Icons.radio_button_unchecked),
+      TaskStatus.doing => (AppColors.warning, Icons.schedule),
+      TaskStatus.done => (AppColors.success, Icons.check_circle),
     };
 
     return Icon(icon, color: color, size: 20);

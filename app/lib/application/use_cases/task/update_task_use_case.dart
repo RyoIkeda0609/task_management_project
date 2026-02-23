@@ -1,9 +1,9 @@
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
 import 'package:app/domain/services/task_completion_service.dart';
-import 'package:app/domain/value_objects/task/task_deadline.dart';
-import 'package:app/domain/value_objects/task/task_description.dart';
-import 'package:app/domain/value_objects/task/task_title.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 /// UpdateTaskUseCase - タスクを更新する
 abstract class UpdateTaskUseCase {
@@ -29,39 +29,29 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     required String description,
     required DateTime deadline,
   }) async {
-    // Load
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
       throw ArgumentError('対象のタスクが見つかりません');
     }
 
-    // Check if task is completed (Done) - if so, cannot be edited
     if (await _taskCompletionService.isTaskCompleted(taskId)) {
       throw ArgumentError('完了したタスクは更新できません');
     }
 
-    // Validate
-    final taskTitle = TaskTitle(title);
+    final itemTitle = ItemTitle(title);
+    final itemDescription = ItemDescription(description);
 
-    // Description: 任意フィールド、空文字許容、ただし500文字制限
-    if (description.trim().isNotEmpty && description.length > 500) {
-      throw ArgumentError('説明は500文字以下で入力してください');
-    }
-    final taskDescription = TaskDescription(description);
+    final itemDeadline = ItemDeadline(deadline);
 
-    final taskDeadline = TaskDeadline(deadline);
-
-    // Execute
     final updatedTask = Task(
-      id: existingTask.id,
-      title: taskTitle,
-      description: taskDescription,
-      deadline: taskDeadline,
+      itemId: existingTask.itemId,
+      title: itemTitle,
+      description: itemDescription,
+      deadline: itemDeadline,
       status: existingTask.status,
       milestoneId: existingTask.milestoneId,
     );
 
-    // Save
     await _taskRepository.saveTask(updatedTask);
 
     return updatedTask;

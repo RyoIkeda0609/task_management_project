@@ -26,8 +26,15 @@ class OnboardingViewModel extends StateNotifier<OnboardingPageState> {
       state = state.nextPageOrComplete();
 
       if (state.isCompleted) {
-        // オンボーディング完了フラグを保存
+        // オンボーディング完了フラグを保存（メモリ）
         _ref.read(onboardingCompleteProvider.notifier).state = true;
+        // オンボーディング完了フラグを Hive に永続化
+        try {
+          final box = _ref.read(onboardingSettingsBoxProvider);
+          box.put('onboarding_complete', true);
+        } catch (_) {
+          // Hive Box が未初期化の場合は無視（テスト時など）
+        }
       }
     } catch (e) {
       state = OnboardingPageState(

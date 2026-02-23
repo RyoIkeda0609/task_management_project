@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
 import '../../navigation/app_router.dart';
+import '../../state_management/providers/app_providers.dart';
 import 'splash_view_model.dart';
 import 'splash_widgets.dart';
 
@@ -53,8 +54,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   ///
   /// オンボーディング完了フラグを確認して遷移先を決定
   void _onInitializationComplete() {
-    final viewModel = ref.read(splashViewModelProvider.notifier);
-    final isOnboardingComplete = viewModel.isOnboardingComplete();
+    final isOnboardingComplete = ref.read(onboardingCompleteProvider);
 
     AppRouter.navigateFromSplash(context, isOnboardingComplete);
   }

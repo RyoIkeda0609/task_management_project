@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
-import '../../theme/app_text_styles.dart';
 import '../../widgets/common/empty_state.dart';
-import '../../widgets/views/pyramid_view/goal_pyramid_view.dart';
-import '../../widgets/views/calendar_view/calendar_view.dart';
 import '../../widgets/views/list_view/list_view.dart';
 import 'home_state.dart';
+import 'home_view_model.dart';
 
 // ============ AppBar ============
 
-/// ホーム画面の AppBar（TabBar 付き）
+/// ホーム画面の AppBar（タブなし）
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 48);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +21,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text('ゴール管理'),
       backgroundColor: AppColors.neutral100,
       elevation: 0,
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(48),
-        child: _HomeTabBar(),
-      ),
-    );
-  }
-}
-
-/// ホーム画面の TabBar
-class _HomeTabBar extends StatelessWidget {
-  const _HomeTabBar();
-
-  @override
-  Widget build(BuildContext context) {
-    return TabBar(
-      labelStyle: AppTextStyles.labelMedium,
-      unselectedLabelStyle: AppTextStyles.labelSmall,
-      labelColor: AppColors.primary,
-      unselectedLabelColor: AppColors.neutral600,
-      dividerColor: AppColors.neutral200,
-      tabs: const [
-        Tab(icon: Icon(Icons.list), child: Text('リスト')),
-        Tab(icon: Icon(Icons.account_tree), child: Text('ピラミッド')),
-        Tab(icon: Icon(Icons.calendar_today), child: Text('カレンダー')),
-      ],
     );
   }
 }
@@ -62,16 +35,6 @@ class GoalEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-      children: [
-        _buildEmptyTab(onCreatePressed),
-        _buildEmptyTab(onCreatePressed),
-        _buildEmptyTab(onCreatePressed),
-      ],
-    );
-  }
-
-  Widget _buildEmptyTab(VoidCallback onCreatePressed) {
     return EmptyState(
       icon: Icons.flag_outlined,
       title: 'ゴールがまだありません',
@@ -95,12 +58,6 @@ class GoalErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TabBarView(
-      children: [_buildErrorTab(), _buildErrorTab(), _buildErrorTab()],
-    );
-  }
-
-  Widget _buildErrorTab() {
     return EmptyState(
       icon: Icons.inbox_outlined,
       title: 'ゴールを読み込めませんでした',
@@ -126,12 +83,93 @@ class HomeContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TabBarView(
+    return Column(
       children: [
-        GoalListView(goals: state.goals, onCreatePressed: onCreatePressed),
-        GoalPyramidView(goals: state.goals),
-        CalendarView(goals: state.goals),
+        _FilterAndSortRow(state: state, ref: ref),
+        Expanded(
+          child: GoalListView(
+            goals: state.sortedGoals,
+            onCreatePressed: onCreatePressed,
+          ),
+        ),
       ],
     );
+  }
+}
+
+/// フィルターチップ + ソートドロップダウンを1行に並べるウィジェット
+class _FilterAndSortRow extends StatelessWidget {
+  final HomePageState state;
+  final WidgetRef ref;
+
+  const _FilterAndSortRow({required this.state, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          _buildChip(
+            label: '進行中',
+            isSelected: state.filter == HomeGoalFilter.active,
+            onSelected: () => ref
+                .read(homeViewModelProvider.notifier)
+                .toggleFilter(HomeGoalFilter.active),
+          ),
+          const SizedBox(width: 8),
+          _buildChip(
+            label: '完了',
+            isSelected: state.filter == HomeGoalFilter.completed,
+            onSelected: () => ref
+                .read(homeViewModelProvider.notifier)
+                .toggleFilter(HomeGoalFilter.completed),
+          ),
+          const Spacer(),
+          const Icon(Icons.sort, size: 18, color: AppColors.neutral600),
+          const SizedBox(width: 4),
+          DropdownButton<HomeGoalSort>(
+            value: state.sort,
+            underline: const SizedBox.shrink(),
+            isDense: true,
+            style: TextStyle(fontSize: 13, color: AppColors.neutral600),
+            items: HomeGoalSort.values.map((sortOption) {
+              return DropdownMenuItem<HomeGoalSort>(
+                value: sortOption,
+                child: Text(_sortOptionLabel(sortOption)),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(homeViewModelProvider.notifier).changeSort(value);
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChip({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onSelected,
+  }) {
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (_) => onSelected(),
+      selectedColor: AppColors.primary.withValues(alpha: 0.2),
+      checkmarkColor: AppColors.primary,
+    );
+  }
+
+  String _sortOptionLabel(HomeGoalSort sort) {
+    return switch (sort) {
+      HomeGoalSort.deadlineAsc => '期限が近い順',
+      HomeGoalSort.progressDesc => '進捗の良い順',
+      HomeGoalSort.progressAsc => '進捗の悪い順',
+      HomeGoalSort.category => 'カテゴリ別',
+    };
   }
 }

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_colors.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
@@ -23,49 +25,37 @@ class TaskEditPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final taskAsync = ref.watch(taskDetailProvider(taskId));
 
-    return taskAsync.when(
-      data: (task) => _buildForm(context, ref, task),
-      loading: () => Scaffold(
-        appBar: CustomAppBar(
-          title: 'タスクを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: 'タスクを編集',
+        hasLeading: true,
+        onLeadingPressed: () => context.pop(),
       ),
-      error: (error, stackTrace) => Scaffold(
-        appBar: CustomAppBar(
-          title: 'タスクを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
+      body: taskAsync.when(
+        data: (task) => _buildBody(context, ref, task),
+        loading: () => const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
         ),
-        body: Center(
-          child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-        ),
+        error: (error, stackTrace) =>
+            Center(child: Text('エラーが発生しました', style: AppTextStyles.titleMedium)),
       ),
     );
   }
 
-  Widget _buildForm(BuildContext context, WidgetRef ref, Task? task) {
+  Widget _buildBody(BuildContext context, WidgetRef ref, Task? task) {
     if (task == null) {
-      return Scaffold(
-        appBar: CustomAppBar(
-          title: 'タスクを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
-          child: Text('タスクが見つかりません', style: AppTextStyles.titleMedium),
-        ),
+      return Center(
+        child: Text('タスクが見つかりません', style: AppTextStyles.titleMedium),
       );
     }
 
-    // ViewModelを初期化 - ID が変わった場合のみ
-    final viewModel = ref.read(taskEditViewModelProvider.notifier);
     final state = ref.watch(taskEditViewModelProvider);
+    final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
-    if (state.taskId != taskId) {
-      Future.microtask(() {
+    if (!state.isInitialized) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.initializeWithTask(
           taskId: taskId,
           title: task.title.value,
@@ -75,19 +65,18 @@ class TaskEditPage extends ConsumerWidget {
       });
     }
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'タスクを編集',
-        hasLeading: true,
-        onLeadingPressed: () => context.pop(),
-      ),
-      body: TaskEditFormWidget(
-        taskId: taskId,
-        onSubmit: () => _submitForm(context, ref, task),
-        taskTitle: task.title.value,
-        taskDescription: task.description.value,
-        taskDeadline: task.deadline.value,
-      ),
+    return TaskEditFormWidget(
+      taskId: taskId,
+      title: state.isInitialized ? state.title : task.title.value,
+      description: state.isInitialized
+          ? state.description
+          : task.description.value,
+      deadline: state.isInitialized ? state.deadline : task.deadline.value,
+      isLoading: state.isLoading,
+      onTitleChanged: viewModel.updateTitle,
+      onDescriptionChanged: viewModel.updateDescription,
+      onDeadlineSelected: viewModel.updateDeadline,
+      onSubmit: () => _submitForm(context, ref, task),
     );
   }
 
@@ -100,19 +89,14 @@ class TaskEditPage extends ConsumerWidget {
     final viewModel = ref.read(taskEditViewModelProvider.notifier);
 
     // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
-    final dateErrors = [
-      ValidationHelper.validateDateNotInPast(state.deadline, fieldName: '期限'),
-    ];
+    // 仕様：期限は明日以降のみ許可
+    final dateError = ValidationHelper.validateDateAfterToday(
+      state.deadline,
+      fieldName: '期限',
+    );
 
-    if (dateErrors.any((error) => error != null)) {
-      await DialogHelper.showValidationErrorDialog(
-        context,
-        message: dateErrors.firstWhere((error) => error != null)!,
-      );
-      return;
-    }
-
-    if (!ValidationHelper.validateAll(context, dateErrors)) {
+    if (dateError != null) {
+      await DialogHelper.showValidationErrorDialog(context, message: dateError);
       return;
     }
 
@@ -131,10 +115,11 @@ class TaskEditPage extends ConsumerWidget {
       // キャッシュを無効化
       if (context.mounted) {
         ref.invalidate(taskDetailProvider(taskId));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
+        ref.invalidate(homeViewModelProvider);
       }
 
       if (context.mounted) {
@@ -150,7 +135,7 @@ class TaskEditPage extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'タスク更新エラー',

@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../theme/app_text_styles.dart';
+import '../../../theme/app_colors.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/goal.dart';
@@ -23,71 +25,54 @@ class GoalEditPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final goalAsync = ref.watch(goalDetailProvider(goalId));
 
-    return goalAsync.when(
-      data: (goal) => _buildForm(context, ref, goal),
-      loading: () => Scaffold(
-        appBar: CustomAppBar(
-          title: 'ゴールを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: const Center(child: CircularProgressIndicator()),
-      ),
-      error: (error, stackTrace) => Scaffold(
-        appBar: CustomAppBar(
-          title: 'ゴールを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
-          child: Text('エラーが発生しました', style: AppTextStyles.titleMedium),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildForm(BuildContext context, WidgetRef ref, Goal? goal) {
-    if (goal == null) {
-      return Scaffold(
-        appBar: CustomAppBar(
-          title: 'ゴールを編集',
-          hasLeading: true,
-          onLeadingPressed: () => context.pop(),
-        ),
-        body: Center(
-          child: Text('ゴールが見つかりません', style: AppTextStyles.titleMedium),
-        ),
-      );
-    }
-
-    // ViewModelを初期化 - ID が変わった場合のみ
-    final viewModel = ref.read(goalEditViewModelProvider.notifier);
-    final state = ref.watch(goalEditViewModelProvider);
-
-    if (state.goalId != goalId) {
-      viewModel.initializeWithGoal(
-        goalId: goalId,
-        title: goal.title.value,
-        reason: goal.reason.value,
-        category: goal.category.value,
-        deadline: goal.deadline.value,
-      );
-    }
-
     return Scaffold(
       appBar: CustomAppBar(
         title: 'ゴールを編集',
         hasLeading: true,
         onLeadingPressed: () => context.pop(),
       ),
-      body: GoalEditFormWidget(
-        onSubmit: () => _submitForm(context, ref),
-        goalId: goalId,
-        goalTitle: goal.title.value,
-        goalReason: goal.reason.value,
-        goalCategory: goal.category.value,
-        goalDeadline: goal.deadline.value,
+      body: goalAsync.when(
+        data: (goal) => _buildBody(context, ref, goal),
+        loading: () => const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
+        ),
+        error: (error, stackTrace) =>
+            Center(child: Text('エラーが発生しました', style: AppTextStyles.titleMedium)),
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, WidgetRef ref, Goal? goal) {
+    if (goal == null) {
+      return Center(
+        child: Text('ゴールが見つかりません', style: AppTextStyles.titleMedium),
+      );
+    }
+
+    final state = ref.watch(goalEditViewModelProvider);
+    final viewModelNotifier = ref.read(goalEditViewModelProvider.notifier);
+
+    if (state.goalId != goalId) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        viewModelNotifier.initializeWithGoal(
+          goalId: goalId,
+          title: goal.title.value,
+          description: goal.description.value,
+          category: goal.category.value,
+          deadline: goal.deadline.value,
+        );
+      });
+    }
+
+    return GoalEditFormWidget(
+      onSubmit: () => _submitForm(context, ref),
+      goalId: goalId,
+      goalTitle: goal.title.value,
+      goalReason: goal.description.value,
+      goalCategory: goal.category.value,
+      goalDeadline: goal.deadline.value,
     );
   }
 
@@ -115,7 +100,7 @@ class GoalEditPage extends ConsumerWidget {
       await updateGoalUseCase(
         goalId: goalId,
         title: state.title,
-        reason: state.reason,
+        description: state.description,
         category: state.category,
         deadline: state.deadline,
       );
@@ -123,6 +108,8 @@ class GoalEditPage extends ConsumerWidget {
       // プロバイダーキャッシュを無効化して新しいデータを取得させる
       ref.invalidate(goalDetailProvider(goalId));
       ref.invalidate(milestonesByGoalProvider(goalId));
+      ref.invalidate(goalsProvider);
+      ref.invalidate(homeViewModelProvider);
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(
@@ -137,7 +124,7 @@ class GoalEditPage extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'ゴール更新エラー',

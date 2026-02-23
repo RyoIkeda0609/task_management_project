@@ -7,6 +7,8 @@ import '../../../theme/app_theme.dart';
 import '../../../widgets/common/custom_button.dart';
 import '../../../widgets/common/custom_text_field.dart';
 import 'milestone_create_view_model.dart';
+import 'milestone_create_state.dart';
+import '../../../utils/date_formatter.dart';
 
 class MilestoneCreateFormWidget extends ConsumerWidget {
   final String goalId;
@@ -22,37 +24,51 @@ class MilestoneCreateFormWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(milestoneCreateViewModelProvider);
     final viewModel = ref.read(milestoneCreateViewModelProvider.notifier);
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(Spacing.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // マイルストーン名
-            Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
-            _MilestoneCreateTitleField(
-              title: state.title,
-              onChanged: viewModel.updateTitle,
-            ),
-            SizedBox(height: Spacing.large),
-
-            // 目標日時
-            _MilestoneCreateDeadlineField(
-              selectedDeadline: state.deadline,
-              onDeadlineSelected: viewModel.updateDeadline,
-            ),
-            SizedBox(height: Spacing.xxxLarge),
-
-            // アクションボタン
-            _MilestoneCreateActions(
-              onSubmit: onSubmit,
-              isLoading: state.isLoading,
-            ),
-          ],
+          children: _buildFormFields(state, viewModel),
         ),
       ),
     );
+  }
+
+  List<Widget> _buildFormFields(
+    MilestoneCreatePageState state,
+    MilestoneCreateViewModel viewModel,
+  ) {
+    return [
+      // マイルストーン名
+      Text('マイルストーン名（中間目標）', style: AppTextStyles.labelLarge),
+      _MilestoneCreateTitleField(
+        title: state.title,
+        onChanged: viewModel.updateTitle,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // 説明（任意）
+      Text('説明（任意）', style: AppTextStyles.labelLarge),
+      CustomTextField(
+        hintText: 'このマイルストーンの詳細や達成基準など（500文字以内）',
+        initialValue: state.description,
+        maxLength: 500,
+        multiline: true,
+        onChanged: viewModel.updateDescription,
+      ),
+      SizedBox(height: Spacing.large),
+
+      // 目標日時
+      _MilestoneCreateDeadlineField(
+        selectedDeadline: state.deadline,
+        onDeadlineSelected: viewModel.updateDeadline,
+      ),
+      SizedBox(height: Spacing.xxxLarge),
+
+      // アクションボタン
+      _MilestoneCreateActions(onSubmit: onSubmit, isLoading: state.isLoading),
+    ];
   }
 }
 
@@ -106,7 +122,7 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
                 SizedBox(width: Spacing.small),
                 Expanded(
                   child: Text(
-                    _formatDate(selectedDeadline),
+                    DateFormatter.toJapaneseDate(selectedDeadline),
                     style: AppTextStyles.bodyMedium,
                   ),
                 ),
@@ -134,10 +150,6 @@ class _MilestoneCreateDeadlineField extends StatelessWidget {
     if (picked != null) {
       onDeadlineSelected(picked);
     }
-  }
-
-  String _formatDate(DateTime date) {
-    return '${date.year}年${date.month}月${date.day}日';
   }
 }
 

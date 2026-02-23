@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/domain/value_objects/task/task_status.dart';
 
 /// アプリケーション全体で使用する色定義
 ///
@@ -103,12 +104,11 @@ class AppColors {
   }
 
   /// タスク状態から色を取得
-  static Color getStatusColor(String status) {
+  static Color getStatusColor(TaskStatus status) {
     return switch (status) {
-      'done' => success,
-      'doing' => warning,
-      'todo' => neutral500,
-      _ => neutral500,
+      TaskStatus.done => success,
+      TaskStatus.doing => warning,
+      TaskStatus.todo => neutral500,
     };
   }
 

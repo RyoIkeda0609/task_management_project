@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -7,6 +8,7 @@ import '../../../widgets/common/app_bar_common.dart';
 import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
@@ -25,10 +27,17 @@ class TaskDetailPage extends ConsumerWidget {
   final String taskId;
   final String source;
 
+  /// マイルストーン経由で開いた場合に渡されるパラメータ。
+  /// ルートから直接取得することで非同期解決を不要にする。
+  final String? goalId;
+  final String? milestoneId;
+
   const TaskDetailPage({
     super.key,
     required this.taskId,
     this.source = 'today_tasks',
+    this.goalId,
+    this.milestoneId,
   });
 
   @override
@@ -40,59 +49,67 @@ class TaskDetailPage extends ConsumerWidget {
         title: 'タスク詳細',
         hasLeading: true,
         backgroundColor: AppColors.neutral100,
-        onLeadingPressed: () => Navigator.of(context).pop(),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => taskAsync.whenData((task) {
-              if (task != null) {
-                if (source == 'milestone') {
-                  // milestone から起動された場合は milestoneId から goalId を取得
-                  final milestoneDetailAsync = ref.read(
-                    milestoneDetailProvider(task.milestoneId),
-                  );
-                  milestoneDetailAsync.whenData((milestone) {
-                    if (milestone != null) {
-                      AppRouter.navigateToTaskEditFromMilestone(
-                        context,
-                        milestone.goalId,
-                        task.milestoneId,
-                        taskId,
-                      );
-                    }
-                  });
-                } else {
-                  AppRouter.navigateToTaskEditFromTodayTasks(context, taskId);
-                }
-              }
-            }),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () => taskAsync.whenData((task) {
-              if (task != null) {
-                _showDeleteConfirmation(context, ref, task);
-              }
-            }),
-          ),
-        ],
+        onLeadingPressed: () => context.pop(),
+        actions: _buildAppBarActions(context, ref, taskAsync),
       ),
-      body: taskAsync.when(
-        data: (task) => _Body(
-          state: TaskDetailPageState.withData(task),
-          source: source,
-          taskId: taskId,
-        ),
-        loading: () => _Body(
-          state: TaskDetailPageState.loading(),
-          source: source,
-          taskId: taskId,
-        ),
-        error: (error, stackTrace) => _Body(
-          state: TaskDetailPageState.withError(error.toString()),
-          source: source,
-          taskId: taskId,
-        ),
+      body: _buildBody(taskAsync),
+    );
+  }
+
+  List<Widget> _buildAppBarActions(
+    BuildContext context,
+    WidgetRef ref,
+    AsyncValue<Task?> taskAsync,
+  ) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.edit),
+        onPressed: () => taskAsync.whenData((task) {
+          if (task != null) {
+            _navigateToEdit(context, task);
+          }
+        }),
+      ),
+      IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: () => taskAsync.whenData((task) {
+          if (task != null) {
+            _showDeleteConfirmation(context, ref, task);
+          }
+        }),
+      ),
+    ];
+  }
+
+  void _navigateToEdit(BuildContext context, Task task) {
+    if (source == 'milestone' && goalId != null && milestoneId != null) {
+      AppRouter.navigateToTaskEditFromMilestone(
+        context,
+        goalId ?? '',
+        milestoneId ?? '',
+        taskId,
+      );
+    } else {
+      AppRouter.navigateToTaskEditFromTodayTasks(context, taskId);
+    }
+  }
+
+  Widget _buildBody(AsyncValue<Task?> taskAsync) {
+    return taskAsync.when(
+      data: (task) => _Body(
+        state: TaskDetailPageState.withData(task),
+        source: source,
+        taskId: taskId,
+      ),
+      loading: () => _Body(
+        state: TaskDetailPageState.loading(),
+        source: source,
+        taskId: taskId,
+      ),
+      error: (error, stackTrace) => _Body(
+        state: TaskDetailPageState.withError(error.toString()),
+        source: source,
+        taskId: taskId,
       ),
     );
   }
@@ -115,10 +132,11 @@ class TaskDetailPage extends ConsumerWidget {
 
         // Provider キャッシュを無効化
         ref.invalidate(taskDetailProvider(taskId));
-        ref.invalidate(tasksByMilestoneProvider(task.milestoneId));
+        ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
+        ref.invalidate(homeViewModelProvider);
 
         if (context.mounted) {
           await ValidationHelper.showSuccess(
@@ -128,11 +146,11 @@ class TaskDetailPage extends ConsumerWidget {
           );
         }
         if (context.mounted) {
-          Navigator.of(context).pop();
+          context.pop();
         }
       } catch (e) {
         if (context.mounted) {
-          await ValidationHelper.handleException(
+          await ValidationHelper.showExceptionError(
             context,
             e,
             customTitle: 'タスク削除エラー',

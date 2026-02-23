@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/presentation/screens/home/home_state.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/value_objects/goal/goal_id.dart';
-import 'package:app/domain/value_objects/goal/goal_title.dart';
-import 'package:app/domain/value_objects/goal/goal_deadline.dart';
 import 'package:app/domain/value_objects/goal/goal_category.dart';
-import 'package:app/domain/value_objects/goal/goal_reason.dart';
+import 'package:app/domain/value_objects/item/item_id.dart';
+import 'package:app/domain/value_objects/item/item_title.dart';
+import 'package:app/domain/value_objects/item/item_description.dart';
+import 'package:app/domain/value_objects/item/item_deadline.dart';
 
 void main() {
   group('HomePageState', () {
@@ -23,11 +23,11 @@ void main() {
     test('データが入ると hasData が true', () {
       final goals = [
         Goal(
-          id: GoalId.generate(),
-          title: GoalTitle('テストゴール'),
+          itemId: ItemId.generate(),
+          title: ItemTitle('テストゴール'),
           category: GoalCategory('学習'),
-          reason: GoalReason('能力向上'),
-          deadline: GoalDeadline(DateTime.now().add(const Duration(days: 30))),
+          description: ItemDescription('能力向上'),
+          deadline: ItemDeadline(DateTime.now().add(const Duration(days: 30))),
         ),
       ];
 
@@ -54,7 +54,7 @@ void main() {
 
     test('タブインデックスが更新される', () {
       final state = HomePageState.initial();
-      final updated = state.updateTabIndex(2);
+      final updated = state.copyWith(selectedTabIndex: 2);
 
       expect(updated.selectedTabIndex, 2);
       expect(state.selectedTabIndex, 0); // 元の state は変わらない

@@ -33,7 +33,7 @@ class DialogHelper {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(cancelText),
+            child: Text(okText),
           ),
         ],
       ),
