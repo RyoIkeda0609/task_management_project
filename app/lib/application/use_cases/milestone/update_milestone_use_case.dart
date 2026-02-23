@@ -32,7 +32,6 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
     required String description,
     required DateTime deadline,
   }) async {
-    // Load
     final existingMilestone = await _milestoneRepository.getMilestoneById(
       milestoneId,
     );
@@ -40,17 +39,14 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
       throw ArgumentError('対象のマイルストーンが見つかりません');
     }
 
-    // Check if milestone is completed (100%) - if so, cannot be edited
     if (await _milestoneCompletionService.isMilestoneCompleted(milestoneId)) {
       throw ArgumentError('完了したマイルストーンは更新できません');
     }
 
-    // Validate
     final itemTitle = ItemTitle(title);
     final itemDescription = ItemDescription(description);
     final itemDeadline = ItemDeadline(deadline);
 
-    // Execute
     final updatedMilestone = Milestone(
       itemId: existingMilestone.itemId,
       title: itemTitle,
@@ -59,7 +55,6 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
       goalId: existingMilestone.goalId,
     );
 
-    // Save
     await _milestoneRepository.saveMilestone(updatedMilestone);
 
     return updatedMilestone;

@@ -28,6 +28,14 @@ class SplashPageState {
     );
   }
 
+  /// copyWith
+  SplashPageState copyWith({SplashState? state, String? errorMessage}) {
+    return SplashPageState(
+      state: state ?? this.state,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+
   bool get isLoading => state == SplashState.loading;
   bool get isCompleted => state == SplashState.completed;
   bool get isError => state == SplashState.error;

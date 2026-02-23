@@ -32,7 +32,6 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
     required String description,
     required DateTime deadline,
   }) async {
-    // Load
     final existingGoal = await _goalRepository.getGoalById(goalId);
     if (existingGoal == null) {
       throw ArgumentError('対象のゴールが見つかりません');
@@ -42,13 +41,11 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
       throw ArgumentError('完了したゴールは更新できません');
     }
 
-    // Validate
     final itemTitle = ItemTitle(title);
     final goalCategory = GoalCategory(category);
     final itemDescription = ItemDescription(description);
     final itemDeadline = ItemDeadline(deadline);
 
-    // Execute
     final updatedGoal = Goal(
       itemId: existingGoal.itemId,
       title: itemTitle,
@@ -57,7 +54,6 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
       deadline: itemDeadline,
     );
 
-    // Save
     await _goalRepository.saveGoal(updatedGoal);
 
     return updatedGoal;

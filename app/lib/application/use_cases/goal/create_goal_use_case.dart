@@ -29,13 +29,11 @@ class CreateGoalUseCaseImpl implements CreateGoalUseCase {
     required String description,
     required DateTime deadline,
   }) async {
-    // Validate
     final itemTitle = ItemTitle(title);
     final goalCategory = GoalCategory(category);
     final itemDescription = ItemDescription(description);
     final itemDeadline = ItemDeadline(deadline);
 
-    // Execute
     final goal = Goal(
       itemId: ItemId.generate(),
       title: itemTitle,
@@ -44,7 +42,6 @@ class CreateGoalUseCaseImpl implements CreateGoalUseCase {
       deadline: itemDeadline,
     );
 
-    // Save
     await _goalRepository.saveGoal(goal);
 
     return goal;

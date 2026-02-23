@@ -17,15 +17,12 @@ class GoalCompletionService {
   /// マイルストーンが存在しない場合は完了していないと判定
   /// すべてのマイルストーンの全タスクが完了した場合に 100% と判定
   Future<bool> isGoalCompleted(String goalId) async {
-    // 指定ゴールのマイルストーンを取得
     final milestones = await _milestoneRepository.getMilestonesByGoalId(goalId);
 
     if (milestones.isEmpty) {
-      // マイルストーンが存在しない場合は完了していない
       return false;
     }
 
-    // 各マイルストーンの完了状況を確認
     int completedMilestoneCount = 0;
 
     for (final milestone in milestones) {
@@ -34,18 +31,15 @@ class GoalCompletionService {
       );
 
       if (tasks.isEmpty) {
-        // タスクが0個のマイルストーン：完了していないと判定
         continue;
       }
 
-      // すべてのタスクが完了しているかを確認
       final allTasksDone = tasks.every((task) => task.status.isDone);
       if (allTasksDone) {
         completedMilestoneCount++;
       }
     }
 
-    // すべてのマイルストーンが完了 = ゴール完了（100%）
     return completedMilestoneCount == milestones.length;
   }
 
@@ -64,11 +58,9 @@ class GoalCompletionService {
       );
 
       if (tasks.isEmpty) {
-        // タスクなしのマイルストーンは 0%
         continue;
       }
 
-      // タスク進捗の平均を計算
       final taskProgresses = tasks
           .map((task) => task.getProgress().value)
           .toList();

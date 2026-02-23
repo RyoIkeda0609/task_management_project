@@ -126,7 +126,7 @@ class MilestoneEditPage extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'マイルストーン更新エラー',

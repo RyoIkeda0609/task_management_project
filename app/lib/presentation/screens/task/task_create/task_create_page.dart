@@ -1,12 +1,12 @@
 import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../../navigation/app_router.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
+import 'task_create_state.dart';
 import 'task_create_widgets.dart';
 import 'task_create_view_model.dart';
 
@@ -52,8 +52,6 @@ class TaskCreatePage extends ConsumerWidget {
       )).notifier,
     );
 
-    // バリデーション（日付のみ - Domain層でテキスト長は検証済み）
-    // 仕様：期限は明日以降のみ許可
     final dateError = ValidationHelper.validateDateAfterToday(
       state.deadline,
       fieldName: '期限',
@@ -67,42 +65,54 @@ class TaskCreatePage extends ConsumerWidget {
     viewModel.setLoading(true);
 
     try {
-      final createTaskUseCase = ref.read(createTaskUseCaseProvider);
-
-      await createTaskUseCase(
-        title: state.title,
-        description: state.description,
-        deadline: state.deadline,
-        milestoneId: milestoneId,
-      );
-
-      // tasksByMilestoneProvider のキャッシュを無効化
-      ref.invalidate(tasksByMilestoneProvider(milestoneId));
-
-      if (context.mounted) {
-        await ValidationHelper.showSuccess(
-          context,
-          title: 'タスク作成完了',
-          message: 'タスク「${state.title}」を作成しました。',
-        );
-
-        if (context.mounted) {
-          // フォームをリセット
-          viewModel.resetForm();
-          // マイルストーン詳細画面に戻る
-          context.go('/home/goal/$goalId/milestone/$milestoneId');
-        }
-      }
+      await _executeCreate(ref, state);
+      if (!context.mounted) return;
+      await _onCreateSuccess(context, ref, viewModel, state);
     } catch (e) {
-      if (context.mounted) {
-        await ValidationHelper.handleException(
-          context,
-          e,
-          customTitle: 'タスク作成エラー',
-          customMessage: 'タスクの作成に失敗しました。',
-        );
-        viewModel.setLoading(false);
-      }
+      if (!context.mounted) return;
+      await _onCreateError(context, e, viewModel);
     }
+  }
+
+  Future<void> _executeCreate(WidgetRef ref, TaskCreatePageState state) async {
+    final createTaskUseCase = ref.read(createTaskUseCaseProvider);
+    await createTaskUseCase(
+      title: state.title,
+      description: state.description,
+      deadline: state.deadline,
+      milestoneId: milestoneId,
+    );
+  }
+
+  Future<void> _onCreateSuccess(
+    BuildContext context,
+    WidgetRef ref,
+    TaskCreateViewModel viewModel,
+    TaskCreatePageState state,
+  ) async {
+    ref.invalidate(tasksByMilestoneProvider(milestoneId));
+    await ValidationHelper.showSuccess(
+      context,
+      title: 'タスク作成完了',
+      message: 'タスク「${state.title}」を作成しました。',
+    );
+
+    if (!context.mounted) return;
+    viewModel.resetForm();
+    AppRouter.navigateToMilestoneDetail(context, goalId, milestoneId);
+  }
+
+  Future<void> _onCreateError(
+    BuildContext context,
+    Object error,
+    TaskCreateViewModel viewModel,
+  ) async {
+    await ValidationHelper.showExceptionError(
+      context,
+      error,
+      customTitle: 'タスク作成エラー',
+      customMessage: 'タスクの作成に失敗しました。',
+    );
+    viewModel.setLoading(false);
   }
 }

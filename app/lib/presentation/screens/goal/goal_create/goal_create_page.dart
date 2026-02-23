@@ -75,7 +75,7 @@ class GoalCreatePage extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'ゴール作成エラー',

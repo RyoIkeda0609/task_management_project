@@ -140,7 +140,7 @@ class MilestoneDetailPage extends ConsumerWidget {
         }
       } catch (e) {
         if (context.mounted) {
-          await ValidationHelper.handleException(
+          await ValidationHelper.showExceptionError(
             context,
             e,
             customTitle: 'マイルストーン削除エラー',

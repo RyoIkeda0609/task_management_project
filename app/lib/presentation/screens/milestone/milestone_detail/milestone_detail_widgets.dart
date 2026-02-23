@@ -281,27 +281,9 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
             child: const Text('キャンセル'),
           ),
           TextButton(
-            onPressed: () async {
+            onPressed: () {
               Navigator.of(dialogContext).pop();
-              try {
-                final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
-                await deleteTaskUseCase(task.itemId.value);
-
-                // タスク一覧をリフレッシュ
-                ref.invalidate(tasksByMilestoneProvider(milestoneId));
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
-                }
-              }
+              _executeDeleteTask(context, ref, task);
             },
             child: Text(
               '削除',
@@ -311,6 +293,28 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _executeDeleteTask(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+  ) async {
+    try {
+      final deleteTaskUseCase = ref.read(deleteTaskUseCaseProvider);
+      await deleteTaskUseCase(task.itemId.value);
+      ref.invalidate(tasksByMilestoneProvider(milestoneId));
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('タスクを削除しました')));
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('削除に失敗しました: $e')));
+    }
   }
 
   Widget _buildErrorWidget(Object error) {

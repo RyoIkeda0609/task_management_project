@@ -58,69 +58,72 @@ class CustomButton extends StatelessWidget {
     this.isLoading = false,
   });
 
-  /// ボタンのスタイルを取得
   ButtonStyle _getButtonStyle() {
-    switch (type) {
-      case ButtonType.primary:
-        return FilledButton.styleFrom(
-          backgroundColor: isDisabled
-              ? AppColors.neutral300
-              : AppColors.primary,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.neutral300,
-          disabledForegroundColor: AppColors.neutral400,
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.medium,
-            vertical: Spacing.small,
-          ),
-          minimumSize: Size(width ?? double.infinity, height ?? 48),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        );
+    return switch (type) {
+      ButtonType.primary => _primaryStyle(),
+      ButtonType.secondary => _secondaryStyle(),
+      ButtonType.danger => _dangerStyle(),
+      ButtonType.text => _textStyle(),
+    };
+  }
 
-      case ButtonType.secondary:
-        return OutlinedButton.styleFrom(
-          foregroundColor: isDisabled
-              ? AppColors.neutral300
-              : AppColors.primary,
-          side: BorderSide(
-            color: isDisabled ? AppColors.neutral300 : AppColors.primary,
-            width: 1,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.medium,
-            vertical: Spacing.small,
-          ),
-          minimumSize: Size(width ?? double.infinity, height ?? 48),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        );
+  ButtonStyle _primaryStyle() {
+    return FilledButton.styleFrom(
+      backgroundColor: isDisabled ? AppColors.neutral300 : AppColors.primary,
+      foregroundColor: Colors.white,
+      disabledBackgroundColor: AppColors.neutral300,
+      disabledForegroundColor: AppColors.neutral400,
+      padding: _defaultPadding(),
+      minimumSize: Size(width ?? double.infinity, height ?? 48),
+      shape: _defaultShape(),
+    );
+  }
 
-      case ButtonType.danger:
-        return FilledButton.styleFrom(
-          backgroundColor: isDisabled ? AppColors.neutral300 : AppColors.error,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: AppColors.neutral300,
-          disabledForegroundColor: AppColors.neutral400,
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.medium,
-            vertical: Spacing.small,
-          ),
-          minimumSize: Size(width ?? double.infinity, height ?? 48),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        );
+  ButtonStyle _secondaryStyle() {
+    return OutlinedButton.styleFrom(
+      foregroundColor: isDisabled ? AppColors.neutral300 : AppColors.primary,
+      side: BorderSide(
+        color: isDisabled ? AppColors.neutral300 : AppColors.primary,
+      ),
+      padding: _defaultPadding(),
+      minimumSize: Size(width ?? double.infinity, height ?? 48),
+      shape: _defaultShape(),
+    );
+  }
 
-      case ButtonType.text:
-        return TextButton.styleFrom(
-          foregroundColor: isDisabled
-              ? AppColors.neutral300
-              : AppColors.primary,
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.small,
-            vertical: Spacing.xSmall,
-          ),
-          minimumSize: Size(width ?? 0, height ?? 36),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        );
-    }
+  ButtonStyle _dangerStyle() {
+    return FilledButton.styleFrom(
+      backgroundColor: isDisabled ? AppColors.neutral300 : AppColors.error,
+      foregroundColor: Colors.white,
+      disabledBackgroundColor: AppColors.neutral300,
+      disabledForegroundColor: AppColors.neutral400,
+      padding: _defaultPadding(),
+      minimumSize: Size(width ?? double.infinity, height ?? 48),
+      shape: _defaultShape(),
+    );
+  }
+
+  ButtonStyle _textStyle() {
+    return TextButton.styleFrom(
+      foregroundColor: isDisabled ? AppColors.neutral300 : AppColors.primary,
+      padding: EdgeInsets.symmetric(
+        horizontal: Spacing.small,
+        vertical: Spacing.xSmall,
+      ),
+      minimumSize: Size(width ?? 0, height ?? 36),
+      shape: _defaultShape(),
+    );
+  }
+
+  EdgeInsets _defaultPadding() {
+    return EdgeInsets.symmetric(
+      horizontal: Spacing.medium,
+      vertical: Spacing.small,
+    );
+  }
+
+  RoundedRectangleBorder _defaultShape() {
+    return RoundedRectangleBorder(borderRadius: BorderRadius.circular(8));
   }
 
   @override

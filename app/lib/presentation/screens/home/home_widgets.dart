@@ -4,6 +4,7 @@ import '../../theme/app_colors.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../widgets/views/list_view/list_view.dart';
 import 'home_state.dart';
+import 'home_view_model.dart';
 
 // ============ AppBar ============
 
@@ -82,6 +83,64 @@ class HomeContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GoalListView(goals: state.goals, onCreatePressed: onCreatePressed);
+    return Column(
+      children: [
+        HomeFilterChips(state: state, ref: ref),
+        Expanded(
+          child: GoalListView(
+            goals: state.sortedGoals,
+            onCreatePressed: onCreatePressed,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// ゴールフィルターチップ
+class HomeFilterChips extends StatelessWidget {
+  final HomePageState state;
+  final WidgetRef ref;
+
+  const HomeFilterChips({super.key, required this.state, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          _buildChip(
+            label: '活動中',
+            isSelected: state.filter == HomeGoalFilter.active,
+            onSelected: () => _onFilterSelected(HomeGoalFilter.active),
+          ),
+          const SizedBox(width: 8),
+          _buildChip(
+            label: '完了済み',
+            isSelected: state.filter == HomeGoalFilter.completed,
+            onSelected: () => _onFilterSelected(HomeGoalFilter.completed),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChip({
+    required String label,
+    required bool isSelected,
+    required VoidCallback onSelected,
+  }) {
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (_) => onSelected(),
+      selectedColor: AppColors.primary.withValues(alpha: 0.2),
+      checkmarkColor: AppColors.primary,
+    );
+  }
+
+  void _onFilterSelected(HomeGoalFilter filter) {
+    ref.read(homeViewModelProvider.notifier).toggleFilter(filter);
   }
 }

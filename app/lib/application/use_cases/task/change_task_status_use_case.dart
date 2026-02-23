@@ -18,16 +18,12 @@ class ChangeTaskStatusUseCaseImpl implements ChangeTaskStatusUseCase {
       throw ArgumentError('タスクIDが正しくありません');
     }
 
-    // Load
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
       throw ArgumentError('対象のタスクが見つかりません');
     }
 
-    // Execute
     final updatedTask = existingTask.cycleStatus();
-
-    // Save
     await _taskRepository.saveTask(updatedTask);
 
     return updatedTask;

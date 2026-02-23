@@ -1,7 +1,6 @@
 import 'package:app/presentation/widgets/common/dialog_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../../navigation/app_router.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
@@ -74,13 +73,12 @@ class MilestoneCreatePage extends ConsumerWidget {
         if (context.mounted) {
           // フォームをリセット
           viewModel.resetForm();
-          // ゴール詳細画面に戻る
-          context.go('/home/goal/$goalId');
+          AppRouter.navigateToGoalDetail(context, goalId);
         }
       }
     } catch (e) {
       if (context.mounted) {
-        await ValidationHelper.handleException(
+        await ValidationHelper.showExceptionError(
           context,
           e,
           customTitle: 'マイルストーン作成エラー',

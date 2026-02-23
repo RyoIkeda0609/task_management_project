@@ -29,24 +29,20 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     required String description,
     required DateTime deadline,
   }) async {
-    // Load
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
       throw ArgumentError('対象のタスクが見つかりません');
     }
 
-    // Check if task is completed (Done) - if so, cannot be edited
     if (await _taskCompletionService.isTaskCompleted(taskId)) {
       throw ArgumentError('完了したタスクは更新できません');
     }
 
-    // Validate (ValueObjectのコンストラクタでバリデーション実行)
     final itemTitle = ItemTitle(title);
     final itemDescription = ItemDescription(description);
 
     final itemDeadline = ItemDeadline(deadline);
 
-    // Execute
     final updatedTask = Task(
       itemId: existingTask.itemId,
       title: itemTitle,
@@ -56,7 +52,6 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
       milestoneId: existingTask.milestoneId,
     );
 
-    // Save
     await _taskRepository.saveTask(updatedTask);
 
     return updatedTask;

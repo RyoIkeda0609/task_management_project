@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:app/domain/entities/goal.dart';
-import 'package:go_router/go_router.dart';
+import '../../../navigation/app_router.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
 import 'list_view_widgets.dart';
@@ -44,7 +44,6 @@ class GoalListView extends ConsumerWidget {
   }
 
   void _onGoalCardTapped(BuildContext context, Goal goal) {
-    // go_routerを使用してゴール詳細画面へナビゲート
-    context.go('/home/goal/${goal.itemId.value}');
+    AppRouter.navigateToGoalDetail(context, goal.itemId.value);
   }
 }

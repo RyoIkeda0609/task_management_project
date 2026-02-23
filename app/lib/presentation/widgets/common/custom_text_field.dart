@@ -144,9 +144,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
   }
 
-  InputDecoration _buildDecoration() {
-    const borderRadius = BorderRadius.all(Radius.circular(8));
+  static const _borderRadius = BorderRadius.all(Radius.circular(8));
 
+  InputDecoration _buildDecoration() {
     return InputDecoration(
       hintText: widget.hintText,
       prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
@@ -157,34 +157,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
         horizontal: Spacing.medium,
         vertical: Spacing.small,
       ),
-      border: const OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: AppColors.neutral200),
-      ),
-      enabledBorder: const OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: AppColors.neutral200),
-      ),
-      focusedBorder: const OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: AppColors.primary, width: 2),
-      ),
-      errorBorder: const OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: AppColors.error),
-      ),
-      focusedErrorBorder: const OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: AppColors.error, width: 2),
-      ),
-      disabledBorder: const OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: BorderSide(color: AppColors.neutral200),
-      ),
+      border: _buildBorder(AppColors.neutral200),
+      enabledBorder: _buildBorder(AppColors.neutral200),
+      focusedBorder: _buildBorder(AppColors.primary, width: 2),
+      errorBorder: _buildBorder(AppColors.error),
+      focusedErrorBorder: _buildBorder(AppColors.error, width: 2),
+      disabledBorder: _buildBorder(AppColors.neutral200),
       labelStyle: AppTextStyles.bodyMedium,
       hintStyle: AppTextStyles.hint,
       errorStyle: AppTextStyles.error,
       counterStyle: AppTextStyles.bodySmall,
+    );
+  }
+
+  OutlineInputBorder _buildBorder(Color color, {double width = 1}) {
+    return OutlineInputBorder(
+      borderRadius: _borderRadius,
+      borderSide: BorderSide(color: color, width: width),
     );
   }
 

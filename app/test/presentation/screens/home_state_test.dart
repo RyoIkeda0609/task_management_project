@@ -54,7 +54,7 @@ void main() {
 
     test('タブインデックスが更新される', () {
       final state = HomePageState.initial();
-      final updated = state.updateTabIndex(2);
+      final updated = state.copyWith(selectedTabIndex: 2);
 
       expect(updated.selectedTabIndex, 2);
       expect(state.selectedTabIndex, 0); // 元の state は変わらない

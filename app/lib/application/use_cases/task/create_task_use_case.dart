@@ -31,7 +31,6 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     required DateTime deadline,
     required String milestoneId,
   }) async {
-    // Validate (ValueObjectのコンストラクタでバリデーション実行)
     final itemTitle = ItemTitle(title);
     final itemDescription = ItemDescription(description);
 
@@ -41,13 +40,11 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
       throw ArgumentError('マイルストーンが正しくありません');
     }
 
-    // Check parent existence (Referential Integrity)
     final milestone = await _milestoneRepository.getMilestoneById(milestoneId);
     if (milestone == null) {
       throw ArgumentError('指定されたマイルストーンが見つかりません');
     }
 
-    // Execute
     final task = Task(
       itemId: ItemId.generate(),
       title: itemTitle,
@@ -57,7 +54,6 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
       milestoneId: ItemId(milestoneId),
     );
 
-    // Save
     await _taskRepository.saveTask(task);
 
     return task;

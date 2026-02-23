@@ -50,14 +50,14 @@ class AppRoutePaths {
   /// マイルストーン編集ルート
   static const String milestoneEdit = 'edit';
 
-  /// マイルストーン作成ルート
-  static const String milestoneCreate = '/milestone_create';
+  /// マイルストーン作成ルート（ゴール配下の相対パス）
+  static const String milestoneCreate = 'milestone_create';
 
-  /// タスク詳細ルート
-  static const String taskDetail = '/task_detail/:taskId';
+  /// タスク詳細ルート（マイルストーン配下の相対パス）
+  static const String taskDetail = 'task/:taskId';
 
-  /// タスク創作ルート
-  static const String taskCreate = '/task_create';
+  /// タスク作成ルート（マイルストーン配下の相対パス）
+  static const String taskCreate = 'task_create';
 
   /// スプラッシュ画面ルート
   static const String splash = '/';

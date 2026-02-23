@@ -178,11 +178,11 @@ class ValidationHelper {
   // 例外処理メソッド（統一UI）
   // ========================================
 
-  /// 例外をハンドルしてエラーダイアログを表示（統一UI）
+  /// 例外に応じたエラーダイアログを表示（統一UI）
   ///
   /// 既知の例外タイプ別にカスタムメッセージを表示します
   /// すべてのエラーダイアログは「エラーが発生しました」のタイトルで統一
-  static Future<void> handleException(
+  static Future<void> showExceptionError(
     BuildContext context,
     dynamic exception, {
     String? customTitle,

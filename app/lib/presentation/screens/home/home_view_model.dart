@@ -1,12 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:app/domain/entities/goal.dart';
 import 'home_state.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../../../application/providers/use_case_providers.dart';
 
 /// ホーム画面の ViewModel
 ///
 /// 責務：
 /// - ゴール一覧のロード
 /// - タブインデックスの管理
+/// - ゴールフィルターの管理
 /// - UI 状態の更新
 ///
 /// 禁止：
@@ -21,14 +24,17 @@ class HomeViewModel extends StateNotifier<HomePageState> {
   /// ゴール一覧を読み込む
   Future<void> loadGoals() async {
     try {
-      // goalsProvider をロードする
       await _ref.read(goalsProvider.notifier).loadGoals();
 
-      // ロード後、現在の状態を取得して更新
       final goalsAsync = _ref.read(goalsProvider);
-      goalsAsync.when(
-        data: (loadedGoals) {
-          state = HomePageState.withData(loadedGoals);
+      await goalsAsync.when(
+        data: (loadedGoals) async {
+          final progressMap = await _calculateProgressMap(loadedGoals);
+          state = HomePageState.withData(
+            loadedGoals,
+            goalProgressMap: progressMap,
+            filter: state.filter,
+          );
         },
         loading: () {
           state = HomePageState.initial();
@@ -42,9 +48,32 @@ class HomeViewModel extends StateNotifier<HomePageState> {
     }
   }
 
+  /// フィルターを切り替える
+  void toggleFilter(HomeGoalFilter filter) {
+    state = state.copyWith(filter: filter);
+  }
+
   /// タブを選択
   void selectTab(int tabIndex) {
-    state = state.updateTabIndex(tabIndex);
+    state = state.copyWith(selectedTabIndex: tabIndex);
+  }
+
+  /// 全ゴールの進捗率を計算
+  Future<Map<String, int>> _calculateProgressMap(List<Goal> goals) async {
+    final progressMap = <String, int>{};
+    final calculateProgress = _ref.read(calculateProgressUseCaseProvider);
+
+    for (final goal in goals) {
+      try {
+        final progress = await calculateProgress.calculateGoalProgress(
+          goal.itemId.value,
+        );
+        progressMap[goal.itemId.value] = progress.value;
+      } catch (_) {
+        progressMap[goal.itemId.value] = 0;
+      }
+    }
+    return progressMap;
   }
 }
 

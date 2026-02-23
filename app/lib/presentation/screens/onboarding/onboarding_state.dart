@@ -30,6 +30,19 @@ class OnboardingPageState {
   /// ボタンの表示テキスト
   String get buttonText => isLastPage ? 'さあ、始めよう！' : '次へ';
 
+  /// copyWith
+  OnboardingPageState copyWith({
+    int? currentPageIndex,
+    bool? isCompleted,
+    String? errorMessage,
+  }) {
+    return OnboardingPageState(
+      currentPageIndex: currentPageIndex ?? this.currentPageIndex,
+      isCompleted: isCompleted ?? this.isCompleted,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
+
   /// 次のページへ遷移（またはページの最後なら完了）
   OnboardingPageState nextPageOrComplete() {
     if (isLastPage) {

@@ -1,9 +1,9 @@
 import 'package:app/presentation/screens/home/home_state.dart';
-import 'package:app/presentation/state_management/providers/app_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../navigation/app_router.dart';
 import '../../theme/app_colors.dart';
+import 'home_view_model.dart';
 import 'home_widgets.dart';
 
 /// ホーム画面
@@ -24,23 +24,13 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalsAsync = ref.watch(goalsProvider);
+    final state = ref.watch(homeViewModelProvider);
 
     return Scaffold(
       appBar: const HomeAppBar(),
-      body: goalsAsync.when(
-        data: (goals) => _Body(
-          state: HomePageState.withData(goals),
-          onCreatePressed: () => _onCreateGoalPressed(context),
-        ),
-        loading: () => _Body(
-          state: HomePageState.initial(),
-          onCreatePressed: () => _onCreateGoalPressed(context),
-        ),
-        error: (error, stackTrace) => _Body(
-          state: HomePageState.withError(error.toString()),
-          onCreatePressed: () => _onCreateGoalPressed(context),
-        ),
+      body: _Body(
+        state: state,
+        onCreatePressed: () => _onCreateGoalPressed(context),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _onCreateGoalPressed(context),

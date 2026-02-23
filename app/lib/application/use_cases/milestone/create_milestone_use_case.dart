@@ -30,7 +30,6 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
     required DateTime deadline,
     required String goalId,
   }) async {
-    // Validate
     final itemTitle = ItemTitle(title);
     final itemDescription = ItemDescription(description);
     final itemDeadline = ItemDeadline(deadline);
@@ -39,13 +38,11 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
       throw ArgumentError('ゴールIDが正しくありません');
     }
 
-    // Check parent existence (Referential Integrity)
     final goal = await _goalRepository.getGoalById(goalId);
     if (goal == null) {
       throw ArgumentError('指定されたゴールが見つかりません');
     }
 
-    // Execute
     final milestone = Milestone(
       itemId: ItemId.generate(),
       title: itemTitle,
@@ -54,7 +51,6 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
       goalId: ItemId(goalId),
     );
 
-    // Save
     await _milestoneRepository.saveMilestone(milestone);
 
     return milestone;

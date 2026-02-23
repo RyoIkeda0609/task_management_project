@@ -25,27 +25,20 @@ class DeleteGoalUseCaseImpl implements DeleteGoalUseCase {
       throw ArgumentError('ゴールIDが正しくありません');
     }
 
-    // Load
     final goal = await _goalRepository.getGoalById(goalId);
     if (goal == null) {
       throw ArgumentError('対象のゴールが見つかりません');
     }
 
-    // Execute: カスケード削除 (Goal → Milestone → Task の順序で削除)
-    // 1. 削除対象のMilestoneをすべて取得
     final milestonesToDelete = await _milestoneRepository.getMilestonesByGoalId(
       goalId,
     );
 
-    // 2. 各MilestoneのIDでTaskをすべて削除
     for (final milestone in milestonesToDelete) {
       await _taskRepository.deleteTasksByMilestoneId(milestone.itemId.value);
     }
 
-    // 3. MilestoneをすべてGoalIDで削除
     await _milestoneRepository.deleteMilestonesByGoalId(goalId);
-
-    // 4. Goalを削除
     await _goalRepository.deleteGoal(goalId);
   }
 }
