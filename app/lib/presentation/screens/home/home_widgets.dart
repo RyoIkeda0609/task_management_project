@@ -86,9 +86,11 @@ class HomeContent extends ConsumerWidget {
     return Column(
       children: [
         HomeFilterChips(state: state, ref: ref),
+        HomeSortDropdown(state: state, ref: ref),
         Expanded(
           child: GoalListView(
             goals: state.sortedGoals,
+            sortLabel: state.sortLabel,
             onCreatePressed: onCreatePressed,
           ),
         ),
@@ -111,13 +113,13 @@ class HomeFilterChips extends StatelessWidget {
       child: Row(
         children: [
           _buildChip(
-            label: '活動中',
+            label: '進行中',
             isSelected: state.filter == HomeGoalFilter.active,
             onSelected: () => _onFilterSelected(HomeGoalFilter.active),
           ),
           const SizedBox(width: 8),
           _buildChip(
-            label: '完了済み',
+            label: '完了',
             isSelected: state.filter == HomeGoalFilter.completed,
             onSelected: () => _onFilterSelected(HomeGoalFilter.completed),
           ),
@@ -142,5 +144,51 @@ class HomeFilterChips extends StatelessWidget {
 
   void _onFilterSelected(HomeGoalFilter filter) {
     ref.read(homeViewModelProvider.notifier).toggleFilter(filter);
+  }
+}
+
+/// ゴールソートドロップダウン
+class HomeSortDropdown extends StatelessWidget {
+  final HomePageState state;
+  final WidgetRef ref;
+
+  const HomeSortDropdown({super.key, required this.state, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          const Icon(Icons.sort, size: 18, color: AppColors.neutral600),
+          const SizedBox(width: 4),
+          DropdownButton<HomeGoalSort>(
+            value: state.sort,
+            underline: const SizedBox.shrink(),
+            style: TextStyle(fontSize: 13, color: AppColors.neutral600),
+            items: HomeGoalSort.values.map((sortOption) {
+              return DropdownMenuItem<HomeGoalSort>(
+                value: sortOption,
+                child: Text(_sortOptionLabel(sortOption)),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(homeViewModelProvider.notifier).changeSort(value);
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _sortOptionLabel(HomeGoalSort sort) {
+    return switch (sort) {
+      HomeGoalSort.deadlineAsc => '期限が近い順',
+      HomeGoalSort.progressDesc => '進捗の良い順',
+      HomeGoalSort.progressAsc => '進捗の悪い順',
+      HomeGoalSort.category => 'カテゴリ別',
+    };
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import 'goal_create_widgets.dart';
@@ -58,6 +59,7 @@ class GoalCreatePage extends ConsumerWidget {
 
       // プロバイダーキャッシュを無効化して新しいデータを取得させる
       ref.invalidate(goalsProvider);
+      ref.invalidate(homeViewModelProvider);
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(

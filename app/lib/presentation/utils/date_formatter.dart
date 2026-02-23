@@ -19,4 +19,11 @@ class DateFormatter {
   static String toJapaneseDateTaskHeader(DateTime date) {
     return '${date.year}年${date.month}月${date.day}日のタスク';
   }
+
+  /// 「YYYY年M月D日 (曜日)」形式
+  static String toJapaneseDateWithWeekday(DateTime date) {
+    const weekdays = ['月', '火', '水', '木', '金', '土', '日'];
+    final weekday = weekdays[date.weekday - 1];
+    return '${date.year}年${date.month}月${date.day}日 ($weekday)';
+  }
 }

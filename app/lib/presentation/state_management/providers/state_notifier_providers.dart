@@ -18,6 +18,7 @@ import 'package:app/application/providers/use_case_providers.dart'
 import '../notifiers/goal_notifier.dart';
 import '../notifiers/milestone_notifier.dart';
 import '../notifiers/task_notifier.dart';
+import 'repository_providers.dart' show taskRepositoryProvider;
 
 /// ======================== Goal State Providers ========================
 
@@ -202,4 +203,40 @@ final goalProgressProvider = FutureProvider.family<Progress, String>((
 ) async {
   final useCase = ref.watch(calculateProgressUseCaseProvider);
   return useCase.calculateGoalProgress(goalId);
+});
+
+/// ======================== Date Selection Providers ========================
+
+/// 「今日のタスク」画面で選択されている日付
+///
+/// デフォルトは本日。前日・翌日ボタンで変更可能。
+final selectedDateProvider = StateProvider<DateTime>((ref) {
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day);
+});
+
+/// 選択日付のタスクをステータス別にグループ化するProvider
+///
+/// [selectedDateProvider] で選ばれた日付と期限が一致するタスクのみ返す。
+/// 使用方法:
+/// ```dart
+/// final groupedAsync = ref.watch(tasksBySelectedDateGroupedProvider);
+/// ```
+final tasksBySelectedDateGroupedProvider = FutureProvider<GroupedTasks>((
+  ref,
+) async {
+  final selectedDate = ref.watch(selectedDateProvider);
+  final taskRepository = ref.watch(taskRepositoryProvider);
+  final groupUseCase = ref.watch(getTasksGroupedByStatusUseCaseProvider);
+
+  final allTasks = await taskRepository.getAllTasks();
+
+  final tasksForDate = allTasks.where((task) {
+    final d = task.deadline.value;
+    return d.year == selectedDate.year &&
+        d.month == selectedDate.month &&
+        d.day == selectedDate.day;
+  }).toList();
+
+  return groupUseCase.call(tasksForDate);
 });

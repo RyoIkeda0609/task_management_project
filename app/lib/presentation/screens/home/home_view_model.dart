@@ -34,6 +34,7 @@ class HomeViewModel extends StateNotifier<HomePageState> {
             loadedGoals,
             goalProgressMap: progressMap,
             filter: state.filter,
+            sort: state.sort,
           );
         },
         loading: () {
@@ -51,6 +52,11 @@ class HomeViewModel extends StateNotifier<HomePageState> {
   /// フィルターを切り替える
   void toggleFilter(HomeGoalFilter filter) {
     state = state.copyWith(filter: filter);
+  }
+
+  /// ソートを切り替える
+  void changeSort(HomeGoalSort sort) {
+    state = state.copyWith(sort: sort);
   }
 
   /// タブを選択

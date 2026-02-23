@@ -5,11 +5,26 @@ enum HomeViewState { loading, empty, data, error }
 
 /// ゴールフィルター種別
 enum HomeGoalFilter {
-  /// 活動中（進捗 < 100%）
+  /// 進行中（進捗 < 100%）
   active,
 
-  /// 完了済み（進捗 100%）
+  /// 完了（進捗 100%）
   completed,
+}
+
+/// ゴールソート種別
+enum HomeGoalSort {
+  /// 期限が近い順
+  deadlineAsc,
+
+  /// 進捗の良い順（降順）
+  progressDesc,
+
+  /// 進捗の悪い順（昇順）
+  progressAsc,
+
+  /// カテゴリ別
+  category,
 }
 
 /// ホーム画面の UI 状態
@@ -22,6 +37,7 @@ class HomePageState {
   final String? errorMessage;
   final int selectedTabIndex;
   final HomeGoalFilter filter;
+  final HomeGoalSort sort;
 
   /// ゴールIDごとの進捗率（0〜100）
   final Map<String, int> goalProgressMap;
@@ -32,6 +48,7 @@ class HomePageState {
     required this.selectedTabIndex,
     this.errorMessage,
     this.filter = HomeGoalFilter.active,
+    this.sort = HomeGoalSort.deadlineAsc,
     this.goalProgressMap = const {},
   });
 
@@ -49,6 +66,7 @@ class HomePageState {
     List<Goal> goals, {
     Map<String, int> goalProgressMap = const {},
     HomeGoalFilter filter = HomeGoalFilter.active,
+    HomeGoalSort sort = HomeGoalSort.deadlineAsc,
   }) {
     return HomePageState(
       viewState: goals.isEmpty ? HomeViewState.empty : HomeViewState.data,
@@ -56,6 +74,7 @@ class HomePageState {
       selectedTabIndex: 0,
       goalProgressMap: goalProgressMap,
       filter: filter,
+      sort: sort,
     );
   }
 
@@ -76,6 +95,7 @@ class HomePageState {
     int? selectedTabIndex,
     String? errorMessage,
     HomeGoalFilter? filter,
+    HomeGoalSort? sort,
     Map<String, int>? goalProgressMap,
   }) {
     return HomePageState(
@@ -84,6 +104,7 @@ class HomePageState {
       selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
       errorMessage: errorMessage ?? this.errorMessage,
       filter: filter ?? this.filter,
+      sort: sort ?? this.sort,
       goalProgressMap: goalProgressMap ?? this.goalProgressMap,
     );
   }
@@ -94,7 +115,7 @@ class HomePageState {
   bool get hasData => viewState == HomeViewState.data;
   bool get isError => viewState == HomeViewState.error;
 
-  /// フィルター適用後のソート済みゴール（期限が近い順）
+  /// フィルター＋ソート適用後のゴールリスト
   List<Goal> get sortedGoals {
     final filtered = goals.where((goal) {
       final progress = goalProgressMap[goal.itemId.value] ?? 0;
@@ -103,7 +124,34 @@ class HomePageState {
         HomeGoalFilter.completed => progress >= 100,
       };
     }).toList();
-    filtered.sort((a, b) => a.deadline.value.compareTo(b.deadline.value));
+
+    switch (sort) {
+      case HomeGoalSort.deadlineAsc:
+        filtered.sort((a, b) => a.deadline.value.compareTo(b.deadline.value));
+      case HomeGoalSort.progressDesc:
+        filtered.sort((a, b) {
+          final pa = goalProgressMap[a.itemId.value] ?? 0;
+          final pb = goalProgressMap[b.itemId.value] ?? 0;
+          return pb.compareTo(pa);
+        });
+      case HomeGoalSort.progressAsc:
+        filtered.sort((a, b) {
+          final pa = goalProgressMap[a.itemId.value] ?? 0;
+          final pb = goalProgressMap[b.itemId.value] ?? 0;
+          return pa.compareTo(pb);
+        });
+      case HomeGoalSort.category:
+        filtered.sort((a, b) => a.category.value.compareTo(b.category.value));
+    }
+
     return filtered;
   }
+
+  /// ソートの表示ラベル
+  String get sortLabel => switch (sort) {
+    HomeGoalSort.deadlineAsc => '期限が近い順',
+    HomeGoalSort.progressDesc => '進捗の良い順',
+    HomeGoalSort.progressAsc => '進捗の悪い順',
+    HomeGoalSort.category => 'カテゴリ別',
+  };
 }

@@ -8,6 +8,7 @@ import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case
 import '../../../domain/entities/task.dart';
 import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
+import '../home/home_view_model.dart';
 import '../../utils/validation_helper.dart';
 import '../../widgets/common/status_badge.dart';
 import '../../navigation/app_router.dart';
@@ -280,6 +281,8 @@ class TodayTaskItemWidget extends ConsumerWidget {
       ref.invalidate(todayTasksProvider);
       ref.invalidate(taskDetailProvider(task.itemId.value));
       ref.invalidate(tasksByMilestoneProvider(task.milestoneId.value));
+      ref.invalidate(homeViewModelProvider);
+      ref.invalidate(tasksBySelectedDateGroupedProvider);
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(

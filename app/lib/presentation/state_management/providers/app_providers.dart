@@ -21,7 +21,9 @@ export 'state_notifier_providers.dart'
         taskDetailProvider,
         todayTasksGroupedProvider,
         tasksByGoalProvider,
-        goalProgressProvider;
+        goalProgressProvider,
+        selectedDateProvider,
+        tasksBySelectedDateGroupedProvider;
 
 /// ======================== Onboarding / Initialization Providers ========================
 

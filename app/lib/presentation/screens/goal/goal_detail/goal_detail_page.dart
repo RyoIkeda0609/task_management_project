@@ -394,21 +394,23 @@ class _CalendarTab extends ConsumerWidget {
   }
 
   Widget _buildCalendar(CalendarPageState state, CalendarViewModel viewModel) {
-    return Column(
-      children: [
-        CalendarMonthNavigator(
-          onPreviousMonth: viewModel.previousMonth,
-          onNextMonth: viewModel.nextMonth,
-          monthDisplayText: DateFormatter.toJapaneseMonth(state.displayedMonth),
-        ),
-        CalendarGrid(
-          displayedMonth: state.displayedMonth,
-          selectedDate: state.selectedDate,
-          onDateSelected: viewModel.selectDate,
-          getTasksForDate: state.getTasksForDate,
-        ),
-        Expanded(
-          child: _GoalCalendarTaskList(
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CalendarMonthNavigator(
+            onPreviousMonth: viewModel.previousMonth,
+            onNextMonth: viewModel.nextMonth,
+            monthDisplayText: DateFormatter.toJapaneseMonth(
+              state.displayedMonth,
+            ),
+          ),
+          CalendarGrid(
+            displayedMonth: state.displayedMonth,
+            selectedDate: state.selectedDate,
+            onDateSelected: viewModel.selectDate,
+            getTasksForDate: state.getTasksForDate,
+          ),
+          _GoalCalendarTaskList(
             goalId: goalId,
             selectedDate: state.selectedDate,
             tasks: state.getTasksForDate(state.selectedDate),
@@ -416,8 +418,8 @@ class _CalendarTab extends ConsumerWidget {
               state.selectedDate,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -446,7 +448,7 @@ class _GoalCalendarTaskList extends StatelessWidget {
         children: [
           Text(selectedDateDisplayText, style: AppTextStyles.titleMedium),
           SizedBox(height: Spacing.medium),
-          Expanded(child: _buildTaskContent(context)),
+          _buildTaskContent(context),
         ],
       ),
     );
@@ -454,17 +456,20 @@ class _GoalCalendarTaskList extends StatelessWidget {
 
   Widget _buildTaskContent(BuildContext context) {
     if (tasks.isEmpty) {
-      return Center(
-        child: Text(
-          'この日のタスクはありません',
-          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral600),
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: Spacing.large),
+        child: Center(
+          child: Text(
+            'この日のタスクはありません',
+            style: AppTextStyles.bodyMedium.copyWith(
+              color: AppColors.neutral600,
+            ),
+          ),
         ),
       );
     }
-    return ListView.builder(
-      itemCount: tasks.length,
-      itemBuilder: (context, index) {
-        final task = tasks[index];
+    return Column(
+      children: tasks.map((task) {
         return CalendarTaskItem(
           task: task,
           onTap: () {
@@ -473,7 +478,7 @@ class _GoalCalendarTaskList extends StatelessWidget {
             );
           },
         );
-      },
+      }).toList(),
     );
   }
 }
