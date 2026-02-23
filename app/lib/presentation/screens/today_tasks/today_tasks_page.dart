@@ -90,9 +90,8 @@ class _DateNavigator extends StatelessWidget {
                 if (!isToday)
                   Text(
                     'タップで今日に戻る',
-                    style: AppTextStyles.bodySmall.copyWith(
+                    style: AppTextStyles.labelSmall.copyWith(
                       color: AppColors.primary,
-                      fontSize: 11,
                     ),
                   ),
                 if (isToday)
@@ -204,7 +203,7 @@ class _ContentView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _Header(grouped: state.groupedTasks!),
-          SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.sectionSpacing),
           _Content(state: state),
         ],
       ),
@@ -238,9 +237,9 @@ class _Content extends StatelessWidget {
           TodayTasksSectionWidget(
             title: '未完了',
             tasks: grouped.todoTasks,
-            color: AppColors.neutral400,
+            color: AppColors.info,
           ),
-          SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.sectionSpacing),
         ],
         if (state.showDoingSection) ...[
           TodayTasksSectionWidget(
@@ -248,7 +247,7 @@ class _Content extends StatelessWidget {
             tasks: grouped.doingTasks,
             color: AppColors.warning,
           ),
-          SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.sectionSpacing),
         ],
         if (state.showDoneSection)
           TodayTasksSectionWidget(

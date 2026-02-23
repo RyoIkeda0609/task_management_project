@@ -248,20 +248,17 @@ class PyramidTaskNode extends StatelessWidget {
   }
 
   Widget _getStatusIcon(TaskStatus status) {
+    final color = AppColors.getStatusColor(status);
     return switch (status) {
-      TaskStatus.done => Icon(
-        Icons.check_circle,
-        color: AppColors.success,
-        size: 18,
-      ),
+      TaskStatus.done => Icon(Icons.check_circle, color: color, size: 18),
       TaskStatus.doing => Icon(
         Icons.radio_button_checked,
-        color: AppColors.warning,
+        color: color,
         size: 18,
       ),
       TaskStatus.todo => Icon(
         Icons.radio_button_unchecked,
-        color: AppColors.neutral400,
+        color: color,
         size: 18,
       ),
     };

@@ -18,9 +18,10 @@ class GoalListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView.builder(
-      padding: EdgeInsets.all(Spacing.medium),
+    return ListView.separated(
+      padding: EdgeInsets.all(Spacing.screenPadding),
       itemCount: goals.length,
+      separatorBuilder: (_, __) => SizedBox(height: Spacing.itemSpacing),
       itemBuilder: (context, index) {
         return GoalCard(
           goal: goals[index],

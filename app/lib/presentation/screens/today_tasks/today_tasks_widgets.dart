@@ -169,15 +169,15 @@ class TodayTasksSectionWidget extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle(),
-        SizedBox(height: Spacing.small),
-        ...tasks.map((task) => TodayTaskItemWidget(task: task)),
+        SizedBox(height: Spacing.xSmall),
+        for (final task in tasks) TodayTaskItemWidget(task: task),
       ],
     );
   }
 
   Widget _buildSectionTitle() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
+      padding: EdgeInsets.symmetric(horizontal: Spacing.screenPadding),
       child: Row(
         children: [
           Container(
@@ -189,7 +189,7 @@ class TodayTasksSectionWidget extends ConsumerWidget {
             ),
           ),
           SizedBox(width: Spacing.small),
-          Text('$title (${tasks.length})', style: AppTextStyles.titleSmall),
+          Text('$title (${tasks.length})', style: AppTextStyles.titleMedium),
         ],
       ),
     );
@@ -204,71 +204,58 @@ class TodayTaskItemWidget extends ConsumerWidget {
   const TodayTaskItemWidget({super.key, required this.task});
 
   @override
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: Spacing.medium,
-        vertical: Spacing.xSmall,
+        horizontal: Spacing.screenPadding,
+        vertical: Spacing.xxSmall,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.neutral200),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(Radii.medium),
+        child: InkWell(
+          onTap: () =>
+              AppRouter.navigateToTaskDetail(context, task.itemId.value),
           borderRadius: BorderRadius.circular(Radii.medium),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            _buildStatusIndicator(context, ref),
-            SizedBox(width: Spacing.small),
-            _buildTaskInfo(context),
-            SizedBox(width: Spacing.small),
-            _buildStatusBadge(context, ref),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatusIndicator(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      flex: 0,
-      child: Padding(
-        padding: EdgeInsets.only(left: Spacing.xSmall),
-        child: StatusCircleButton(
-          status: task.status,
-          onTap: () => _toggleTaskStatus(context, ref),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTaskInfo(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: Spacing.medium),
-          child: Text(
-            task.title.value,
-            style: _getTaskTextStyle(),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.neutral200),
+              borderRadius: BorderRadius.circular(Radii.medium),
+            ),
+            child: Row(
+              children: [
+                _buildStatusIndicator(context, ref),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: Spacing.small),
+                    child: Text(
+                      task.title.value,
+                      style: _getTaskTextStyle(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                SizedBox(width: Spacing.small),
+                Icon(
+                  Icons.chevron_right,
+                  size: 20,
+                  color: AppColors.neutral400,
+                ),
+                SizedBox(width: Spacing.xSmall),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildStatusBadge(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      flex: 0,
-      child: Padding(
-        padding: EdgeInsets.only(right: Spacing.xSmall),
-        child: StatusCircleButton(
-          status: task.status,
-          onTap: () => _toggleTaskStatus(context, ref),
-        ),
-      ),
+  Widget _buildStatusIndicator(BuildContext context, WidgetRef ref) {
+    return StatusCircleButton(
+      status: task.status,
+      onTap: () => _toggleTaskStatus(context, ref),
     );
   }
 

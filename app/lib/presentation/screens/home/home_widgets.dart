@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../widgets/views/list_view/list_view.dart';
@@ -136,7 +137,7 @@ class _FilterAndSortRow extends StatelessWidget {
             value: state.sort,
             underline: const SizedBox.shrink(),
             isDense: true,
-            style: TextStyle(fontSize: 13, color: AppColors.neutral600),
+            style: AppTextStyles.bodySmall,
             items: HomeGoalSort.values.map((sortOption) {
               return DropdownMenuItem<HomeGoalSort>(
                 value: sortOption,

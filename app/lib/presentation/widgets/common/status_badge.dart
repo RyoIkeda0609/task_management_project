@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_text_styles.dart';
 import '../../theme/app_theme.dart';
 
 /// ステータスバッジのサイズを定義
@@ -33,11 +34,7 @@ class StatusBadge extends StatelessWidget {
 
   /// ステータスから色を取得
   Color _getStatusColor() {
-    return switch (status) {
-      TaskStatus.todo => AppColors.neutral300,
-      TaskStatus.doing => AppColors.warning,
-      TaskStatus.done => AppColors.success,
-    };
+    return AppColors.getStatusColor(status);
   }
 
   /// ステータスから表示テキストを取得
@@ -49,21 +46,27 @@ class StatusBadge extends StatelessWidget {
     };
   }
 
-  /// サイズから詳細情報を取得
-  (double padding, double fontSize) _getSizeDetails() {
-    switch (size) {
-      case BadgeSize.small:
-        return (Spacing.xSmall, 12);
-      case BadgeSize.medium:
-        return (Spacing.small, 14);
-      case BadgeSize.large:
-        return (Spacing.medium, 16);
-    }
+  /// サイズからテキストスタイルを取得
+  TextStyle _getTextStyle() {
+    return switch (size) {
+      BadgeSize.small => AppTextStyles.labelSmall,
+      BadgeSize.medium => AppTextStyles.labelMedium,
+      BadgeSize.large => AppTextStyles.labelLarge,
+    };
+  }
+
+  /// サイズからパディングを取得
+  double _getPadding() {
+    return switch (size) {
+      BadgeSize.small => Spacing.xSmall,
+      BadgeSize.medium => Spacing.small,
+      BadgeSize.large => Spacing.medium,
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    final (padding, fontSize) = _getSizeDetails();
+    final padding = _getPadding();
     final statusColor = _getStatusColor();
     final statusLabel = _getStatusLabel();
 
@@ -76,11 +79,7 @@ class StatusBadge extends StatelessWidget {
       ),
       child: Text(
         statusLabel,
-        style: TextStyle(
-          fontSize: fontSize,
-          fontWeight: FontWeight.w600,
-          color: statusColor,
-        ),
+        style: _getTextStyle().copyWith(color: statusColor),
       ),
     );
   }
@@ -110,11 +109,7 @@ class StatusCircleButton extends StatelessWidget {
   });
 
   Color _getColor() {
-    return switch (status) {
-      TaskStatus.todo => AppColors.primary,
-      TaskStatus.doing => AppColors.warning,
-      TaskStatus.done => AppColors.success,
-    };
+    return AppColors.getStatusColor(status);
   }
 
   IconData _getIcon() {

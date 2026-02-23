@@ -62,9 +62,7 @@ class _GoalCardHeader extends ConsumerWidget {
         Expanded(
           child: Text(
             goal.title.value,
-            style: AppTextStyles.titleMedium.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTextStyles.headlineSmall,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

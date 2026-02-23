@@ -58,7 +58,12 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
           ),
         ),
         SizedBox(width: Spacing.small),
-        Text(title, style: AppTextStyles.labelLarge),
+        Text(
+          title,
+          style: AppTextStyles.titleMedium.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ],
     );
   }

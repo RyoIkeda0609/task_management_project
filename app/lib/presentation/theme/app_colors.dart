@@ -108,7 +108,7 @@ class AppColors {
     return switch (status) {
       TaskStatus.done => success,
       TaskStatus.doing => warning,
-      TaskStatus.todo => neutral500,
+      TaskStatus.todo => info,
     };
   }
 

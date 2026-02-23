@@ -236,6 +236,12 @@ class AppTheme {
 }
 
 /// スペーシング定数へのアクセスを簡単にするヘルパー
+///
+/// 基本スケール: xxSmall(4) / xSmall(8) / small(12) / medium(16) / large(20) / xLarge(24)
+/// セマンティック定数:
+/// - [screenPadding] = 16 : 画面端の余白
+/// - [sectionSpacing] = 24 : セクション間の余白
+/// - [itemSpacing] = 12 : リストアイテム間の余白
 class Spacing {
   Spacing._();
 
@@ -248,6 +254,15 @@ class Spacing {
   static const double xLarge = AppTheme.spacingXLarge;
   static const double xxLarge = AppTheme.spacingXxLarge;
   static const double xxxLarge = AppTheme.spacingXxxLarge;
+
+  /// 画面端のパディング（左右・上下）
+  static const double screenPadding = medium; // 16
+
+  /// セクション間のスペーシング
+  static const double sectionSpacing = xLarge; // 24
+
+  /// リストアイテム間のスペーシング
+  static const double itemSpacing = small; // 12
 }
 
 /// ボーダーラディウス定数へのアクセスを簡単にするヘルパー
