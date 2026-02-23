@@ -8,6 +8,7 @@ import '../../../widgets/common/app_bar_common.dart';
 import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
@@ -135,6 +136,7 @@ class TaskDetailPage extends ConsumerWidget {
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
+        ref.invalidate(homeViewModelProvider);
 
         if (context.mounted) {
           await ValidationHelper.showSuccess(

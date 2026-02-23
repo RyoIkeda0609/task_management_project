@@ -85,12 +85,10 @@ class HomeContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        HomeFilterChips(state: state, ref: ref),
-        HomeSortDropdown(state: state, ref: ref),
+        _FilterAndSortRow(state: state, ref: ref),
         Expanded(
           child: GoalListView(
             goals: state.sortedGoals,
-            sortLabel: state.sortLabel,
             onCreatePressed: onCreatePressed,
           ),
         ),
@@ -99,12 +97,12 @@ class HomeContent extends ConsumerWidget {
   }
 }
 
-/// ゴールフィルターチップ
-class HomeFilterChips extends StatelessWidget {
+/// フィルターチップ + ソートドロップダウンを1行に並べるウィジェット
+class _FilterAndSortRow extends StatelessWidget {
   final HomePageState state;
   final WidgetRef ref;
 
-  const HomeFilterChips({super.key, required this.state, required this.ref});
+  const _FilterAndSortRow({required this.state, required this.ref});
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +113,37 @@ class HomeFilterChips extends StatelessWidget {
           _buildChip(
             label: '進行中',
             isSelected: state.filter == HomeGoalFilter.active,
-            onSelected: () => _onFilterSelected(HomeGoalFilter.active),
+            onSelected: () => ref
+                .read(homeViewModelProvider.notifier)
+                .toggleFilter(HomeGoalFilter.active),
           ),
           const SizedBox(width: 8),
           _buildChip(
             label: '完了',
             isSelected: state.filter == HomeGoalFilter.completed,
-            onSelected: () => _onFilterSelected(HomeGoalFilter.completed),
+            onSelected: () => ref
+                .read(homeViewModelProvider.notifier)
+                .toggleFilter(HomeGoalFilter.completed),
+          ),
+          const Spacer(),
+          const Icon(Icons.sort, size: 18, color: AppColors.neutral600),
+          const SizedBox(width: 4),
+          DropdownButton<HomeGoalSort>(
+            value: state.sort,
+            underline: const SizedBox.shrink(),
+            isDense: true,
+            style: TextStyle(fontSize: 13, color: AppColors.neutral600),
+            items: HomeGoalSort.values.map((sortOption) {
+              return DropdownMenuItem<HomeGoalSort>(
+                value: sortOption,
+                child: Text(_sortOptionLabel(sortOption)),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(homeViewModelProvider.notifier).changeSort(value);
+              }
+            },
           ),
         ],
       ),
@@ -139,47 +161,6 @@ class HomeFilterChips extends StatelessWidget {
       onSelected: (_) => onSelected(),
       selectedColor: AppColors.primary.withValues(alpha: 0.2),
       checkmarkColor: AppColors.primary,
-    );
-  }
-
-  void _onFilterSelected(HomeGoalFilter filter) {
-    ref.read(homeViewModelProvider.notifier).toggleFilter(filter);
-  }
-}
-
-/// ゴールソートドロップダウン
-class HomeSortDropdown extends StatelessWidget {
-  final HomePageState state;
-  final WidgetRef ref;
-
-  const HomeSortDropdown({super.key, required this.state, required this.ref});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          const Icon(Icons.sort, size: 18, color: AppColors.neutral600),
-          const SizedBox(width: 4),
-          DropdownButton<HomeGoalSort>(
-            value: state.sort,
-            underline: const SizedBox.shrink(),
-            style: TextStyle(fontSize: 13, color: AppColors.neutral600),
-            items: HomeGoalSort.values.map((sortOption) {
-              return DropdownMenuItem<HomeGoalSort>(
-                value: sortOption,
-                child: Text(_sortOptionLabel(sortOption)),
-              );
-            }).toList(),
-            onChanged: (value) {
-              if (value != null) {
-                ref.read(homeViewModelProvider.notifier).changeSort(value);
-              }
-            },
-          ),
-        ],
-      ),
     );
   }
 

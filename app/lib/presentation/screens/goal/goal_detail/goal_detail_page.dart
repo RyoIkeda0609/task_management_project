@@ -10,6 +10,7 @@ import '../../../theme/app_colors.dart';
 import '../../../widgets/common/dialog_helper.dart';
 import '../../../navigation/app_router.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../utils/date_formatter.dart';
 import '../../../../application/providers/use_case_providers.dart';
@@ -98,6 +99,7 @@ class GoalDetailPage extends ConsumerWidget {
         // Provider キャッシュを無効化
         ref.invalidate(goalsProvider);
         ref.invalidate(goalDetailProvider(goalId));
+        ref.invalidate(homeViewModelProvider);
 
         if (context.mounted) {
           await ValidationHelper.showSuccess(

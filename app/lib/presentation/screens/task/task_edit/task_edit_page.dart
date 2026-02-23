@@ -6,6 +6,7 @@ import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_colors.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../state_management/providers/app_providers.dart';
+import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
 import '../../../../application/providers/use_case_providers.dart';
 import '../../../../domain/entities/task.dart';
@@ -118,6 +119,7 @@ class TaskEditPage extends ConsumerWidget {
         ref.invalidate(todayTasksProvider);
         ref.invalidate(goalsProvider);
         ref.invalidate(goalProgressProvider);
+        ref.invalidate(homeViewModelProvider);
       }
 
       if (context.mounted) {
