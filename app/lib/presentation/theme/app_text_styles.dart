@@ -143,7 +143,7 @@ class AppTextStyles {
 
   /// ラベルスモール
   static const TextStyle labelSmall = TextStyle(
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: FontWeight.w600,
     height: 1.5,
     letterSpacing: 0.05,

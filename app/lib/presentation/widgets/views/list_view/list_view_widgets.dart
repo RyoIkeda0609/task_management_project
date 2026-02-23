@@ -19,6 +19,8 @@ class GoalCard extends ConsumerWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(Radii.medium),
+      splashColor: AppColors.primary.withValues(alpha: 0.1),
+      highlightColor: AppColors.primary.withValues(alpha: 0.05),
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
@@ -88,8 +90,8 @@ class _GoalCardHeader extends ConsumerWidget {
     final color = AppColors.getProgressColor(progressValue);
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: Spacing.small,
-        vertical: Spacing.xxSmall,
+        horizontal: Spacing.chipPaddingHorizontal,
+        vertical: Spacing.chipPaddingVertical,
       ),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
@@ -116,8 +118,8 @@ class _GoalCardCategoryChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: Spacing.xSmall,
-        vertical: Spacing.xxSmall,
+        horizontal: Spacing.chipPaddingHorizontal,
+        vertical: Spacing.chipPaddingVertical,
       ),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.1),

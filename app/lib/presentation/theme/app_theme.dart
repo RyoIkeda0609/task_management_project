@@ -263,6 +263,12 @@ class Spacing {
 
   /// リストアイテム間のスペーシング
   static const double itemSpacing = small; // 12
+
+  /// Chip内の水平パディング
+  static const double chipPaddingHorizontal = 10;
+
+  /// Chip内の垂直パディング
+  static const double chipPaddingVertical = 4;
 }
 
 /// ボーダーラディウス定数へのアクセスを簡単にするヘルパー

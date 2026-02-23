@@ -29,6 +29,8 @@ class PyramidGoalNode extends StatelessWidget {
       child: InkWell(
         onTap: () => AppRouter.navigateToGoalDetail(context, goal.itemId.value),
         borderRadius: BorderRadius.circular(Radii.medium),
+        splashColor: AppColors.primary.withValues(alpha: 0.1),
+        highlightColor: AppColors.primary.withValues(alpha: 0.05),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
           child: Row(

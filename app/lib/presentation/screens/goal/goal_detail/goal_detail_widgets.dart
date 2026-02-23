@@ -25,24 +25,29 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final progressAsync = ref.watch(goalProgressProvider(goalId));
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionTitle('ゴール情報'),
-        SizedBox(height: Spacing.small),
-        Text(goal.title.value, style: AppTextStyles.headlineMedium),
-        SizedBox(height: Spacing.small),
-        _buildDeadlineRow(),
-        SizedBox(height: Spacing.medium),
-        progressAsync.when(
-          data: (progress) =>
-              _GoalProgressSection(progressValue: progress.value),
-          loading: () => const SizedBox.shrink(),
-          error: (_, _) => const SizedBox.shrink(),
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(Spacing.medium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('ゴール情報'),
+            SizedBox(height: Spacing.small),
+            Text(goal.title.value, style: AppTextStyles.headlineMedium),
+            SizedBox(height: Spacing.small),
+            _buildDeadlineRow(),
+            SizedBox(height: Spacing.medium),
+            progressAsync.when(
+              data: (progress) =>
+                  _GoalProgressSection(progressValue: progress.value),
+              loading: () => const SizedBox.shrink(),
+              error: (_, _) => const SizedBox.shrink(),
+            ),
+            Divider(height: Spacing.xLarge, color: AppColors.neutral200),
+            _buildDescriptionSection(),
+          ],
         ),
-        Divider(height: Spacing.xLarge, color: AppColors.neutral200),
-        _buildDescriptionSection(),
-      ],
+      ),
     );
   }
 
@@ -78,8 +83,8 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
         SizedBox(width: Spacing.medium),
         Container(
           padding: EdgeInsets.symmetric(
-            horizontal: Spacing.small,
-            vertical: Spacing.xSmall,
+            horizontal: Spacing.chipPaddingHorizontal,
+            vertical: Spacing.chipPaddingVertical,
           ),
           decoration: BoxDecoration(
             color: AppColors.primary.withValues(alpha: 0.1),
@@ -185,18 +190,27 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: Spacing.medium),
-        milestonesAsync.when(
-          data: (milestones) => milestones.isEmpty
-              ? _buildMilestonesEmpty(context, goalId)
-              : _buildMilestonesList(context, ref, milestones),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
-        ),
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: Spacing.medium),
+      padding: EdgeInsets.all(Spacing.medium),
+      decoration: BoxDecoration(
+        color: Theme.of(
+          context,
+        ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(Radii.large),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          milestonesAsync.when(
+            data: (milestones) => milestones.isEmpty
+                ? _buildMilestonesEmpty(context, goalId)
+                : _buildMilestonesList(context, ref, milestones),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -238,7 +252,7 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
         EmptyState(
           icon: Icons.flag_outlined,
           title: 'マイルストーンがありません',
-          message: 'このゴールを分解してみましょう。',
+          message: 'ゴールを分解してみましょう。',
           actionText: 'マイルストーン追加',
           onActionPressed: () =>
               AppRouter.navigateToMilestoneCreate(context, goalId),

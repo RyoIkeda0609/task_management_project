@@ -237,7 +237,7 @@ class _Content extends StatelessWidget {
           TodayTasksSectionWidget(
             title: '未完了',
             tasks: grouped.todoTasks,
-            color: AppColors.info,
+            color: AppColors.statusTodo,
           ),
           SizedBox(height: Spacing.sectionSpacing),
         ],
@@ -245,7 +245,7 @@ class _Content extends StatelessWidget {
           TodayTasksSectionWidget(
             title: '進行中',
             tasks: grouped.doingTasks,
-            color: AppColors.warning,
+            color: AppColors.statusDoing,
           ),
           SizedBox(height: Spacing.sectionSpacing),
         ],
@@ -253,7 +253,7 @@ class _Content extends StatelessWidget {
           TodayTasksSectionWidget(
             title: '完了',
             tasks: grouped.doneTasks,
-            color: AppColors.success,
+            color: AppColors.statusDone,
           ),
       ],
     );

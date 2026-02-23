@@ -73,18 +73,22 @@ class TodayTasksSummaryWidget extends StatelessWidget {
   Widget _buildStatusCounts() {
     return Row(
       children: [
-        _buildStatusCountChip('Todo', grouped.todoTasks.length, AppColors.info),
+        _buildStatusCountChip(
+          'Todo',
+          grouped.todoTasks.length,
+          AppColors.statusTodo,
+        ),
         SizedBox(width: Spacing.small),
         _buildStatusCountChip(
           'Doing',
           grouped.doingTasks.length,
-          AppColors.warning,
+          AppColors.statusDoing,
         ),
         SizedBox(width: Spacing.small),
         _buildStatusCountChip(
           'Done',
           grouped.doneTasks.length,
-          AppColors.success,
+          AppColors.statusDone,
         ),
       ],
     );
@@ -218,6 +222,8 @@ class TodayTaskItemWidget extends ConsumerWidget {
           onTap: () =>
               AppRouter.navigateToTaskDetail(context, task.itemId.value),
           borderRadius: BorderRadius.circular(Radii.medium),
+          splashColor: AppColors.primary.withValues(alpha: 0.1),
+          highlightColor: AppColors.primary.withValues(alpha: 0.05),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.neutral200),

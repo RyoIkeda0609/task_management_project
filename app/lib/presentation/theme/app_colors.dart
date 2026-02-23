@@ -39,6 +39,19 @@ class AppColors {
   static const Color info = Color(0xFF3B82F6);
 
   // ============================================================================
+  // Status Colors（タスク状態色）
+  // ============================================================================
+
+  /// Todo状態色：落ち着いたBlueGrey
+  static const Color statusTodo = Color(0xFF607D8B);
+
+  /// Doing状態色：暖色系Amber
+  static const Color statusDoing = Color(0xFFFFB300);
+
+  /// Done状態色：安心感のあるGreen
+  static const Color statusDone = Color(0xFF43A047);
+
+  // ============================================================================
   // Neutral Colors（ニュートラル・背景・テキスト）
   // ============================================================================
 
@@ -106,9 +119,9 @@ class AppColors {
   /// タスク状態から色を取得
   static Color getStatusColor(TaskStatus status) {
     return switch (status) {
-      TaskStatus.done => success,
-      TaskStatus.doing => warning,
-      TaskStatus.todo => info,
+      TaskStatus.done => statusDone,
+      TaskStatus.doing => statusDoing,
+      TaskStatus.todo => statusTodo,
     };
   }
 
