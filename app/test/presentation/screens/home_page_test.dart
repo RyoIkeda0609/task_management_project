@@ -57,7 +57,7 @@ void main() {
         ),
       );
 
-      expect(find.text('ゴールがまだありません'), findsWidgets);
+      expect(find.text('まだゴールがありません'), findsWidgets);
       expect(find.text('ゴールを作成'), findsWidgets);
     });
 
@@ -133,7 +133,7 @@ void main() {
         ),
       );
 
-      expect(find.text('ゴールがまだありません'), findsWidgets);
+      expect(find.text('まだゴールがありません'), findsWidgets);
     });
   });
 }

@@ -18,16 +18,25 @@ class GoalCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(Radii.medium),
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _GoalCardHeader(goal: goal),
-              SizedBox(height: Spacing.medium),
-              _GoalCardFooter(goal: goal, goalId: goal.itemId.value),
+              _GoalCardHeader(goal: goal, goalId: goal.itemId.value),
+              SizedBox(height: Spacing.small),
+              _GoalCardCategoryChip(category: goal.category.value),
+              SizedBox(height: Spacing.xSmall),
+              Text(
+                '期限：${DateFormatter.toJapaneseDate(goal.deadline.value)}',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.neutral600,
+                ),
+              ),
+              SizedBox(height: Spacing.small),
+              _GoalCardProgressBar(goalId: goal.itemId.value),
             ],
           ),
         ),
@@ -36,14 +45,17 @@ class GoalCard extends ConsumerWidget {
   }
 }
 
-/// ゴールカード - ヘッダー（タイトル + カテゴリ）
-class _GoalCardHeader extends StatelessWidget {
+/// ゴールカード - ヘッダー（タイトル + 右上に進捗%）
+class _GoalCardHeader extends ConsumerWidget {
   final Goal goal;
+  final String goalId;
 
-  const _GoalCardHeader({required this.goal});
+  const _GoalCardHeader({required this.goal, required this.goalId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final progressAsync = ref.watch(goalProgressProvider(goalId));
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -56,101 +68,102 @@ class _GoalCardHeader extends StatelessWidget {
           ),
         ),
         SizedBox(width: Spacing.small),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: Spacing.xSmall,
-            vertical: Spacing.xSmall,
+        progressAsync.when(
+          data: (progress) => _buildProgressBadge(progress.value),
+          loading: () => SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+            ),
           ),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text(
-            goal.category.value,
-            style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
-          ),
+          error: (_, __) => const SizedBox.shrink(),
         ),
       ],
     );
   }
+
+  Widget _buildProgressBadge(int progressValue) {
+    final color = AppColors.getProgressColor(progressValue);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: Spacing.small,
+        vertical: Spacing.xxSmall,
+      ),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(Radii.small),
+      ),
+      child: Text(
+        '$progressValue%',
+        style: AppTextStyles.labelSmall.copyWith(
+          color: color,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
 }
 
-/// ゴールカード - フッター（期限と進捗を1行にまとめる）
-class _GoalCardFooter extends ConsumerWidget {
-  final Goal goal;
+/// ゴールカード - カテゴリChip
+class _GoalCardCategoryChip extends StatelessWidget {
+  final String category;
+
+  const _GoalCardCategoryChip({required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: Spacing.xSmall,
+        vertical: Spacing.xxSmall,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(Radii.small),
+      ),
+      child: Text(
+        category,
+        style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary),
+      ),
+    );
+  }
+}
+
+/// ゴールカード - プログレスバー
+class _GoalCardProgressBar extends ConsumerWidget {
   final String goalId;
 
-  const _GoalCardFooter({required this.goal, required this.goalId});
+  const _GoalCardProgressBar({required this.goalId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final progressAsync = ref.watch(goalProgressProvider(goalId));
 
     return progressAsync.when(
-      data: (progress) => _buildProgressContent(progress.value),
-      loading: () => _buildLoading(),
-      error: (error, _) => Text(
-        '進捗読み込みエラー',
-        style: AppTextStyles.bodySmall.copyWith(color: AppColors.error),
-      ),
-    );
-  }
-
-  Widget _buildProgressContent(int progressValue) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                '期限：${DateFormatter.toJapaneseDate(goal.deadline.value)}',
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.neutral600,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            SizedBox(width: Spacing.small),
-            Text(
-              '進捗：$progressValue%',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.neutral600,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: Spacing.small),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
-            value: progressValue / 100.0,
-            minHeight: 6,
-            backgroundColor: AppColors.neutral200,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              _getProgressColor(progressValue),
-            ),
+      data: (progress) => ClipRRect(
+        borderRadius: BorderRadius.circular(Radii.small),
+        child: LinearProgressIndicator(
+          value: progress.value / 100.0,
+          minHeight: 6,
+          backgroundColor: AppColors.neutral200,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            AppColors.getProgressColor(progress.value),
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildLoading() {
-    return SizedBox(
-      height: 20,
-      child: Center(
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+      ),
+      loading: () => SizedBox(
+        height: 6,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(Radii.small),
+          child: LinearProgressIndicator(
+            backgroundColor: AppColors.neutral200,
+            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+          ),
         ),
       ),
+      error: (_, __) => const SizedBox.shrink(),
     );
-  }
-
-  Color _getProgressColor(int progress) {
-    return AppColors.getProgressColor(progress);
   }
 }

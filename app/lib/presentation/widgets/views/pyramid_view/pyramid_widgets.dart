@@ -24,11 +24,11 @@ class PyramidGoalNode extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.1),
         border: Border.all(color: AppColors.primary, width: 2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
       ),
       child: InkWell(
         onTap: () => AppRouter.navigateToGoalDetail(context, goal.itemId.value),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
           child: Row(
@@ -80,11 +80,11 @@ class PyramidMilestoneNode extends ConsumerWidget {
         Container(
           margin: EdgeInsets.only(bottom: Spacing.xxSmall),
           decoration: BoxDecoration(
-            color: AppColors.neutral50,
+            color: AppColors.primary.withValues(alpha: 0.05),
             border: Border(
-              left: BorderSide(color: AppColors.primaryLight, width: 4),
+              left: BorderSide(color: AppColors.primary, width: 4),
             ),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(Radii.small),
           ),
           child: _buildExpansionTile(context, isExpanded, viewModel),
         ),
@@ -164,7 +164,7 @@ class PyramidMilestoneNode extends ConsumerWidget {
           return Padding(
             padding: EdgeInsets.symmetric(vertical: Spacing.xxSmall),
             child: Text(
-              'タスクなし',
+              'タスクはまだありません',
               style: AppTextStyles.bodySmall.copyWith(
                 color: AppColors.neutral500,
                 fontStyle: FontStyle.italic,
@@ -219,7 +219,7 @@ class PyramidTaskNode extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: _getTaskStatusColor(task.status),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(Radii.small),
           border: Border.all(color: AppColors.neutral200),
         ),
         child: Row(
@@ -244,11 +244,7 @@ class PyramidTaskNode extends StatelessWidget {
   }
 
   Color _getTaskStatusColor(TaskStatus status) {
-    return switch (status) {
-      TaskStatus.todo => AppColors.neutral200.withValues(alpha: 0.5),
-      TaskStatus.doing => AppColors.warning.withValues(alpha: 0.1),
-      TaskStatus.done => AppColors.success.withValues(alpha: 0.1),
-    };
+    return Colors.white;
   }
 
   Widget _getStatusIcon(TaskStatus status) {

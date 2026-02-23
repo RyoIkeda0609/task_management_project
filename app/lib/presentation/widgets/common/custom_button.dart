@@ -123,7 +123,9 @@ class CustomButton extends StatelessWidget {
   }
 
   RoundedRectangleBorder _defaultShape() {
-    return RoundedRectangleBorder(borderRadius: BorderRadius.circular(8));
+    return RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(Radii.medium),
+    );
   }
 
   @override

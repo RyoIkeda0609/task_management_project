@@ -184,8 +184,8 @@ class _EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return EmptyState(
       icon: Icons.check_circle_outline,
-      title: '今日のタスクはありません',
-      message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
+      title: '今日のタスクはすべて完了！',
+      message: 'お疲れさまでした！\nゆっくり休んでくださいね。',
       actionText: 'ホームに戻る',
       onActionPressed: () => AppRouter.navigateToHome(context),
     );

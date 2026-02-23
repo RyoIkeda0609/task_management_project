@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_theme.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../widgets/views/list_view/list_view.dart';
 import 'home_state.dart';
@@ -37,8 +38,8 @@ class GoalEmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return EmptyState(
       icon: Icons.flag_outlined,
-      title: 'ゴールがまだありません',
-      message: 'まずは今月のゴールを設定しましょう。',
+      title: 'まだゴールがありません',
+      message: 'まずは一つ決めてみましょう。',
       actionText: 'ゴールを作成',
       onActionPressed: onCreatePressed,
     );
@@ -107,7 +108,10 @@ class _FilterAndSortRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: Spacing.medium,
+        vertical: Spacing.xSmall,
+      ),
       child: Row(
         children: [
           _buildChip(
@@ -117,7 +121,7 @@ class _FilterAndSortRow extends StatelessWidget {
                 .read(homeViewModelProvider.notifier)
                 .toggleFilter(HomeGoalFilter.active),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: Spacing.xSmall),
           _buildChip(
             label: '完了',
             isSelected: state.filter == HomeGoalFilter.completed,
@@ -127,7 +131,7 @@ class _FilterAndSortRow extends StatelessWidget {
           ),
           const Spacer(),
           const Icon(Icons.sort, size: 18, color: AppColors.neutral600),
-          const SizedBox(width: 4),
+          SizedBox(width: Spacing.xxSmall),
           DropdownButton<HomeGoalSort>(
             value: state.sort,
             underline: const SizedBox.shrink(),

@@ -333,7 +333,7 @@ class _PyramidTab extends ConsumerWidget {
       return EmptyState(
         icon: Icons.account_tree_outlined,
         title: 'マイルストーンがありません',
-        message: 'マイルストーンを追加してゴールを達成しましょう。',
+        message: 'このゴールを分解してみましょう。',
         actionText: 'マイルストーン追加',
         onActionPressed: () =>
             AppRouter.navigateToMilestoneCreate(context, goalId),
