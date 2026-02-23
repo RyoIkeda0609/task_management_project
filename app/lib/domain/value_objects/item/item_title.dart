@@ -13,9 +13,7 @@ class ItemTitle {
   void _validate() {
     final trimmed = value.trim();
     if (trimmed.isEmpty || trimmed.length > maxLength) {
-      throw ArgumentError(
-        'ItemTitle must be between 1 and $maxLength characters (trimmed), got: "${value.length}"',
-      );
+      throw ArgumentError('タイトルは1文字以上$maxLength文字以内で入力してください。');
     }
   }
 

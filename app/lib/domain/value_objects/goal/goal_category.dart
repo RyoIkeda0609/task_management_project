@@ -20,9 +20,7 @@ class GoalCategory {
   void _validate() {
     final trimmed = value.trim();
     if (trimmed.isEmpty || trimmed.length > maxLength) {
-      throw ArgumentError(
-        'GoalCategory must be between 1 and $maxLength characters (trimmed), got: "${value.length}"',
-      );
+      throw ArgumentError('カテゴリは1文字以上$maxLength文字以内で入力してください。');
     }
   }
 

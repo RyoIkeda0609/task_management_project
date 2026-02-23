@@ -13,9 +13,7 @@ class Progress {
 
   void _validate() {
     if (value < minValue || value > maxValue) {
-      throw ArgumentError(
-        'Progress must be between $minValue and $maxValue, got: $value',
-      );
+      throw ArgumentError('進捗は$minValueから$maxValueの範囲で指定してください。');
     }
   }
 

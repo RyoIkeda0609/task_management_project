@@ -191,13 +191,17 @@ class ValidationHelper {
     String message = customMessage ?? '予期しないエラーが発生しました。';
 
     // 既知の例外をハンドル
-    if (exception is ArgumentError) {
-      message = exception.message ?? message;
+    if (customMessage != null) {
+      // customMessage が指定されている場合はそのまま使用
+    } else if (exception is ArgumentError) {
+      final argMessage = exception.message;
+      message = (argMessage is String && argMessage.isNotEmpty)
+          ? argMessage
+          : message;
     } else if (exception is FormatException) {
       message = '入力形式が正しくありません。';
-    } else if (exception is Exception) {
-      message = exception.toString();
     }
+    // その他の Exception は toString() せず、デフォルトメッセージを使用
 
     if (context.mounted) {
       // customTitle がある場合は showErrorDialog を使用

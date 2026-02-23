@@ -13,9 +13,7 @@ class ItemDescription {
 
   void _validate() {
     if (value.length > maxLength) {
-      throw ArgumentError(
-        'ItemDescription must not exceed $maxLength characters (got: "${value.length}")',
-      );
+      throw ArgumentError('説明は$maxLength文字以内で入力してください。');
     }
   }
 

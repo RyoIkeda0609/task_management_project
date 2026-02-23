@@ -32,7 +32,7 @@ enum TaskStatus {
       'todo' => TaskStatus.todo,
       'doing' => TaskStatus.doing,
       'done' => TaskStatus.done,
-      _ => throw ArgumentError('Invalid TaskStatus value: $value'),
+      _ => throw ArgumentError('不正なステータス値です: $value'),
     };
   }
 
