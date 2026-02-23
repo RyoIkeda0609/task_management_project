@@ -135,18 +135,21 @@ class StatusCircleButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(Radii.full),
-        child: Padding(
-          padding: EdgeInsets.all(Spacing.xxSmall),
-          child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: (child, animation) {
-              return ScaleTransition(scale: animation, child: child);
-            },
-            child: Icon(
-              icon,
-              key: ValueKey(status),
-              size: diameter,
-              color: color,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          child: Padding(
+            padding: EdgeInsets.all(Spacing.xSmall),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              transitionBuilder: (child, animation) {
+                return ScaleTransition(scale: animation, child: child);
+              },
+              child: Icon(
+                icon,
+                key: ValueKey(status),
+                size: diameter,
+                color: color,
+              ),
             ),
           ),
         ),

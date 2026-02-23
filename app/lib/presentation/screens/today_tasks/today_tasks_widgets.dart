@@ -6,7 +6,6 @@ import '../../theme/app_theme.dart';
 import '../../../application/providers/use_case_providers.dart';
 import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import '../../../domain/entities/task.dart';
-import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../home/home_view_model.dart';
 import '../../utils/validation_helper.dart';
@@ -33,7 +32,7 @@ class TodayTasksSummaryWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('本日の進捗', style: AppTextStyles.labelLarge),
+          Text('今日やるべきこと', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.small),
           _buildProgressRow(),
         ],

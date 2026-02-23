@@ -203,7 +203,7 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('マイルストーン', style: AppTextStyles.labelLarge),
+        _buildSectionHeader('マイルストーン'),
         SizedBox(height: Spacing.medium),
         ListView.builder(
           shrinkWrap: true,
@@ -228,7 +228,7 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('マイルストーン', style: AppTextStyles.labelLarge),
+        _buildSectionHeader('マイルストーン'),
         SizedBox(height: Spacing.medium),
         EmptyState(
           icon: Icons.flag_outlined,
@@ -237,6 +237,27 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
           actionText: 'マイルストーン追加',
           onActionPressed: () =>
               AppRouter.navigateToMilestoneCreate(context, goalId),
+        ),
+      ],
+    );
+  }
+
+  /// セクションヘッダー（アクセントバー + タイトル）
+  Widget _buildSectionHeader(String title) {
+    return Row(
+      children: [
+        Container(
+          width: 4,
+          height: 20,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(Radii.small),
+          ),
+        ),
+        SizedBox(width: Spacing.small),
+        Text(
+          title,
+          style: AppTextStyles.titleSmall.copyWith(fontWeight: FontWeight.w600),
         ),
       ],
     );

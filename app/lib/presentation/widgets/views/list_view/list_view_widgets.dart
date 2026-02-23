@@ -62,7 +62,9 @@ class _GoalCardHeader extends ConsumerWidget {
         Expanded(
           child: Text(
             goal.title.value,
-            style: AppTextStyles.titleMedium,
+            style: AppTextStyles.titleMedium.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -146,7 +148,7 @@ class _GoalCardProgressBar extends ConsumerWidget {
         borderRadius: BorderRadius.circular(Radii.small),
         child: LinearProgressIndicator(
           value: progress.value / 100.0,
-          minHeight: 6,
+          minHeight: 8,
           backgroundColor: AppColors.neutral200,
           valueColor: AlwaysStoppedAnimation<Color>(
             AppColors.getProgressColor(progress.value),
@@ -154,7 +156,7 @@ class _GoalCardProgressBar extends ConsumerWidget {
         ),
       ),
       loading: () => SizedBox(
-        height: 6,
+        height: 8,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Radii.small),
           child: LinearProgressIndicator(

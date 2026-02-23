@@ -92,8 +92,8 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
       ),
       child: EmptyState(
         icon: Icons.assignment_outlined,
-        title: 'タスクがありません',
-        message: '最初の一歩を追加しましょう。',
+        title: 'まだタスクがありません',
+        message: '最初の一歩を追加してみましょう。',
       ),
     );
   }
