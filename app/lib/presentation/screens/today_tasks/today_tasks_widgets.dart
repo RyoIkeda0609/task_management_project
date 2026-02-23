@@ -107,20 +107,11 @@ class TodayTasksSummaryWidget extends StatelessWidget {
   }
 
   double _calculateProgressPercentage() {
-    if (grouped.total == 0) return 0.0;
-    return ((grouped.doingTasks.length * 50 + grouped.doneTasks.length * 100) /
-            (grouped.total * 100)) *
-        100;
+    return grouped.weightedProgressPercentage;
   }
 
   Color _getProgressColor(double progressPercentage) {
-    if (progressPercentage == 100) {
-      return AppColors.success;
-    } else if (progressPercentage >= 50) {
-      return AppColors.warning;
-    } else {
-      return AppColors.primary;
-    }
+    return AppColors.getProgressColor(progressPercentage.toInt());
   }
 }
 

@@ -13,8 +13,8 @@ class CalendarViewModel extends StateNotifier<CalendarPageState> {
         ),
       );
 
-  /// タスク一覧からキャッシュを構築
-  void buildTasksCache(List<Task> allTasks) {
+  /// タスク一覧からキャッシュを更新
+  void updateTasksCache(List<Task> allTasks) {
     final cache = <DateTime, List<Task>>{};
     for (final task in allTasks) {
       final dateKey = DateTime(

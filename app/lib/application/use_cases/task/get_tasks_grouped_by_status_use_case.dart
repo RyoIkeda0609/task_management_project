@@ -30,6 +30,16 @@ class GroupedTasks {
   int get completionPercentage =>
       total > 0 ? ((completedCount / total) * 100).toInt() : 0;
 
+  /// 重み付き進捗率（doing=50%, done=100%）
+  ///
+  /// 「未着手=0 / 進行中=50 / 完了=100」という重みで
+  /// 全体の進捗を 0～100 のパーセンテージで返す。
+  double get weightedProgressPercentage {
+    if (total == 0) return 0.0;
+    return ((doingTasks.length * 50 + doneTasks.length * 100) / (total * 100)) *
+        100;
+  }
+
   /// すべてのタスクを1つのリストで返す
   List<Task> get allTasks => [...todoTasks, ...doingTasks, ...doneTasks];
 }

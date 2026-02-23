@@ -124,36 +124,51 @@ void main() {
 
     group('エラーハンドリング', () {
       test('初期化前に getAll() を呼ぶと例外が発生する', () {
-        expect(() => repository.getAll(), throwsA(isA<StateError>()));
+        expect(() => repository.getAll(), throwsA(isA<RepositoryException>()));
       });
 
       test('初期化前に getById() を呼ぶと例外が発生する', () {
-        expect(() => repository.getById('id'), throwsA(isA<StateError>()));
+        expect(
+          () => repository.getById('id'),
+          throwsA(isA<RepositoryException>()),
+        );
       });
 
       test('初期化前に save() を呼ぶと例外が発生する', () {
         final entity = DummyEntity(id: 'id', name: 'name');
-        expect(() => repository.save(entity), throwsA(isA<StateError>()));
+        expect(
+          () => repository.save(entity),
+          throwsA(isA<RepositoryException>()),
+        );
       });
 
       test('初期化前に deleteById() を呼ぶと例外が発生する', () {
-        expect(() => repository.deleteById('id'), throwsA(isA<StateError>()));
+        expect(
+          () => repository.deleteById('id'),
+          throwsA(isA<RepositoryException>()),
+        );
       });
 
       test('初期化前に count() を呼ぶと例外が発生する', () {
-        expect(() => repository.count(), throwsA(isA<StateError>()));
+        expect(() => repository.count(), throwsA(isA<RepositoryException>()));
       });
     });
 
     group('入力バリデーション', () {
-      test('空の ID で getById() を呼ぶと ArgumentError が発生する可能性がある', () {
-        // 注：initialize() 前なので StateError が先に発生
-        expect(() => repository.getById(''), throwsA(isA<StateError>()));
+      test('空の ID で getById() を呼ぶと RepositoryException が発生する', () {
+        // 注：initialize() 前なので RepositoryException が発生
+        expect(
+          () => repository.getById(''),
+          throwsA(isA<RepositoryException>()),
+        );
       });
 
-      test('空の ID で deleteById() を呼ぶと ArgumentError が発生する可能性がある', () {
-        // 注：initialize() 前なので StateError が先に発生
-        expect(() => repository.deleteById(''), throwsA(isA<StateError>()));
+      test('空の ID で deleteById() を呼ぶと RepositoryException が発生する', () {
+        // 注：initialize() 前なので RepositoryException が発生
+        expect(
+          () => repository.deleteById(''),
+          throwsA(isA<RepositoryException>()),
+        );
       });
     });
 

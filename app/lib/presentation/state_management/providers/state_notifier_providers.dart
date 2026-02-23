@@ -152,7 +152,7 @@ final todayTasksGroupedProvider = FutureProvider<GroupedTasks>((ref) async {
 
   return tasksAsync.when(
     data: (tasks) => useCase.call(tasks),
-    loading: () => throw Exception('Loading tasks...'),
+    loading: () => useCase.call([]),
     error: (error, stack) => throw error,
   );
 });

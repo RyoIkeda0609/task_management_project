@@ -377,14 +377,14 @@ class _CalendarTab extends ConsumerWidget {
     // タスクが更新されたときにキャッシュを再構築
     ref.listen(tasksByGoalProvider(goalId), (previous, next) {
       next.whenData((tasks) {
-        viewModel.buildTasksCache(tasks);
+        viewModel.updateTasksCache(tasks);
       });
     });
 
     // 初回データロード時のキャッシュ構築
     tasksAsync.whenData((tasks) {
       if (state.tasksCache.isEmpty && tasks.isNotEmpty) {
-        Future.microtask(() => viewModel.buildTasksCache(tasks));
+        Future.microtask(() => viewModel.updateTasksCache(tasks));
       }
     });
 

@@ -13,7 +13,7 @@ class TaskCompletionService {
   Future<bool> isTaskCompleted(String taskId) async {
     final task = await _taskRepository.getTaskById(taskId);
     if (task == null) {
-      throw Exception('Task not found');
+      throw ArgumentError('Task not found: $taskId');
     }
     return task.status.isDone;
   }

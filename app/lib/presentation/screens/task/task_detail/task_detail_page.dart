@@ -85,8 +85,8 @@ class TaskDetailPage extends ConsumerWidget {
     if (source == 'milestone' && goalId != null && milestoneId != null) {
       AppRouter.navigateToTaskEditFromMilestone(
         context,
-        goalId!,
-        milestoneId!,
+        goalId ?? '',
+        milestoneId ?? '',
         taskId,
       );
     } else {

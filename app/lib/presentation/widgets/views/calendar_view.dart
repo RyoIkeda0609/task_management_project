@@ -24,7 +24,7 @@ class CalendarView extends ConsumerWidget {
 
     ref.listen(todayTasksProvider, (previous, next) {
       next.whenData((allTasks) {
-        viewModel.buildTasksCache(allTasks);
+        viewModel.updateTasksCache(allTasks);
       });
     });
 

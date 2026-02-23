@@ -86,8 +86,11 @@ void main() {
         expect(result, false);
       });
 
-      test('存在しないタスクIDでExceptionが発生すること', () async {
-        expect(() => service.isTaskCompleted('non-existent'), throwsException);
+      test('存在しないタスクIDでArgumentErrorが発生すること', () async {
+        expect(
+          () => service.isTaskCompleted('non-existent'),
+          throwsArgumentError,
+        );
       });
     });
   });

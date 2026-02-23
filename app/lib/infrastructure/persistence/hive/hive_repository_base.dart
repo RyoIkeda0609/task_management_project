@@ -100,7 +100,7 @@ abstract class HiveRepositoryBase<T> {
   Future<T?> getById(String id) async {
     _ensureInitialized();
     if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
+      throw RepositoryException('ID cannot be empty', null);
     }
     try {
       final jsonString = _box.get(id);
@@ -146,7 +146,7 @@ abstract class HiveRepositoryBase<T> {
   Future<void> deleteById(String id) async {
     _ensureInitialized();
     if (id.isEmpty) {
-      throw ArgumentError('ID cannot be empty');
+      throw RepositoryException('ID cannot be empty', null);
     }
     try {
       await _box.delete(id);
@@ -211,8 +211,9 @@ abstract class HiveRepositoryBase<T> {
   /// Box が初期化されているか確認
   void _ensureInitialized() {
     if (!isInitialized) {
-      throw StateError(
+      throw RepositoryException(
         '$boxName box is not initialized. Call initialize() first.',
+        null,
       );
     }
   }

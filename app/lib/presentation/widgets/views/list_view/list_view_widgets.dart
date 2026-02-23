@@ -151,14 +151,6 @@ class _GoalCardFooter extends ConsumerWidget {
   }
 
   Color _getProgressColor(int progress) {
-    if (progress < 25) {
-      return AppColors.neutral400;
-    } else if (progress < 50) {
-      return AppColors.primary;
-    } else if (progress < 75) {
-      return AppColors.warning;
-    } else {
-      return AppColors.success;
-    }
+    return AppColors.getProgressColor(progress);
   }
 }
