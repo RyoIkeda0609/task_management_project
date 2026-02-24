@@ -25,21 +25,50 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final progressAsync = ref.watch(goalProgressProvider(goalId));
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(goal.title.value, style: AppTextStyles.headlineMedium),
-        SizedBox(height: Spacing.small),
-        _buildDeadlineRow(),
-        SizedBox(height: Spacing.medium),
-        progressAsync.when(
-          data: (progress) =>
-              _GoalProgressSection(progressValue: progress.value),
-          loading: () => const SizedBox.shrink(),
-          error: (_, _) => const SizedBox.shrink(),
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.all(Spacing.medium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('ゴール情報'),
+            SizedBox(height: Spacing.small),
+            Text(goal.title.value, style: AppTextStyles.headlineMedium),
+            SizedBox(height: Spacing.small),
+            _buildDeadlineRow(),
+            SizedBox(height: Spacing.medium),
+            progressAsync.when(
+              data: (progress) =>
+                  _GoalProgressSection(progressValue: progress.value),
+              loading: () => const SizedBox.shrink(),
+              error: (_, _) => const SizedBox.shrink(),
+            ),
+            Divider(height: Spacing.xLarge, color: AppColors.neutral200),
+            _buildDescriptionSection(),
+          ],
         ),
-        SizedBox(height: Spacing.medium),
-        _buildDescriptionSection(),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Row(
+      children: [
+        Container(
+          width: 4,
+          height: 20,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(Radii.small),
+          ),
+        ),
+        SizedBox(width: Spacing.small),
+        Text(
+          title,
+          style: AppTextStyles.titleMedium.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ],
     );
   }
@@ -54,12 +83,12 @@ class GoalDetailHeaderWidget extends ConsumerWidget {
         SizedBox(width: Spacing.medium),
         Container(
           padding: EdgeInsets.symmetric(
-            horizontal: Spacing.small,
-            vertical: Spacing.xSmall,
+            horizontal: Spacing.chipPaddingHorizontal,
+            vertical: Spacing.chipPaddingVertical,
           ),
           decoration: BoxDecoration(
             color: AppColors.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(Radii.small),
           ),
           child: Text(
             goal.category.value,
@@ -90,6 +119,7 @@ class _GoalProgressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCompleted = progressValue >= 100;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -97,24 +127,50 @@ class _GoalProgressSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('進捗', style: AppTextStyles.labelLarge),
-            Text(
-              '$progressValue%',
-              style: AppTextStyles.labelLarge.copyWith(
-                color: AppColors.primary,
-              ),
+            Row(
+              children: [
+                if (isCompleted)
+                  Padding(
+                    padding: EdgeInsets.only(right: Spacing.xxSmall),
+                    child: Icon(
+                      Icons.celebration,
+                      size: 16,
+                      color: AppColors.success,
+                    ),
+                  ),
+                Text(
+                  '$progressValue%',
+                  style: AppTextStyles.labelLarge.copyWith(
+                    color: isCompleted ? AppColors.success : AppColors.primary,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
         SizedBox(height: Spacing.xSmall),
         ClipRRect(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(Radii.small),
           child: LinearProgressIndicator(
             value: progressValue / 100,
             minHeight: 8,
             backgroundColor: AppColors.neutral300,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              isCompleted ? AppColors.success : AppColors.primary,
+            ),
           ),
         ),
+        if (isCompleted)
+          Padding(
+            padding: EdgeInsets.only(top: Spacing.xSmall),
+            child: Text(
+              'おめでとうございます！ゴールを達成しました！',
+              style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.success,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -134,18 +190,27 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: Spacing.medium),
-        milestonesAsync.when(
-          data: (milestones) => milestones.isEmpty
-              ? _buildMilestonesEmpty(context, goalId)
-              : _buildMilestonesList(context, ref, milestones),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
-        ),
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: Spacing.medium),
+      padding: EdgeInsets.all(Spacing.medium),
+      decoration: BoxDecoration(
+        color: Theme.of(
+          context,
+        ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(Radii.large),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          milestonesAsync.when(
+            data: (milestones) => milestones.isEmpty
+                ? _buildMilestonesEmpty(context, goalId)
+                : _buildMilestonesList(context, ref, milestones),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => Text('マイルストーン取得エラー: $error'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -157,7 +222,7 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('マイルストーン', style: AppTextStyles.labelLarge),
+        _buildSectionHeader('マイルストーン'),
         SizedBox(height: Spacing.medium),
         ListView.builder(
           shrinkWrap: true,
@@ -182,15 +247,36 @@ class GoalDetailMilestoneSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('マイルストーン', style: AppTextStyles.labelLarge),
+        _buildSectionHeader('マイルストーン'),
         SizedBox(height: Spacing.medium),
         EmptyState(
           icon: Icons.flag_outlined,
           title: 'マイルストーンがありません',
-          message: 'マイルストーンを追加してゴールを達成しましょう。',
+          message: 'ゴールを分解してみましょう。',
           actionText: 'マイルストーン追加',
           onActionPressed: () =>
               AppRouter.navigateToMilestoneCreate(context, goalId),
+        ),
+      ],
+    );
+  }
+
+  /// セクションヘッダー（アクセントバー + タイトル）
+  Widget _buildSectionHeader(String title) {
+    return Row(
+      children: [
+        Container(
+          width: 4,
+          height: 20,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(Radii.small),
+          ),
+        ),
+        SizedBox(width: Spacing.small),
+        Text(
+          title,
+          style: AppTextStyles.titleSmall.copyWith(fontWeight: FontWeight.w600),
         ),
       ],
     );

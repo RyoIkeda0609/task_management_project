@@ -13,7 +13,7 @@ Widget _buildPageIcon(Color color, IconData icon) {
     height: 80,
     decoration: BoxDecoration(
       color: color.withValues(alpha: 0.2),
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(Radii.xLarge),
     ),
     child: Icon(icon, size: 48, color: color),
   );
@@ -281,7 +281,7 @@ class _PyramidDiagram extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: Spacing.small),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
         border: Border.all(color: color, width: 2),
       ),
       child: Text(
@@ -387,7 +387,7 @@ class OnboardingPageIndicator extends StatelessWidget {
               color: currentPageIndex == index
                   ? AppColors.primary
                   : AppColors.neutral300,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(Radii.small),
             ),
           ),
         ),

@@ -6,6 +6,7 @@ import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
 import 'package:app/domain/value_objects/task/task_status.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// CreateTaskUseCase - タスクを新規作成する
 abstract class CreateTaskUseCase {
@@ -19,10 +20,9 @@ abstract class CreateTaskUseCase {
 
 /// CreateTaskUseCaseImpl - CreateTaskUseCase の実装
 class CreateTaskUseCaseImpl implements CreateTaskUseCase {
+  CreateTaskUseCaseImpl(this._taskRepository, this._milestoneRepository);
   final TaskRepository _taskRepository;
   final MilestoneRepository _milestoneRepository;
-
-  CreateTaskUseCaseImpl(this._taskRepository, this._milestoneRepository);
 
   @override
   Future<Task> call({
@@ -37,12 +37,12 @@ class CreateTaskUseCaseImpl implements CreateTaskUseCase {
     final itemDeadline = ItemDeadline(deadline);
 
     if (milestoneId.isEmpty) {
-      throw ArgumentError('マイルストーンが正しくありません');
+      throw ValidationException('マイルストーンが正しくありません');
     }
 
     final milestone = await _milestoneRepository.getMilestoneById(milestoneId);
     if (milestone == null) {
-      throw ArgumentError('指定されたマイルストーンが見つかりません');
+      throw NotFoundException('指定されたマイルストーンが見つかりません');
     }
 
     final task = Task(

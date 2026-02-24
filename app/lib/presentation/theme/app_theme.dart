@@ -58,8 +58,13 @@ class AppTheme {
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(
+            horizontal: spacingXLarge,
+            vertical: spacingSmall,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusMedium),
+          ),
           textStyle: AppTextStyles.button,
           minimumSize: const Size(double.infinity, 48),
         ),
@@ -69,8 +74,13 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
           side: const BorderSide(color: AppColors.primary, width: 1),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(
+            horizontal: spacingXLarge,
+            vertical: spacingSmall,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusMedium),
+          ),
           textStyle: AppTextStyles.button,
           minimumSize: const Size(double.infinity, 48),
         ),
@@ -79,7 +89,10 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(
+            horizontal: spacingMedium,
+            vertical: spacingXSmall,
+          ),
           textStyle: AppTextStyles.button,
         ),
       ),
@@ -91,27 +104,27 @@ class AppTheme {
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 12,
+          horizontal: spacingMedium,
+          vertical: spacingSmall,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radiusMedium),
           borderSide: const BorderSide(color: AppColors.neutral200),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radiusMedium),
           borderSide: const BorderSide(color: AppColors.neutral200),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radiusMedium),
           borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radiusMedium),
           borderSide: const BorderSide(color: AppColors.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(radiusMedium),
           borderSide: const BorderSide(color: AppColors.error, width: 2),
         ),
         labelStyle: AppTextStyles.bodyMedium,
@@ -127,7 +140,7 @@ class AppTheme {
         backgroundColor: Colors.white,
         elevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          borderRadius: BorderRadius.all(Radius.circular(radiusXLarge)),
         ),
       ),
 
@@ -146,7 +159,7 @@ class AppTheme {
       cardTheme: const CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          borderRadius: BorderRadius.all(Radius.circular(radiusXLarge)),
           side: BorderSide(color: AppColors.neutral200, width: 1),
         ),
         color: Colors.white,
@@ -158,9 +171,12 @@ class AppTheme {
       // ============================================================================
       listTileTheme: const ListTileThemeData(
         tileColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: spacingMedium,
+          vertical: spacingSmall,
+        ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: BorderRadius.all(Radius.circular(radiusMedium)),
         ),
       ),
 
@@ -220,6 +236,12 @@ class AppTheme {
 }
 
 /// スペーシング定数へのアクセスを簡単にするヘルパー
+///
+/// 基本スケール: xxSmall(4) / xSmall(8) / small(12) / medium(16) / large(20) / xLarge(24)
+/// セマンティック定数:
+/// - [screenPadding] = 16 : 画面端の余白
+/// - [sectionSpacing] = 24 : セクション間の余白
+/// - [itemSpacing] = 12 : リストアイテム間の余白
 class Spacing {
   Spacing._();
 
@@ -232,6 +254,21 @@ class Spacing {
   static const double xLarge = AppTheme.spacingXLarge;
   static const double xxLarge = AppTheme.spacingXxLarge;
   static const double xxxLarge = AppTheme.spacingXxxLarge;
+
+  /// 画面端のパディング（左右・上下）
+  static const double screenPadding = medium; // 16
+
+  /// セクション間のスペーシング
+  static const double sectionSpacing = xLarge; // 24
+
+  /// リストアイテム間のスペーシング
+  static const double itemSpacing = small; // 12
+
+  /// Chip内の水平パディング
+  static const double chipPaddingHorizontal = 10;
+
+  /// Chip内の垂直パディング
+  static const double chipPaddingVertical = 4;
 }
 
 /// ボーダーラディウス定数へのアクセスを簡単にするヘルパー

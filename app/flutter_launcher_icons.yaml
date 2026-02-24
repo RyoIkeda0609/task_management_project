@@ -1,0 +1,20 @@
+flutter_launcher_icons:
+  image_path: "../task_pyramid_icon_assets/ios_appstore_1024.png"
+
+  # iOS設定
+  ios: true
+  image_path_ios: "../task_pyramid_icon_assets/ios_appstore_1024.png"
+  remove_alpha_ios: true
+
+  # Android設定（Adaptive Icon）
+  android: true
+  image_path_android: "../task_pyramid_icon_assets/android_adaptive_foreground_432.png"
+  adaptive_icon_foreground: "../task_pyramid_icon_assets/android_adaptive_foreground_432.png"
+  adaptive_icon_background: "../task_pyramid_icon_assets/android_adaptive_background_432.png"
+
+  # Web設定
+  web:
+    generate: true
+    image_path: "../task_pyramid_icon_assets/ios_appstore_1024.png"
+    background_color: "#ffffff"
+    theme_color: "#1a237e"

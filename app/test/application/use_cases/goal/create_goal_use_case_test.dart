@@ -1,36 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:app/application/use_cases/goal/create_goal_use_case.dart';
-import 'package:app/domain/entities/goal.dart';
-import 'package:app/domain/repositories/goal_repository.dart';
-
-class MockGoalRepository implements GoalRepository {
-  final List<Goal> _goals = [];
-
-  @override
-  Future<List<Goal>> getAllGoals() async => _goals;
-
-  @override
-  Future<Goal?> getGoalById(String id) async {
-    try {
-      return _goals.firstWhere((g) => g.itemId.value == id);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  @override
-  Future<void> saveGoal(Goal goal) async => _goals.add(goal);
-
-  @override
-  Future<void> deleteGoal(String id) async =>
-      _goals.removeWhere((g) => g.itemId.value == id);
-
-  @override
-  Future<void> deleteAllGoals() async => _goals.clear();
-
-  @override
-  Future<int> getGoalCount() async => _goals.length;
-}
+import '../../../helpers/mock_repositories.dart';
 
 void main() {
   group('CreateGoalUseCase', () {

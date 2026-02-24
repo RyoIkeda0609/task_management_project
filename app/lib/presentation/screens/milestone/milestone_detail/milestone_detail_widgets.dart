@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../widgets/common/empty_state.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_text_styles.dart';
 import '../../../theme/app_theme.dart';
@@ -36,7 +37,7 @@ class MilestoneDetailHeaderWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.neutral50,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
       ),
       child: Text(
         '目標日時: ${DateFormatter.toJapaneseDate(milestone.deadline.value)}',
@@ -89,33 +90,10 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
         horizontal: Spacing.medium,
         vertical: Spacing.large,
       ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.assignment_outlined,
-              size: 64,
-              color: AppColors.neutral300,
-            ),
-            SizedBox(height: Spacing.medium),
-            Text('タスクがありません', style: AppTextStyles.headlineMedium),
-            SizedBox(height: Spacing.small),
-            Text(
-              'このマイルストーンに紐付けられたタスクはありません。',
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.neutral500,
-              ),
-            ),
-            SizedBox(height: Spacing.small),
-            Text(
-              '右下の「+」ボタンをタップしてタスクを追加してください。',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.neutral500,
-              ),
-            ),
-          ],
-        ),
+      child: EmptyState(
+        icon: Icons.assignment_outlined,
+        title: 'まだタスクがありません',
+        message: 'まずは一つ決めてみましょう。',
       ),
     );
   }
@@ -157,12 +135,12 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
           task.itemId.value,
           milestone.goalId.value,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
         child: Container(
           padding: EdgeInsets.all(Spacing.medium),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.neutral200),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(Radii.medium),
           ),
           child: Row(
             children: [
@@ -250,7 +228,7 @@ class MilestoneDetailTasksSection extends ConsumerWidget {
       height: 24,
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(Radii.small),
       ),
       child: Icon(icon, size: 14, color: color),
     );

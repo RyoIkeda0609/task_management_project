@@ -5,6 +5,7 @@ import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// CreateMilestoneUseCase - マイルストーンを作成する
 abstract class CreateMilestoneUseCase {
@@ -18,10 +19,9 @@ abstract class CreateMilestoneUseCase {
 
 /// CreateMilestoneUseCaseImpl - CreateMilestoneUseCase の実装
 class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
+  CreateMilestoneUseCaseImpl(this._milestoneRepository, this._goalRepository);
   final MilestoneRepository _milestoneRepository;
   final GoalRepository _goalRepository;
-
-  CreateMilestoneUseCaseImpl(this._milestoneRepository, this._goalRepository);
 
   @override
   Future<Milestone> call({
@@ -35,12 +35,12 @@ class CreateMilestoneUseCaseImpl implements CreateMilestoneUseCase {
     final itemDeadline = ItemDeadline(deadline);
 
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが正しくありません');
+      throw ValidationException('ゴールIDが正しくありません');
     }
 
     final goal = await _goalRepository.getGoalById(goalId);
     if (goal == null) {
-      throw ArgumentError('指定されたゴールが見つかりません');
+      throw NotFoundException('指定されたゴールが見つかりません');
     }
 
     final milestone = Milestone(

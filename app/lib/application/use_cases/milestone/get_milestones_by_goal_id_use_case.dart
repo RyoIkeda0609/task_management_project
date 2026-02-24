@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// GetMilestonesByGoalIdUseCase - ゴール配下のマイルストーンをすべて取得する
 ///
@@ -10,14 +11,13 @@ abstract class GetMilestonesByGoalIdUseCase {
 
 /// GetMilestonesByGoalIdUseCaseImpl - GetMilestonesByGoalIdUseCase の実装
 class GetMilestonesByGoalIdUseCaseImpl implements GetMilestonesByGoalIdUseCase {
-  final MilestoneRepository _milestoneRepository;
-
   GetMilestonesByGoalIdUseCaseImpl(this._milestoneRepository);
+  final MilestoneRepository _milestoneRepository;
 
   @override
   Future<List<Milestone>> call(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが正しくありません');
+      throw ValidationException('ゴールIDが正しくありません');
     }
     return await _milestoneRepository.getMilestonesByGoalId(goalId);
   }

@@ -5,42 +5,7 @@ import 'package:app/domain/value_objects/item/item_id.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
-import 'package:app/domain/repositories/milestone_repository.dart';
-
-class MockMilestoneRepository implements MilestoneRepository {
-  final List<Milestone> _milestones = [];
-
-  @override
-  Future<List<Milestone>> getAllMilestones() async => _milestones;
-
-  @override
-  Future<Milestone?> getMilestoneById(String id) async {
-    try {
-      return _milestones.firstWhere((m) => m.itemId.value == id);
-    } catch (_) {
-      return null;
-    }
-  }
-
-  @override
-  Future<List<Milestone>> getMilestonesByGoalId(String goalId) async =>
-      _milestones.where((m) => m.goalId.value == goalId).toList();
-
-  @override
-  Future<void> saveMilestone(Milestone milestone) async =>
-      _milestones.add(milestone);
-
-  @override
-  Future<void> deleteMilestone(String id) async =>
-      _milestones.removeWhere((m) => m.itemId.value == id);
-
-  @override
-  Future<void> deleteMilestonesByGoalId(String goalId) async =>
-      _milestones.removeWhere((m) => m.goalId.value == goalId);
-
-  @override
-  Future<int> getMilestoneCount() async => _milestones.length;
-}
+import '../../../helpers/mock_repositories.dart';
 
 void main() {
   group('GetMilestonesByGoalIdUseCase', () {

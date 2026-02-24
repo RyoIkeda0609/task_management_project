@@ -193,7 +193,7 @@ class CalendarDayCell extends StatelessWidget {
         color: isToday ? AppColors.warning : AppColors.neutral200,
         width: isToday ? 2 : 1,
       ),
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(Radii.small),
     );
   }
 
@@ -248,7 +248,7 @@ class CalendarTaskList extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  'この日のタスクはありません',
+                  'この日のタスクはまだありません',
                   style: AppTextStyles.bodyMedium.copyWith(
                     color: AppColors.neutral600,
                   ),
@@ -284,7 +284,7 @@ class CalendarTaskItem extends StatelessWidget {
         onTap:
             onTap ??
             () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(Radii.small),
         child: Padding(
           padding: EdgeInsets.all(Spacing.medium),
           child: _buildContent(),

@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/milestone.dart';
 import 'package:app/domain/repositories/milestone_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// GetMilestoneByIdUseCase - ID からマイルストーンを取得する
 ///
@@ -10,14 +11,13 @@ abstract class GetMilestoneByIdUseCase {
 
 /// GetMilestoneByIdUseCaseImpl - GetMilestoneByIdUseCase の実装
 class GetMilestoneByIdUseCaseImpl implements GetMilestoneByIdUseCase {
-  final MilestoneRepository _milestoneRepository;
-
   GetMilestoneByIdUseCaseImpl(this._milestoneRepository);
+  final MilestoneRepository _milestoneRepository;
 
   @override
   Future<Milestone?> call(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('マイルストーンIDが正しくありません');
+      throw ValidationException('マイルストーンIDが正しくありません');
     }
     return await _milestoneRepository.getMilestoneById(milestoneId);
   }

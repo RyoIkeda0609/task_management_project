@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// GetTaskByIdUseCase - ID からタスクを取得する
 ///
@@ -10,14 +11,13 @@ abstract class GetTaskByIdUseCase {
 
 /// GetTaskByIdUseCaseImpl - GetTaskByIdUseCase の実装
 class GetTaskByIdUseCaseImpl implements GetTaskByIdUseCase {
-  final TaskRepository _taskRepository;
-
   GetTaskByIdUseCaseImpl(this._taskRepository);
+  final TaskRepository _taskRepository;
 
   @override
   Future<Task?> call(String taskId) async {
     if (taskId.isEmpty) {
-      throw ArgumentError('タスクIDが正しくありません');
+      throw ValidationException('タスクIDが正しくありません');
     }
     return await _taskRepository.getTaskById(taskId);
   }

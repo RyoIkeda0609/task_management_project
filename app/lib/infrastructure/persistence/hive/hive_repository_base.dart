@@ -100,7 +100,7 @@ abstract class HiveRepositoryBase<T> {
   Future<T?> getById(String id) async {
     _ensureInitialized();
     if (id.isEmpty) {
-      throw RepositoryException('ID cannot be empty', null);
+      throw RepositoryException('IDが指定されていません', null);
     }
     try {
       final jsonString = _box.get(id);
@@ -146,7 +146,7 @@ abstract class HiveRepositoryBase<T> {
   Future<void> deleteById(String id) async {
     _ensureInitialized();
     if (id.isEmpty) {
-      throw RepositoryException('ID cannot be empty', null);
+      throw RepositoryException('IDが指定されていません', null);
     }
     try {
       await _box.delete(id);

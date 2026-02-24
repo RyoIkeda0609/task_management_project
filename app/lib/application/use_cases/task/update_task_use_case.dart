@@ -4,6 +4,7 @@ import 'package:app/domain/services/task_completion_service.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// UpdateTaskUseCase - タスクを更新する
 abstract class UpdateTaskUseCase {
@@ -17,10 +18,9 @@ abstract class UpdateTaskUseCase {
 
 /// UpdateTaskUseCaseImpl - UpdateTaskUseCase の実装
 class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
+  UpdateTaskUseCaseImpl(this._taskRepository, this._taskCompletionService);
   final TaskRepository _taskRepository;
   final TaskCompletionService _taskCompletionService;
-
-  UpdateTaskUseCaseImpl(this._taskRepository, this._taskCompletionService);
 
   @override
   Future<Task> call({
@@ -31,11 +31,11 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
   }) async {
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
-      throw ArgumentError('対象のタスクが見つかりません');
+      throw NotFoundException('対象のタスクが見つかりません');
     }
 
     if (await _taskCompletionService.isTaskCompleted(taskId)) {
-      throw ArgumentError('完了したタスクは更新できません');
+      throw BusinessRuleException('完了したタスクは更新できません');
     }
 
     final itemTitle = ItemTitle(title);

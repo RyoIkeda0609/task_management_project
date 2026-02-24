@@ -37,7 +37,7 @@ class SettingsUserSectionWidget extends StatelessWidget {
       height: 64,
       decoration: BoxDecoration(
         color: AppColors.primary,
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(Radii.full),
       ),
       child: Icon(Icons.person, size: 32, color: Colors.white),
     );
@@ -127,7 +127,7 @@ class SettingsTileWidget extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.neutral200),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
       ),
       child: _buildContent(),
     );
@@ -218,7 +218,7 @@ class SettingsOtherSectionWidget extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.neutral200),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -315,7 +315,7 @@ class SettingsActionTileWidget extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
         child: Container(
           padding: EdgeInsets.symmetric(
             vertical: Spacing.small,
@@ -323,7 +323,7 @@ class SettingsActionTileWidget extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.neutral200),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(Radii.medium),
           ),
           child: Row(
             children: [

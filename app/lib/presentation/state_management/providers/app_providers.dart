@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 // ======================== Providers のエクスポート ========================
 // Repository Providers
-export 'repository_providers.dart'
+export 'package:app/application/providers/repository_providers.dart'
     show
         goalRepositoryProvider,
         milestoneRepositoryProvider,

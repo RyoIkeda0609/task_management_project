@@ -6,7 +6,6 @@ import '../../theme/app_theme.dart';
 import '../../../application/providers/use_case_providers.dart';
 import '../../../application/use_cases/task/get_tasks_grouped_by_status_use_case.dart';
 import '../../../domain/entities/task.dart';
-import '../../../domain/value_objects/task/task_status.dart';
 import '../../state_management/providers/app_providers.dart';
 import '../home/home_view_model.dart';
 import '../../utils/validation_helper.dart';
@@ -27,13 +26,13 @@ class TodayTasksSummaryWidget extends StatelessWidget {
       padding: EdgeInsets.all(Spacing.medium),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(Radii.large),
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('本日の進捗', style: AppTextStyles.labelLarge),
+          Text('今日やるべきこと', style: AppTextStyles.labelLarge),
           SizedBox(height: Spacing.small),
           _buildProgressRow(),
         ],
@@ -66,8 +65,47 @@ class TodayTasksSummaryWidget extends StatelessWidget {
         SizedBox(height: Spacing.small),
         _buildProgressBar(progressPercentage),
         SizedBox(height: Spacing.small),
+        _buildStatusCounts(),
+      ],
+    );
+  }
+
+  Widget _buildStatusCounts() {
+    return Row(
+      children: [
+        _buildStatusCountChip(
+          'Todo',
+          grouped.todoTasks.length,
+          AppColors.statusTodo,
+        ),
+        SizedBox(width: Spacing.small),
+        _buildStatusCountChip(
+          'Doing',
+          grouped.doingTasks.length,
+          AppColors.statusDoing,
+        ),
+        SizedBox(width: Spacing.small),
+        _buildStatusCountChip(
+          'Done',
+          grouped.doneTasks.length,
+          AppColors.statusDone,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStatusCountChip(String label, int count, Color color) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        SizedBox(width: Spacing.xxSmall),
         Text(
-          '進捗: ${progressPercentage.toStringAsFixed(0)}%',
+          '$label $count',
           style: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral600),
         ),
       ],
@@ -76,7 +114,7 @@ class TodayTasksSummaryWidget extends StatelessWidget {
 
   Widget _buildProgressBar(double progressPercentage) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.circular(Radii.small),
       child: LinearProgressIndicator(
         value: progressPercentage / 100,
         minHeight: 8,
@@ -95,7 +133,7 @@ class TodayTasksSummaryWidget extends StatelessWidget {
       padding: EdgeInsets.all(Spacing.small),
       decoration: BoxDecoration(
         color: AppColors.neutral100,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(Radii.medium),
       ),
       child: Text(
         '${progressPercentage.toStringAsFixed(0)}%',
@@ -135,15 +173,15 @@ class TodayTasksSectionWidget extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle(),
-        SizedBox(height: Spacing.small),
-        ...tasks.map((task) => TodayTaskItemWidget(task: task)),
+        SizedBox(height: Spacing.xSmall),
+        for (final task in tasks) TodayTaskItemWidget(task: task),
       ],
     );
   }
 
   Widget _buildSectionTitle() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Spacing.medium),
+      padding: EdgeInsets.symmetric(horizontal: Spacing.screenPadding),
       child: Row(
         children: [
           Container(
@@ -151,11 +189,11 @@ class TodayTasksSectionWidget extends ConsumerWidget {
             height: 24,
             decoration: BoxDecoration(
               color: color,
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(Radii.small),
             ),
           ),
           SizedBox(width: Spacing.small),
-          Text('$title (${tasks.length})', style: AppTextStyles.titleSmall),
+          Text('$title (${tasks.length})', style: AppTextStyles.titleMedium),
         ],
       ),
     );
@@ -170,88 +208,61 @@ class TodayTaskItemWidget extends ConsumerWidget {
   const TodayTaskItemWidget({super.key, required this.task});
 
   @override
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: Spacing.medium,
-        vertical: Spacing.xSmall,
+        horizontal: Spacing.screenPadding,
+        vertical: Spacing.xxSmall,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: AppColors.neutral200),
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            _buildStatusIndicator(context, ref),
-            SizedBox(width: Spacing.small),
-            _buildTaskInfo(context),
-            SizedBox(width: Spacing.small),
-            _buildStatusBadge(context, ref),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatusIndicator(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      flex: 0,
-      child: GestureDetector(
-        onTap: () => _toggleTaskStatus(context, ref),
-        child: Container(
-          padding: EdgeInsets.all(Spacing.medium),
-          child: Icon(_getStatusIcon(), color: _getStatusColor(), size: 24),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTaskInfo(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => AppRouter.navigateToTaskDetail(context, task.itemId.value),
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: Spacing.medium),
-          child: Text(
-            task.title.value,
-            style: _getTaskTextStyle(),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(Radii.medium),
+        child: InkWell(
+          onTap: () =>
+              AppRouter.navigateToTaskDetail(context, task.itemId.value),
+          borderRadius: BorderRadius.circular(Radii.medium),
+          splashColor: AppColors.primary.withValues(alpha: 0.1),
+          highlightColor: AppColors.primary.withValues(alpha: 0.05),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.neutral200),
+              borderRadius: BorderRadius.circular(Radii.medium),
+            ),
+            child: Row(
+              children: [
+                _buildStatusIndicator(context, ref),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: Spacing.small),
+                    child: Text(
+                      task.title.value,
+                      style: _getTaskTextStyle(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                SizedBox(width: Spacing.small),
+                Icon(
+                  Icons.chevron_right,
+                  size: 20,
+                  color: AppColors.neutral400,
+                ),
+                SizedBox(width: Spacing.xSmall),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildStatusBadge(BuildContext context, WidgetRef ref) {
-    return Expanded(
-      flex: 0,
-      child: GestureDetector(
-        onTap: () => _toggleTaskStatus(context, ref),
-        child: Container(
-          padding: EdgeInsets.all(Spacing.medium),
-          child: StatusBadge(status: task.status, size: BadgeSize.small),
-        ),
-      ),
+  Widget _buildStatusIndicator(BuildContext context, WidgetRef ref) {
+    return StatusCircleButton(
+      status: task.status,
+      onTap: () => _toggleTaskStatus(context, ref),
     );
-  }
-
-  IconData _getStatusIcon() {
-    return switch (task.status) {
-      TaskStatus.done => Icons.check_circle,
-      TaskStatus.doing => Icons.radio_button_checked,
-      TaskStatus.todo => Icons.radio_button_unchecked,
-    };
-  }
-
-  Color _getStatusColor() {
-    return switch (task.status) {
-      TaskStatus.done => AppColors.success,
-      TaskStatus.doing => AppColors.warning,
-      TaskStatus.todo => AppColors.neutral400,
-    };
   }
 
   TextStyle _getTaskTextStyle() {

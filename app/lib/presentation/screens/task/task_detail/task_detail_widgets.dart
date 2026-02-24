@@ -72,12 +72,12 @@ class TaskDetailStatusWidget extends ConsumerWidget {
         SizedBox(height: Spacing.small),
         InkWell(
           onTap: () => _changeTaskStatus(ref),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(Radii.medium),
           child: Container(
             padding: EdgeInsets.all(Spacing.medium),
             decoration: BoxDecoration(
               color: _getStatusBackgroundColor(task.status),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(Radii.medium),
               border: Border.all(color: _getStatusBorderColor(task.status)),
             ),
             child: Row(

@@ -90,9 +90,8 @@ class _DateNavigator extends StatelessWidget {
                 if (!isToday)
                   Text(
                     'タップで今日に戻る',
-                    style: AppTextStyles.bodySmall.copyWith(
+                    style: AppTextStyles.labelSmall.copyWith(
                       color: AppColors.primary,
-                      fontSize: 11,
                     ),
                   ),
                 if (isToday)
@@ -184,8 +183,8 @@ class _EmptyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return EmptyState(
       icon: Icons.check_circle_outline,
-      title: '今日のタスクはありません',
-      message: '今日完了するタスクはすべて終わりました。\nお疲れ様でした！',
+      title: '今日のタスクはすべて完了！',
+      message: 'お疲れさまでした！\nゆっくり休んでくださいね。',
       actionText: 'ホームに戻る',
       onActionPressed: () => AppRouter.navigateToHome(context),
     );
@@ -204,7 +203,7 @@ class _ContentView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _Header(grouped: state.groupedTasks!),
-          SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.sectionSpacing),
           _Content(state: state),
         ],
       ),
@@ -238,23 +237,23 @@ class _Content extends StatelessWidget {
           TodayTasksSectionWidget(
             title: '未完了',
             tasks: grouped.todoTasks,
-            color: AppColors.neutral400,
+            color: AppColors.statusTodo,
           ),
-          SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.sectionSpacing),
         ],
         if (state.showDoingSection) ...[
           TodayTasksSectionWidget(
             title: '進行中',
             tasks: grouped.doingTasks,
-            color: AppColors.warning,
+            color: AppColors.statusDoing,
           ),
-          SizedBox(height: Spacing.medium),
+          SizedBox(height: Spacing.sectionSpacing),
         ],
         if (state.showDoneSection)
           TodayTasksSectionWidget(
             title: '完了',
             tasks: grouped.doneTasks,
-            color: AppColors.success,
+            color: AppColors.statusDone,
           ),
       ],
     );

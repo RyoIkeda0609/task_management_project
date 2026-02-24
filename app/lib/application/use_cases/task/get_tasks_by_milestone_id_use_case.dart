@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// GetTasksByMilestoneIdUseCase - マイルストーン配下のタスクをすべて取得する
 ///
@@ -10,14 +11,13 @@ abstract class GetTasksByMilestoneIdUseCase {
 
 /// GetTasksByMilestoneIdUseCaseImpl - GetTasksByMilestoneIdUseCase の実装
 class GetTasksByMilestoneIdUseCaseImpl implements GetTasksByMilestoneIdUseCase {
-  final TaskRepository _taskRepository;
-
   GetTasksByMilestoneIdUseCaseImpl(this._taskRepository);
+  final TaskRepository _taskRepository;
 
   @override
   Future<List<Task>> call(String milestoneId) async {
     if (milestoneId.isEmpty) {
-      throw ArgumentError('マイルストーンIDが正しくありません');
+      throw ValidationException('マイルストーンIDが正しくありません');
     }
     return await _taskRepository.getTasksByMilestoneId(milestoneId);
   }

@@ -116,7 +116,7 @@ class _GoalEditCategoryDropdown extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: Spacing.small),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.neutral300),
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(Radii.medium),
           ),
           child: DropdownButton<String>(
             value: selectedCategory,
@@ -158,7 +158,7 @@ class _GoalEditDeadlineSelector extends StatelessWidget {
             padding: EdgeInsets.all(Spacing.medium),
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.neutral300),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(Radii.medium),
             ),
             child: Row(
               children: [

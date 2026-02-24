@@ -144,7 +144,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     );
   }
 
-  static const _borderRadius = BorderRadius.all(Radius.circular(8));
+  static const _borderRadius = BorderRadius.all(Radius.circular(Radii.medium));
 
   InputDecoration _buildDecoration() {
     return InputDecoration(
