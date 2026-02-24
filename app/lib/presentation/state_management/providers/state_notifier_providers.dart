@@ -18,7 +18,8 @@ import 'package:app/application/providers/use_case_providers.dart'
 import '../notifiers/goal_notifier.dart';
 import '../notifiers/milestone_notifier.dart';
 import '../notifiers/task_notifier.dart';
-import 'repository_providers.dart' show taskRepositoryProvider;
+import 'package:app/application/providers/repository_providers.dart'
+    show taskRepositoryProvider;
 
 /// ======================== Goal State Providers ========================
 

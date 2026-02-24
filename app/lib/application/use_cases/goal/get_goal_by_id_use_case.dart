@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// GetGoalByIdUseCase - ID からゴールを取得する
 ///
@@ -10,14 +11,13 @@ abstract class GetGoalByIdUseCase {
 
 /// GetGoalByIdUseCaseImpl - GetGoalByIdUseCase の実装
 class GetGoalByIdUseCaseImpl implements GetGoalByIdUseCase {
-  final GoalRepository _goalRepository;
-
   GetGoalByIdUseCaseImpl(this._goalRepository);
+  final GoalRepository _goalRepository;
 
   @override
   Future<Goal?> call(String goalId) async {
     if (goalId.isEmpty) {
-      throw ArgumentError('ゴールIDが正しくありません');
+      throw ValidationException('ゴールIDが正しくありません');
     }
     return await _goalRepository.getGoalById(goalId);
   }

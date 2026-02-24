@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/goal.dart';
 import 'package:app/domain/repositories/goal_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// SearchGoalsUseCase - ゴールを検索する
 ///
@@ -11,14 +12,13 @@ abstract class SearchGoalsUseCase {
 
 /// SearchGoalsUseCaseImpl - SearchGoalsUseCase の実装
 class SearchGoalsUseCaseImpl implements SearchGoalsUseCase {
-  final GoalRepository _goalRepository;
-
   SearchGoalsUseCaseImpl(this._goalRepository);
+  final GoalRepository _goalRepository;
 
   @override
   Future<List<Goal>> call(String keyword) async {
     if (keyword.isEmpty) {
-      throw ArgumentError('検索キーワードを入力してください');
+      throw ValidationException('検索キーワードを入力してください');
     }
 
     final allGoals = await _goalRepository.getAllGoals();

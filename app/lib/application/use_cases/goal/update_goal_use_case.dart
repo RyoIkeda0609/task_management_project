@@ -5,6 +5,7 @@ import 'package:app/domain/value_objects/goal/goal_category.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// UpdateGoalUseCase - ゴールを更新する
 abstract class UpdateGoalUseCase {
@@ -19,10 +20,9 @@ abstract class UpdateGoalUseCase {
 
 /// UpdateGoalUseCaseImpl - UpdateGoalUseCase の実装
 class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
+  UpdateGoalUseCaseImpl(this._goalRepository, this._goalCompletionService);
   final GoalRepository _goalRepository;
   final GoalCompletionService _goalCompletionService;
-
-  UpdateGoalUseCaseImpl(this._goalRepository, this._goalCompletionService);
 
   @override
   Future<Goal> call({
@@ -34,11 +34,11 @@ class UpdateGoalUseCaseImpl implements UpdateGoalUseCase {
   }) async {
     final existingGoal = await _goalRepository.getGoalById(goalId);
     if (existingGoal == null) {
-      throw ArgumentError('対象のゴールが見つかりません');
+      throw NotFoundException('対象のゴールが見つかりません');
     }
 
     if (await _goalCompletionService.isGoalCompleted(goalId)) {
-      throw ArgumentError('完了したゴールは更新できません');
+      throw BusinessRuleException('完了したゴールは更新できません');
     }
 
     final itemTitle = ItemTitle(title);

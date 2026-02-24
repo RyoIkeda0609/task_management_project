@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../widgets/common/app_bar_common.dart';
 import '../../../navigation/app_router.dart';
-import '../../../state_management/providers/app_providers.dart';
-import '../../home/home_view_model.dart';
 import '../../../utils/validation_helper.dart';
-import '../../../../application/providers/use_case_providers.dart';
 import 'goal_create_widgets.dart';
 import 'goal_create_view_model.dart';
 
 /// ゴール作成画面
 ///
-/// ユーザーが新しいゴールを作成するためのフォーム画面です。
-/// タイトル、理由、カテゴリー、期限を入力して、ゴールを作成します。
+/// UI のみを担当する薄いレイヤー。
+/// ビジネスロジック（バリデーション・UseCase 呼び出し・キャッシュ無効化）は
+/// [GoalCreateViewModel.createGoal] に委譲する。
 class GoalCreatePage extends ConsumerWidget {
   const GoalCreatePage({super.key});
 
@@ -25,54 +23,37 @@ class GoalCreatePage extends ConsumerWidget {
         hasLeading: true,
         onLeadingPressed: () => AppRouter.navigateToHome(context),
       ),
-      body: GoalCreateFormWidget(onSubmit: () => _createGoal(context, ref)),
+      body: GoalCreateFormWidget(onSubmit: () => _handleSubmit(context, ref)),
     );
   }
 
-  Future<void> _createGoal(BuildContext context, WidgetRef ref) async {
+  Future<void> _handleSubmit(BuildContext context, WidgetRef ref) async {
     final state = ref.read(goalCreateViewModelProvider);
     final viewModel = ref.read(goalCreateViewModelProvider.notifier);
-
-    // フォーム検証（日付のみ - Domain層でテキスト長は検証済み）
-    final dateError = ValidationHelper.validateDateAfterToday(
-      state.deadline,
-      fieldName: '期限',
-    );
-
-    if (dateError != null) {
-      await DialogHelper.showValidationErrorDialog(context, message: dateError);
-      return;
-    }
-
-    viewModel.setLoading(true);
+    final title = state.title;
 
     try {
-      // ゴール作成ユースケースを実行
-      final createGoalUseCase = ref.read(createGoalUseCaseProvider);
+      final validationError = await viewModel.createGoal();
 
-      await createGoalUseCase(
-        title: state.title,
-        category: state.selectedCategory,
-        description: state.description,
-        deadline: state.deadline,
-      );
-
-      // プロバイダーキャッシュを無効化して新しいデータを取得させる
-      ref.invalidate(goalsProvider);
-      ref.invalidate(homeViewModelProvider);
+      if (validationError != null) {
+        if (context.mounted) {
+          await DialogHelper.showValidationErrorDialog(
+            context,
+            message: validationError,
+          );
+        }
+        return;
+      }
 
       if (context.mounted) {
         await ValidationHelper.showSuccess(
           context,
           title: 'ゴール作成完了',
-          message: '「${state.title}」を作成しました。',
+          message: '「$title」を作成しました。',
         );
       }
 
       if (context.mounted) {
-        // フォームをリセット
-        viewModel.resetForm();
-        // ホーム画面へナビゲート
         AppRouter.navigateToHome(context);
       }
     } catch (e) {
@@ -83,7 +64,6 @@ class GoalCreatePage extends ConsumerWidget {
           customTitle: 'ゴール作成エラー',
           customMessage: 'ゴールの保存に失敗しました。',
         );
-        viewModel.setLoading(false);
       }
     }
   }

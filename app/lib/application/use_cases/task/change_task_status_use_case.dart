@@ -1,5 +1,6 @@
 import 'package:app/domain/entities/task.dart';
 import 'package:app/domain/repositories/task_repository.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// ChangeTaskStatusUseCase - タスクのステータスを変更する
 abstract class ChangeTaskStatusUseCase {
@@ -8,19 +9,18 @@ abstract class ChangeTaskStatusUseCase {
 
 /// ChangeTaskStatusUseCaseImpl - ChangeTaskStatusUseCase の実装
 class ChangeTaskStatusUseCaseImpl implements ChangeTaskStatusUseCase {
-  final TaskRepository _taskRepository;
-
   ChangeTaskStatusUseCaseImpl(this._taskRepository);
+  final TaskRepository _taskRepository;
 
   @override
   Future<Task> call(String taskId) async {
     if (taskId.isEmpty) {
-      throw ArgumentError('タスクIDが正しくありません');
+      throw ValidationException('タスクIDが正しくありません');
     }
 
     final existingTask = await _taskRepository.getTaskById(taskId);
     if (existingTask == null) {
-      throw ArgumentError('対象のタスクが見つかりません');
+      throw NotFoundException('対象のタスクが見つかりません');
     }
 
     final updatedTask = existingTask.cycleStatus();

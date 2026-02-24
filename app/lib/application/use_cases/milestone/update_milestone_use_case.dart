@@ -4,6 +4,7 @@ import 'package:app/domain/services/milestone_completion_service.dart';
 import 'package:app/domain/value_objects/item/item_title.dart';
 import 'package:app/domain/value_objects/item/item_description.dart';
 import 'package:app/domain/value_objects/item/item_deadline.dart';
+import 'package:app/application/exceptions/use_case_exception.dart';
 
 /// UpdateMilestoneUseCase - マイルストーンを更新する
 abstract class UpdateMilestoneUseCase {
@@ -17,13 +18,12 @@ abstract class UpdateMilestoneUseCase {
 
 /// UpdateMilestoneUseCaseImpl - UpdateMilestoneUseCase の実装
 class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
-  final MilestoneRepository _milestoneRepository;
-  final MilestoneCompletionService _milestoneCompletionService;
-
   UpdateMilestoneUseCaseImpl(
     this._milestoneRepository,
     this._milestoneCompletionService,
   );
+  final MilestoneRepository _milestoneRepository;
+  final MilestoneCompletionService _milestoneCompletionService;
 
   @override
   Future<Milestone> call({
@@ -36,11 +36,11 @@ class UpdateMilestoneUseCaseImpl implements UpdateMilestoneUseCase {
       milestoneId,
     );
     if (existingMilestone == null) {
-      throw ArgumentError('対象のマイルストーンが見つかりません');
+      throw NotFoundException('対象のマイルストーンが見つかりません');
     }
 
     if (await _milestoneCompletionService.isMilestoneCompleted(milestoneId)) {
-      throw ArgumentError('完了したマイルストーンは更新できません');
+      throw BusinessRuleException('完了したマイルストーンは更新できません');
     }
 
     final itemTitle = ItemTitle(title);
